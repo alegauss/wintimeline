@@ -2,19 +2,17 @@
 
 ## Priority
 
-- WT1
 - WT11
 - WT23
 - WT4
 
 ## Block A — Project foundation
 
-- 📋 **WT1** (deps: —) **No WPF .NET 10 solution with the Fluent ThemeMode builds and opens a WinTimeline window** — Every other block lands in this solution, and starting from Revelei's proven layout avoids re-deciding the build, analyzers and theming. → §WT1
-- 📋 **WT2** (deps: WT1) **Nothing stops the model project from referencing WPF or the GPU, or the UI from bypassing the command pipeline** — Layering rules decay silently, and the model must stay pure to be tested headless and reused by the CLI. → §WT2
-- 📋 **WT3** (deps: WT1) **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — Zero-copy between decode, compositing and presentation is what makes 4K playback possible, and it requires one device owned in one place. → §WT3
+- 📋 **WT2** (deps: WT1 ✅) **Nothing stops the model project from referencing WPF or the GPU, or the UI from bypassing the command pipeline** — Layering rules decay silently, and the model must stay pure to be tested headless and reused by the CLI. → §WT2
+- 📋 **WT3** (deps: WT1 ✅) **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — Zero-copy between decode, compositing and presentation is what makes 4K playback possible, and it requires one device owned in one place. → §WT3
 - 📋 **WT4** (deps: WT3) **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — Video and the timeline must be drawn by the GPU, and the host decides latency, airspace and accessibility for both. → §WT4
-- 📋 **WT5** (deps: WT1) **User preferences have nowhere to be stored and validated** — Cache paths, GPU choice and AI settings must persist safely, and a damaged file must never stop the app from starting. → §WT5
-- 📋 **WT6** (deps: WT1) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
+- 📋 **WT5** (deps: WT1 ✅) **User preferences have nowhere to be stored and validated** — Cache paths, GPU choice and AI settings must persist safely, and a damaged file must never stop the app from starting. → §WT5
+- 📋 **WT6** (deps: WT1 ✅) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
 - 📋 **WT7** (deps: WT6) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
 - 📋 **WT8** (deps: WT2) **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — The one-task-one-commit rule needs a gate, and the siblings' run-tests.cmd is the proven shape. → §WT8
 - 📋 **WT9** (deps: WT8) **No CI builds the solution or runs the headless tests on each push** — A breaking change to the model or the OTIO round trip must be caught before a release, not by a user. → §WT9
@@ -60,7 +58,7 @@
 
 ## Block E — Proxies, thumbnails, waveforms and background jobs
 
-- 📋 **WT40** (deps: WT1) **Long work (proxies, analysis, renders) has no shared queue, priorities, progress or cancellation** — Proxies, AI analysis and export compete for the same GPU encoders and disks, and must not freeze the editor. → §WT40
+- 📋 **WT40** (deps: WT1 ✅) **Long work (proxies, analysis, renders) has no shared queue, priorities, progress or cancellation** — Proxies, AI analysis and export compete for the same GPU encoders and disks, and must not freeze the editor. → §WT40
 - 📋 **WT41** (deps: WT40, WT25, WT27) **Heavy camera media (4K/8K HEVC 10-bit, RAW-derived ProRes) cannot be edited smoothly on a laptop** — Proxy editing is the standard answer, and generating proxies on the GPU encoder makes it nearly free. → §WT41
 - 📋 **WT42** (deps: WT41, WT37) **Playback cannot switch between proxy and original media, per clip or globally, without relinking** — Editors cut on proxies and check or export on originals, and the switch must be one click with exact frames. → §WT42
 - 📋 **WT43** (deps: WT41, WT24) **Users must decide clip by clip which media needs a proxy and when to create it** — Most people do not know which codecs are heavy, and the app can measure it. → §WT43
@@ -85,17 +83,17 @@
 
 ## Block G — Workspace, panels and viewers
 
-- 📋 **WT59** (deps: WT1) (requires: second-monitor) **Panels cannot be docked, tabbed, floated onto a second monitor, or saved as named workspaces** — Editors arrange the screen per task (cut, sound, colour, review), and a fixed layout wastes a second monitor. → §WT59
+- 📋 **WT59** (deps: WT1 ✅) (requires: second-monitor) **Panels cannot be docked, tabbed, floated onto a second monitor, or saved as named workspaces** — Editors arrange the screen per task (cut, sound, colour, review), and a fixed layout wastes a second monitor. → §WT59
 - 📋 **WT60** (deps: WT59, WT36, WT34) **No program viewer shows the timeline at the playhead with transport controls** — The program viewer is where every edit is judged. → §WT60
 - 📋 **WT61** (deps: WT60) **A media file cannot be opened in a source viewer to mark in and out before editing** — Choosing the part of a shot to use happens in the source viewer, before the timeline. → §WT61
 - 📋 **WT62** (deps: WT59, WT22, WT24) **Imported media has nowhere to live: no bins, folders, list or grid views, search or metadata columns** — Projects have hundreds of files, and finding the right one quickly is a large share of editing time. → §WT62
 - 📋 **WT63** (deps: WT59, WT52) **Clip, track, transition and timeline properties, including OTIO metadata, cannot be seen or edited** — OTIO carries rich metadata, and a viewer-editor must show and edit it faithfully. → §WT63
 - 📋 **WT64** (deps: WT59, WT16) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
-- 📋 **WT66** (deps: WT1) **Actions can only be found in menus, so less common commands are hard to discover** — A searchable command palette makes the whole feature set reachable and is also where the AI assistant's commands surface. → §WT66
+- 📋 **WT66** (deps: WT1 ✅) **Actions can only be found in menus, so less common commands are hard to discover** — A searchable command palette makes the whole feature set reachable and is also where the AI assistant's commands surface. → §WT66
 - 📋 **WT67** (deps: WT5, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
-- 📋 **WT68** (deps: WT1) **Opening the app shows an empty window with no recent projects, templates or first steps** — The first minute decides whether someone keeps the app, and a welcome page with drag-a-file guidance makes it obvious. → §WT68
-- 📋 **WT69** (deps: WT1) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Modal dialogs interrupt editing, and silent failures cost more. → §WT69
+- 📋 **WT68** (deps: WT1 ✅) **Opening the app shows an empty window with no recent projects, templates or first steps** — The first minute decides whether someone keeps the app, and a welcome page with drag-a-file guidance makes it obvious. → §WT68
+- 📋 **WT69** (deps: WT1 ✅) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Modal dialogs interrupt editing, and silent failures cost more. → §WT69
 
 ## Block H — Editing: tools, trims and drag and drop
 
@@ -190,13 +188,13 @@
 
 - 📋 **WT141** (deps: WT34, WT47) (requires: three-gpu-vendors) **No measured budgets say how fast opening, scrubbing, playback and export must be, or on which machines** — Performance claims are only meaningful against named machines and numbers, and regressions hide without them. → §WT141
 - 📋 **WT142** (deps: WT141, WT35) **Memory and VRAM use grow without bounds on long sessions with many media files** — Editors leave the app open all day, and a slow leak shows up as a crash in the afternoon. → §WT142
-- 📋 **WT143** (deps: WT1, WT133) **There is no installer, file association or thumbnail preview for .otio files in Explorer** — People install from a single download, and seeing a timeline's thumbnail in Explorer makes the file type feel native. → §WT143
+- 📋 **WT143** (deps: WT1 ✅, WT133) **There is no installer, file association or thumbnail preview for .otio files in Explorer** — People install from a single download, and seeing a timeline's thumbnail in Explorer makes the file type feel native. → §WT143
 - 📋 **WT144** (deps: WT143) **Users are not told about new versions and cannot update from inside the app** — Media apps ship decoder and driver workarounds often, and stale versions cause support load. → §WT144
 - 📋 **WT145** (deps: WT143, visibility VS58) (requires: store-account) **Every first download meets a SmartScreen warning, and the Store, where creative apps are looked for, has no WinTimeline** — The Store signs the MSIX itself, and claude-tray tests that path first, so this follows what that test learns. → §WT145
 - 📋 **WT146** (deps: WT133) **There is no README or site saying what WinTimeline does, for whom, and with which hardware** — A visitor decides in seconds whether the app is for them, and the sibling apps show the same family promise. → §WT146
 - 📋 **WT147** (deps: WT133, WT15) **Timelines cannot be validated, converted, rendered or analysed from the command line or a script** — Pipelines (render farms, dailies, CI for editorial) drive OTIO headless, and the CLI also powers the soak and bench tests. → §WT147
 - 💭 **WT148** (deps: WT147, WT114) **Repetitive pipeline tasks inside an open project cannot be automated by users** — OTIO users are often pipeline TDs who script everything, and the command pipeline makes safe scripting possible. → §WT148
-- 💭 **WT149** (deps: WT1) **UI strings are not centralised, so a later translation or terminology review would touch every view** — The siblings keep English everywhere on purpose, but centralised strings still keep terminology consistent across a large UI. → §WT149
+- 💭 **WT149** (deps: WT1 ✅) **UI strings are not centralised, so a later translation or terminology review would touch every view** — The siblings keep English everywhere on purpose, but centralised strings still keep terminology consistent across a large UI. → §WT149
 
 ## Done when — Block A
 

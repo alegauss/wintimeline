@@ -1,0 +1,20 @@
+{
+  // WT1: what is true of this project rather than of any one case, for winwright. Every relative
+  // path resolves against this file's directory, so a case carries no path and runs on any checkout.
+
+  // The app's output under its RID: WinTimeline.App sets win-x64 unconditionally. {configuration}
+  // is the build under test: CasesRun passes its own.
+  "executable": "src/WinTimeline.App/bin/{configuration}/net10.0-windows10.0.19041.0/win-x64/WinTimeline.exe",
+  "configuration": "Debug",
+
+  "sourceRoot": "src",
+
+  "timeouts": {
+    // The empty window shows in well under a second; ten still fails a hang rather than waiting on it.
+    "launch": 10000,
+    "resolve": 5000,
+    "act": 5000,
+    "poll": 25,
+    "stop": 5000
+  }
+}

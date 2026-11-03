@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The one D3D11 device (Vortice), the surfaces that live on it and the shaders that composite and present them.
+       Started empty by WT1; the block that first needs it fills it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>WinTimeline.Render</RootNamespace>
+  </PropertyGroup>
+
+</Project>

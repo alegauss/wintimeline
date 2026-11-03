@@ -1,0 +1,9 @@
+.claude/settings.local.json
+bin/
+obj/
+.vs/
+*.user
+TestResults/
+artifacts/
+.cache/
+winwright.*.json

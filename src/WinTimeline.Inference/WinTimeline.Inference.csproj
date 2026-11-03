@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Local inference through Windows ML and the model library it reads; nothing here calls a cloud API.
+       Started empty by WT1; the block that first needs it fills it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>WinTimeline.Inference</RootNamespace>
+  </PropertyGroup>
+
+</Project>

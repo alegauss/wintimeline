@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The render graph, playback clock and audio engine that turn the model into frames and samples on time.
+       Started empty by WT1; the block that first needs it fills it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>WinTimeline.Engine</RootNamespace>
+  </PropertyGroup>
+
+</Project>

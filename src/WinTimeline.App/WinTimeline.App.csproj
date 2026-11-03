@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The WPF shell, and the only assembly allowed to reference every library. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- Windows 10 2004 and later: the Windows ML and Media Foundation APIs the libraries use. -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>WinTimeline.App</RootNamespace>
+    <AssemblyName>WinTimeline</AssemblyName>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+    <!-- Per-Monitor V2 DPI awareness, so the viewer is not bitmap-stretched on a second monitor. -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <UseWPF>true</UseWPF>
+    <!-- WPF0001: ThemeMode is still marked [Experimental] in the SDK and is the supported way to
+         follow the system theme while running. The sibling apps carry the same suppression. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WinTimeline.Engine\WinTimeline.Engine.csproj" />
+    <ProjectReference Include="..\WinTimeline.Export\WinTimeline.Export.csproj" />
+    <ProjectReference Include="..\WinTimeline.Inference\WinTimeline.Inference.csproj" />
+    <ProjectReference Include="..\WinTimeline.Media\WinTimeline.Media.csproj" />
+    <ProjectReference Include="..\WinTimeline.Model\WinTimeline.Model.csproj" />
+    <ProjectReference Include="..\WinTimeline.Render\WinTimeline.Render.csproj" />
+  </ItemGroup>
+
+</Project>

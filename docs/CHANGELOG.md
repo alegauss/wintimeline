@@ -2,6 +2,8 @@
 
 ## Block A — Project foundation
 
+- ✅ **WT1** **No WPF .NET 10 solution with the Fluent ThemeMode builds and opens a WinTimeline window** — WinTimeline.slnx builds warning-free with the seven projects and the CLI, and the Fluent window opens with menu, dock area and status bar; winwright cases find it.
+
 ## Block B — OTIO document model and file formats
 
 ## Block C — Media probing and GPU decoding

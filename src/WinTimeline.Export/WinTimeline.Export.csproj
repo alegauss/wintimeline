@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Encoding a timeline to files: the presets, the encoders and the queue that drives them.
+       Started empty by WT1; the block that first needs it fills it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>WinTimeline.Export</RootNamespace>
+  </PropertyGroup>
+
+</Project>

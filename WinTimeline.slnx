@@ -1,0 +1,21 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/WinTimeline.App/WinTimeline.App.csproj" />
+    <Project Path="src/WinTimeline.Engine/WinTimeline.Engine.csproj" />
+    <Project Path="src/WinTimeline.Export/WinTimeline.Export.csproj" />
+    <Project Path="src/WinTimeline.Inference/WinTimeline.Inference.csproj" />
+    <Project Path="src/WinTimeline.Media/WinTimeline.Media.csproj" />
+    <Project Path="src/WinTimeline.Model/WinTimeline.Model.csproj" />
+    <Project Path="src/WinTimeline.Render/WinTimeline.Render.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WinTimeline.App.Tests/WinTimeline.App.Tests.csproj" />
+    <Project Path="tests/WinTimeline.Cases/WinTimeline.Cases.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/WinTimeline.Cli/WinTimeline.Cli.csproj" />
+  </Folder>
+</Solution>

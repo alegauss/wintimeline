@@ -1,0 +1,54 @@
+{
+  // WT1: the first cases, read through the accessibility tree.
+
+  "fixtures": [
+    {
+      "name": "the window a default start opens",
+      "arguments": [],
+      "shareable": true
+    }
+  ],
+
+  "cases": [
+    {
+      "name": "a default start puts a window named WinTimeline on the desk",
+      "catches": "an app that builds its window and then shows something else, or nothing at all, which every in-process test would pass",
+      "filed": "WT1",
+      "tags": ["smoke", "window"],
+      "fixture": "the window a default start opens",
+      "steps": [
+        {
+          "locator": "TitleBar",
+          "act": "read",
+          "reads": "name",
+          "matches": "WinTimeline$",
+          "named": "the title bar ends in the app's name"
+        }
+      ]
+    },
+
+    {
+      "name": "the empty window has a menu bar, a dock area and a status bar",
+      "catches": "a window that opens without the chrome every later panel docks into",
+      "filed": "WT1",
+      "tags": ["smoke", "window"],
+      "fixture": "the window a default start opens",
+      "steps": [
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "read",
+          "reads": "name",
+          "expect": "File",
+          "named": "the menu bar starts with File"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Ready",
+          "named": "the status bar says Ready"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The OpenTimelineIO-shaped project model: timelines, tracks, clips, effects and the commands that edit them. No WPF, no GPU, no Windows API, so it builds and is tested on any OS and the CLI reuses it whole.
+       Started empty by WT1; the block that first needs it fills it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>WinTimeline.Model</RootNamespace>
+  </PropertyGroup>
+
+</Project>

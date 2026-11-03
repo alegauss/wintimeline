@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Probing and decoding media files into frames and samples: the decoders behind the timeline. It owns no window and draws nothing.
+       Started empty by WT1; the block that first needs it fills it. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>WinTimeline.Media</RootNamespace>
+  </PropertyGroup>
+
+</Project>

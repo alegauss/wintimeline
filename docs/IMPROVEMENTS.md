@@ -2,29 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT1 The solution and the empty Fluent window
-
-`WinTimeline.slnx` mirrors Revelei: `global.json` pins the .NET 10 SDK,
-`Directory.Build.props` (x64 only, TreatWarningsAsErrors, analyzers with
-AnalysisModePerformance=All, Nullable, deterministic, version in one place) is copied,
-and `src/` starts with:
-
-- `WinTimeline.App` (WPF, `net10.0-windows10.0.19041.0`, Fluent ThemeMode with Mica, MainWindow split into partial files per feature),
-- `WinTimeline.Model` (OTIO model, no WPF, no GPU: testable on any OS),
-- `WinTimeline.Media` (probe and decode),
-- `WinTimeline.Render` (Vortice D3D11 device, surfaces, shaders),
-- `WinTimeline.Engine` (render graph, playback, audio engine),
-- `WinTimeline.Inference` (Windows ML, model library),
-- `WinTimeline.Export`,
-- `tools/WinTimeline.Cli` (headless open, validate, render; the cases use it too).
-
-The app opens a window with a menu bar, an empty dock area and a status bar, following
-the system theme. `CommandLine.cs` parses `--open`, `--models`, `--adapter`,
-`--log-level` from the first day, documented in `docs/COMMAND-LINE.md`.
-
-Done when the solution builds warning-free, the window opens in light and dark, and a
-winwright case finds the main window by name.
-
 ### §WT2 Architecture and layering tests
 
 `tests/WinTimeline.Architecture.Tests` (xunit.v3, as in Revelei's `LayeringTests.cs`)
