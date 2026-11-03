@@ -2,7 +2,6 @@
 
 ## Priority
 
-- WT11
 - WT23
 - WT4
 
@@ -20,8 +19,7 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT11** (deps: —) **Nobody knows yet whether .otio files are read by a C# port or by the C++ reference library behind P/Invoke** — Every later block binds to the document model, so the choice must be measured on the real corpus before the first editor line exists. → §WT11
-- 📋 **WT12** (deps: WT11) **No in-memory model holds a timeline: tracks, clips, gaps, transitions, markers and metadata have no types** — The viewer, the editor, the AI tools and the exporter all speak this model, so it is the spine of the application. → §WT12
+- 📋 **WT12** (deps: WT11 ✅) **No in-memory model holds a timeline: tracks, clips, gaps, transitions, markers and metadata have no types** — The viewer, the editor, the AI tools and the exporter all speak this model, so it is the spine of the application. → §WT12
 - 📋 **WT13** (deps: WT12) **A .otio file cannot be opened or saved, and unknown schemas from newer OTIO versions would be dropped** — Opening and saving without loss is the first promise of a viewer-editor; a save that silently drops a studio's metadata loses trust forever. → §WT13
 - 📋 **WT14** (deps: WT13) **An .otioz or .otiod bundle cannot be opened, so timelines shipped with their media by other tools are unusable** — Bundles are how OTIO moves a timeline together with its media between machines, and they are the natural archive format for this app too. → §WT14
 - 📋 **WT15** (deps: WT13) **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — Editors move work between Premiere, Resolve, Avid and finishing tools through these formats, so a viewer that reads only .otio sees little. → §WT15

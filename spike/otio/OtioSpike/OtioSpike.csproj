@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT11: measures the two ways WinTimeline could read .otio files, side by side on the same
+       files: a managed C# port (Port/) and the C++ reference library behind a C ABI (Native.cs,
+       over ../native/otio_shim.cpp). Not in WinTimeline.slnx: a spike, kept to re-run the
+       measurement, never referenced by the app. See ../README.md for the numbers. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>OtioSpike</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+  </PropertyGroup>
+
+  <!-- The reference library and the shim, as ../native/build-shim.cmd leaves them. -->
+  <ItemGroup>
+    <None Include="..\..\..\.cache\otio-shim\*.dll" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+  </ItemGroup>
+
+</Project>

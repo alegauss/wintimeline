@@ -6,6 +6,8 @@
 
 ## Block B — OTIO document model and file formats
 
+- ✅ **WT11** **Nobody knows yet whether .otio files are read by a C# port or by the C++ reference library behind P/Invoke** — Measured both paths on the OTIO corpus and 10,000-clip files: the C# port matches the reference's output, loads faster, holds a quarter of the memory (design recorded in `spike/otio/README.md`).
+
 ## Block C — Media probing and GPU decoding
 
 ## Block D — GPU compositing and playback engine

@@ -121,25 +121,6 @@ run a winwright case through the plugin.
 
 ## Block B — OTIO document model and file formats
 
-### §WT11 Choosing how the OTIO model is implemented
-
-OpenTimelineIO ships a C++ core (opentime + opentimelineio) with Python bindings and an
-experimental C binding; there is no maintained .NET binding. Two paths are measured in a
-spike, each against the sample corpus that ships with the OTIO repository
-(`tests/sample_data`) plus three large real timelines (a 2-hour feature with 3,000 clips
-is the stress case):
-
-- **Managed port**: a C# model of the schema (`SerializableObject`, `Composable`, `Item`, `Clip`, `Gap`, `Track`, `Stack`, `Timeline`, `Transition`, `Effect`, `Marker`, `MediaReference` family) with System.Text.Json and the schema-version upgrade/downgrade functions.
-- **Native core**: the C++ library built with vcpkg, wrapped by a thin C ABI and SafeHandles.
-
-Scored on load time, memory, round-trip fidelity of unknown schemas (`UnknownSchema`
-must survive byte-equivalent), editing ergonomics (the edit algorithms in `algorithms/`
-are C++ only), AOT-friendliness and build complexity.
-
-Done when one path is chosen with its numbers written down, and the losing path's cost
-is recorded as the reason. On ship: --decides "the OTIO model is <chosen path>, because
-<measured reason>"
-
 ### §WT12 The timeline document model
 
 The model mirrors OTIO's schema one to one, so nothing the format can say is lost:
@@ -158,6 +139,11 @@ because other tools (Resolve, Premiere via adapters, Hiero) store state there.
 The model raises change notifications at item granularity so views redraw only what
 changed; parent pointers and `range_in_parent` / `trimmed_range_in_parent` are computed,
 not stored.
+
+Start from `spike/otio/OtioSpike/Port`, which already writes the reference's bytes:
+fields it does not know become dynamic fields written first; dictionaries keep sorted
+keys; bare `NaN`/`Inf` are rewritten before `System.Text.Json` parses; numbers keep full
+precision. Still missing there: `ImageSequenceReference` and `TimeTransform`.
 
 Done when the full OTIO sample corpus loads into the model and every computed range
 matches the Python reference library's answer for the same file.
