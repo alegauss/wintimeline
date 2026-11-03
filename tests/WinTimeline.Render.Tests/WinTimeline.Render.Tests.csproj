@@ -4,6 +4,8 @@
        pass on a desk with no GPU, a VM or CI; the hardware test runs where DXGI lists one. -->
   <PropertyGroup>
     <RootNamespace>WinTimeline.Render.Tests</RootNamespace>
+    <!-- The decode test writes its frames straight into Media Foundation's locked buffers. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

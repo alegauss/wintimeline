@@ -12,6 +12,8 @@
     <!-- Revelei's proven version. -->
     <PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
     <PackageReference Include="Vortice.DXGI" Version="3.8.3" />
+    <!-- The DXGI device manager that hands this device to Media Foundation's decoders. -->
+    <PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
   </ItemGroup>
 
 </Project>

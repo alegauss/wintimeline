@@ -48,6 +48,29 @@ public sealed class GpuContext : IDisposable
     public FeatureLevel FeatureLevel => Device.FeatureLevel;
 
     /// <summary>
+    /// Media Foundation's handle on this device, created on first use. Null when the device has no
+    /// video support (WARP on some builds), so decoding falls back to system memory.
+    /// </summary>
+    public MediaDevice? Media
+    {
+        get
+        {
+            if (!VideoSupport)
+            {
+                return null;
+            }
+
+            lock (_mediaLock)
+            {
+                return _media ??= new MediaDevice(this);
+            }
+        }
+    }
+
+    private readonly Lock _mediaLock = new();
+    private MediaDevice? _media;
+
+    /// <summary>
     /// Creates the device on the chosen adapter, or on WARP when the choice names none or no
     /// hardware device opens on it.
     /// </summary>
@@ -88,6 +111,7 @@ public sealed class GpuContext : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
+        _media?.Dispose();
         ImmediateContext.ClearState();
         ImmediateContext.Flush();
         ImmediateContext.Dispose();

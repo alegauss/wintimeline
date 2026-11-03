@@ -2,30 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT3 The shared GPU device and adapter choice
-
-`GpuContext` in `WinTimeline.Render` already creates the one D3D11.1 device (Vortice,
-feature level 11_1 or 11_0, video support, multithread-protected) on the adapter
-`AdapterChoice.Pick` resolves: high-performance order through
-`IDXGIFactory6::EnumAdapterByGpuPreference`, `--adapter <index|name|warp>`, WARP when no
-hardware device opens. `GpuAdapter` carries name, vendor, VRAM, driver version and LUID,
-and the status bar names it.
-
-What is left on this line:
-
-- a DXGI device manager (`MFCreateDXGIDeviceManager`) for Media Foundation, exposed from
-  `GpuContext`, which needs the Vortice.MediaFoundation package in Render;
-- shared NT handles for D3D12 interop (Windows ML and heavy compute passes);
-- hardware decode and encode capabilities on `GpuAdapter`, and video memory budget events
-  through `IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent`;
-- adapter choice persisted in settings once WT5 lands;
-- shaders compiled at build time with DXC (cs_5_0 / cs_6_x) and embedded as resources,
-  with a dev-only hot reload, instead of Revelei's runtime `Compiler.Compile`.
-
-Done when the device is created on each adapter of a hybrid laptop, and a WARP-only run
-(the VM) still opens the app. On ship: --decides "D3D11.1 is the core device, D3D12 only
-for interop, because <measured reason>"
-
 ### §WT4 The GPU surface host
 
 Revelei's `ImageSurface` (an `HwndHost` child HWND with its own WndProc, a flip-model
@@ -112,6 +88,53 @@ does, so UI cases can be authored with the plugin's help.
 
 Done when the skill names only commands that exist in this repository and a session can
 run a winwright case through the plugin.
+
+### §WT150 Shaders compiled at build time with DXC
+
+Split out of WT3, which shipped the shared D3D11.1 device (`GpuContext` in
+`WinTimeline.Render`).
+
+Revelei compiles its HLSL at start with `Compiler.Compile`, which costs start-up time
+and turns a typo into a crash on a user's desk. Here every `.hlsl` under
+`src/WinTimeline.Render/Shaders` is compiled at build time with DXC (the
+`Microsoft.Direct3D.DXC` package, cs_5_0 for D3D11 and cs_6_x where D3D12 interop runs),
+through an MSBuild target that feeds the bytecode in as embedded resources. A shader
+that does not compile fails the build with DXC's message and line.
+
+`ShaderLibrary` loads a shader by name from the resources. In Debug, when the source
+tree is present, it watches `Shaders/` and recompiles a changed file at runtime, so a
+colour or composite shader can be tuned without restarting; Release never reads the
+source.
+
+Done when one compute shader (a BGRA clear or fill, enough to prove the path) is
+compiled at build time, run on the WARP device in a test, and a deliberately broken
+shader turns the build red.
+
+### §WT151 D3D12 interop, VRAM budget and decode capabilities
+
+Split out of WT3, which shipped the shared D3D11.1 device (`GpuContext` in
+`WinTimeline.Render`) and its Media Foundation device manager.
+
+Windows ML and heavy compute passes run on D3D12, so a texture made on the D3D11 device
+must reach a D3D12 device on the same adapter without a copy: create it with
+`D3D11_RESOURCE_MISC_SHARED_NTHANDLE | SHARED_KEYEDMUTEX`, export it through
+`IDXGIResource1::CreateSharedHandle`, open it on a D3D12 device created on the same LUID
+(`GpuAdapter.Luid`), and fence the hand-off.
+
+`GpuContext` also listens for video memory budget changes through
+`IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent`, exposes the current
+budget and usage (`QueryVideoMemoryInfo`, local and non-local), and raises an event the
+cache and proxy layers can shrink on. `GpuAdapter` gains the hardware decode and encode
+profiles the device supports (`ID3D11VideoDevice::GetVideoDecoderProfile`), so the media
+layer knows before opening a file whether it decodes on the GPU.
+
+Measure the hand-off: a 4K BGRA texture shared to D3D12 and back, against a copy through
+staging, on this desk's hardware adapter.
+
+Done when a texture round-trips D3D11 to D3D12 by NT handle in a test, the budget event
+fires in a test that allocates past a low budget or is skipped with its reason, and the
+decision is recorded. On ship: --decides "D3D11.1 is the core device, D3D12 only for
+interop, because <measured reason>"
 
 ## Block B — OTIO document model and file formats
 
