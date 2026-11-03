@@ -20,6 +20,7 @@ public partial class MainWindow : Window
         Gpu = gpu;
         InitializeComponent();
         ShowGpu();
+        BuildSurfaces();
     }
 
     /// <summary>What this run was started with.</summary>

@@ -6,6 +6,10 @@
   <PropertyGroup>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <RootNamespace>WinTimeline.Render</RootNamespace>
+    <!-- GpuSurface is an HwndHost: the child window a swap chain presents into (WT4). -->
+    <UseWPF>true</UseWPF>
+    <!-- WPF0001: ThemeMode is marked [Experimental]; the sibling apps carry the same suppression. -->
+    <NoWarn>$(NoWarn);WPF0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

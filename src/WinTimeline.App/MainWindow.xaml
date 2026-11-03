@@ -30,7 +30,7 @@
       </StatusBarItem>
     </StatusBar>
 
-    <!-- Empty until the panels arrive: the viewer, the timeline and the inspectors dock here. -->
+    <!-- The viewer and timeline surfaces (MainWindow.Surfaces.cs); the inspectors dock here later. -->
     <Grid x:Name="DockArea" AutomationProperties.AutomationId="DockArea" />
   </DockPanel>
 </Window>

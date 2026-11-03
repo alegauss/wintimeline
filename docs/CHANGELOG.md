@@ -5,6 +5,7 @@
 - ✅ **WT1** **No WPF .NET 10 solution with the Fluent ThemeMode builds and opens a WinTimeline window** — WinTimeline.slnx builds warning-free with the seven projects and the CLI, and the Fluent window opens with menu, dock area and status bar; winwright cases find it.
 - ✅ **WT2** **Nothing stops the model project from referencing WPF or the GPU, or the UI from bypassing the command pipeline** — Architecture tests now hold the layering, a pure BCL-only model with no public setters outside Model.Commands, the UI-framework boundary and the build gates, naming each offender.
 - ✅ **WT3** **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — One multithread-protected D3D11.1 device opens on the chosen GPU or WARP, named in the status bar; Media Foundation decodes H.264 into it.
+- ✅ **WT4** **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — GpuSurface hosts a waitable flip swap chain on the shared device; viewer and timeline surfaces resize, follow DPI and report frames to a case, on hardware or WARP.
 
 ## Block B — OTIO document model and file formats
 

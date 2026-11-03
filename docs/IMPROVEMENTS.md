@@ -2,23 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT4 The GPU surface host
-
-Revelei's `ImageSurface` (an `HwndHost` child HWND with its own WndProc, a flip-model
-swap chain and a custom AutomationPeer) is generalised into `GpuSurface`: resize with
-`ResizeBuffers` without flicker, DPI changes per monitor, a waitable swap chain for low
-latency, input (mouse, wheel, precision touchpad, pen, keyboard focus handover with
-WPF), drag and drop registration (OLE `RegisterDragDrop` on the child HWND, forwarded to
-WPF handlers), and an overlay layer for the playhead and guides. Airspace limits are
-handled by drawing everything that overlaps the surface inside it (tooltips are popups,
-which are separate HWNDs and fine).
-
-A spike compares this with `D3DImage`/`D3D11Image` interop and composition swap chains,
-measuring latency and tearing; the result is recorded.
-
-Done when two surfaces (viewer and timeline) render at 120 Hz side by side, survive DPI
-change and docking moves, and a case reads their automation peers.
-
 ### §WT5 Settings storage
 
 As Revelei's `AppSettings`: an immutable record serialised to
@@ -135,6 +118,51 @@ Done when a texture round-trips D3D11 to D3D12 by NT handle in a test, the budge
 fires in a test that allocates past a low budget or is skipped with its reason, and the
 decision is recorded. On ship: --decides "D3D11.1 is the core device, D3D12 only for
 interop, because <measured reason>"
+
+### §WT152 Input, focus, drag and drop, and the overlay on GPU surfaces
+
+Split out of WT4, which shipped `GpuSurface` in `WinTimeline.Render`: an `HwndHost`
+child window with a flip-model, waitable `SurfaceSwapChain` on the shared device,
+resized in place, following DPI, and publishing its size and frames to UI Automation.
+The viewer and the timeline each have one in the main window's dock area.
+
+The child window swallows input WPF never sees. It needs:
+
+- mouse, wheel and precision touchpad (`WM_POINTER*`), and pen with pressure, raised as
+  surface events in device-independent units, with capture on press;
+- keyboard focus handover: a press focuses the host so WPF's command bindings keep
+  working, and Tab leaves the surface (`IKeyboardInputSink`);
+- drag and drop: OLE `RegisterDragDrop` on the child window, forwarding to WPF's
+  `DragEnter`/`Drop` with the data object, so files dropped on the viewer open;
+- an overlay layer drawn inside the surface after `Draw` (playhead, guides, safe areas),
+  since nothing WPF draws can sit over the child window.
+
+Done when a case drops a file on the viewer and the app sees it, a case presses a key
+with the viewer focused and a menu command runs, and wheel and drag events reach a test
+handler.
+
+### §WT153 Surface render thread at display refresh, and the host spike
+
+Split out of WT4, which shipped `GpuSurface` (an `HwndHost` child window with a waitable
+flip-model swap chain) and draws from `CompositionTarget.Rendering` on the UI thread.
+
+Two things were not measured there:
+
+- **The host itself.** A spike compares the `HwndHost` surface with `D3DImage` (through a
+  D3D9Ex shared surface) and a composition swap chain (`DCompositionCreateSurfaceHandle`
+  hosted in the WPF window), measuring input-to-photon latency, tearing, and what each
+  costs in airspace and accessibility. The result is recorded and the losing paths' costs
+  kept as the reason.
+- **The frame rate.** A dedicated render thread per surface waits on the swap chain's
+  `FrameLatencyWaitableObject` instead of riding `CompositionTarget.Rendering`, so playback
+  reaches the display's refresh (120 Hz and above) without the UI thread in the loop. The
+  surfaces must also survive a DPI change across monitors and docking moves without a
+  black or stretched frame.
+
+Done when the viewer and timeline surfaces sustain 120 Hz side by side on a 120 Hz
+display (frame statistics from `IDXGISwapChain::GetFrameStatistics`), a DPI change
+between monitors redraws both at the new size, and the spike's numbers are recorded. On
+ship: --decides "the GPU surface is <chosen host>, because <measured reason>"
 
 ## Block B — OTIO document model and file formats
 

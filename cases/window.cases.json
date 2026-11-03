@@ -89,6 +89,48 @@
           "named": "the GPU chip names WARP"
         }
       ]
+    },
+
+    {
+      // WT4: a swap chain publishes nothing, so each surface's peer reports its size and frames.
+      "name": "the viewer and the timeline surfaces present frames on the GPU",
+      "catches": "a surface whose swap chain never presents, is stuck at one pixel, or lands on another device than the status bar names",
+      "filed": "WT4",
+      "tags": ["smoke", "gpu", "surface"],
+      "fixture": "the window a default start opens",
+      "steps": [
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, hardware$",
+          "named": "the viewer has a real size and has presented on the hardware GPU"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, hardware$",
+          "named": "and so has the timeline"
+        }
+      ]
+    },
+
+    {
+      "name": "on WARP the surfaces still present",
+      "catches": "a surface that needs a hardware GPU, which would leave a VM with a black window",
+      "filed": "WT4",
+      "tags": ["gpu", "surface"],
+      "fixture": "a window forced onto WARP",
+      "steps": [
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, WARP$",
+          "named": "the viewer presents on WARP"
+        }
+      ]
     }
   ]
 }

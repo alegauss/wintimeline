@@ -3,11 +3,9 @@
 ## Priority
 
 - WT23
-- WT4
 
 ## Block A — Project foundation
 
-- 📋 **WT4** (deps: WT3 ✅) **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — Video and the timeline must be drawn by the GPU, and the host decides latency, airspace and accessibility for both. → §WT4
 - 📋 **WT5** (deps: WT1 ✅) **User preferences have nowhere to be stored and validated** — Cache paths, GPU choice and AI settings must persist safely, and a damaged file must never stop the app from starting. → §WT5
 - 📋 **WT6** (deps: WT1 ✅) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
 - 📋 **WT7** (deps: WT6) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
@@ -16,6 +14,8 @@
 - 📋 **WT10** (deps: WT8) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — A session executing this roadmap follows that skill literally, so wrong gates mean commits validated by commands that do not exist here. → §WT10
 - 📋 **WT150** (deps: WT3 ✅) **Shaders would be compiled at start-up, so a broken one crashes on the user's desk instead of failing the build** — Start-up time and shader errors belong to the build, and tuning a shader should not need a restart; split out of WT3. → §WT150
 - 📋 **WT151** (deps: WT3 ✅) **A texture on the shared device cannot reach D3D12 without a copy, and nothing reports VRAM pressure or GPU decode** — Windows ML and heavy compute run on D3D12, and caches must shrink before the driver evicts; split out of WT3. → §WT151
+- 📋 **WT152** (deps: WT4 ✅) **The GPU surfaces swallow mouse, touch, pen, keys and dropped files, and nothing can draw over them** — The viewer and timeline are where editing happens, so input, focus and drops must reach the app; split out of WT4. → §WT152
+- 📋 **WT153** (deps: WT4 ✅) (requires: second-monitor) **The surfaces draw on the UI thread at its pace, and nobody measured the HwndHost against D3DImage or composition** — Playback needs the display's refresh with the UI thread out of the loop, and the host choice decides latency; split out of WT4. → §WT153
 
 ## Block B — OTIO document model and file formats
 
@@ -49,7 +49,7 @@
 - 📋 **WT33** (deps: WT31) **Transitions between clips render as hard cuts** — A dissolve that plays as a cut misrepresents the editor's work in review and in export. → §WT33
 - 📋 **WT34** (deps: WT31, WT29) **Playback has no master clock, so picture and sound drift apart and frames are dropped unpredictably** — Lip sync off by two frames is noticed by everyone, and smooth playback is the first impression of the app. → §WT34
 - 📋 **WT35** (deps: WT31) **Scrubbing back over frames already seen decodes and composites them again** — Editors scrub the same few seconds over and over, and a cache turns that into instant feedback. → §WT35
-- 📋 **WT36** (deps: WT31, WT4) (requires: hdr-display) **The viewer cannot show frames with the right display transform, zoom, safe areas or HDR output** — What the editor sees must match what the export produces, on SDR and on HDR monitors. → §WT36
+- 📋 **WT36** (deps: WT31, WT4 ✅) (requires: hdr-display) **The viewer cannot show frames with the right display transform, zoom, safe areas or HDR output** — What the editor sees must match what the export produces, on SDR and on HDR monitors. → §WT36
 - 📋 **WT37** (deps: WT31, WT35) **Playback resolution and quality cannot be lowered to keep real time on heavy timelines** — A laptop must play a 4K multi-layer timeline, and dropping resolution beats dropping frames. → §WT37
 - 📋 **WT38** (deps: WT3 ✅, WT34) **A GPU driver reset or adapter change (laptop dock, eGPU) crashes or freezes the app** — TDRs happen during long sessions, and losing the window loses trust even when autosave keeps the edits. → §WT38
 - 📋 **WT39** (deps: WT36) **There are no waveform, vectorscope, parade or histogram scopes to judge exposure and colour** — Legal levels and colour matching cannot be judged by eye on an uncalibrated laptop display. → §WT39
@@ -66,7 +66,7 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- 📋 **WT47** (deps: WT12, WT4) **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — A feature-length cut has 3,000 clips and dozens of tracks, and one visual per clip collapses WPF layout long before that. → §WT47
+- 📋 **WT47** (deps: WT12, WT4 ✅) **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — A feature-length cut has 3,000 clips and dozens of tracks, and one visual per clip collapses WPF layout long before that. → §WT47
 - 📋 **WT48** (deps: WT47) **The timeline cannot be zoomed from whole-program to single-frame or scrolled smoothly** — Editing alternates between the whole structure and frame-accurate detail many times a minute. → §WT48
 - 📋 **WT49** (deps: WT47) **There is no time ruler, so positions cannot be read in timecode, frames, feet+frames or seconds** — Editors, assistants and sound people each read time in a different unit, and the ruler is where they look first. → §WT49
 - 📋 **WT50** (deps: WT47, WT16) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
