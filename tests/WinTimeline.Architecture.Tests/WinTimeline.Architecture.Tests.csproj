@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT2: reads the project files and the solution rather than referencing the assemblies, so a
+       rule broken in a .csproj fails here even when the code behind it still compiles. The one
+       reference is the model, whose public surface the command-pipeline rule reflects over. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Architecture.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Model\WinTimeline.Model.csproj" />
+  </ItemGroup>
+
+</Project>

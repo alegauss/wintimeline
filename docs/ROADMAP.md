@@ -7,13 +7,12 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT2** (deps: WT1 ✅) **Nothing stops the model project from referencing WPF or the GPU, or the UI from bypassing the command pipeline** — Layering rules decay silently, and the model must stay pure to be tested headless and reused by the CLI. → §WT2
 - 📋 **WT3** (deps: WT1 ✅) **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — Zero-copy between decode, compositing and presentation is what makes 4K playback possible, and it requires one device owned in one place. → §WT3
 - 📋 **WT4** (deps: WT3) **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — Video and the timeline must be drawn by the GPU, and the host decides latency, airspace and accessibility for both. → §WT4
 - 📋 **WT5** (deps: WT1 ✅) **User preferences have nowhere to be stored and validated** — Cache paths, GPU choice and AI settings must persist safely, and a damaged file must never stop the app from starting. → §WT5
 - 📋 **WT6** (deps: WT1 ✅) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
 - 📋 **WT7** (deps: WT6) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
-- 📋 **WT8** (deps: WT2) **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — The one-task-one-commit rule needs a gate, and the siblings' run-tests.cmd is the proven shape. → §WT8
+- 📋 **WT8** (deps: WT2 ✅) **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — The one-task-one-commit rule needs a gate, and the siblings' run-tests.cmd is the proven shape. → §WT8
 - 📋 **WT9** (deps: WT8) **No CI builds the solution or runs the headless tests on each push** — A breaking change to the model or the OTIO round trip must be caught before a release, not by a user. → §WT9
 - 📋 **WT10** (deps: WT8) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — A session executing this roadmap follows that skill literally, so wrong gates mean commits validated by commands that do not exist here. → §WT10
 

@@ -2,18 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT2 Architecture and layering tests
-
-`tests/WinTimeline.Architecture.Tests` (xunit.v3, as in Revelei's `LayeringTests.cs`)
-asserts: `Model` references nothing but the BCL; `Media` and `Render` do not reference
-`App`; `Engine` does not reference WPF; only the command pipeline mutates the document
-(no public setters on model items outside `Model.Commands`); every project is in the
-solution; the cases project references neither the app nor WPF. A `BuildGateTests`
-checks warnings-as-errors and analyzers are on in every project.
-
-Done when breaking any rule turns a test red with a message naming the offending
-reference.
-
 ### §WT3 The shared GPU device and adapter choice
 
 A `GpuContext` in `WinTimeline.Render` creates one D3D11.1 device (Vortice, feature
