@@ -15,6 +15,7 @@
     <Project Path="tests/WinTimeline.App.Tests/WinTimeline.App.Tests.csproj" />
     <Project Path="tests/WinTimeline.Architecture.Tests/WinTimeline.Architecture.Tests.csproj" />
     <Project Path="tests/WinTimeline.Cases/WinTimeline.Cases.csproj" />
+    <Project Path="tests/WinTimeline.Render.Tests/WinTimeline.Render.Tests.csproj" />
   </Folder>
   <Folder Name="/tools/">
     <Project Path="tools/WinTimeline.Cli/WinTimeline.Cli.csproj" />

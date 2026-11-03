@@ -6,6 +6,12 @@
       "name": "the window a default start opens",
       "arguments": [],
       "shareable": true
+    },
+    {
+      // WT3: the software rasteriser, which every desk has, so the GPU chip reads the same everywhere.
+      "name": "a window forced onto WARP",
+      "arguments": ["--adapter", "warp"],
+      "shareable": true
     }
   ],
 
@@ -47,6 +53,40 @@
           "reads": "name",
           "expect": "Ready",
           "named": "the status bar says Ready"
+        }
+      ]
+    },
+
+    {
+      "name": "the status bar names the GPU the app runs on",
+      "catches": "a device that fails to open, or opens on an adapter the status bar never names",
+      "filed": "WT3",
+      "tags": ["smoke", "gpu"],
+      "fixture": "the window a default start opens",
+      "steps": [
+        {
+          "locator": "Text#GpuStatus",
+          "act": "read",
+          "reads": "name",
+          "matches": "^GPU: .+",
+          "named": "the GPU chip names an adapter"
+        }
+      ]
+    },
+
+    {
+      "name": "--adapter warp runs on the software rasteriser whatever GPU the desk has",
+      "catches": "an --adapter flag that is parsed and then ignored, leaving the device on the hardware GPU",
+      "filed": "WT3",
+      "tags": ["gpu", "command-line"],
+      "fixture": "a window forced onto WARP",
+      "steps": [
+        {
+          "locator": "Text#GpuStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "GPU: Microsoft Basic Render Driver (software)",
+          "named": "the GPU chip names WARP"
         }
       ]
     }

@@ -1,4 +1,5 @@
 using System.Windows;
+using WinTimeline.Render;
 
 namespace WinTimeline.App;
 
@@ -22,8 +23,27 @@ public partial class App : Application
             return;
         }
 
-        MainWindow window = new(parsed.Options!);
+        // WT3: the one GPU device, on the adapter --adapter names or the high-performance one.
+        AdapterChoice choice = AdapterChoice.Pick(GpuAdapters.Enumerate(), parsed.Options!.Adapter);
+        if (!choice.Ok)
+        {
+            MessageBox.Show(choice.Error + "\n\nSee docs/COMMAND-LINE.md.", "WinTimeline", MessageBoxButton.OK, MessageBoxImage.Error);
+            Shutdown(BadCommandLine);
+            return;
+        }
+
+        _gpu = GpuContext.Create(choice);
+        MainWindow window = new(parsed.Options!, _gpu);
         MainWindow = window;
         window.Show();
     }
+
+    /// <inheritdoc/>
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _gpu?.Dispose();
+        base.OnExit(e);
+    }
+
+    private GpuContext? _gpu;
 }

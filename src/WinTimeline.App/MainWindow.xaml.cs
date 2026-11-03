@@ -1,4 +1,5 @@
 using System.Windows;
+using WinTimeline.Render;
 
 namespace WinTimeline.App;
 
@@ -10,11 +11,15 @@ public partial class MainWindow : Window
 {
     /// <summary>Opens the window for what the command line asked for.</summary>
     /// <param name="options">The parsed command line.</param>
-    public MainWindow(AppOptions options)
+    /// <param name="gpu">The app's one GPU device.</param>
+    public MainWindow(AppOptions options, GpuContext gpu)
     {
         ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(gpu);
         Options = options;
+        Gpu = gpu;
         InitializeComponent();
+        ShowGpu();
     }
 
     /// <summary>What this run was started with.</summary>

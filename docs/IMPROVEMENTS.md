@@ -4,17 +4,23 @@
 
 ### §WT3 The shared GPU device and adapter choice
 
-A `GpuContext` in `WinTimeline.Render` creates one D3D11.1 device (Vortice, feature
-level 11_1 with WARP fallback, `D3D11_CREATE_DEVICE_VIDEO_SUPPORT` for DXVA,
-multithread-protected) on the chosen adapter (high-performance by default via
-`IDXGIFactory6::EnumAdapterByGpuPreference`, overridable by `--adapter` and in
-settings). It exposes the device, the immediate context guarded for multithread use, a
-DXGI device manager for Media Foundation, shared NT handles for D3D12 interop (Windows
-ML and compute heavy passes), adapter info (name, vendor, VRAM, driver version, hardware
-decode/encode capabilities) and video memory budget events.
+`GpuContext` in `WinTimeline.Render` already creates the one D3D11.1 device (Vortice,
+feature level 11_1 or 11_0, video support, multithread-protected) on the adapter
+`AdapterChoice.Pick` resolves: high-performance order through
+`IDXGIFactory6::EnumAdapterByGpuPreference`, `--adapter <index|name|warp>`, WARP when no
+hardware device opens. `GpuAdapter` carries name, vendor, VRAM, driver version and LUID,
+and the status bar names it.
 
-Shaders move from Revelei's runtime `Compiler.Compile` to build-time DXC compilation
-(cs_5_0 / cs_6_x), embedded as resources, with a dev-only hot reload.
+What is left on this line:
+
+- a DXGI device manager (`MFCreateDXGIDeviceManager`) for Media Foundation, exposed from
+  `GpuContext`, which needs the Vortice.MediaFoundation package in Render;
+- shared NT handles for D3D12 interop (Windows ML and heavy compute passes);
+- hardware decode and encode capabilities on `GpuAdapter`, and video memory budget events
+  through `IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent`;
+- adapter choice persisted in settings once WT5 lands;
+- shaders compiled at build time with DXC (cs_5_0 / cs_6_x) and embedded as resources,
+  with a dev-only hot reload, instead of Revelei's runtime `Compiler.Compile`.
 
 Done when the device is created on each adapter of a hybrid laptop, and a WARP-only run
 (the VM) still opens the app. On ship: --decides "D3D11.1 is the core device, D3D12 only

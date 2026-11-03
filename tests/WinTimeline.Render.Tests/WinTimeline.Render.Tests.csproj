@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT3: the shared GPU device and the adapter choice. The device tests run on WARP, so they
+       pass on a desk with no GPU, a VM or CI; the hardware test runs where DXGI lists one. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Render.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Render\WinTimeline.Render.csproj" />
+  </ItemGroup>
+
+</Project>

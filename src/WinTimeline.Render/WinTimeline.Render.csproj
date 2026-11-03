@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- The one D3D11 device (Vortice), the surfaces that live on it and the shaders that composite and present them.
-       Started empty by WT1; the block that first needs it fills it. -->
+  <!-- The one D3D11 device (Vortice), the surfaces that live on it and the shaders that composite
+       and present them. Media and Inference stand on it, so decoded frames and model tensors
+       never leave the GPU (WT3). -->
   <PropertyGroup>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <RootNamespace>WinTimeline.Render</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Revelei's proven version. -->
+    <PackageReference Include="Vortice.Direct3D11" Version="3.8.3" />
+    <PackageReference Include="Vortice.DXGI" Version="3.8.3" />
+  </ItemGroup>
 
 </Project>

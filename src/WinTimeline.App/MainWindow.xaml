@@ -24,6 +24,10 @@
       <StatusBarItem>
         <TextBlock x:Name="StatusText" AutomationProperties.AutomationId="StatusText" Text="Ready" />
       </StatusBarItem>
+      <Separator />
+      <StatusBarItem>
+        <TextBlock x:Name="GpuStatus" AutomationProperties.AutomationId="GpuStatus" />
+      </StatusBarItem>
     </StatusBar>
 
     <!-- Empty until the panels arrive: the viewer, the timeline and the inspectors dock here. -->

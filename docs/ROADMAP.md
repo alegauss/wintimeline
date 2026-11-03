@@ -7,8 +7,8 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT3** (deps: WT1 ✅) **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — Zero-copy between decode, compositing and presentation is what makes 4K playback possible, and it requires one device owned in one place. → §WT3
-- 📋 **WT4** (deps: WT3) **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — Video and the timeline must be drawn by the GPU, and the host decides latency, airspace and accessibility for both. → §WT4
+- ⏳ **WT3** (deps: WT1 ✅) **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — The device still lacks the Media Foundation device manager, D3D12 interop handles, VRAM budget events and build-time shaders. → §WT3
+- 📋 **WT4** (deps: WT3 ⏳) **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — Video and the timeline must be drawn by the GPU, and the host decides latency, airspace and accessibility for both. → §WT4
 - 📋 **WT5** (deps: WT1 ✅) **User preferences have nowhere to be stored and validated** — Cache paths, GPU choice and AI settings must persist safely, and a damaged file must never stop the app from starting. → §WT5
 - 📋 **WT6** (deps: WT1 ✅) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
 - 📋 **WT7** (deps: WT6) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
@@ -34,7 +34,7 @@
 
 - 📋 **WT23** (deps: —) (requires: three-gpu-vendors) **No decision says which decoder reads which codec, so ProRes, DNxHR, HEVC 10-bit and image sequences have no defined path** — Media Foundation is native and GPU-friendly but misses pro codecs, while FFmpeg covers them at a licensing and packaging cost. → §WT23
 - 📋 **WT24** (deps: WT23) **A media file's duration, rate, resolution, timecode, audio layout and colour tags are not known before it is played** — Every clip's available range and every rate conversion depend on reliable probing, done fast enough for a folder of hundreds of files. → §WT24
-- 📋 **WT25** (deps: WT24, WT3) **Video frames cannot be decoded into GPU textures at an arbitrary frame number** — Frame-accurate random access, not linear playback, is the workload of an editor. → §WT25
+- 📋 **WT25** (deps: WT24, WT3 ⏳) **Video frames cannot be decoded into GPU textures at an arbitrary frame number** — Frame-accurate random access, not linear playback, is the workload of an editor. → §WT25
 - 📋 **WT26** (deps: WT25) **Image sequences (EXR, DPX, PNG, TIFF, JPEG) and stills cannot be used as clips** — VFX plates and graphics arrive as sequences, and OTIO has an ImageSequenceReference for them. → §WT26
 - 📋 **WT27** (deps: WT24) **Audio streams cannot be decoded to float samples at an arbitrary sample position** — Playback, waveforms, mixing, AI transcription and export all consume decoded audio. → §WT27
 - 📋 **WT28** (deps: WT25) **Decoded frames ignore their colour tags, so Rec.709, Rec.2020 PQ/HLG and full/limited range look wrong** — Wrong range or matrix is the most common visible bug in video tools, and HDR sources are now ordinary phone footage. → §WT28
@@ -50,7 +50,7 @@
 - 📋 **WT35** (deps: WT31) **Scrubbing back over frames already seen decodes and composites them again** — Editors scrub the same few seconds over and over, and a cache turns that into instant feedback. → §WT35
 - 📋 **WT36** (deps: WT31, WT4) (requires: hdr-display) **The viewer cannot show frames with the right display transform, zoom, safe areas or HDR output** — What the editor sees must match what the export produces, on SDR and on HDR monitors. → §WT36
 - 📋 **WT37** (deps: WT31, WT35) **Playback resolution and quality cannot be lowered to keep real time on heavy timelines** — A laptop must play a 4K multi-layer timeline, and dropping resolution beats dropping frames. → §WT37
-- 📋 **WT38** (deps: WT3, WT34) **A GPU driver reset or adapter change (laptop dock, eGPU) crashes or freezes the app** — TDRs happen during long sessions, and losing the window loses trust even when autosave keeps the edits. → §WT38
+- 📋 **WT38** (deps: WT3 ⏳, WT34) **A GPU driver reset or adapter change (laptop dock, eGPU) crashes or freezes the app** — TDRs happen during long sessions, and losing the window loses trust even when autosave keeps the edits. → §WT38
 - 📋 **WT39** (deps: WT36) **There are no waveform, vectorscope, parade or histogram scopes to judge exposure and colour** — Legal levels and colour matching cannot be judged by eye on an uncalibrated laptop display. → §WT39
 
 ## Block E — Proxies, thumbnails, waveforms and background jobs
@@ -132,7 +132,7 @@
 
 ## Block K — Local AI platform: models, runtimes and hardware fit
 
-- 📋 **WT99** (deps: WT3) **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — Every AI feature needs one runtime choice shared across features, or each one ships its own engine and VRAM fights follow. → §WT99
+- 📋 **WT99** (deps: WT3 ⏳) **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — Every AI feature needs one runtime choice shared across features, or each one ships its own engine and VRAM fights follow. → §WT99
 - 📋 **WT100** (deps: WT99) **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — People must know what they download, what it costs on disk and in VRAM, and whether its licence allows their use. → §WT100
 - 📋 **WT101** (deps: WT100, WT40) **Models cannot be downloaded, resumed, verified, moved to another drive or removed from inside the app** — Models weigh from 50 MB to 10 GB, and an interrupted or corrupt download must never break a feature. → §WT101
 - 📋 **WT102** (deps: WT101, WT67) **Nothing in the UI shows which AI features are available, which models they need and whether this PC can run them** — AI features must explain themselves before a 4 GB download, or people will not trust them. → §WT102
@@ -301,6 +301,18 @@
 - **A clean VM goes from installer to an exported video in five minutes** A scripted
   case installs, opens a fixture .otio, exports with the YouTube preset and verifies the
   file.
+
+## Done when — WT3
+
+- **Media Foundation decodes on the shared device** GpuContext exposes a DXGI device
+  manager, and a test decodes one H.264 frame into a texture on that device without a
+  CPU copy.
+- **D3D12 interop and VRAM budget are measured** A texture is shared to a D3D12 device
+  through an NT handle, budget-change events reach GpuContext, and the D3D11.1-core
+  decision is recorded with the measured reason.
+- **Shaders are compiled at build time** DXC compiles every shader during the build into
+  embedded resources, a broken shader fails the build, and a dev-only hot reload swaps
+  one while running.
 
 ## Non-goals
 
