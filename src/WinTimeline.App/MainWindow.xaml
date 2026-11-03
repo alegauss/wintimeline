@@ -17,7 +17,9 @@
       </MenuItem>
       <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu" />
       <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu" />
-      <MenuItem Header="_Help" AutomationProperties.AutomationId="HelpMenu" />
+      <MenuItem Header="_Help" AutomationProperties.AutomationId="HelpMenu">
+        <MenuItem Header="Create _diagnostics bundle…" Click="OnDiagnostics" AutomationProperties.AutomationId="DiagnosticsMenuItem" />
+      </MenuItem>
     </Menu>
 
     <StatusBar DockPanel.Dock="Bottom" AutomationProperties.AutomationId="StatusBar">

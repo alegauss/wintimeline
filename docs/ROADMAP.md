@@ -6,8 +6,7 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT6** (deps: WT1 ✅) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
-- 📋 **WT7** (deps: WT6) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
+- 📋 **WT7** (deps: WT6 ✅) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
 - 📋 **WT8** (deps: WT2 ✅) **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — The one-task-one-commit rule needs a gate, and the siblings' run-tests.cmd is the proven shape. → §WT8
 - 📋 **WT9** (deps: WT8) **No CI builds the solution or runs the headless tests on each push** — A breaking change to the model or the OTIO round trip must be caught before a release, not by a user. → §WT9
 - 📋 **WT10** (deps: WT8) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — A session executing this roadmap follows that skill literally, so wrong gates mean commits validated by commands that do not exist here. → §WT10

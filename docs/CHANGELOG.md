@@ -7,6 +7,7 @@
 - ✅ **WT3** **No shared D3D11 device exists that decoders, compositor, viewers and AI can all use without copies** — One multithread-protected D3D11.1 device opens on the chosen GPU or WARP, named in the status bar; Media Foundation decodes H.264 into it.
 - ✅ **WT4** **WPF has no surface where a D3D swap chain can present video and the GPU-drawn timeline** — GpuSurface hosts a waitable flip swap chain on the shared device; viewer and timeline surfaces resize, follow DPI and report frames to a case, on hardware or WARP.
 - ✅ **WT5** **User preferences have nowhere to be stored and validated** — Settings persist atomically in settings.json; a damaged file starts on defaults with a notice and is kept as .broken, a newer one is never overwritten, and the saved GPU is used.
+- ✅ **WT6** **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — A rotating JSONL log records each layer by category and level, drops sensitive records unless opted in, and Help saves a bundle of logs, settings, GPU, system and crash dump.
 
 ## Block B — OTIO document model and file formats
 

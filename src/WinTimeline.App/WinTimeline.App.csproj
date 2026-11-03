@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WinTimeline.Diagnostics\WinTimeline.Diagnostics.csproj" />
     <ProjectReference Include="..\WinTimeline.Engine\WinTimeline.Engine.csproj" />
     <ProjectReference Include="..\WinTimeline.Export\WinTimeline.Export.csproj" />
     <ProjectReference Include="..\WinTimeline.Inference\WinTimeline.Inference.csproj" />

@@ -4,6 +4,7 @@
   </Configurations>
   <Folder Name="/src/">
     <Project Path="src/WinTimeline.App/WinTimeline.App.csproj" />
+    <Project Path="src/WinTimeline.Diagnostics/WinTimeline.Diagnostics.csproj" />
     <Project Path="src/WinTimeline.Engine/WinTimeline.Engine.csproj" />
     <Project Path="src/WinTimeline.Export/WinTimeline.Export.csproj" />
     <Project Path="src/WinTimeline.Inference/WinTimeline.Inference.csproj" />
@@ -15,6 +16,7 @@
     <Project Path="tests/WinTimeline.App.Tests/WinTimeline.App.Tests.csproj" />
     <Project Path="tests/WinTimeline.Architecture.Tests/WinTimeline.Architecture.Tests.csproj" />
     <Project Path="tests/WinTimeline.Cases/WinTimeline.Cases.csproj" />
+    <Project Path="tests/WinTimeline.Diagnostics.Tests/WinTimeline.Diagnostics.Tests.csproj" />
     <Project Path="tests/WinTimeline.Render.Tests/WinTimeline.Render.Tests.csproj" />
   </Folder>
   <Folder Name="/tools/">

@@ -20,4 +20,8 @@
     <PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WinTimeline.Diagnostics\WinTimeline.Diagnostics.csproj" />
+  </ItemGroup>
+
 </Project>

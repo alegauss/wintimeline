@@ -1,23 +1,6 @@
+using WinTimeline.Diagnostics;
+
 namespace WinTimeline.App;
-
-/// <summary>How much the log records, from the most to the least.</summary>
-public enum LogLevel
-{
-    /// <summary>Everything, frame by frame.</summary>
-    Trace,
-
-    /// <summary>What a developer needs to follow a run.</summary>
-    Debug,
-
-    /// <summary>What happened: the default.</summary>
-    Info,
-
-    /// <summary>What went wrong and was recovered from.</summary>
-    Warning,
-
-    /// <summary>What went wrong and was not.</summary>
-    Error,
-}
 
 /// <summary>What the command line asked for. Every field null or default means "as a user would start it".</summary>
 /// <param name="Open">A project or media file to open at start, instead of the empty window.</param>

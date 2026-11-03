@@ -20,6 +20,13 @@
       "variables": { "WINTIMELINE_DATA": "{files}" },
       "arguments": ["--adapter", "warp"],
       "shareable": false
+    },
+    {
+      // WT6: its own data folder, so the bundle holds this run's log and nothing of the desk's.
+      "name": "a window with a data folder of its own, to save diagnostics",
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
     }
   ],
 
@@ -160,6 +167,39 @@
           "act": "read",
           "sameBytesAs": "cases/fixtures/settings/settings.json",
           "named": "and the damaged file is kept as it was"
+        }
+      ]
+    },
+
+    {
+      "name": "Help saves a diagnostics bundle where the Save dialog is told",
+      "catches": "a diagnostics command that opens a dialog and writes nothing, or writes somewhere else",
+      "filed": "WT6",
+      "tags": ["diagnostics", "dialog"],
+      "fixture": "a window with a data folder of its own, to save diagnostics",
+      "steps": [
+        {
+          "locator": "MenuItem#HelpMenu",
+          "act": "expand",
+          "named": "the Help menu is opened"
+        },
+        {
+          "locator": "MenuItem#DiagnosticsMenuItem",
+          "act": "invoke",
+          "named": "Create diagnostics bundle is chosen"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/diag.zip",
+          "named": "the dialog is told to save diag.zip in the data folder"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Diagnostics saved to diag.zip.",
+          "named": "the status bar says where it went"
         }
       ]
     }

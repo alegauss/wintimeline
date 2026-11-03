@@ -2,17 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT6 Structured logs and the diagnostics bundle
-
-Revelei's `OperationLog` (rolling JSONL in `%LOCALAPPDATA%\WinTimeline\logs`, 1 MB x 5)
-becomes the app-wide log with categories (decode, render, playback, audio, ai, export,
-ui) and levels. Help > Diagnostics creates a zip with logs, settings, GPU and driver
-info, the current document (optional, asked), and the last crash dump, ready to attach
-to an issue. Logs never contain media content or transcripts unless the user opts in.
-
-Done when the diagnostics bundle from a forced decode failure contains the failing
-file's probe and the error.
-
 ### §WT7 Crash dumps and recovery
 
 Managed unhandled exceptions on any thread are logged and shown with a 'Save and
@@ -338,8 +327,12 @@ nothing. Probes run on a bounded pool (default 4) with cancellation.
 Variable frame rate media (phone footage) is flagged and offered for a constant-rate
 proxy (Block E), since frame-accurate editing on VFR is unreliable.
 
-Done when a folder of 500 mixed files probes in under 20 seconds cold and under 1 second
-warm, with values matching ffprobe.
+A probe or decode failure is written to the app log (`Log.Write`, category Decode) with
+the file's `MediaInfo` as fields, so Help > Create diagnostics bundle (WT6) carries it.
+
+Done when a forced decode failure's diagnostics bundle holds the file's probe and the
+error, and a folder of 500 mixed files probes in under 20 seconds cold and under 1
+second warm, with values matching ffprobe.
 
 ### §WT25 Frame-accurate video decode into D3D11 textures
 

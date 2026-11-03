@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT6: the app-wide log and the diagnostics bundle. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Diagnostics.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Diagnostics\WinTimeline.Diagnostics.csproj" />
+  </ItemGroup>
+
+</Project>

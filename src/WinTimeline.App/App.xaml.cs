@@ -1,4 +1,5 @@
 using System.Windows;
+using WinTimeline.Diagnostics;
 using WinTimeline.Render;
 
 namespace WinTimeline.App;
@@ -23,6 +24,16 @@ public partial class App : Application
             return;
         }
 
+        // WT6: the log first, so everything after it can be recorded.
+        Log.Shared = new Log(LogFolder) { MinimumLevel = parsed.Options!.LogLevel };
+        Log.Write(LogLevel.Info, LogCategory.App, "WinTimeline started.",
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["version"] = typeof(App).Assembly.GetName().Version?.ToString() ?? "unknown",
+                ["os"] = Environment.OSVersion.VersionString,
+                ["runtime"] = Environment.Version.ToString(),
+            });
+
         // WT5: the settings, which a damaged file never stops; the window says when it happened.
         SettingsStore settings = SettingsStore.Load(SettingsStore.DefaultPath);
         List<string> notices = settings.Notice is { } notice ? [notice] : [];
@@ -45,14 +56,36 @@ public partial class App : Application
         }
 
         _gpu = GpuContext.Create(choice);
+        foreach (string recovered in notices)
+        {
+            Log.Write(LogLevel.Warning, LogCategory.App, recovered);
+        }
+
+        Log.Write(LogLevel.Info, LogCategory.Render, "GPU device created.",
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["adapter"] = _gpu.Adapter.Name,
+                ["vendor"] = _gpu.Adapter.Vendor,
+                ["driver"] = _gpu.Adapter.DriverVersion,
+                ["feature_level"] = _gpu.FeatureLevel.ToString(),
+                ["warp"] = _gpu.IsWarp ? "true" : "false",
+            });
+
         MainWindow window = new(parsed.Options!, _gpu, settings, notices);
         MainWindow = window;
         window.Show();
     }
 
+    /// <summary>logs in the data folder.</summary>
+    public static string LogFolder => System.IO.Path.Combine(SettingsStore.DataFolder, "logs");
+
+    /// <summary>crashes in the data folder, where the crash handler (WT7) writes dumps.</summary>
+    public static string CrashFolder => System.IO.Path.Combine(SettingsStore.DataFolder, "crashes");
+
     /// <inheritdoc/>
     protected override void OnExit(ExitEventArgs e)
     {
+        Log.Write(LogLevel.Info, LogCategory.App, "WinTimeline closed.");
         _gpu?.Dispose();
         base.OnExit(e);
     }

@@ -1,6 +1,7 @@
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
+using WinTimeline.Diagnostics;
 
 namespace WinTimeline.Render;
 
@@ -87,6 +88,12 @@ public sealed class GpuContext : IDisposable
         if (choice.Adapter is { IsSoftware: false } wanted && TryHardware(wanted) is { } hardware)
         {
             return hardware;
+        }
+
+        if (choice.Adapter is { IsSoftware: false } missed)
+        {
+            Log.Write(LogLevel.Warning, LogCategory.Render, "No hardware device opened; falling back to WARP.",
+                new Dictionary<string, string>(StringComparer.Ordinal) { ["adapter"] = missed.Name, ["driver"] = missed.DriverVersion });
         }
 
         return CreateWarp();

@@ -17,18 +17,21 @@ public sealed class LayeringTests
     private const string Inference = "WinTimeline.Inference";
     private const string Engine = "WinTimeline.Engine";
     private const string Export = "WinTimeline.Export";
+    private const string Diagnostics = "WinTimeline.Diagnostics";
 
     // project, the projects it is allowed to reference. Decoders and inference share the render
-    // layer's one D3D11 device (WT3), so both may stand on Render.
+    // layer's one D3D11 device (WT3), so both may stand on Render. The log (WT6) is below every
+    // layer but the model, which stays pure.
     private static readonly Dictionary<string, string[]> Allowed = new(StringComparer.Ordinal)
     {
         [Model] = [],
-        [Render] = [],
-        [Media] = [Model, Render],
-        [Inference] = [Render],
-        [Engine] = [Model, Media, Render, Inference],
-        [Export] = [Model, Media, Render, Engine],
-        ["WinTimeline.App"] = [Model, Media, Render, Inference, Engine, Export],
+        [Diagnostics] = [],
+        [Render] = [Diagnostics],
+        [Media] = [Model, Render, Diagnostics],
+        [Inference] = [Render, Diagnostics],
+        [Engine] = [Model, Media, Render, Inference, Diagnostics],
+        [Export] = [Model, Media, Render, Engine, Diagnostics],
+        ["WinTimeline.App"] = [Model, Media, Render, Inference, Engine, Export, Diagnostics],
     };
 
     // Only these may reference a UI framework: the shell, and the render layer's surface host (WT4).
@@ -52,6 +55,15 @@ public sealed class LayeringTests
         IReadOnlyList<string> violations = MayUseUi.Contains(project, StringComparer.Ordinal)
             ? []
             : Rules.UiFramework(project, SourceProject(project));
+
+        Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
+    }
+
+    [Fact]
+    public void TheLogStandsOnTheBclAloneOnAnyOs()
+    {
+        // WT6: every layer writes to it, so it must pull nothing in after it.
+        IReadOnlyList<string> violations = Rules.Purity(Diagnostics, SourceProject(Diagnostics), anyOs: true);
 
         Assert.True(violations.Count == 0, string.Join(Environment.NewLine, violations));
     }

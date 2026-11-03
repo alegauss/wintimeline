@@ -1,5 +1,6 @@
 // Named, because a WPF test project's implicit usings do not include it.
 using System.IO;
+using WinTimeline.Diagnostics;
 
 namespace WinTimeline.App.Tests;
 
