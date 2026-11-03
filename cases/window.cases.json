@@ -12,6 +12,14 @@
       "name": "a window forced onto WARP",
       "arguments": ["--adapter", "warp"],
       "shareable": true
+    },
+    {
+      // WT5: a settings file cut off mid-write, staged as the data folder's settings.json.
+      "name": "a window started on a damaged settings file",
+      "files": ["cases/fixtures/settings/settings.json"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
     }
   ],
 
@@ -129,6 +137,29 @@
           "reads": "status",
           "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, WARP$",
           "named": "the viewer presents on WARP"
+        }
+      ]
+    },
+
+    {
+      "name": "a damaged settings file starts the app on the defaults and says so",
+      "catches": "a settings file cut off by a crash that stops the app from starting, or that is silently replaced with the evidence lost",
+      "filed": "WT5",
+      "tags": ["settings"],
+      "fixture": "a window started on a damaged settings file",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Settings could not be read; defaults are in use. The file was kept as settings.json.broken.",
+          "named": "the status bar says the settings were damaged and where they went"
+        },
+        {
+          "file": "{files}/settings.json.broken",
+          "act": "read",
+          "sameBytesAs": "cases/fixtures/settings/settings.json",
+          "named": "and the damaged file is kept as it was"
         }
       ]
     }

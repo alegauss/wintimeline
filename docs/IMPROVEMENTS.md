@@ -2,16 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT5 Settings storage
-
-As Revelei's `AppSettings`: an immutable record serialised to
-`%LOCALAPPDATA%\WinTimeline\settings.json`, written atomically, with a schema version
-and migrations; a damaged file falls back to defaults and is kept as `.broken` for
-inspection. `LOCALAPPDATA` override honoured for tests. Settings change events let
-panels react live.
-
-Done when a corrupted settings file starts the app with defaults and a notice.
-
 ### §WT6 Structured logs and the diagnostics bundle
 
 Revelei's `OperationLog` (rolling JSONL in `%LOCALAPPDATA%\WinTimeline\logs`, 1 MB x 5)

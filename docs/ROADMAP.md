@@ -6,7 +6,6 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT5** (deps: WT1 ✅) **User preferences have nowhere to be stored and validated** — Cache paths, GPU choice and AI settings must persist safely, and a damaged file must never stop the app from starting. → §WT5
 - 📋 **WT6** (deps: WT1 ✅) **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — Media bugs depend on the file and the GPU driver, so without logs they cannot be reproduced. → §WT6
 - 📋 **WT7** (deps: WT6) **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Native code (decoders, drivers, inference engines) will crash sometimes, and recovery plus a dump turns that into a fixable bug. → §WT7
 - 📋 **WT8** (deps: WT2 ✅) **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — The one-task-one-commit rule needs a gate, and the siblings' run-tests.cmd is the proven shape. → §WT8
@@ -89,7 +88,7 @@
 - 📋 **WT64** (deps: WT59, WT16) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
 - 📋 **WT66** (deps: WT1 ✅) **Actions can only be found in menus, so less common commands are hard to discover** — A searchable command palette makes the whole feature set reachable and is also where the AI assistant's commands surface. → §WT66
-- 📋 **WT67** (deps: WT5, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
+- 📋 **WT67** (deps: WT5 ✅, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
 - 📋 **WT68** (deps: WT1 ✅) **Opening the app shows an empty window with no recent projects, templates or first steps** — The first minute decides whether someone keeps the app, and a welcome page with drag-a-file guidance makes it obvious. → §WT68
 - 📋 **WT69** (deps: WT1 ✅) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Modal dialogs interrupt editing, and silent failures cost more. → §WT69
 

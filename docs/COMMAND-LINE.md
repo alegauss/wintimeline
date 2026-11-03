@@ -19,6 +19,17 @@ the list is refused: WinTimeline says which one in a message box and exits with 
 | `--adapter <index-or-name>\|warp` | Runs on this GPU instead of the one WinTimeline picks, which is the first hardware GPU in Windows' high-performance order (the discrete one on a hybrid laptop). Give its index in that order or a part of its name (`1`, `NVIDIA`); `warp` runs on the software rasteriser. A value that matches no GPU, or more than one, is refused with the list of GPUs this PC has. The status bar names the GPU in use. |
 | `--log-level trace\|debug\|info\|warning\|error` | How much the log records; `info` unless given. |
 
+## Where WinTimeline keeps its settings
+
+Settings live in `settings.json` under `%LOCALAPPDATA%\WinTimeline`. Set the `WINTIMELINE_DATA`
+environment variable to a folder to keep them there instead, as a portable copy or a test does.
+A settings file that cannot be read never stops a start: WinTimeline uses the defaults, keeps the
+file as `settings.json.broken`, and says so in the status bar. When `--adapter` is not given, the
+GPU saved in the settings is used; a saved GPU that is no longer in the PC is passed over with a
+note in the status bar.
+
+## When each flag takes effect
+
 The flags are parsed from the first version; what each one changes arrives with the feature it
 belongs to. `--adapter` takes effect now; `--open`, `--models` and `--log-level` arrive with
 opening files, the model library and the log.
