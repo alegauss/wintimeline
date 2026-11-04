@@ -1,10 +1,12 @@
 # cmd.exe reads labels and blocks wrongly from LF-only batch files.
 *.cmd text eol=crlf
 
-# WT13: the reference's exact bytes, compared byte for byte.
-tests/fixtures/otio/written/** -text
-tests/fixtures/otio/unknown-schema.otio -text
-tests/fixtures/otio/bundles/** -text
-tests/fixtures/collections/*.otio -text
-tests/fixtures/diff/*.otio -text
-tests/fixtures/timeline/*.otio -text
+# Every fixture is checked out with the bytes it was committed with: the reference's output is
+# compared byte for byte (WT13, WT15), and a Windows runner's core.autocrlf would otherwise turn
+# expected JSON into CRLF and fail every comparison, as CI run 41852163527 did on the EDL samples.
+tests/fixtures/** -text
+cases/fixtures/** -text
+
+# The scripts that make the fixtures stay text.
+tests/fixtures/**/*.py text eol=lf
+tests/fixtures/**/*.cmd text eol=crlf
