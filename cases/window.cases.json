@@ -54,6 +54,14 @@
       "shareable": true
     },
     {
+      // WT14: the bundle OpenTimelineIO itself wrote.
+      "name": "a window opened on the reference's bundle",
+      "files": ["tests/fixtures/otio/bundles/reference.otioz"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--open", "{files}/reference.otioz", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // Not lent: its case saves a copy beside the staged file.
       "name": "a window on a staged timeline, to save as",
       "files": ["tests/fixtures/otio/corpus/simple_cut.otio"],
@@ -354,6 +362,46 @@
           "act": "read",
           "sameBytesAs": "tests/fixtures/otio/written/simple_cut.otio",
           "named": "and the file holds the reference library's own bytes"
+        }
+      ]
+    },
+
+    {
+      "name": "a bundle opens and saves again as a bundle with its media",
+      "catches": "an .otioz the app cannot open, or a bundle saved without the media it carried",
+      "filed": "WT14",
+      "tags": ["open", "save", "otio", "bundle", "dialog"],
+      "fixture": "a window opened on the reference's bundle",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened reference.otioz: 3 clips on 1 track.",
+          "named": "the bundle opens"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#SaveAsMenuItem",
+          "act": "invoke",
+          "named": "Save As is chosen"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/copy.otioz",
+          "named": "the dialog is told to save copy.otioz"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Saved copy.otioz.",
+          "named": "the status bar says it saved"
         }
       ]
     }

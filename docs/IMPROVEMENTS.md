@@ -169,18 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT14 OTIOZ and OTIOD bundles
-
-`.otioz` is a zip with `content.otio`, `version.txt` and a `media/` folder; `.otiod` is
-the same layout as a directory. Reading rewrites relative `target_url`s against the
-bundle root (extracted lazily to a cache under %LOCALAPPDATA%\WinTimeline\bundles, keyed
-by the bundle's hash, so a 40 GB bundle is not unpacked to view it). Writing offers the
-three OTIO media policies: error if missing, skip missing, and copy referenced media; it
-can also write proxies in place of originals for a light review bundle.
-
-Done when a bundle written here opens in the Python `otio` tool and its media plays, and
-a bundle from the OTIO test data opens here.
-
 ### §WT15 Import and export adapters
 
 OTIO's own adapters (cmx_3600, fcp_xml, fcpx_xml, aaf, ale, kdenlive) live in Python
@@ -587,7 +575,9 @@ drawn at any zoom without stalling.
 Proxies are matched to sources by content signature (size + hash of first and last MB +
 duration), not path, so a proxy folder copied with the project or placed on a share is
 found. A project setting points at a shared proxy location; a .otioz review bundle can
-carry proxies only (Block B).
+carry proxies only: `OtioBundle.Write` (WT14) takes a resolver from target URL to local
+file, so one mapping each source to its proxy writes that bundle; this line adds it to
+Save As.
 
 Done when a project moved to another drive letter with its proxy folder needs no
 regeneration.

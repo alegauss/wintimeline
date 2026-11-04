@@ -14,7 +14,35 @@ namespace WinTimeline.App;
 /// </summary>
 public partial class MainWindow
 {
-    private const string OtioFilter = "OpenTimelineIO (*.otio)|*.otio|All files (*.*)|*.*";
+    // An .otiod is a folder: it is opened by picking the content.otio inside it.
+    private const string OpenFilter = "OpenTimelineIO (*.otio;*.otioz)|*.otio;*.otioz|All files (*.*)|*.*";
+    private const string SaveFilter = "OpenTimelineIO (*.otio)|*.otio|OpenTimelineIO bundle with media (*.otioz)|*.otioz";
+
+    // WT14: the bundle the document came from, which knows where its media is.
+    private OtioBundle? _bundle;
+
+    /// <summary>Where extracted bundle media is kept, a folder per bundle.</summary>
+    public static string BundleCache => Path.Combine(SettingsStore.DataFolder, "bundles");
+
+    /// <summary>
+    /// The bundle a path names, or null: an .otioz or .otiod itself, or the content.otio inside an
+    /// .otiod, which is what a file dialog can pick.
+    /// </summary>
+    /// <param name="path">A picked path.</param>
+    /// <returns>The bundle's path, or null.</returns>
+    public static string? BundlePath(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        if (OtioBundle.IsBundle(path))
+        {
+            return path;
+        }
+
+        string? folder = Path.GetDirectoryName(path);
+        return string.Equals(Path.GetFileName(path), "content.otio", StringComparison.OrdinalIgnoreCase) && folder is not null && OtioBundle.IsBundle(folder)
+            ? folder
+            : null;
+    }
 
     /// <summary>The open document, or null.</summary>
     public ModelObject? Document { get; private set; }
@@ -45,10 +73,13 @@ public partial class MainWindow
     public bool OpenDocument(string path)
     {
         ArgumentNullException.ThrowIfNull(path);
+        path = BundlePath(path) ?? path;
         string name = Path.GetFileName(path);
         try
         {
-            ModelObject document = OtioFile.Open(path);
+            OtioBundle? bundle = OtioBundle.IsBundle(path) ? OtioBundle.Open(path, BundleCache) : null;
+            ModelObject document = bundle?.Content ?? OtioFile.Open(path);
+            _bundle = bundle;
             Document = document;
             DocumentPath = Path.GetFullPath(path);
             Title = $"{name} — WinTimeline";
@@ -79,19 +110,46 @@ public partial class MainWindow
         string name = Path.GetFileName(path);
         try
         {
-            OtioFile.Save(Document, path);
+            if (OtioBundle.IsBundle(path))
+            {
+                SaveBundle(path);
+            }
+            else
+            {
+                OtioFile.Save(Document, path);
+            }
+
             DocumentPath = Path.GetFullPath(path);
             Title = $"{name} — WinTimeline";
             StatusText.Text = $"Saved {name}.";
             Log.Write(LogLevel.Info, LogCategory.App, "Document saved.", Fields(path, Document));
             return true;
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or BundleException)
         {
             StatusText.Text = $"{name} could not be saved: {ex.Message}";
             Log.Write(LogLevel.Error, LogCategory.App, "Document could not be saved.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
             return false;
         }
+    }
+
+    /// <summary>
+    /// Writes the document as a bundle with its media: media not on disk becomes a missing
+    /// reference that says why, rather than failing the save. An .otioz that exists is replaced
+    /// in one step, keeping the previous as .bak, as a .otio save does.
+    /// </summary>
+    private void SaveBundle(string path)
+    {
+        if (!File.Exists(path))
+        {
+            OtioBundle.Write(Document!, path, MediaReferencePolicy.MissingIfNotFile, _bundle is { } b ? b.MediaPath : null);
+            return;
+        }
+
+        string fresh = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, Path.GetFileNameWithoutExtension(path) + ".new" + Path.GetExtension(path));
+        File.Delete(fresh);
+        OtioBundle.Write(Document!, fresh, MediaReferencePolicy.MissingIfNotFile, _bundle is { } open ? open.MediaPath : null);
+        File.Replace(fresh, path, path + ".bak", ignoreMetadataErrors: true);
     }
 
     private void BindDocumentCommands()
@@ -107,7 +165,7 @@ public partial class MainWindow
 
     private void AskToOpen()
     {
-        OpenFileDialog dialog = new() { Title = "Open timeline", Filter = OtioFilter };
+        OpenFileDialog dialog = new() { Title = "Open timeline", Filter = OpenFilter };
         if (dialog.ShowDialog(this) == true)
         {
             OpenDocument(dialog.FileName);
@@ -131,7 +189,7 @@ public partial class MainWindow
         SaveFileDialog dialog = new()
         {
             Title = "Save timeline as",
-            Filter = OtioFilter,
+            Filter = SaveFilter,
             DefaultExt = ".otio",
             FileName = DocumentPath is { } path ? Path.GetFileName(path) : "timeline.otio",
         };

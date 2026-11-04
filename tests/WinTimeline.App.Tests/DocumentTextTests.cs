@@ -17,6 +17,18 @@ public sealed class DocumentTextTests
         Assert.Equal("Opened multitrack.otio: 5 clips on 3 tracks.", MainWindow.OpenedText("multitrack.otio", Corpus("multitrack.otio")));
     }
 
+    [Theory]
+    [InlineData(@"D:\x\cut.otioz", @"D:\x\cut.otioz")]
+    [InlineData(@"D:\x\cut.otiod", @"D:\x\cut.otiod")]
+    [InlineData(@"D:\x\cut.otiod\content.otio", @"D:\x\cut.otiod")]
+    [InlineData(@"D:\x\cut.otio", null)]
+    [InlineData(@"D:\x\content.otio", null)]
+    public void AnOtiodIsOpenedByPickingTheContentInsideIt(string picked, string? bundle)
+    {
+        // WT14: a file dialog cannot pick a folder, so the content.otio inside one stands for it.
+        Assert.Equal(bundle, MainWindow.BundlePath(picked));
+    }
+
     [Fact]
     public void SomethingElseSaysWhatItIs()
     {

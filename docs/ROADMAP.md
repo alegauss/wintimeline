@@ -14,7 +14,6 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT14** (deps: WT13 ✅) **An .otioz or .otiod bundle cannot be opened, so timelines shipped with their media by other tools are unusable** — Bundles are how OTIO moves a timeline together with its media between machines, and they are the natural archive format for this app too. → §WT14
 - 📋 **WT15** (deps: WT13 ✅) **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — Editors move work between Premiere, Resolve, Avid and finishing tools through these formats, so a viewer that reads only .otio sees little. → §WT15
 - 📋 **WT16** (deps: WT12 ✅) **No edit can be undone, and there is no single place where a change to the document is described** — Every editing tool, the AI assistant and scripting all need one command pipeline, or undo breaks the first time two of them touch the same clip. → §WT16
 - 📋 **WT17** (deps: WT13 ✅, WT16) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
@@ -171,7 +170,7 @@
 - 📋 **WT135** (deps: WT134, WT40) **Several exports (versions, aspect ratios, masters) cannot be queued and left to run** — Deliveries are batches: master, web, vertical and captions, often overnight. → §WT135
 - 📋 **WT136** (deps: WT133, WT36) (requires: hdr-display) **HDR timelines cannot be exported as HDR10 or HLG with correct metadata** — Phones record HDR now, and an SDR-only export flattens footage people expect to look bright. → §WT136
 - 💭 **WT137** (deps: WT133) **Exporting an unchanged section re-encodes it, wasting time and quality** — Long-GOP sources cut without effects can be passed through, making some exports ten times faster. → §WT137
-- 📋 **WT138** (deps: WT15, WT14, WT133) **The edited timeline cannot be handed back to other tools as OTIO, EDL or FCPXML with its media** — OTIO is an interchange format first, and round-tripping to Resolve, Premiere or a finishing house is the professional use. → §WT138
+- 📋 **WT138** (deps: WT15, WT14 ✅, WT133) **The edited timeline cannot be handed back to other tools as OTIO, EDL or FCPXML with its media** — OTIO is an interchange format first, and round-tripping to Resolve, Premiere or a finishing house is the professional use. → §WT138
 - 📋 **WT139** (deps: WT133) **Single frames, contact sheets and short animated previews cannot be exported** — Stills for thumbnails, review sheets and GIF/WebP previews are daily needs around an edit. → §WT139
 - 📋 **WT140** (deps: WT133, WT85) **Nobody checks an export after it is written, so a broken or out-of-spec file is delivered** — A corrupt or wrong-loudness delivery is costly, and checking it automatically costs seconds. → §WT140
 

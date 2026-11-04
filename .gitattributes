@@ -4,3 +4,4 @@
 # WT13: the reference's exact bytes, compared byte for byte.
 tests/fixtures/otio/written/** -text
 tests/fixtures/otio/unknown-schema.otio -text
+tests/fixtures/otio/bundles/** -text
