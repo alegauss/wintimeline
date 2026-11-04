@@ -66,7 +66,7 @@ public sealed class GpuContextTests
 
             Assert.False(gpu.IsWarp, $"{adapter.Name} fell back to WARP");
             Assert.Equal(adapter.Luid, gpu.Adapter.Luid);
-            Assert.True(gpu.VideoSupport);
+            Assert.True(gpu.VideoSupport, $"{adapter.Name} opened without video support");
             Assert.Matches(@"^\d+\.\d+\.\d+\.\d+$", gpu.Adapter.DriverVersion);
         }
     }

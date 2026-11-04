@@ -145,6 +145,28 @@ other way (a case, a debugger) keeps today's behaviour.
 Done when `--crash-test native` started through the launcher leaves a dump in the crash
 folder, the next start's recovery bar names it, and the diagnostics bundle carries it.
 
+### §WT155 The Basic Render Driver is software, and CI's results and actions
+
+Found by the first GitHub Actions run (run 41748671407): on the Windows runner, which
+has no GPU, DXGI lists the Microsoft Basic Render Driver (vendor 0x1414, device 0x8C)
+without `DXGI_ADAPTER_FLAG_SOFTWARE`. `GpuAdapters` read only the flag, so it called
+that adapter hardware: `AdapterChoice.Pick` chose it by default, the video-capable
+device failed on it, and `GpuContext` fell back to WARP while the tests expected
+hardware. A VM showing that driver would have done the same in the app.
+
+`GpuAdapters.IsSoftware(flags, vendor, device)` now also treats vendor 0x1414 device
+0x8C as software, so a desk with only it runs on WARP by choice and the hardware tests
+skip with their reason. And `GpuContext` retries a hardware adapter without video
+support before falling back to WARP, so a GPU that cannot decode still renders on
+itself.
+
+The same run warned that the results folder was empty (each test exe resolves
+`--results-directory` against its own folder, so the workflow now passes an absolute
+path) and that the actions run on the deprecated Node 20 (moved to checkout@v7,
+setup-dotnet@v6, upload-artifact@v7 and setup-python@v7).
+
+Done when the tests workflow passes on a GitHub runner.
+
 ## Block B — OTIO document model and file formats
 
 ### §WT14 OTIOZ and OTIOD bundles

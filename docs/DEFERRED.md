@@ -4,6 +4,7 @@
 
 - ⏸ **WT9** (deps: WT8 ✅) **No CI builds the solution or runs the headless tests on each push** — set aside (Waits for the author to push and mark the build-and-test and roadmap-lint checks required on main.): The workflow has never run on GitHub, and its checks are not yet required on pull requests. → §WT9
 - ⏸ **WT10** (deps: WT8 ✅) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — set aside (Needs a new session that loads the winwright plugin.): No session has yet loaded the winwright plugin here and run a case through it. → §WT10
+- ⏸ **WT155** (deps: WT3 ✅) **A GPU-less desk's Basic Render Driver is taken for hardware, so CI's render tests fail and a VM skips WARP** — set aside (Needs the author to push so CI runs it.): The fix has not yet run on a GitHub runner. → §WT155
 
 ## Block B — OTIO document model and file formats
 

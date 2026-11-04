@@ -308,6 +308,12 @@
   started in this repository after the marketplace is trusted lists the winwright plugin
   and runs one case from cases\window.cases.json with it.
 
+## Done when — WT155
+
+- **The tests workflow is green on a GitHub runner** The first push after this fix shows
+  the build-and-test job passing, with the hardware render tests skipped for want of a
+  GPU and the test-results artifact uploaded.
+
 ## Non-goals
 
 - **Builds for macOS, Linux, web or mobile** WinTimeline is Windows-only so it can build

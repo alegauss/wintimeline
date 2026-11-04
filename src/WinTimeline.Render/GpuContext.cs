@@ -135,13 +135,17 @@ public sealed class GpuContext : IDisposable
 
         using (adapter)
         {
-            // A driver type of Unknown is what D3D11 requires when an adapter is given.
-            if (D3D11.D3D11CreateDevice(adapter, DriverType.Unknown, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport, Levels, out ID3D11Device? device, out ID3D11DeviceContext? context).Failure)
+            // Video support first; a GPU that cannot decode still renders on itself (WT155) rather
+            // than falling back to WARP. A driver type of Unknown is what D3D11 requires with an adapter.
+            foreach (DeviceCreationFlags flags in (ReadOnlySpan<DeviceCreationFlags>)[DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport, DeviceCreationFlags.BgraSupport])
             {
-                return null;
+                if (D3D11.D3D11CreateDevice(adapter, DriverType.Unknown, flags, Levels, out ID3D11Device? device, out ID3D11DeviceContext? context).Success)
+                {
+                    return Wrap(device!, context!, GpuAdapters.Describe(wanted.Index, adapter!), isWarp: false, (flags & DeviceCreationFlags.VideoSupport) != 0);
+                }
             }
 
-            return Wrap(device!, context!, GpuAdapters.Describe(wanted.Index, adapter!), isWarp: false, videoSupport: true);
+            return null;
         }
     }
 

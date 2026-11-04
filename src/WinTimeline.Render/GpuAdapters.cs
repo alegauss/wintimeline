@@ -86,9 +86,21 @@ public static class GpuAdapters
             (long)dedicated,
             (long)shared,
             DriverVersion(adapter),
-            (description.Flags & AdapterFlags.Software) != 0,
+            IsSoftware((description.Flags & AdapterFlags.Software) != 0, description.VendorId, description.DeviceId),
             ((long)description.Luid.HighPart << 32) | description.Luid.LowPart);
     }
+
+    /// <summary>
+    /// Whether an adapter is software rather than a GPU (WT155): DXGI's flag, or Microsoft's
+    /// Basic Render Driver (vendor 0x1414, device 0x8C), which a GitHub runner and some VMs list
+    /// without the flag. Taken for hardware, it was chosen by default and failed a video device.
+    /// </summary>
+    /// <param name="flagged">Whether DXGI set DXGI_ADAPTER_FLAG_SOFTWARE.</param>
+    /// <param name="vendorId">The PCI vendor id.</param>
+    /// <param name="deviceId">The PCI device id.</param>
+    /// <returns>Whether it is software.</returns>
+    public static bool IsSoftware(bool flagged, uint vendorId, uint deviceId) =>
+        flagged || (vendorId == 0x1414 && deviceId == 0x8C);
 
     /// <summary>The UMD version DXGI reports for the D3D11 interface: four 16-bit parts.</summary>
     private static string DriverVersion(IDXGIAdapter adapter)

@@ -26,8 +26,8 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: "1"
       TESTINGPLATFORM_TELEMETRY_OPTOUT: "1"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
 
@@ -52,12 +52,13 @@ jobs:
           foreach ($suite in $suites) {
             $exe = Join-Path $suite.FullName "bin/Release/net10.0-windows10.0.19041.0/$($suite.Name).exe"
             Write-Host "=== $($suite.Name) ==="
-            & $exe --results-directory TestResults/reports --hangdump --hangdump-timeout 10m
+            # Absolute: each exe resolves a relative folder against its own (WT155).
+            & $exe --results-directory "$env:GITHUB_WORKSPACE/TestResults/reports" --hangdump --hangdump-timeout 10m
             if ($LASTEXITCODE -ne 0) { $failed += $suite.Name }
           }
           if ($failed) { Write-Error "failed: $($failed -join ', ')"; exit 1 }
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: test-results
@@ -67,13 +68,13 @@ jobs:
     name: roadmap lint
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           repository: alegauss/roadkeep
           path: .roadkeep-src
           token: ${{ secrets.ROADKEEP_TOKEN || github.token }}
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
       - name: roadkeep lint

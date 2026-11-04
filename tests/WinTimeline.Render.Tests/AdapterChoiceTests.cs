@@ -55,6 +55,16 @@ public sealed class AdapterChoiceTests
         Assert.Equal(error, choice.Error);
     }
 
+    [Theory]
+    [InlineData(true, 0x10DE, 0x28A0, true)]
+    [InlineData(false, 0x1414, 0x8C, true)] // the Basic Render Driver a GitHub runner lists unflagged (WT155)
+    [InlineData(false, 0x1414, 0x8D, false)]
+    [InlineData(false, 0x10DE, 0x8C, false)]
+    public void TheBasicRenderDriverIsSoftwareFlaggedOrNot(bool flagged, uint vendor, uint device, bool software)
+    {
+        Assert.Equal(software, GpuAdapters.IsSoftware(flagged, vendor, device));
+    }
+
     [Fact]
     public void TheLabelGivesTheMemoryInGigabytes()
     {

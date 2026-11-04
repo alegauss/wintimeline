@@ -12,6 +12,7 @@
 - ✅ **WT8** **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — run-tests.cmd builds and runs every test and UI case suite, failing on any red or missing one; run-tests-vm.cmd runs it in the VMware guest, run.cmd tries scenarios, a script makes fixtures.
 - ✅ **WT9 (workflow)** **No CI builds the solution or runs the headless tests on each push** — A GitHub Actions workflow builds every project but the UI cases, runs the headless suites and the roadmap lint on Windows; its steps pass when run locally.
 - ✅ **WT10 (skill and plugin setting)** **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — The project skill names WT, this repo's gate (build, headless suites, run-tests-vm.cmd in the guest) and run-commit.cmd; settings enable winwright.
+- ✅ **WT155 (fix)** **A GPU-less desk's Basic Render Driver is taken for hardware, so CI's render tests fail and a VM skips WARP** — The Basic Render Driver now counts as software and a GPU without video renders on itself; the workflow's results path is absolute and its actions on Node 24.
 
 ## Block B — OTIO document model and file formats
 
