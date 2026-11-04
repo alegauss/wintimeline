@@ -68,9 +68,16 @@
       </DockPanel>
     </Border>
 
+    <!-- WT69: notices, non-modal, newest last (MainWindow.Notices.cs). -->
+    <StackPanel x:Name="NoticeArea" DockPanel.Dock="Top" AutomationProperties.AutomationId="NoticeArea" />
+
     <StatusBar DockPanel.Dock="Bottom" AutomationProperties.AutomationId="StatusBar">
       <StatusBarItem>
         <TextBlock x:Name="StatusText" AutomationProperties.AutomationId="StatusText" Text="Ready" />
+      </StatusBarItem>
+      <Separator />
+      <StatusBarItem>
+        <TextBlock x:Name="PlayheadStatus" FontFamily="Consolas" AutomationProperties.AutomationId="PlayheadStatus" />
       </StatusBarItem>
       <Separator />
       <StatusBarItem>

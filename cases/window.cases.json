@@ -923,6 +923,54 @@
     },
 
     {
+      "name": "a timeline that cannot be opened says so in a notice that stays until dismissed",
+      "catches": "a failure that only flickers through the status bar, or a modal dialog that stops the editing",
+      "filed": "WT69",
+      "tags": ["notices", "open"],
+      "fixture": "a window asked to open a timeline that is not there",
+      "steps": [
+        {
+          "locator": "Text#Notice0Title",
+          "act": "read",
+          "reads": "name",
+          "expect": "nowhere.otio could not be opened",
+          "named": "a notice names the file"
+        },
+        {
+          "locator": "Text#Notice0Message",
+          "act": "read",
+          "reads": "name",
+          "expect": "it was not found",
+          "named": "and says why"
+        },
+        {
+          "locator": "Button#Notice0Openanother",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "enabled",
+          "named": "and offers to open another"
+        }
+      ]
+    },
+
+    {
+      "name": "the status bar shows the playhead's timecode once a timeline is open",
+      "catches": "a playhead whose position can only be guessed from the drawing",
+      "filed": "WT69",
+      "tags": ["status", "playhead"],
+      "fixture": "a window on a feature-length cut",
+      "steps": [
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "01:00:00:00",
+          "named": "the playhead starts at the timeline's first frame"
+        }
+      ]
+    },
+
+    {
       "name": "the second version of a cut is compared with the first and lists exactly its edits",
       "catches": "a comparison that misses an edit, reports a ripple as a move, or cannot be reached from the window",
       "filed": "WT21",

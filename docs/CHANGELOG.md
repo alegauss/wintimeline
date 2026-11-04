@@ -46,6 +46,7 @@
 
 - ✅ **WT66** **Actions can only be found in menus, so less common commands are hard to discover** — Ctrl+Shift+P opens a palette ranking every command fuzzily with synonyms and recent ones first, narrows to clips or markers by prefix, and jumps to typed timecodes; a test ties it to every menu item.
 - ✅ **WT68 (welcome)** **Opening the app shows an empty window with no recent projects, templates or first steps** — An empty window shows a welcome page with Open, New, recent documents and a drop zone; a dropped document opens and dropped video or audio is probed and laid out as a new timeline.
+- ✅ **WT69 (notices)** **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Failures and completions appear as non-modal InfoBars with actions (a failed job's Retry requeues it), open, save and diagnostics report there, and the status bar shows the playhead timecode.
 
 ## Block H — Editing: tools, trims and drag and drop
 

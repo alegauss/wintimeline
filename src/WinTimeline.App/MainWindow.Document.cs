@@ -114,6 +114,7 @@ public partial class MainWindow
         {
             string reason = ex is FileNotFoundException or DirectoryNotFoundException ? "it was not found" : ex.Message;
             StatusText.Text = $"{name} could not be opened: {reason}";
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, $"{name} could not be opened", reason, [new Notices.NoticeAction("Open another", AskToOpen)]));
             Log.Write(LogLevel.Warning, LogCategory.App, "Document could not be opened.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
             return false;
         }
@@ -154,6 +155,7 @@ public partial class MainWindow
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or BundleException)
         {
             StatusText.Text = $"{name} could not be saved: {ex.Message}";
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, $"{name} could not be saved", ex.Message, [new Notices.NoticeAction("Save As", AskToSaveAs)]));
             Log.Write(LogLevel.Error, LogCategory.App, "Document could not be saved.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
             return false;
         }

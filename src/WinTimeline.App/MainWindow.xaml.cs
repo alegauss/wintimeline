@@ -32,6 +32,7 @@ public partial class MainWindow : Window
 
         ShowGpu();
         BuildSurfaces();
+        StartJobs();
         ShowRecovery(previous);
         BindPalette();
         BindDocumentCommands();

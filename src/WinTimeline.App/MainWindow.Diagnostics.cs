@@ -60,11 +60,14 @@ public partial class MainWindow
             Log.Write(LogLevel.Info, LogCategory.Ui, "Diagnostics bundle saved.",
                 new Dictionary<string, string>(StringComparer.Ordinal) { ["entries"] = string.Join(", ", written) });
             StatusText.Text = $"Diagnostics saved to {Path.GetFileName(dialog.FileName)}.";
+            string saved = dialog.FileName;
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Success, "Diagnostics saved", Path.GetFileName(saved), [new Notices.NoticeAction("Show file", () => ShowInExplorer(saved))]));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             Log.Write(LogLevel.Error, LogCategory.Ui, "Diagnostics bundle could not be saved.", error: ex);
             StatusText.Text = $"Diagnostics could not be saved: {ex.Message}";
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, "Diagnostics could not be saved", ex.Message, [new Notices.NoticeAction("Try again", () => OnDiagnostics(this, new RoutedEventArgs()))]));
         }
     }
 }

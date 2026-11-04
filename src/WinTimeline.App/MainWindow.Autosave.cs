@@ -141,6 +141,7 @@ public partial class MainWindow
         catch (InvalidDataException ex)
         {
             StatusText.Text = $"The edits to {candidate.Name} could not be recovered: {ex.Message}";
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, $"The edits to {candidate.Name} could not be recovered", ex.Message, []));
             Log.Write(LogLevel.Error, LogCategory.App, "Edits could not be recovered.", error: ex);
         }
     }
@@ -180,6 +181,7 @@ public partial class MainWindow
         catch (Exception ex) when (ex is IOException or JsonException or ArgumentException or InvalidOperationException)
         {
             StatusText.Text = $"{Path.GetFileName(path)} stopped at command {ran + 1}: {ex.Message}";
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Warning, $"{Path.GetFileName(path)} stopped at command {ran + 1}", ex.Message, []));
         }
     }
 }

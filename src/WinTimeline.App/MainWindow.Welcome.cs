@@ -126,6 +126,7 @@ public partial class MainWindow
         if (clips.Count == 0)
         {
             StatusText.Text = $"Nothing dropped could be used: {string.Join("; ", refused)}.";
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Warning, "Nothing dropped could be used", string.Join("; ", refused), []));
             return;
         }
 

@@ -63,6 +63,9 @@ public sealed class TimelinePanel : IDisposable
         _surface.Items = VisibleItems;
     }
 
+    /// <summary>Raised when the playhead moves: a click, a seek, or a new timeline shown.</summary>
+    public event EventHandler? PlayheadMoved;
+
     /// <summary>The viewport, or null before a timeline is shown on a sized surface.</summary>
     public TimelineViewport? View => _view;
 
@@ -105,6 +108,7 @@ public sealed class TimelinePanel : IDisposable
     public void Seek(double seconds)
     {
         _playhead = Math.Max(0, seconds);
+        PlayheadMoved?.Invoke(this, EventArgs.Empty);
         if (_view is { } view && _layout is { } layout && (_playhead < view.Start || _playhead > view.End))
         {
             _view = view.ScrollBy(view.X(_playhead) - (view.Width / 3), 0, layout.Duration, layout.Lanes.Count);
@@ -126,6 +130,7 @@ public sealed class TimelinePanel : IDisposable
         _layout = timeline is null ? null : TimelineLayout.Build(timeline);
         _view = null;
         _playhead = 0;
+        PlayheadMoved?.Invoke(this, EventArgs.Empty);
         if (timeline is not null)
         {
             timeline.ModelChanged += OnModelChanged;
@@ -335,6 +340,7 @@ public sealed class TimelinePanel : IDisposable
         }
 
         _playhead = Math.Max(0, view.Seconds(point.X - Header));
+        PlayheadMoved?.Invoke(this, EventArgs.Empty);
         _surface.Invalidate();
     }
 

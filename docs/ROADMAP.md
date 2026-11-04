@@ -83,7 +83,7 @@
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
 - 📋 **WT67** (deps: WT5 ✅, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
 - ⏳ **WT68** (deps: WT1 ✅, WT44) **Opening the app shows an empty window with no recent projects, templates or first steps** — Still needed: new timelines from presets (resolution, rate, colour space), sample timelines, thumbnails beside recent files, and the .otio association with its thumbnail handler. → §WT68
-- 📋 **WT69** (deps: WT1 ✅) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Modal dialogs interrupt editing, and silent failures cost more. → §WT69
+- ⏳ **WT69** (deps: WT1 ✅, WT41) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Still needed: toasts when minimised, VRAM, dropped frames, proxies and model state in the status bar, and a failing proxy job's Retry shown working in a UI case. → §WT69
 
 ## Block H — Editing: tools, trims and drag and drop
 
@@ -344,6 +344,16 @@
 - **Recent files show thumbnails and Explorer opens .otio in the app** Each recent file
   shows a frame from its timeline, and once Block N's installer associates .otio, .otioz
   and .otiod, the jump list lists them and a double click in Explorer opens the app.
+
+## Done when — WT69
+
+- **A failing proxy job's InfoBar Retry works in a UI case** Once WT41 makes proxies, a
+  UI case points a proxy at media that fails, reads the error InfoBar, fixes the media
+  and presses Retry, then reads the completion notice. While the app is minimised, the
+  same completion arrives as a Windows toast.
+- **The status bar shows VRAM, dropped frames, proxies and model state** VRAM comes from
+  DXGI QueryVideoMemoryInfo, dropped frames from WT34's clock, active proxies from WT42
+  and model state from Block L; a UI case reads each item while a timeline plays.
 
 ## Non-goals
 
