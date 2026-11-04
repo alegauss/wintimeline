@@ -1,0 +1,28 @@
+# WT100: every URL and hash in the model catalog, checked each night against Hugging Face,
+# so a model that moved or changed is found before someone's download fails.
+name: models
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - src/WinTimeline.Inference/Catalog/**
+      - scripts/check-models.py
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check the model catalog
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Every file's URL, SHA-256 and size
+        run: python scripts/check-models.py

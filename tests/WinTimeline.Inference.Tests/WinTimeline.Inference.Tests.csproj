@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- WT100: the catalog is validated against its JSON Schema (draft 2020-12) here, in CI. -->
+    <PackageReference Include="JsonSchema.Net" Version="7.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\WinTimeline.Inference\WinTimeline.Inference.csproj" />
   </ItemGroup>
 

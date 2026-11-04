@@ -57,6 +57,7 @@
 ## Block K — Local AI platform: models, runtimes and hardware fit
 
 - ✅ **WT99** **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — ONNX models run through Windows ML on the app's GPU or a certified provider, picked by a probe with a named CPU fallback, under one LRU VRAM budget; the native engines moved to their own line.
+- ✅ **WT100 (catalog)** **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — A versioned model catalog ships in the app with licence, size, VRAM, providers and pinned URLs with SHA-256; CI checks it against its schema and a nightly job checks every URL and hash.
 
 ## Block L — AI-assisted editing
 

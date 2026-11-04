@@ -26,6 +26,8 @@
 
 ## Block K — Local AI platform: models, runtimes and hardware fit
 
+- ⏸ **WT100** (deps: WT99 ✅) **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — set aside (Waits on a signing key from the maintainer.): Still needed: a signed catalog refreshed from the project's GitHub releases. → §WT100
+
 ## Block L — AI-assisted editing
 
 ## Block M — Video export and interchange

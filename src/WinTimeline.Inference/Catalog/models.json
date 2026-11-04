@@ -1,0 +1,124 @@
+{
+  "$schema": "./models.schema.json",
+  "catalog_version": 1,
+  "updated": "2026-11-04",
+  "models": [
+    {
+      "schema": 1,
+      "id": "silero-vad",
+      "name": "Silero VAD",
+      "feature": "voice-activity",
+      "engine": "onnx",
+      "description": "Finds where people speak, so transcription and silence removal skip the rest.",
+      "licence": { "spdx": "MIT", "commercial_use": true, "url": "https://github.com/snakers4/silero-vad/blob/master/LICENSE" },
+      "source": { "repo": "onnx-community/silero-vad", "revision": "e71cae966052b992a7eca6b17738916ce0eca4ec" },
+      "variants": [
+        {
+          "id": "int8",
+          "default": true,
+          "files": [
+            { "path": "onnx/model_int8.onnx", "url": "https://huggingface.co/onnx-community/silero-vad/resolve/e71cae966052b992a7eca6b17738916ce0eca4ec/onnx/model_int8.onnx", "sha256": "90b026c95f054d59d7bf79387b0ed93c8950f35a4d8b741cd78d4bb23a7d2776", "size": 639383 }
+          ],
+          "min_vram_mb": 0,
+          "min_ram_mb": 64,
+          "providers": ["cpu"]
+        },
+        {
+          "id": "fp32",
+          "files": [
+            { "path": "onnx/model.onnx", "url": "https://huggingface.co/onnx-community/silero-vad/resolve/e71cae966052b992a7eca6b17738916ce0eca4ec/onnx/model.onnx", "sha256": "a4a068cd6cf1ea8355b84327595838ca748ec29a25bc91fc82e6c299ccdc5808", "size": 2243022 }
+          ],
+          "min_vram_mb": 0,
+          "min_ram_mb": 64,
+          "providers": ["cpu"]
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "id": "clip-vit-b32",
+      "name": "CLIP ViT-B/32",
+      "feature": "semantic-search",
+      "engine": "onnx",
+      "description": "Embeds frames and text in one space, so a shot can be found by describing it.",
+      "licence": { "spdx": "MIT", "commercial_use": true, "url": "https://github.com/openai/CLIP/blob/main/LICENSE" },
+      "source": { "repo": "Xenova/clip-vit-base-patch32", "revision": "6b7c523703ae26e39be4b03774966f8571c7f523" },
+      "variants": [
+        {
+          "id": "fp16",
+          "default": true,
+          "files": [
+            { "path": "onnx/vision_model_fp16.onnx", "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/onnx/vision_model_fp16.onnx", "sha256": "35c4e0fb0aeee527dcde1693520b214a34424a786babd530f35366bad5844efd", "size": 176080659 },
+            { "path": "onnx/text_model_fp16.onnx", "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/onnx/text_model_fp16.onnx", "sha256": "df587ffbf248bf20d44fa6e16adc5ebc27ead691860e5333dbdaab5fd6bf3f6e", "size": 127339794 }
+          ],
+          "min_vram_mb": 1024,
+          "min_ram_mb": 1024,
+          "providers": ["directml", "windowsml", "cpu"]
+        },
+        {
+          "id": "int8",
+          "files": [
+            { "path": "onnx/vision_model_quantized.onnx", "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/onnx/vision_model_quantized.onnx", "sha256": "583fd1110a514667812fee7d684952aaf82a99b959760c8d7dca7e0ab9839299", "size": 89117001 },
+            { "path": "onnx/text_model_quantized.onnx", "url": "https://huggingface.co/Xenova/clip-vit-base-patch32/resolve/6b7c523703ae26e39be4b03774966f8571c7f523/onnx/text_model_quantized.onnx", "sha256": "73baab855d406190da9faa498cfedf65f15cf309f4cc7385b7b032e6d08e5c3a", "size": 64504507 }
+          ],
+          "min_vram_mb": 0,
+          "min_ram_mb": 768,
+          "providers": ["cpu"]
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "id": "whisper-base",
+      "name": "Whisper base (multilingual)",
+      "feature": "transcription",
+      "engine": "whisper.cpp",
+      "description": "Transcribes speech in about 100 languages with word timings.",
+      "licence": { "spdx": "MIT", "commercial_use": true, "url": "https://github.com/openai/whisper/blob/main/LICENSE" },
+      "source": { "repo": "ggerganov/whisper.cpp", "revision": "5359861c739e955e79d9a303bcbc70fb988958b1" },
+      "variants": [
+        {
+          "id": "base",
+          "default": true,
+          "files": [
+            { "path": "ggml-base.bin", "url": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-base.bin", "sha256": "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe", "size": 147951465 }
+          ],
+          "min_vram_mb": 512,
+          "min_ram_mb": 512,
+          "providers": ["vulkan", "cpu"]
+        },
+        {
+          "id": "small",
+          "files": [
+            { "path": "ggml-small.bin", "url": "https://huggingface.co/ggerganov/whisper.cpp/resolve/5359861c739e955e79d9a303bcbc70fb988958b1/ggml-small.bin", "sha256": "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b", "size": 487601967 }
+          ],
+          "min_vram_mb": 1024,
+          "min_ram_mb": 1024,
+          "providers": ["vulkan", "cpu"]
+        }
+      ]
+    },
+    {
+      "schema": 1,
+      "id": "qwen2.5-1.5b-instruct",
+      "name": "Qwen2.5 1.5B Instruct",
+      "feature": "assistant",
+      "engine": "llama.cpp",
+      "description": "The small local language model behind the assistant's commands and cut descriptions.",
+      "licence": { "spdx": "Apache-2.0", "commercial_use": true, "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct/blob/main/LICENSE" },
+      "source": { "repo": "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9" },
+      "variants": [
+        {
+          "id": "q4_k_m",
+          "default": true,
+          "files": [
+            { "path": "qwen2.5-1.5b-instruct-q4_k_m.gguf", "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_k_m.gguf", "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e", "size": 1117320736 }
+          ],
+          "min_vram_mb": 2048,
+          "min_ram_mb": 2048,
+          "providers": ["vulkan", "cpu"]
+        }
+      ]
+    }
+  ]
+}

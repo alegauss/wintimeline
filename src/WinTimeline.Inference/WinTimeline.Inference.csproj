@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- WT100: the catalog ships inside the app; its schema sits beside it for the tests and editors. -->
+    <EmbeddedResource Include="Catalog\models.json" LogicalName="WinTimeline.Inference.models.json" />
+    <None Include="Catalog\models.schema.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- The tests load ProbeModel to run a real session without a downloaded model. -->
     <InternalsVisibleTo Include="WinTimeline.Inference.Tests" />
   </ItemGroup>
