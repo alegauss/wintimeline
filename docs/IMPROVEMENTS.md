@@ -1248,19 +1248,6 @@ disables all downloads for air-gapped use.
 Done when a test that tries to reach a non-catalog host through the client is refused,
 and the activity log records each feature run in the cases.
 
-### §WT104 Analysis results store
-
-Analysis results are stored per media (keyed by content signature, so they follow the
-file) in the project sidecar and optionally in a global cache: transcripts with word
-timings and speakers, shot boundaries, detected objects/faces per sampled frame,
-embeddings (image and text), loudness, beats, quality scores. Each result records the
-model id and version so an upgraded model can mark older results stale. An `Analyse` job
-type runs a chosen set of analyses over selected media in the background, visible items
-first.
-
-Done when analysing a folder once and reopening the project shows all results without
-running a model.
-
 ### §WT105 Sharing the GPU between AI and playback
 
 Inference runs on a separate D3D12 command queue with lower priority

@@ -59,6 +59,7 @@
 - ✅ **WT99** **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — ONNX models run through Windows ML on the app's GPU or a certified provider, picked by a probe with a named CPU fallback, under one LRU VRAM budget; the native engines moved to their own line.
 - ✅ **WT100 (catalog)** **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — A versioned model catalog ships in the app with licence, size, VRAM, providers and pinned URLs with SHA-256; CI checks it against its schema and a nightly job checks every URL and hash.
 - ✅ **WT103 (guard)** **Nothing guarantees that media, transcripts or prompts never leave the PC** — One guarded HTTP client allows only model hosts and the update feed, checks every redirect hop, refuses all in air-gapped mode, and an architecture test forbids any other; inferences log to a JSONL.
+- ✅ **WT104** **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis results are kept per media signature and kind with the model that made them, in the sidecar and a PC-wide cache, and the Analyse job skips fresh results, so a reopened project runs no model.
 
 ## Block L — AI-assisted editing
 
