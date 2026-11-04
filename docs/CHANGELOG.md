@@ -63,6 +63,8 @@
 
 ## Block L — AI-assisted editing
 
+- ✅ **WT114 (contract)** **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — The assistant's contract: a timeline digest, a reply schema of pipeline commands, and a check on a copy that refuses any bad batch whole; a valid one applies as one AI-tagged undo step.
+
 ## Block M — Video export and interchange
 
 ## Block N — Performance, delivery and the public face

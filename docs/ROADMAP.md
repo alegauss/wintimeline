@@ -141,9 +141,9 @@
 - 📋 **WT111** (deps: WT104 ✅, WT25) **Long recordings and delivered masters are not split into shots, so finding a cut point means scrubbing** — Shot boundaries let an editor re-cut a master and let the other AI tools reason about shots instead of frames. → §WT111
 - 📋 **WT112** (deps: WT111) **Footage has no descriptive tags (shot size, subjects, location, motion), so bins cannot be filtered by content** — Logging footage by hand is a full-time assistant job that vision models now do well enough to help. → §WT112
 - 📋 **WT113** (deps: WT112, WT106, WT62) **Footage cannot be searched by describing what is in it, like 'a woman laughing near a window'** — Natural-language search across hours of footage is the AI feature editors say saves the most time. → §WT113
-- 📋 **WT114** (deps: WT99 ✅, WT16 ✅, WT66 ✅) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — A local assistant that proposes edits as commands, not as a black box, can do tedious multi-step work while the editor keeps control. → §WT114
-- 💭 **WT115** (deps: WT110, WT114) **Captions and transcripts cannot be translated into other languages** — Reaching other audiences needs subtitles in their language, and translation can run locally. → §WT115
-- 📋 **WT116** (deps: WT114, WT113) **A first assembly from a script or a list of selects must be built clip by clip** — Assembling a rough cut from transcripts is mechanical work the assistant and search can do in minutes. → §WT116
+- ⏳ **WT114** (deps: WT99 ✅, WT16 ✅, WT66 ✅, WT166) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — Still needed: replies from the LLM (WT166) under the schema, a preview with Apply, and 25 of 30 scripted requests valid. → §WT114
+- 💭 **WT115** (deps: WT110, WT114 ⏳) **Captions and transcripts cannot be translated into other languages** — Reaching other audiences needs subtitles in their language, and translation can run locally. → §WT115
+- 📋 **WT116** (deps: WT114 ⏳, WT113) **A first assembly from a script or a list of selects must be built clip by clip** — Assembling a rough cut from transcripts is mechanical work the assistant and search can do in minutes. → §WT116
 - 💭 **WT117** (deps: WT113, WT108) **Finding B-roll that matches what is being said requires browsing the whole library** — Covering interviews with relevant visuals is a constant need, and transcript plus image search can suggest it. → §WT117
 - 📋 **WT118** (deps: WT112, WT91) **A 16:9 edit cannot be reframed to 9:16 or 1:1 with the subject kept in frame** — Every cut now ships vertical versions for social platforms, and reframing by hand is keyframe drudgery. → §WT118
 - 📋 **WT119** (deps: WT84, WT99 ✅) **Noisy dialogue, hum and reverb cannot be cleaned inside the app** — Most location audio needs cleanup, and modern denoisers run in real time on a laptop. → §WT119
@@ -154,7 +154,7 @@
 - 💭 **WT124** (deps: WT92, WT99 ✅) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
 - 📋 **WT125** (deps: WT112, WT92) **Faces and licence plates cannot be blurred automatically for privacy** — News, documentary and corporate videos must hide bystanders, and tracking them by hand takes hours. → §WT125
 - 📋 **WT126** (deps: WT111, WT19 ✅) **Flash frames, black frames, frozen frames, out-of-focus shots and jump cuts are found only by watching** — A technical QC pass before delivery catches embarrassing errors that a tired editor misses. → §WT126
-- 📋 **WT127** (deps: WT114, WT21 ✅) **Chapters, a description and a summary of a cut, or of what changed between versions, must be written by hand** — Publishing needs chapters and descriptions, and review needs a readable change summary. → §WT127
+- 📋 **WT127** (deps: WT114 ⏳, WT21 ✅) **Chapters, a description and a summary of a cut, or of what changed between versions, must be written by hand** — Publishing needs chapters and descriptions, and review needs a readable change summary. → §WT127
 - 💭 **WT128** (deps: WT93, WT112) **Shots from different cameras cannot be matched in colour automatically** — Multicam and mixed-camera edits need consistent colour, and a first automatic match saves most of the work. → §WT128
 - 💭 **WT129** (deps: WT81, WT107) **Multicam podcasts must be cut angle by angle even though the speaker is known at every moment** — Speaker diarisation can produce a watchable first cut of a multicam conversation automatically. → §WT129
 - 💭 **WT130** (deps: WT99 ✅, WT84) **A scratch narration cannot be produced from text while the real voice-over is not recorded yet** — Editors time a cut against a narration long before the final recording exists. → §WT130
@@ -181,7 +181,7 @@
 - 📋 **WT145** (deps: WT143, visibility VS58) (requires: store-account) **Every first download meets a SmartScreen warning, and the Store, where creative apps are looked for, has no WinTimeline** — The Store signs the MSIX itself, and claude-tray tests that path first, so this follows what that test learns. → §WT145
 - 📋 **WT146** (deps: WT133) **There is no README or site saying what WinTimeline does, for whom, and with which hardware** — A visitor decides in seconds whether the app is for them, and the sibling apps show the same family promise. → §WT146
 - 📋 **WT147** (deps: WT133, WT15 ✅) **Timelines cannot be validated, converted, rendered or analysed from the command line or a script** — Pipelines (render farms, dailies, CI for editorial) drive OTIO headless, and the CLI also powers the soak and bench tests. → §WT147
-- 💭 **WT148** (deps: WT147, WT114) **Repetitive pipeline tasks inside an open project cannot be automated by users** — OTIO users are often pipeline TDs who script everything, and the command pipeline makes safe scripting possible. → §WT148
+- 💭 **WT148** (deps: WT147, WT114 ⏳) **Repetitive pipeline tasks inside an open project cannot be automated by users** — OTIO users are often pipeline TDs who script everything, and the command pipeline makes safe scripting possible. → §WT148
 - 💭 **WT149** (deps: WT1 ✅) **UI strings are not centralised, so a later translation or terminology review would touch every view** — The siblings keep English everywhere on purpose, but centralised strings still keep terminology consistent across a large UI. → §WT149
 
 ## Done when — Block A
@@ -367,6 +367,14 @@
   lists AiActivity's records newest first, and a setting turns downloads off; a UI case
   runs transcription (WT106) on a fixture, reads its record in the view, then flips
   air-gapped and sees a model download refused with the notice saying why.
+
+## Done when — WT114
+
+- **25 of 30 scripted requests become valid batches the user previews** With WT166's
+  llama.cpp host and the measured model, an eval of 30 requests on fixtures (pauses,
+  markers at mentions, a 30-second version) yields valid proposals for at least 25; the
+  palette's ? opens a preview with the diff overlay and Apply, and a UI case applies one
+  and undoes it.
 
 ## Non-goals
 
