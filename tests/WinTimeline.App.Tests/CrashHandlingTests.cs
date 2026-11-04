@@ -77,9 +77,9 @@ public sealed class CrashHandlingTests : IDisposable
     [Fact]
     public void AMinidumpOfThisProcessIsWritten()
     {
-        string? dump = MiniDump.Write(Crashes);
+        string? dump = MiniDump.Write(Crashes, out string? error);
 
-        Assert.NotNull(dump);
+        Assert.True(dump is not null, $"no dump was written: {error}");
         // "MDMP", the minidump signature.
         Assert.Equal("MDMP"u8.ToArray(), File.ReadAllBytes(dump).AsSpan(0, 4).ToArray());
     }

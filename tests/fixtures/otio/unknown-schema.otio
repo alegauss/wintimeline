@@ -1,0 +1,229 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {},
+    "name": "nested-unknown",
+    "global_start_time": null,
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {
+            "note": {
+                "OTIO_SCHEMA": "MyStudio.Note.3",
+                "author": "editor",
+                "body": "keep the unknown schema byte for byte",
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "MyStudio.Reply.1",
+                        "score": 0.125,
+                        "text": "agreed"
+                    }
+                ],
+                "pinned": true,
+                "range": {
+                    "OTIO_SCHEMA": "TimeRange.1",
+                    "duration": {
+                        "OTIO_SCHEMA": "RationalTime.1",
+                        "rate": 24.0,
+                        "value": 48.0
+                    },
+                    "start_time": {
+                        "OTIO_SCHEMA": "RationalTime.1",
+                        "rate": 24.0,
+                        "value": 0.0
+                    }
+                }
+            }
+        },
+        "name": "tracks",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "color": null,
+        "children": [
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {},
+                "name": "V1",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Stack.1",
+                        "metadata": {},
+                        "name": "stack-0",
+                        "source_range": null,
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "children": [
+                            {
+                                "OTIO_SCHEMA": "Track.1",
+                                "metadata": {},
+                                "name": "inner-0",
+                                "source_range": null,
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "children": [
+                                    {
+                                        "OTIO_SCHEMA": "Clip.2",
+                                        "metadata": {},
+                                        "name": "inner-clip-0",
+                                        "source_range": {
+                                            "OTIO_SCHEMA": "TimeRange.1",
+                                            "duration": {
+                                                "OTIO_SCHEMA": "RationalTime.1",
+                                                "rate": 24.0,
+                                                "value": 24.0
+                                            },
+                                            "start_time": {
+                                                "OTIO_SCHEMA": "RationalTime.1",
+                                                "rate": 24.0,
+                                                "value": 0.0
+                                            }
+                                        },
+                                        "effects": [],
+                                        "markers": [],
+                                        "enabled": true,
+                                        "color": null,
+                                        "media_references": {
+                                            "DEFAULT_MEDIA": {
+                                                "OTIO_SCHEMA": "MissingReference.1",
+                                                "metadata": {},
+                                                "name": "",
+                                                "available_range": null,
+                                                "available_image_bounds": null
+                                            }
+                                        },
+                                        "active_media_reference_key": "DEFAULT_MEDIA"
+                                    }
+                                ],
+                                "kind": "Video"
+                            }
+                        ]
+                    },
+                    {
+                        "OTIO_SCHEMA": "Stack.1",
+                        "metadata": {},
+                        "name": "stack-1",
+                        "source_range": null,
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "children": [
+                            {
+                                "OTIO_SCHEMA": "Track.1",
+                                "metadata": {},
+                                "name": "inner-1",
+                                "source_range": null,
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "children": [
+                                    {
+                                        "OTIO_SCHEMA": "Clip.2",
+                                        "metadata": {},
+                                        "name": "inner-clip-1",
+                                        "source_range": {
+                                            "OTIO_SCHEMA": "TimeRange.1",
+                                            "duration": {
+                                                "OTIO_SCHEMA": "RationalTime.1",
+                                                "rate": 24.0,
+                                                "value": 24.0
+                                            },
+                                            "start_time": {
+                                                "OTIO_SCHEMA": "RationalTime.1",
+                                                "rate": 24.0,
+                                                "value": 0.0
+                                            }
+                                        },
+                                        "effects": [],
+                                        "markers": [],
+                                        "enabled": true,
+                                        "color": null,
+                                        "media_references": {
+                                            "DEFAULT_MEDIA": {
+                                                "OTIO_SCHEMA": "MissingReference.1",
+                                                "metadata": {},
+                                                "name": "",
+                                                "available_range": null,
+                                                "available_image_bounds": null
+                                            }
+                                        },
+                                        "active_media_reference_key": "DEFAULT_MEDIA"
+                                    }
+                                ],
+                                "kind": "Video"
+                            }
+                        ]
+                    },
+                    {
+                        "OTIO_SCHEMA": "Stack.1",
+                        "metadata": {},
+                        "name": "stack-2",
+                        "source_range": null,
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "children": [
+                            {
+                                "OTIO_SCHEMA": "Track.1",
+                                "metadata": {},
+                                "name": "inner-2",
+                                "source_range": null,
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "children": [
+                                    {
+                                        "OTIO_SCHEMA": "Clip.2",
+                                        "metadata": {},
+                                        "name": "inner-clip-2",
+                                        "source_range": {
+                                            "OTIO_SCHEMA": "TimeRange.1",
+                                            "duration": {
+                                                "OTIO_SCHEMA": "RationalTime.1",
+                                                "rate": 24.0,
+                                                "value": 24.0
+                                            },
+                                            "start_time": {
+                                                "OTIO_SCHEMA": "RationalTime.1",
+                                                "rate": 24.0,
+                                                "value": 0.0
+                                            }
+                                        },
+                                        "effects": [],
+                                        "markers": [],
+                                        "enabled": true,
+                                        "color": null,
+                                        "media_references": {
+                                            "DEFAULT_MEDIA": {
+                                                "OTIO_SCHEMA": "MissingReference.1",
+                                                "metadata": {},
+                                                "name": "",
+                                                "available_range": null,
+                                                "available_image_bounds": null
+                                            }
+                                        },
+                                        "active_media_reference_key": "DEFAULT_MEDIA"
+                                    }
+                                ],
+                                "kind": "Video"
+                            }
+                        ]
+                    }
+                ],
+                "kind": "Video"
+            }
+        ]
+    }
+}

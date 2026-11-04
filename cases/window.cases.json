@@ -41,6 +41,24 @@
       ],
       "arguments": ["--adapter", "warp"],
       "shareable": false
+    },
+    {
+      // WT13: --open on a corpus file.
+      "name": "a window opened on the simple cut",
+      "arguments": ["--open", "tests/fixtures/otio/corpus/simple_cut.otio", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
+      "name": "a window asked to open a timeline that is not there",
+      "arguments": ["--open", "tests/fixtures/otio/nowhere.otio", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
+      // Not lent: its case saves a copy beside the staged file.
+      "name": "a window on a staged timeline, to save as",
+      "files": ["tests/fixtures/otio/corpus/simple_cut.otio"],
+      "arguments": ["--open", "{files}/simple_cut.otio", "--adapter", "warp"],
+      "shareable": false
     }
   ],
 
@@ -249,6 +267,93 @@
           "act": "read",
           "absent": true,
           "named": "and goes"
+        }
+      ]
+    },
+
+    {
+      "name": "--open shows the timeline's name in the title and what it holds",
+      "catches": "an --open that is parsed and ignored, or a file that opens without saying what it holds",
+      "filed": "WT13",
+      "tags": ["smoke", "open", "otio"],
+      "fixture": "a window opened on the simple cut",
+      "steps": [
+        {
+          "locator": "TitleBar",
+          "act": "read",
+          "reads": "name",
+          "matches": "^simple_cut\\.otio — WinTimeline$",
+          "named": "the title names the file"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened simple_cut.otio: 4 clips on 1 track.",
+          "named": "the status bar says what it holds"
+        }
+      ]
+    },
+
+    {
+      "name": "--open on a missing timeline says so and keeps the empty window",
+      "catches": "an open that fails silently or crashes the app on a bad path",
+      "filed": "WT13",
+      "tags": ["open", "otio"],
+      "fixture": "a window asked to open a timeline that is not there",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "nowhere.otio could not be opened: it was not found",
+          "named": "the status bar names the missing file"
+        },
+        {
+          "locator": "TitleBar",
+          "act": "read",
+          "reads": "name",
+          "matches": "^WinTimeline$",
+          "named": "and the title names no document"
+        }
+      ]
+    },
+
+    {
+      "name": "Save As writes the timeline exactly as OpenTimelineIO itself writes it",
+      "catches": "a save that drops a field, reorders keys or rewrites numbers, which another tool would read differently",
+      "filed": "WT13",
+      "tags": ["save", "otio", "dialog"],
+      "fixture": "a window on a staged timeline, to save as",
+      "steps": [
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#SaveAsMenuItem",
+          "act": "invoke",
+          "named": "Save As is chosen"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/copy.otio",
+          "named": "the dialog is told to save copy.otio beside it"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Saved copy.otio.",
+          "named": "the status bar says it saved"
+        },
+        {
+          "file": "{files}/copy.otio",
+          "act": "read",
+          "sameBytesAs": "tests/fixtures/otio/written/simple_cut.otio",
+          "named": "and the file holds the reference library's own bytes"
         }
       ]
     }

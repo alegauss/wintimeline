@@ -1,0 +1,96 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {},
+    "name": "testdata",
+    "global_start_time": null,
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "tracks",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "color": null,
+        "children": [
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {},
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "float": {
+                                "double": 1.1,
+                                "floatinf": Infinity,
+                                "floatnan": NaN,
+                                "floatneginf": -Infinity
+                            },
+                            "int_test": {
+                                "int128": 1.7014118346046935e38,
+                                "int256": 5.789604461865814e76,
+                                "maxint32": 2147483647,
+                                "minint32": -2147483647,
+                                "neg_smallest_int64": -2147483648,
+                                "negverybig": -3450100000,
+                                "smallest_int64": 2147483648,
+                                "verybig": 3450100000
+                            },
+                            "unicode": {
+                                "utf8": "Viel glück und hab spaß!"
+                            }
+                        },
+                        "name": "black",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 24.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 1.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "ExternalReference.1",
+                                "metadata": {},
+                                "name": "",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 240.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 1.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "target_url": "black.mov"
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    }
+                ],
+                "kind": "Video"
+            }
+        ]
+    }
+}

@@ -1,0 +1,235 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {},
+    "name": "OTIO TEST - multitrack.Exported.03",
+    "global_start_time": null,
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "tracks",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "color": null,
+        "children": [
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {},
+                "name": "Sequence 2",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {},
+                        "name": "tech.fux (loop)-HD.mp4",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 482.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "MissingReference.1",
+                                "metadata": {},
+                                "name": "",
+                                "available_range": null,
+                                "available_image_bounds": null
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {},
+                        "name": "t-hawk (loop)-HD.mp4",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 480.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "MissingReference.1",
+                                "metadata": {},
+                                "name": "",
+                                "available_range": null,
+                                "available_image_bounds": null
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {},
+                        "name": "out-b (loop)-HD.mp4",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 236.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 159.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "MissingReference.1",
+                                "metadata": {},
+                                "name": "",
+                                "available_range": null,
+                                "available_image_bounds": null
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {},
+                        "name": "KOLL-HD.mp4",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 640.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "MissingReference.1",
+                                "metadata": {},
+                                "name": "",
+                                "available_range": null,
+                                "available_image_bounds": null
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Gap.1",
+                        "metadata": {},
+                        "name": "Filler 2",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 119.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 313.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {},
+                        "name": "brokchrd (loop)-HD.mp4",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 720.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "MissingReference.1",
+                                "metadata": {},
+                                "name": "",
+                                "available_range": null,
+                                "available_image_bounds": null
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Gap.1",
+                        "metadata": {},
+                        "name": "Filler 3",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 605.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null
+                    }
+                ],
+                "kind": "Video"
+            }
+        ]
+    }
+}

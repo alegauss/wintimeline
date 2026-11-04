@@ -10,9 +10,17 @@
         Width="1280" Height="800"
         MinWidth="800" MinHeight="500"
         WindowStartupLocation="CenterScreen">
+  <!-- WT13: Ctrl+O, Ctrl+S and Ctrl+Shift+S, bound in MainWindow.Document.cs. -->
+  <Window.InputBindings>
+    <KeyBinding Command="SaveAs" Gesture="Ctrl+Shift+S" />
+  </Window.InputBindings>
   <DockPanel>
     <Menu DockPanel.Dock="Top" AutomationProperties.AutomationId="MainMenu">
       <MenuItem Header="_File" AutomationProperties.AutomationId="FileMenu">
+        <MenuItem Header="_Open…" Command="Open" AutomationProperties.AutomationId="OpenMenuItem" />
+        <MenuItem Header="_Save" Command="Save" AutomationProperties.AutomationId="SaveMenuItem" />
+        <MenuItem Header="Save _As…" Command="SaveAs" InputGestureText="Ctrl+Shift+S" AutomationProperties.AutomationId="SaveAsMenuItem" />
+        <Separator />
         <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="OnExit" AutomationProperties.AutomationId="ExitMenuItem" />
       </MenuItem>
       <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu" />

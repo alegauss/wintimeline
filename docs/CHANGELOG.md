@@ -17,6 +17,7 @@
 
 - ✅ **WT11** **Nobody knows yet whether .otio files are read by a C# port or by the C++ reference library behind P/Invoke** — Measured both paths on the OTIO corpus and 10,000-clip files: the C# port matches the reference's output, loads faster, holds a quarter of the memory (design recorded in `spike/otio/README.md`).
 - ✅ **WT12** **No in-memory model holds a timeline: tracks, clips, gaps, transitions, markers and metadata have no types** — The OTIO model with opentime's time and timecode, computed ranges and change notifications loads the whole corpus, and every range matches the reference library's answer.
+- ✅ **WT13** **A .otio file cannot be opened or saved, and unknown schemas from newer OTIO versions would be dropped** — .otio opens and saves from the app; the writer emits the reference's bytes, keeps unknown schemas, downgrades Clip to 1, saves atomically.
 
 ## Block C — Media probing and GPU decoding
 

@@ -1,0 +1,150 @@
+using System.IO;
+using System.Windows;
+using System.Windows.Input;
+using Microsoft.Win32;
+using WinTimeline.Diagnostics;
+using WinTimeline.Model;
+using WinTimeline.Model.Serialization;
+
+namespace WinTimeline.App;
+
+/// <summary>
+/// WT13: the open document — File > Open, Save and Save As, and <c>--open</c> at start. The
+/// title names the file; the status bar says what was opened or saved, or why it was not.
+/// </summary>
+public partial class MainWindow
+{
+    private const string OtioFilter = "OpenTimelineIO (*.otio)|*.otio|All files (*.*)|*.*";
+
+    /// <summary>The open document, or null.</summary>
+    public ModelObject? Document { get; private set; }
+
+    /// <summary>Where the open document lives, or null when none is open.</summary>
+    public string? DocumentPath { get; private set; }
+
+    /// <summary>What the status bar says about an opened document, e.g. "Opened cut.otio: 4 clips on 1 track."</summary>
+    /// <param name="fileName">The file's name.</param>
+    /// <param name="document">What it held.</param>
+    /// <returns>The sentence.</returns>
+    public static string OpenedText(string fileName, ModelObject document)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        if (document is not Timeline timeline)
+        {
+            return $"Opened {fileName}: a {document.Schema}, not a single timeline.";
+        }
+
+        int clips = timeline.FindClips().Count();
+        int tracks = timeline.Tracks.Children.Count;
+        return $"Opened {fileName}: {clips} {(clips == 1 ? "clip" : "clips")} on {tracks} {(tracks == 1 ? "track" : "tracks")}.";
+    }
+
+    /// <summary>Opens a file as the document, saying in the status bar how it went.</summary>
+    /// <param name="path">The file.</param>
+    /// <returns>Whether it opened.</returns>
+    public bool OpenDocument(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        string name = Path.GetFileName(path);
+        try
+        {
+            ModelObject document = OtioFile.Open(path);
+            Document = document;
+            DocumentPath = Path.GetFullPath(path);
+            Title = $"{name} — WinTimeline";
+            StatusText.Text = OpenedText(name, document);
+            Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
+            return true;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
+        {
+            string reason = ex is FileNotFoundException or DirectoryNotFoundException ? "it was not found" : ex.Message;
+            StatusText.Text = $"{name} could not be opened: {reason}";
+            Log.Write(LogLevel.Warning, LogCategory.App, "Document could not be opened.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
+            return false;
+        }
+    }
+
+    /// <summary>Saves the document to a path, saying in the status bar how it went.</summary>
+    /// <param name="path">Where.</param>
+    /// <returns>Whether it saved.</returns>
+    public bool SaveDocument(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        if (Document is null)
+        {
+            return false;
+        }
+
+        string name = Path.GetFileName(path);
+        try
+        {
+            OtioFile.Save(Document, path);
+            DocumentPath = Path.GetFullPath(path);
+            Title = $"{name} — WinTimeline";
+            StatusText.Text = $"Saved {name}.";
+            Log.Write(LogLevel.Info, LogCategory.App, "Document saved.", Fields(path, Document));
+            return true;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            StatusText.Text = $"{name} could not be saved: {ex.Message}";
+            Log.Write(LogLevel.Error, LogCategory.App, "Document could not be saved.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
+            return false;
+        }
+    }
+
+    private void BindDocumentCommands()
+    {
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, (_, _) => AskToOpen()));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, _) => Save(), (_, e) => e.CanExecute = Document is not null));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, (_, _) => AskToSaveAs(), (_, e) => e.CanExecute = Document is not null));
+        if (Options.Open is { } path)
+        {
+            OpenDocument(path);
+        }
+    }
+
+    private void AskToOpen()
+    {
+        OpenFileDialog dialog = new() { Title = "Open timeline", Filter = OtioFilter };
+        if (dialog.ShowDialog(this) == true)
+        {
+            OpenDocument(dialog.FileName);
+        }
+    }
+
+    private void Save()
+    {
+        if (DocumentPath is { } path)
+        {
+            SaveDocument(path);
+        }
+        else
+        {
+            AskToSaveAs();
+        }
+    }
+
+    private void AskToSaveAs()
+    {
+        SaveFileDialog dialog = new()
+        {
+            Title = "Save timeline as",
+            Filter = OtioFilter,
+            DefaultExt = ".otio",
+            FileName = DocumentPath is { } path ? Path.GetFileName(path) : "timeline.otio",
+        };
+        if (dialog.ShowDialog(this) == true)
+        {
+            SaveDocument(dialog.FileName);
+        }
+    }
+
+    private static Dictionary<string, string> Fields(string path, ModelObject document) => new(StringComparer.Ordinal)
+    {
+        ["file"] = Path.GetFileName(path),
+        ["schema"] = document.Schema,
+        ["clips"] = document is Timeline t ? t.FindClips().Count().ToString(System.Globalization.CultureInfo.InvariantCulture) : "0",
+    };
+}

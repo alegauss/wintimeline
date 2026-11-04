@@ -67,11 +67,23 @@ def walk(composition, path, out):
             walk(child, here, out)
 
 
+def write_reference(timeline, name, target=None):
+    """WT13: the reference's own bytes for the file, as its writer lays them out, LF only."""
+    written = HERE / "written"
+    written.mkdir(exist_ok=True)
+    text = timeline.to_json_string() if target is None else otio.adapters.write_to_string(
+        timeline, "otio_json", target_schema_versions=target)
+    (written / name).write_bytes(text.encode("utf-8"))
+
+
 def main():
     out_dir = HERE / "expected"
     out_dir.mkdir(exist_ok=True)
     for file in sorted((HERE / "corpus").glob("*.otio")):
         timeline = otio.adapters.read_from_file(str(file))
+        write_reference(timeline, file.name)
+        if file.name == "simple_cut.otio":
+            write_reference(timeline, "simple_cut.clip1.otio", {"Clip": 1})
         expected = {"file": file.name, "schema": timeline.schema_name()}
         if isinstance(timeline, otio.schema.Timeline):
             expected["duration"] = ask(timeline.duration, t)

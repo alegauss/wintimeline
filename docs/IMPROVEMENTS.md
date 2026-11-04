@@ -147,23 +147,6 @@ folder, the next start's recovery bar names it, and the diagnostics bundle carri
 
 ## Block B — OTIO document model and file formats
 
-### §WT13 Reading and writing .otio JSON losslessly
-
-The reading half exists: `WinTimeline.Model.Serialization.OtioReader` (WT12) handles
-versioned `OTIO_SCHEMA` names, the upgrades and aliases, and keeps anything unrecognised
-as an `UnknownSchema`. What is left is the writer, ported from
-`spike/otio/OtioSpike/Port/OtioWriter.cs`, which already writes the reference's bytes,
-re-emitting unknown schemas and dynamic fields unchanged, and opening and saving from
-the app. The writer can target a schema-version set (`--downgrade` to an older OTIO
-family, as `otio.versioning` does) so a file saved here opens in an older Resolve or RV.
-
-Numbers keep their JSON form: rates like 23.976 vs 24000/1001 are written as read.
-Saving is atomic (write to a temp file, flush, replace) and keeps the previous file as
-`.bak` until the next successful save.
-
-Done when every file in the corpus round-trips to JSON that is semantically equal (key
-order aside) and an UnknownSchema test file survives untouched.
-
 ### §WT14 OTIOZ and OTIOD bundles
 
 `.otioz` is a zip with `content.otio`, `version.txt` and a `media/` folder; `.otiod` is

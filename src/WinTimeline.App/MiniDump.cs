@@ -18,30 +18,59 @@ public static class MiniDump
 {
     private const uint MiniDumpWithThreadInfo = 0x1000;
     private const uint MiniDumpWithIndirectlyReferencedMemory = 0x40;
+    private const uint MiniDumpNormal = 0;
 
     /// <summary>Writes a dump into a folder now.</summary>
     /// <param name="folder">Where; created when missing.</param>
     /// <returns>The dump's path, or null when none could be written.</returns>
-    public static string? Write(string folder)
+    public static string? Write(string folder) => Write(folder, out _);
+
+    /// <summary>
+    /// Writes a dump into a folder now, saying why when it could not. The richer dump (thread info
+    /// and the memory pointers reach) is tried first; a process dumping itself can fail it with a
+    /// partial copy, as the VMware guest did, so a plain minidump is tried before giving up.
+    /// </summary>
+    /// <param name="folder">Where; created when missing.</param>
+    /// <param name="error">Why no dump was written, or null when one was.</param>
+    /// <returns>The dump's path, or null when none could be written.</returns>
+    public static string? Write(string folder, out string? error)
     {
         ArgumentNullException.ThrowIfNull(folder);
-        string path = Path.Combine(folder, string.Create(CultureInfo.InvariantCulture, $"wintimeline-{Environment.ProcessId}-{DateTime.Now:yyyyMMdd-HHmmss}.dmp"));
+        string path = Path.Combine(folder, string.Create(CultureInfo.InvariantCulture, $"wintimeline-{Environment.ProcessId}-{DateTime.Now:yyyyMMdd-HHmmss-fff}.dmp"));
+        List<string> failures = [];
         try
         {
             Directory.CreateDirectory(folder);
-            using FileStream file = new(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
             using Process self = Process.GetCurrentProcess();
-            if (MiniDumpWriteDump(self.Handle, (uint)Environment.ProcessId, file.SafeFileHandle, MiniDumpWithThreadInfo | MiniDumpWithIndirectlyReferencedMemory, 0, 0, 0))
+            foreach (uint type in (ReadOnlySpan<uint>)[MiniDumpWithThreadInfo | MiniDumpWithIndirectlyReferencedMemory, MiniDumpNormal])
             {
-                return path;
+                using (FileStream file = new(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+                {
+                    if (MiniDumpWriteDump(self.Handle, (uint)Environment.ProcessId, file.SafeFileHandle, type, 0, 0, 0))
+                    {
+                        error = null;
+                        return path;
+                    }
+
+                    failures.Add(string.Create(CultureInfo.InvariantCulture, $"type 0x{type:X}: {Marshal.GetLastPInvokeErrorMessage()} (0x{Marshal.GetLastPInvokeError():X8})"));
+                }
             }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            return null;
+            failures.Add(ex.Message);
         }
 
-        File.Delete(path);
+        try
+        {
+            File.Delete(path);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            failures.Add("the empty file could not be removed: " + ex.Message);
+        }
+
+        error = string.Join("; ", failures);
         return null;
     }
 

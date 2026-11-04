@@ -14,7 +14,7 @@ the list is refused: WinTimeline says which one in a message box and exits with 
 
 | Flag | What it does |
 | --- | --- |
-| `--open <file>` | Opens this project or media file at start instead of the empty window. |
+| `--open <file>` | Opens this OpenTimelineIO file (.otio) at start instead of the empty window. A file that is missing or not a timeline is named in the status bar and the window stays empty. |
 | `--models <folder>` | Reads the AI models from this folder instead of the default one. |
 | `--adapter <index-or-name>\|warp` | Runs on this GPU instead of the one WinTimeline picks, which is the first hardware GPU in Windows' high-performance order (the discrete one on a hybrid laptop). Give its index in that order or a part of its name (`1`, `NVIDIA`); `warp` runs on the software rasteriser. A value that matches no GPU, or more than one, is refused with the list of GPUs this PC has. The status bar names the GPU in use. |
 | `--log-level trace\|debug\|info\|warning\|error` | How much the log records in `logs\wintimeline.jsonl` under the data folder; `info` unless given. |
@@ -32,5 +32,5 @@ note in the status bar.
 ## When each flag takes effect
 
 The flags are parsed from the first version; what each one changes arrives with the feature it
-belongs to. `--adapter` takes effect now; `--open`, `--models` and `--log-level` arrive with
-opening files, the model library and the log.
+belongs to. `--open`, `--adapter`, `--log-level` and `--crash-test` take effect now; `--models`
+arrives with the model library.

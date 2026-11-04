@@ -14,16 +14,15 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT13** (deps: WT12 ✅) **A .otio file cannot be opened or saved, and unknown schemas from newer OTIO versions would be dropped** — Opening and saving without loss is the first promise of a viewer-editor; a save that silently drops a studio's metadata loses trust forever. → §WT13
-- 📋 **WT14** (deps: WT13) **An .otioz or .otiod bundle cannot be opened, so timelines shipped with their media by other tools are unusable** — Bundles are how OTIO moves a timeline together with its media between machines, and they are the natural archive format for this app too. → §WT14
-- 📋 **WT15** (deps: WT13) **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — Editors move work between Premiere, Resolve, Avid and finishing tools through these formats, so a viewer that reads only .otio sees little. → §WT15
+- 📋 **WT14** (deps: WT13 ✅) **An .otioz or .otiod bundle cannot be opened, so timelines shipped with their media by other tools are unusable** — Bundles are how OTIO moves a timeline together with its media between machines, and they are the natural archive format for this app too. → §WT14
+- 📋 **WT15** (deps: WT13 ✅) **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — Editors move work between Premiere, Resolve, Avid and finishing tools through these formats, so a viewer that reads only .otio sees little. → §WT15
 - 📋 **WT16** (deps: WT12 ✅) **No edit can be undone, and there is no single place where a change to the document is described** — Every editing tool, the AI assistant and scripting all need one command pipeline, or undo breaks the first time two of them touch the same clip. → §WT16
-- 📋 **WT17** (deps: WT13, WT16) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
-- 📋 **WT18** (deps: WT13) **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — OTIO files travel between machines and drive letters constantly, so relinking is needed on almost every file received from someone else. → §WT18
+- 📋 **WT17** (deps: WT13 ✅, WT16) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
+- 📋 **WT18** (deps: WT13 ✅) **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — OTIO files travel between machines and drive letters constantly, so relinking is needed on almost every file received from someone else. → §WT18
 - 📋 **WT19** (deps: WT12 ✅) **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — Files from other tools are often subtly broken, and reporting it on open beats an exporter crash an hour later. → §WT19
-- 📋 **WT20** (deps: WT13) **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — Editorial hand-offs often carry several reels or versions in one file, and comparing versions side by side is a core review task. → §WT20
+- 📋 **WT20** (deps: WT13 ✅) **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — Editorial hand-offs often carry several reels or versions in one file, and comparing versions side by side is a core review task. → §WT20
 - 📋 **WT21** (deps: WT20) **Two versions of a cut cannot be compared, so what changed between v1 and v2 must be found by eye** — Editorial review is mostly asking what changed, and OTIO's structure makes an exact answer possible. → §WT21
-- 📋 **WT22** (deps: WT13) **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — The .otio must stay clean for interchange, while the editor needs per-project state that survives reopening. → §WT22
+- 📋 **WT22** (deps: WT13 ✅) **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — The .otio must stay clean for interchange, while the editor needs per-project state that survives reopening. → §WT22
 
 ## Block C — Media probing and GPU decoding
 
