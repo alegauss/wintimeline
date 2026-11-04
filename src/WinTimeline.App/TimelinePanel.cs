@@ -61,6 +61,7 @@ public sealed class TimelinePanel : IDisposable
     private TimelineViewport? _published;
     private SnapTargets? _targets;
     private Snapped? _guide;
+    private IReadOnlyList<PlacedMarker>? _markers;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
     private double? _inPoint;
@@ -250,6 +251,26 @@ public sealed class TimelinePanel : IDisposable
         return snapped.Seconds;
     }
 
+    /// <summary>WT54: every marker on the shown timeline, placed and sorted; empty with none shown.</summary>
+    public IReadOnlyList<PlacedMarker> Markers => _markers ??= _layout is { } layout ? TimelineMarkers.Of(layout) : [];
+
+    /// <summary>WT54: the timeline's own marker on the playhead's frame, or null.</summary>
+    public PlacedMarker? MarkerAtPlayhead =>
+        Markers.FirstOrDefault(m => m.Lane is null && Math.Abs(m.Start - Position.Seconds) < 0.5 / Rate);
+
+    /// <summary>WT54: moves the playhead to the next marker, or the last one before it, as Shift+Down and Shift+Up do.</summary>
+    /// <param name="forward">Which way.</param>
+    public void JumpToMarker(bool forward)
+    {
+        if (TimelineMarkers.Beside(Markers, Position.Seconds, Rate, forward) is { } marker)
+        {
+            Position.GoTo(marker.Start + (0.5 / Rate));
+        }
+    }
+
+    /// <summary>WT54: the frame rate the shown timeline counts in.</summary>
+    public double FrameRate => Rate;
+
     /// <summary>WT51: steps the playhead by frames, back when negative.</summary>
     /// <param name="frames">How many.</param>
     public void Step(long frames) => Position.Step(frames);
@@ -296,6 +317,7 @@ public sealed class TimelinePanel : IDisposable
         _view = null;
         Selection.Clear();
         _targets = null;
+        _markers = null;
         Position.Reset(Rate, _layout?.Duration ?? 0);
         if (timeline is not null)
         {
@@ -348,6 +370,7 @@ public sealed class TimelinePanel : IDisposable
             Position.Lengthen(_layout.Duration);
             Selection.Keep(_layout);
             _targets = null;
+            _markers = null;
         }
 
         Changed();
@@ -399,6 +422,7 @@ public sealed class TimelinePanel : IDisposable
             DrawLanes(view, layout, target.Width);
             DrawItems(view, layout);
             DrawRuler(view, target.Width);
+            DrawMarkers(view);
             _canvas.End();
         }
 
@@ -753,6 +777,50 @@ public sealed class TimelinePanel : IDisposable
         }
     }
 
+    /// <summary>
+    /// WT54: the timeline's own markers as flags along the foot of the ruler, and the markers of
+    /// tracks and clips as ticks along the top of their lane; a ranged marker is a band as long as
+    /// it is.
+    /// </summary>
+    private void DrawMarkers(TimelineViewport view)
+    {
+        foreach (PlacedMarker marker in Markers)
+        {
+            if (marker.End < view.Start || marker.Start > view.End || Place(view, marker) is not { } at)
+            {
+                continue;
+            }
+
+            (float r, float g, float b) = MarkerColors.Rgb(marker.Marker.Color);
+            Color4 solid = new(r, g, b, 1f);
+            if (at.Width > 2)
+            {
+                _canvas.Fill(at.X, at.Y, at.Width, at.Height, new Color4(r, g, b, 0.35f));
+            }
+
+            _canvas.Fill(at.X - (float)Scale, at.Y, (float)Math.Max(2, 2 * Scale), at.Height, solid);
+        }
+    }
+
+    /// <summary>WT54: where a marker is drawn, in device pixels: on the ruler or the top of its lane; null when its lane is out of view.</summary>
+    private (float X, float Y, float Width, float Height)? Place(TimelineViewport view, PlacedMarker marker)
+    {
+        float x = (float)(Header + view.X(marker.Start));
+        float width = (float)(marker.Duration * view.PixelsPerSecond);
+        if (marker.Lane is not { } lane)
+        {
+            float band = (float)(Ruler - Overview);
+            return (x, (float)(Overview + (band * 0.6)), width, band * 0.4f);
+        }
+
+        if (lane < view.FirstLane || lane > view.LastLane)
+        {
+            return null;
+        }
+
+        return (x, (float)(Ruler + view.Y(lane) + 1), width, (float)Math.Max(4, view.LaneHeight * 0.22));
+    }
+
     private (float X, float Y, float Width, float Height) Bounds(TimelineViewport view, LaneItem item)
     {
         double x = Header + view.X(item.Start);
@@ -840,6 +908,23 @@ public sealed class TimelinePanel : IDisposable
                 kind,
                 UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End)),
                 x, y, w, h));
+        }
+
+        // WT54: the markers in view, read by name and by colour, lane and time.
+        foreach (PlacedMarker marker in Markers)
+        {
+            if (marker.End < view.Start || marker.Start > view.End || Place(view, marker) is not { } at)
+            {
+                continue;
+            }
+
+            string? lane = marker.Lane is { } index ? layout.Lanes[index].Label : null;
+            items.Add(new SurfaceItem(
+                marker.Marker.Name.Length > 0 ? marker.Marker.Name : UiText.UnnamedMarker,
+                marker.Id,
+                "marker",
+                UiText.MarkerStatus(marker.Marker.Color, Timecode(marker.Start), lane, (long)Math.Round(marker.Duration * Rate)),
+                at.X - (2 * Scale), at.Y, Math.Max(4 * Scale, at.Width + (4 * Scale)), at.Height));
         }
 
         return items;

@@ -1,0 +1,26 @@
+<!-- WT54: a marker's editor, opened by M on a marker: its name, colour, length and note. -->
+<Window x:Class="WinTimeline.App.MarkerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:WinTimeline.App"
+        Title="{x:Static app:UiText.MarkerTitle}"
+        AutomationProperties.AutomationId="MarkerWindow"
+        ThemeMode="System"
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <StackPanel Margin="20" MinWidth="380">
+    <TextBlock Text="{x:Static app:UiText.MarkerNameLabel}" />
+    <TextBox x:Name="MarkerName" Margin="0,4,0,0" AutomationProperties.AutomationId="MarkerName" AutomationProperties.Name="{x:Static app:UiText.MarkerNameLabel}" />
+    <TextBlock Text="{x:Static app:UiText.MarkerColorLabel}" Margin="0,12,0,0" />
+    <ComboBox x:Name="MarkerColor" Margin="0,4,0,0" AutomationProperties.AutomationId="MarkerColor" AutomationProperties.Name="{x:Static app:UiText.MarkerColorLabel}" />
+    <TextBlock Text="{x:Static app:UiText.MarkerFramesLabel}" Margin="0,12,0,0" />
+    <TextBox x:Name="MarkerFrames" Margin="0,4,0,0" AutomationProperties.AutomationId="MarkerFrames" AutomationProperties.Name="{x:Static app:UiText.MarkerFramesLabel}" />
+    <TextBlock Text="{x:Static app:UiText.MarkerCommentLabel}" Margin="0,12,0,0" />
+    <TextBox x:Name="MarkerComment" Margin="0,4,0,0" MinHeight="60" TextWrapping="Wrap" AcceptsReturn="True" AutomationProperties.AutomationId="MarkerComment" AutomationProperties.Name="{x:Static app:UiText.MarkerCommentLabel}" />
+    <TextBlock x:Name="MarkerProblem" Margin="0,8,0,0" TextWrapping="Wrap" AutomationProperties.AutomationId="MarkerProblem" />
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+      <Button Content="{x:Static app:UiText.MarkerSave}" MinWidth="88" IsDefault="True" Click="OnOk" AutomationProperties.AutomationId="MarkerOk" />
+      <Button Content="{x:Static app:UiText.Cancel}" MinWidth="88" Margin="8,0,0,0" IsCancel="True" AutomationProperties.AutomationId="MarkerCancel" />
+    </StackPanel>
+  </StackPanel>
+</Window>

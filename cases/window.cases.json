@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT54: Premiere's export, three markers on the timeline (at frames 113, 298 and 492 of 30 fps from 0) and one on a clip; not lent, since its case edits and adds markers.
+      "name": "a window on a timeline with markers",
+      "arguments": ["--open", "tests/fixtures/otio/corpus/premiere_example.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT53: the same cut again, its first cut at two seconds; not lent, since its case moves the playhead and turns snapping off.
       "name": "a window on a cut to snap to",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1280,6 +1286,92 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "a file's markers are shown where it put them, Shift+Down reaches one, M edits it, and M elsewhere adds one",
+      "catches": "markers a file carries that the timeline drops, or a review note that cannot be written back",
+      "filed": "WT54",
+      "tags": ["markers", "keyboard", "surface"],
+      "fixture": "a window on a timeline with markers",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem#M-T-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "RED marker on the timeline at 00:00:03:23",
+          "named": "Premiere's first timeline marker is on the ruler at its frame, in its colour"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#M-V2-4-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "RED marker on V2 at 00:00:13:05",
+          "named": "and the clip's marker is on its lane, at the clip's start plus its offset into the media"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the viewer is clicked, which focuses it"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Down",
+          "named": "Shift+Down is pressed"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "00:00:03:23",
+          "named": "the playhead is on the first marker"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "M",
+          "named": "M is pressed on it"
+        },
+        {
+          "locator": "Edit#MarkerName",
+          "act": "type",
+          "with": "pick up",
+          "named": "its editor opens, and a new name is typed"
+        },
+        {
+          "locator": "Button#MarkerOk",
+          "act": "invoke",
+          "named": "Save is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#M-T-0",
+          "act": "read",
+          "reads": "name",
+          "expect": "pick up",
+          "named": "the marker is renamed"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Home",
+          "named": "the playhead goes back to the start"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "M",
+          "named": "M is pressed where there is no marker"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#M-T-3",
+          "act": "read",
+          "reads": "status",
+          "expect": "GREEN marker on the timeline at 00:00:00:00",
+          "named": "and a fourth marker is added there, green as the reference's default"
         }
       ]
     },

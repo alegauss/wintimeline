@@ -477,18 +477,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT54 Markers on timeline, tracks and clips
-
-OTIO markers live on the timeline's stack, on tracks and on clips; all three are drawn
-(ruler, track lane, clip body) with their `color` enum mapped to the OTIO palette and
-ranged markers drawn as bands. M adds a marker at the playhead, M twice opens its editor
-(name, colour, duration, comment). Markers can be dragged and snapped, navigated with
-Shift+Up/Down, and listed in the markers panel (H block). Metadata on a marker is
-preserved.
-
-Done when markers from a Resolve-exported OTIO show at the same frames and colours as in
-Resolve.
-
 ### §WT55 Clip appearance and badges
 
 A video clip draws a filmstrip of thumbnails (head only, head+tail, or continuous,
@@ -581,6 +569,35 @@ WT72 act on. Linking: a clip's linked audio or video selects with it unless link
 toggled off with L. Edit > Select by: clips found by name, colour, media, effect or AI
 tag. The inspector mirrors the selection once there is one. Done when each has a case
 asserting the selected ids.
+
+### §WT171 Dragging markers
+
+WT54 shows the markers of the timeline's stack, its tracks and its items
+(TimelineMarkers.Of in the engine places them in timeline seconds). It adds one with M
+at the playhead and edits one with M on it, through EditMarker, which changes name,
+colour, range and note in one undoable step. A marker cannot be moved yet. A press on a
+marker should start a drag: on the ruler for the timeline's own, on the top band of its
+lane for a track's or an item's. The drag moves the marker's start with WT53's
+SnapTargets, excluding the marker itself, and the guide shows. Release is one EditMarker
+with the new range in the owner's own time (for an item, the timeline time minus the
+item's start plus its trimmed start). Kept inside what an item plays, since a marker
+outside it is not shown. A ranged marker moves whole. Done when a case drags a marker
+onto a cut and reads its new timecode, and an undo puts it back.
+
+### §WT172 Markers from a Resolve export
+
+WT54's done-when asks that markers from a Resolve-exported OTIO show at the same frames
+and colours as in Resolve. The fixtures hold no Resolve export, so WT54 was checked
+against what the reference adapters wrote: Premiere's FCP 7 XML
+(otio/corpus/premiere_example.otio, markers on the stack and a clip) and FCPX
+(fcpx/expected/fcpx_project.otio, clip markers past a trimmed start and one outside it).
+MarkerTests asserts their placements and colours. What remains needs DaVinci Resolve: a
+timeline with markers of several colours on the timeline and on clips, some ranged,
+exported as OTIO, with a note of each marker's frame and colour as Resolve shows it.
+That file goes under tests/fixtures/resolve/ with an engine test asserting
+TimelineMarkers.Of against the note. Resolve writes its own colour names in the marker's
+metadata (Resolve_OTIO), which may differ from the reference's enum. Where they disagree
+the metadata colour should win, and that is the one code change this may bring.
 
 ## Block G — Workspace, panels and viewers
 

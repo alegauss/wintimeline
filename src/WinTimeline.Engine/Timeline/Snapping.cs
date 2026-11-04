@@ -59,19 +59,7 @@ public sealed class SnapTargets
     {
         ArgumentNullException.ThrowIfNull(layout);
         List<SnapTarget> targets = [.. EditPoints.Of(layout).Select(s => new SnapTarget(s, SnapKind.EditPoint))];
-        foreach (Lane lane in layout.Lanes)
-        {
-            targets.AddRange(lane.Track.Markers.Select(m => new SnapTarget(m.MarkedRange.StartTime.Seconds, SnapKind.Marker)));
-            foreach (LaneItem item in lane.Items)
-            {
-                if (item.Item is Item { Markers.Count: > 0 } marked)
-                {
-                    double origin = item.Start - marked.TrimmedRange().StartTime.Seconds;
-                    targets.AddRange(marked.Markers.Select(m => new SnapTarget(origin + m.MarkedRange.StartTime.Seconds, SnapKind.Marker)));
-                }
-            }
-        }
-
+        targets.AddRange(TimelineMarkers.Of(layout).Select(m => new SnapTarget(m.Start, SnapKind.Marker)));
         return new SnapTargets(targets);
     }
 

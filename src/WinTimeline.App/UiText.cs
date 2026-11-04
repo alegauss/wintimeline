@@ -409,6 +409,56 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT54: adds a marker at the playhead, or edits the one there.</summary>
+    public const string AddMarkerMenu = "Add _marker";
+
+    /// <summary>WT54: the gesture shown beside Add marker.</summary>
+    public const string AddMarkerGesture = "M";
+
+    /// <summary>WT54: the marker editor's title.</summary>
+    public const string MarkerTitle = "Marker";
+
+    /// <summary>WT54: the editor's name field.</summary>
+    public const string MarkerNameLabel = "Name";
+
+    /// <summary>WT54: the editor's colour field.</summary>
+    public const string MarkerColorLabel = "Colour";
+
+    /// <summary>WT54: the editor's length field.</summary>
+    public const string MarkerFramesLabel = "Length in frames (0 for a point)";
+
+    /// <summary>WT54: the editor's note field.</summary>
+    public const string MarkerCommentLabel = "Note";
+
+    /// <summary>WT54: the editor's save button.</summary>
+    public const string MarkerSave = "Save";
+
+    /// <summary>WT54: a length that is not a whole number of frames.</summary>
+    public const string MarkerFramesWrong = "The length is a whole number of frames, 0 or more.";
+
+    /// <summary>WT54: what a marker with no name is called.</summary>
+    public const string UnnamedMarker = "Marker";
+
+    /// <summary>WT54: the name a new marker gets.</summary>
+    /// <param name="number">How many the timeline will have with it.</param>
+    /// <returns>e.g. "Marker 4".</returns>
+    public static string NewMarkerName(int number) => string.Create(CultureInfo.InvariantCulture, $"Marker {number}");
+
+    /// <summary>WT54: a marker as UI Automation reads it.</summary>
+    /// <param name="color">Its colour, e.g. RED.</param>
+    /// <param name="timecode">Where it is.</param>
+    /// <param name="lane">The lane it is on, or null for the timeline's own.</param>
+    /// <param name="frames">How long it is, in frames.</param>
+    /// <returns>e.g. "RED marker on V1 at 01:00:03:18, 15 frames".</returns>
+    public static string MarkerStatus(string color, string timecode, string? lane, long frames) =>
+        string.Create(CultureInfo.InvariantCulture, $"{color} marker {(lane is null ? "on the timeline" : "on " + lane)} at {timecode}{(frames > 0 ? $", {frames} frames" : string.Empty)}");
+
+    /// <summary>WT54: what adding a marker did.</summary>
+    /// <param name="name">Its name.</param>
+    /// <param name="timecode">Where.</param>
+    /// <returns>The status.</returns>
+    public static string MarkerAdded(string name, string timecode) => $"Added {name} at {timecode}; M again edits it.";
+
     /// <summary>WT53: snapping on or off, from the View menu or S.</summary>
     public const string SnappingMenu = "S_napping";
 

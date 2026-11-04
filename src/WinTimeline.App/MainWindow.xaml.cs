@@ -41,6 +41,7 @@ public partial class MainWindow : Window
         BindPlayhead();
         BindSelection();
         BindClipboard();
+        BindMarkers();
         BindDocumentCommands();
         ShowWelcome();
     }

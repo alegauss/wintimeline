@@ -52,7 +52,6 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- 📋 **WT54** (deps: WT47 ✅, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - 📋 **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
 - 💭 **WT57** (deps: WT48 ✅) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
@@ -60,6 +59,7 @@
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 - 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
 - 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
+- 📋 **WT171** (deps: WT54 ✅) **Markers cannot be dragged to a new time on the ruler or their lane** — A note placed a few frames off has to be deleted and added again, and AI findings land where their analysis put them. → §WT171
 
 ## Block G — Workspace, panels and viewers
 
@@ -69,7 +69,7 @@
 - 📋 **WT62** (deps: WT59, WT22 ✅, WT24) **Imported media has nowhere to live: no bins, folders, list or grid views, search or metadata columns** — Projects have hundreds of files, and finding the right one quickly is a large share of editing time. → §WT62
 - 📋 **WT63** (deps: WT59, WT52 ✅) **Clip, track, transition and timeline properties, including OTIO metadata, cannot be seen or edited** — OTIO carries rich metadata, and a viewer-editor must show and edit it faithfully. → §WT63
 - 📋 **WT64** (deps: WT59, WT16 ✅) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
-- 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
+- 📋 **WT65** (deps: WT59, WT54 ✅) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
 - 📋 **WT67** (deps: WT5 ✅, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
 - ⏳ **WT68** (deps: WT1 ✅, WT44) **Opening the app shows an empty window with no recent projects, templates or first steps** — Still needed: new timelines from presets (resolution, rate, colour space), sample timelines, thumbnails beside recent files, and the .otio association with its thumbnail handler. → §WT68
 - ⏳ **WT69** (deps: WT1 ✅, WT41) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Still needed: toasts when minimised, VRAM, dropped frames, proxies and model state in the status bar, and a failing proxy job's Retry shown working in a UI case. → §WT69
@@ -137,7 +137,7 @@
 - 📋 **WT118** (deps: WT112, WT91) **A 16:9 edit cannot be reframed to 9:16 or 1:1 with the subject kept in frame** — Every cut now ships vertical versions for social platforms, and reframing by hand is keyframe drudgery. → §WT118
 - 📋 **WT119** (deps: WT84, WT99 ✅) **Noisy dialogue, hum and reverb cannot be cleaned inside the app** — Most location audio needs cleanup, and modern denoisers run in real time on a laptop. → §WT119
 - 📋 **WT120** (deps: WT119, WT106) **Music cannot be separated from dialogue, and background music is not ducked under speech automatically** — Ducking music under voice is a step in nearly every video, and stem separation rescues mixed recordings. → §WT120
-- 📋 **WT121** (deps: WT104 ✅, WT54) **Cuts cannot be placed on the beats of a music track** — Montages cut to music are common, and beat markers make them fast and precise. → §WT121
+- 📋 **WT121** (deps: WT104 ✅, WT54 ✅) **Cuts cannot be placed on the beats of a music track** — Montages cut to music are common, and beat markers make them fast and precise. → §WT121
 - 📋 **WT122** (deps: WT77, WT99 ✅) **Slow motion from normal-rate footage stutters, because frames are only repeated or blended** — Smooth slow motion is a common request and optical-flow models make it possible from ordinary footage. → §WT122
 - 📋 **WT123** (deps: WT99 ✅, WT40 ⏳) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
 - 💭 **WT124** (deps: WT92, WT99 ✅) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124

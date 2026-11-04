@@ -62,6 +62,9 @@ public sealed class TimelineLayout
         _longest = [.. lanes.Select(l => l.Items.Count == 0 ? 0 : l.Items.Max(i => i.End - i.Start))];
     }
 
+    /// <summary>WT54: the timeline's stack, whose markers are the timeline's own.</summary>
+    public Stack? Tracks { get; private init; }
+
     /// <summary>The lanes, top to bottom.</summary>
     public IReadOnlyList<Lane> Lanes { get; }
 
@@ -142,7 +145,7 @@ public sealed class TimelineLayout
             lanes.Add(new Lane(label, track, items));
         }
 
-        return new TimelineLayout(lanes, duration);
+        return new TimelineLayout(lanes, duration) { Tracks = timeline.Tracks };
     }
 
     /// <summary>What a viewport shows: every item on the lanes in range that overlaps the time range.</summary>
