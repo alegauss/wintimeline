@@ -1,0 +1,83 @@
+# WT9: what runs on every push and pull request without a desk or a GPU: the build, the headless
+# test projects and the roadmap lint. Windows, because the app is WPF and the render tests open a
+# WARP device.
+#
+# Not here, on purpose: the winwright UI cases (tests/WinTimeline.Cases), which take over a desktop
+# and restore the Winwright package from a local feed, and anything needing a real GPU or hardware
+# decode. Those run in the VMware guest with run-tests-vm.cmd before a release.
+#
+# ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+# │ ONE-TIME REPOSITORY SETTING: Settings → Branches → main → require the "build and test"   │
+# │ and "roadmap lint" checks. And if alegauss/roadkeep is private, a ROADKEEP_TOKEN secret  │
+# │ with read access to it; the lint job says so when it is missing.                         │
+# └──────────────────────────────────────────────────────────────────────────────────────────┘
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: build and test
+    runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO: "1"
+      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+      TESTINGPLATFORM_TELEMETRY_OPTOUT: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      # Every project but the UI cases, each built by its own file so the Cases project and its
+      # local-feed package are never restored. The app, the libraries and the CLI come in through
+      # the test projects and the CLI's own build.
+      - name: Build
+        shell: pwsh
+        run: |
+          $projects = @(Get-ChildItem tests -Directory -Filter '*.Tests' | ForEach-Object { Join-Path $_.FullName "$($_.Name).csproj" }) + 'tools/WinTimeline.Cli/WinTimeline.Cli.csproj'
+          foreach ($project in $projects) {
+            dotnet build $project --configuration Release -v quiet
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+      - name: Test
+        shell: pwsh
+        run: |
+          $failed = @()
+          $suites = Get-ChildItem tests -Directory -Filter '*.Tests'
+          if ($suites.Count -eq 0) { Write-Error 'no test projects found'; exit 1 }
+          foreach ($suite in $suites) {
+            $exe = Join-Path $suite.FullName "bin/Release/net10.0-windows10.0.19041.0/$($suite.Name).exe"
+            Write-Host "=== $($suite.Name) ==="
+            & $exe --results-directory TestResults/reports --hangdump --hangdump-timeout 10m
+            if ($LASTEXITCODE -ne 0) { $failed += $suite.Name }
+          }
+          if ($failed) { Write-Error "failed: $($failed -join ', ')"; exit 1 }
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: TestResults/reports
+
+  roadmap-lint:
+    name: roadmap lint
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: alegauss/roadkeep
+          path: .roadkeep-src
+          token: ${{ secrets.ROADKEEP_TOKEN || github.token }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: roadkeep lint
+        shell: pwsh
+        env:
+          ROADKEEP_HOME: ${{ github.workspace }}/.roadkeep-src
+        run: python .claude/hooks/roadkeep-launch.py lint

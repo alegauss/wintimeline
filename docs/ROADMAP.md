@@ -6,7 +6,6 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT9** (deps: WT8 ✅) **No CI builds the solution or runs the headless tests on each push** — A breaking change to the model or the OTIO round trip must be caught before a release, not by a user. → §WT9
 - 📋 **WT10** (deps: WT8 ✅) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — A session executing this roadmap follows that skill literally, so wrong gates mean commits validated by commands that do not exist here. → §WT10
 - 📋 **WT150** (deps: WT3 ✅) **Shaders would be compiled at start-up, so a broken one crashes on the user's desk instead of failing the build** — Start-up time and shader errors belong to the build, and tuning a shader should not need a restart; split out of WT3. → §WT150
 - 📋 **WT151** (deps: WT3 ✅) **A texture on the shared device cannot reach D3D12 without a copy, and nothing reports VRAM pressure or GPU decode** — Windows ML and heavy compute run on D3D12, and caches must shrink before the driver evicts; split out of WT3. → §WT151
@@ -299,6 +298,12 @@
 - **A clean VM goes from installer to an exported video in five minutes** A scripted
   case installs, opens a fixture .otio, exports with the YouTube preset and verifies the
   file.
+
+## Done when — WT9
+
+- **The checks are green on GitHub and required on main** After a push, the tests
+  workflow's build-and-test and roadmap-lint jobs pass on GitHub, and branch protection
+  on main lists both as required checks.
 
 ## Non-goals
 

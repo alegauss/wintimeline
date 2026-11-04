@@ -2,6 +2,8 @@
 
 ## Block A — Project foundation
 
+- ⏸ **WT9** (deps: WT8 ✅) **No CI builds the solution or runs the headless tests on each push** — set aside (Waits for the author to push and mark the build-and-test and roadmap-lint checks required on main.): The workflow has never run on GitHub, and its checks are not yet required on pull requests. → §WT9
+
 ## Block B — OTIO document model and file formats
 
 ## Block C — Media probing and GPU decoding
