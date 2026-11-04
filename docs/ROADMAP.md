@@ -14,7 +14,6 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT21** (deps: WT20 ✅) **Two versions of a cut cannot be compared, so what changed between v1 and v2 must be found by eye** — Editorial review is mostly asking what changed, and OTIO's structure makes an exact answer possible. → §WT21
 - 📋 **WT22** (deps: WT13 ✅) **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — The .otio must stay clean for interchange, while the editor needs per-project state that survives reopening. → §WT22
 - 📋 **WT156** (deps: WT15 ✅) **FCP 7 XML and FCPXML timelines from Premiere and Resolve cannot be opened** — They are the formats both editors write; split out of WT15, which shipped the adapter interface and EDL. → §WT156
 - 📋 **WT157** (deps: WT15 ✅) **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — Avid hands off AAF, and porting every adapter is not worth it when the reference can convert out of process; split out of WT15. → §WT157
@@ -22,6 +21,8 @@
 - 📋 **WT159** (deps: WT18 ✅, WT24, WT22) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
 - 📋 **WT160** (deps: WT20 ✅) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
 - 📋 **WT161** (deps: WT17 ✅, WT20 ✅) **Edits to a file of several timelines are not journaled, so a crash loses them** — The recovery journal addresses commands from one timeline; collections need paths that name the timeline too. → §WT161
+- 📋 **WT162** (deps: WT21 ✅) **A comparison cannot be exported as a change-list EDL or as markers for another tool** — Online and sound editors receive changes as a change list or markers, and retyping the list is where conform errors come from. → §WT162
+- 📋 **WT163** (deps: WT21 ✅) **The changes between two versions show only as a list, not as colour bands on the timeline** — A reviewer reads a cut by its shape; bands on the clips that moved, trimmed or were replaced show where the edits fall. → §WT163
 
 ## Block C — Media probing and GPU decoding
 
@@ -156,7 +157,7 @@
 - 💭 **WT124** (deps: WT92, WT99) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
 - 📋 **WT125** (deps: WT112, WT92) **Faces and licence plates cannot be blurred automatically for privacy** — News, documentary and corporate videos must hide bystanders, and tracking them by hand takes hours. → §WT125
 - 📋 **WT126** (deps: WT111, WT19 ✅) **Flash frames, black frames, frozen frames, out-of-focus shots and jump cuts are found only by watching** — A technical QC pass before delivery catches embarrassing errors that a tired editor misses. → §WT126
-- 📋 **WT127** (deps: WT114, WT21) **Chapters, a description and a summary of a cut, or of what changed between versions, must be written by hand** — Publishing needs chapters and descriptions, and review needs a readable change summary. → §WT127
+- 📋 **WT127** (deps: WT114, WT21 ✅) **Chapters, a description and a summary of a cut, or of what changed between versions, must be written by hand** — Publishing needs chapters and descriptions, and review needs a readable change summary. → §WT127
 - 💭 **WT128** (deps: WT93, WT112) **Shots from different cameras cannot be matched in colour automatically** — Multicam and mixed-camera edits need consistent colour, and a first automatic match saves most of the work. → §WT128
 - 💭 **WT129** (deps: WT81, WT107) **Multicam podcasts must be cut angle by angle even though the speaker is known at every moment** — Speaker diarisation can produce a watchable first cut of a multicam conversation automatically. → §WT129
 - 💭 **WT130** (deps: WT99, WT84) **A scratch narration cannot be produced from text while the real voice-over is not recorded yet** — Editors time a cut against a narration long before the final recording exists. → §WT130

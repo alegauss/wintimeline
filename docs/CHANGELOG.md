@@ -26,6 +26,7 @@
 - ✅ **WT18** **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — Missing media is named on open, and File > Relink media relinks every clip one located file implies, by folder substitution or by name, as one undoable step.
 - ✅ **WT19** **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — A validator reports bad transitions, empty items, out-of-media ranges, rate mismatches, deep nesting and duplicate markers on open; View > Problems fixes what it can.
 - ✅ **WT20** **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — A file of several timelines opens as one tab each with its own undo, saves back byte-equal, and Edit > Duplicate timeline as version adds the next numbered copy beside it.
+- ✅ **WT21** **Two versions of a cut cannot be compared, so what changed between v1 and v2 must be found by eye** — View > Compare lists what changed from another timeline to the shown one (moved, trimmed with frame deltas, replaced, added, removed); a known v1/v2 pair yields exactly its five edits.
 
 ## Block C — Media probing and GPU decoding
 

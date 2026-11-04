@@ -97,6 +97,12 @@
       "shareable": false
     },
     {
+      // WT21: two versions of a cut with known edits between them, in one collection.
+      "name": "a window on two versions of a cut",
+      "arguments": ["--open", "tests/fixtures/diff/cuts.otio", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
@@ -696,6 +702,50 @@
           "act": "read",
           "sameBytesAs": "tests/fixtures/collections/reels.otio",
           "named": "and the copy is the same collection, byte for byte"
+        }
+      ]
+    },
+
+    {
+      "name": "the second version of a cut is compared with the first and lists exactly its edits",
+      "catches": "a comparison that misses an edit, reports a ripple as a move, or cannot be reached from the window",
+      "filed": "WT21",
+      "tags": ["compare", "collection", "dialog"],
+      "fixture": "a window on two versions of a cut",
+      "steps": [
+        {
+          "locator": "TabItem#TimelineTab1",
+          "act": "select",
+          "named": "the cut v2 tab is chosen"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#CompareMenuItem",
+          "act": "invoke",
+          "named": "Compare is chosen"
+        },
+        {
+          "locator": "Text#CompareSummary",
+          "act": "read",
+          "reads": "name",
+          "expect": "5 changes; 3 clips unchanged.",
+          "named": "the comparison with cut v1 counts the five edits"
+        },
+        {
+          "locator": "List#ChangeList > ListItem[order=top]",
+          "act": "read",
+          "reads": "name",
+          "expect": "Moved c5 to V1 at 01:00:00:00 from 01:00:06:12.",
+          "named": "and the first is the move of c5 to the head"
+        },
+        {
+          "locator": "Button#CompareClose",
+          "act": "invoke",
+          "named": "the comparison is closed"
         }
       ]
     }

@@ -111,6 +111,23 @@ public partial class MainWindow
         }
     }
 
+    private void OnCompare(object sender, RoutedEventArgs e)
+    {
+        if (ActiveTimeline is not { } shown)
+        {
+            StatusText.Text = "Open a timeline to compare it.";
+            return;
+        }
+
+        if (Timelines.Count < 2)
+        {
+            StatusText.Text = "Compare needs a second timeline: open a file of several, or use Edit > Duplicate timeline as version.";
+            return;
+        }
+
+        new CompareWindow(Timelines, shown) { Owner = this }.ShowDialog();
+    }
+
     private void OnDuplicateTimeline(object sender, RoutedEventArgs e)
     {
         if (ActiveTimeline is not { } timeline)
