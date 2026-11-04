@@ -49,12 +49,12 @@
 
 ## Block E — Proxies, thumbnails, waveforms and background jobs
 
-- 📋 **WT40** (deps: WT1 ✅) **Long work (proxies, analysis, renders) has no shared queue, priorities, progress or cancellation** — Proxies, AI analysis and export compete for the same GPU encoders and disks, and must not freeze the editor. → §WT40
-- 📋 **WT41** (deps: WT40, WT25, WT27) **Heavy camera media (4K/8K HEVC 10-bit, RAW-derived ProRes) cannot be edited smoothly on a laptop** — Proxy editing is the standard answer, and generating proxies on the GPU encoder makes it nearly free. → §WT41
+- ⏳ **WT40** (deps: WT1 ✅, WT34) **Long work (proxies, analysis, renders) has no shared queue, priorities, progress or cancellation** — Still needed: a Jobs panel, taskbar progress (ITaskbarList3), OS background priority when throttled, and proof playback drops no frames with jobs running. → §WT40
+- 📋 **WT41** (deps: WT40 ⏳, WT25, WT27) **Heavy camera media (4K/8K HEVC 10-bit, RAW-derived ProRes) cannot be edited smoothly on a laptop** — Proxy editing is the standard answer, and generating proxies on the GPU encoder makes it nearly free. → §WT41
 - 📋 **WT42** (deps: WT41, WT37) **Playback cannot switch between proxy and original media, per clip or globally, without relinking** — Editors cut on proxies and check or export on originals, and the switch must be one click with exact frames. → §WT42
 - 📋 **WT43** (deps: WT41, WT24) **Users must decide clip by clip which media needs a proxy and when to create it** — Most people do not know which codecs are heavy, and the app can measure it. → §WT43
-- 📋 **WT44** (deps: WT40, WT25) **Clip filmstrips and bin thumbnails are not generated or cached, so the timeline shows grey boxes** — Pictures are how editors find shots, and regenerating them on every open wastes minutes. → §WT44
-- 📋 **WT45** (deps: WT40, WT27) **Audio clips show no waveform, and computing one blocks the editor for long files** — Sound editing and finding dialogue rely on seeing the waveform. → §WT45
+- 📋 **WT44** (deps: WT40 ⏳, WT25) **Clip filmstrips and bin thumbnails are not generated or cached, so the timeline shows grey boxes** — Pictures are how editors find shots, and regenerating them on every open wastes minutes. → §WT44
+- 📋 **WT45** (deps: WT40 ⏳, WT27) **Audio clips show no waveform, and computing one blocks the editor for long files** — Sound editing and finding dialogue rely on seeing the waveform. → §WT45
 - 📋 **WT46** (deps: WT42) **Proxies made on one machine cannot be reused by a colleague or after moving the project** — Shared storage teams create proxies once, and recreating them per machine wastes hours. → §WT46
 
 ## Block F — Timeline view: GPU drawing and navigation
@@ -128,7 +128,7 @@
 
 - 📋 **WT99** (deps: WT3 ✅) **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — Every AI feature needs one runtime choice shared across features, or each one ships its own engine and VRAM fights follow. → §WT99
 - 📋 **WT100** (deps: WT99) **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — People must know what they download, what it costs on disk and in VRAM, and whether its licence allows their use. → §WT100
-- 📋 **WT101** (deps: WT100, WT40) **Models cannot be downloaded, resumed, verified, moved to another drive or removed from inside the app** — Models weigh from 50 MB to 10 GB, and an interrupted or corrupt download must never break a feature. → §WT101
+- 📋 **WT101** (deps: WT100, WT40 ⏳) **Models cannot be downloaded, resumed, verified, moved to another drive or removed from inside the app** — Models weigh from 50 MB to 10 GB, and an interrupted or corrupt download must never break a feature. → §WT101
 - 📋 **WT102** (deps: WT101, WT67) **Nothing in the UI shows which AI features are available, which models they need and whether this PC can run them** — AI features must explain themselves before a 4 GB download, or people will not trust them. → §WT102
 - 📋 **WT103** (deps: WT99) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Editors work under NDA, and a local-only promise is only worth something if it is enforced and visible. → §WT103
 - 📋 **WT104** (deps: WT22 ✅, WT99) **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis is expensive, and its results are what search, the assistant and the timeline all read. → §WT104
@@ -153,7 +153,7 @@
 - 📋 **WT120** (deps: WT119, WT106) **Music cannot be separated from dialogue, and background music is not ducked under speech automatically** — Ducking music under voice is a step in nearly every video, and stem separation rescues mixed recordings. → §WT120
 - 📋 **WT121** (deps: WT104, WT54) **Cuts cannot be placed on the beats of a music track** — Montages cut to music are common, and beat markers make them fast and precise. → §WT121
 - 📋 **WT122** (deps: WT77, WT99) **Slow motion from normal-rate footage stutters, because frames are only repeated or blended** — Smooth slow motion is a common request and optical-flow models make it possible from ordinary footage. → §WT122
-- 📋 **WT123** (deps: WT99, WT40) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
+- 📋 **WT123** (deps: WT99, WT40 ⏳) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
 - 💭 **WT124** (deps: WT92, WT99) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
 - 📋 **WT125** (deps: WT112, WT92) **Faces and licence plates cannot be blurred automatically for privacy** — News, documentary and corporate videos must hide bystanders, and tracking them by hand takes hours. → §WT125
 - 📋 **WT126** (deps: WT111, WT19 ✅) **Flash frames, black frames, frozen frames, out-of-focus shots and jump cuts are found only by watching** — A technical QC pass before delivery catches embarrassing errors that a tired editor misses. → §WT126
@@ -168,7 +168,7 @@
 - 📋 **WT132** (deps: WT23) (requires: three-gpu-vendors) **No decision says which encoders write H.264, HEVC, AV1, ProRes and DNxHR, or how hardware encoders are used** — Hardware encoders make export fast but differ per vendor, and pro intermediates need FFmpeg, so the matrix must be measured. → §WT132
 - 📋 **WT133** (deps: WT132, WT31, WT84) **A timeline cannot be rendered to a video file at all** — Exporting a video is the end goal of the application, and it must equal what the viewer showed. → §WT133
 - 📋 **WT134** (deps: WT133) **Users must know codecs and bitrates to export, with no presets for YouTube, Instagram, TikTok or mastering** — Most people want 'good for YouTube', and professionals want exact masters; presets serve both. → §WT134
-- 📋 **WT135** (deps: WT134, WT40) **Several exports (versions, aspect ratios, masters) cannot be queued and left to run** — Deliveries are batches: master, web, vertical and captions, often overnight. → §WT135
+- 📋 **WT135** (deps: WT134, WT40 ⏳) **Several exports (versions, aspect ratios, masters) cannot be queued and left to run** — Deliveries are batches: master, web, vertical and captions, often overnight. → §WT135
 - 📋 **WT136** (deps: WT133, WT36) (requires: hdr-display) **HDR timelines cannot be exported as HDR10 or HLG with correct metadata** — Phones record HDR now, and an SDR-only export flattens footage people expect to look bright. → §WT136
 - 💭 **WT137** (deps: WT133) **Exporting an unchanged section re-encodes it, wasting time and quality** — Long-GOP sources cut without effects can be passed through, making some exports ten times faster. → §WT137
 - 📋 **WT138** (deps: WT15 ✅, WT14 ✅, WT133) **The edited timeline cannot be handed back to other tools as OTIO, EDL or FCPXML with its media** — OTIO is an interchange format first, and round-tripping to Resolve, Premiere or a finishing house is the professional use. → §WT138
@@ -313,6 +313,17 @@
 - **The tests workflow is green on a GitHub runner** The first push after this fix shows
   the build-and-test job passing, with the hardware render tests skipped for want of a
   GPU and the test-results artifact uploaded.
+
+## Done when — WT40
+
+- **A Jobs panel and the taskbar show every job's state and progress** A UI case queues
+  test jobs, then reads each one's state and percentage in the panel, pauses and resumes
+  one there, and checks that the taskbar progress matches the scheduler's overall
+  progress.
+- **Playback with 200 background jobs running drops no frames** Once WT34's clock
+  exists, a minute of playback with the scheduler throttled and 200 proxy jobs queued
+  reports zero dropped frames, and the jobs' threads run at background priority while it
+  plays.
 
 ## Non-goals
 

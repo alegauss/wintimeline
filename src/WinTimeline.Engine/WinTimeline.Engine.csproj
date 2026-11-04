@@ -7,4 +7,8 @@
     <RootNamespace>WinTimeline.Engine</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WinTimeline.Model\WinTimeline.Model.csproj" />
+  </ItemGroup>
+
 </Project>

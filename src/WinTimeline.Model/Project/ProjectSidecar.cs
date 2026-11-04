@@ -61,15 +61,19 @@ public sealed record ProjectState
     /// <summary>The embedding index, or null.</summary>
     public EmbeddingIndex? Embeddings { get; init; }
 
+    /// <summary>The background jobs left unfinished, as the job scheduler saved them (WT40), or null.</summary>
+    public JsonArray? Jobs { get; init; }
+
     /// <summary>Whether there is nothing a sidecar would need to keep.</summary>
-    public bool IsEmpty => Bins.Count == 0 && Proxies.Count == 0 && (Layout is null || Layout == WorkspaceLayout.Default) && Analysis.Count == 0 && Embeddings is null;
+    public bool IsEmpty => Bins.Count == 0 && Proxies.Count == 0 && (Layout is null || Layout == WorkspaceLayout.Default) && Analysis.Count == 0 && Embeddings is null && (Jobs is null || Jobs.Count == 0);
 }
 
 /// <summary>
 /// WT22: the folder beside a document that keeps its <see cref="ProjectState"/>, e.g.
 /// <c>cut.otio.wtproj/</c>. It is made on the first save with something worth keeping, and each
 /// file in it is replaced whole, so a crash mid-save leaves the previous file and never half a
-/// new one. Format: project.json (bins, proxies, layout), analysis/&lt;kind&gt;.json, and
+/// new one. Format: project.json (bins, proxies, layout), jobs.json (unfinished background
+/// jobs), analysis/&lt;kind&gt;.json, and
 /// analysis/embeddings.json with analysis/embeddings.f32 beside it.
 /// </summary>
 public static class ProjectSidecar
@@ -78,6 +82,7 @@ public static class ProjectSidecar
     public const int Format = 1;
 
     private const string ProjectFile = "project.json";
+    private const string JobsFile = "jobs.json";
     private const string AnalysisFolder = "analysis";
     private const string Embeddings = "embeddings";
 
@@ -125,6 +130,7 @@ public static class ProjectSidecar
                     : null,
                 Analysis = LoadAnalysis(Path.Combine(folder, AnalysisFolder)),
                 Embeddings = LoadEmbeddings(Path.Combine(folder, AnalysisFolder)),
+                Jobs = File.Exists(Path.Combine(folder, JobsFile)) ? JsonNode.Parse(File.ReadAllBytes(Path.Combine(folder, JobsFile))) as JsonArray : null,
             };
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException or FormatException)
@@ -171,6 +177,15 @@ public static class ProjectSidecar
         }
 
         Replace(Path.Combine(folder, ProjectFile), Encoding.UTF8.GetBytes(root.ToJsonString(Indented)));
+        string jobs = Path.Combine(folder, JobsFile);
+        if (state.Jobs is { Count: > 0 } unfinished)
+        {
+            Replace(jobs, Encoding.UTF8.GetBytes(unfinished.ToJsonString(Indented)));
+        }
+        else
+        {
+            File.Delete(jobs);
+        }
 
         HashSet<string> kept = new(StringComparer.OrdinalIgnoreCase);
         foreach ((string kind, JsonNode document) in state.Analysis)

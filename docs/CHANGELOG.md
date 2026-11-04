@@ -35,6 +35,8 @@
 
 ## Block E — Proxies, thumbnails, waveforms and background jobs
 
+- ✅ **WT40 (scheduler)** **Long work (proxies, analysis, renders) has no shared queue, priorities, progress or cancellation** — JobScheduler runs typed jobs by priority within resource tokens, with progress, ETA, pause, cancel, retry and throttling; 200 jobs survive a restart through the sidecar, each step once.
+
 ## Block F — Timeline view: GPU drawing and navigation
 
 ## Block G — Workspace, panels and viewers

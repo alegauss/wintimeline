@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT40: the engine: the background job scheduler first. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Engine.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Engine\WinTimeline.Engine.csproj" />
+    <ProjectReference Include="..\..\src\WinTimeline.Model\WinTimeline.Model.csproj" />
+  </ItemGroup>
+
+</Project>
