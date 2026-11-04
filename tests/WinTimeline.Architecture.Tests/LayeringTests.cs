@@ -26,7 +26,7 @@ public sealed class LayeringTests
     {
         [Model] = [],
         [Diagnostics] = [],
-        [Render] = [Diagnostics],
+        [Render] = [Diagnostics, "WinTimeline.ShaderCompiler"],
         [Media] = [Model, Render, Diagnostics],
         [Inference] = [Render, Diagnostics],
         [Engine] = [Model, Media, Render, Inference, Diagnostics],

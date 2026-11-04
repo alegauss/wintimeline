@@ -27,27 +27,6 @@ does, so UI cases can be authored with the plugin's help.
 Done when the skill names only commands that exist in this repository and a session can
 run a winwright case through the plugin.
 
-### §WT150 Shaders compiled at build time with DXC
-
-Split out of WT3, which shipped the shared D3D11.1 device (`GpuContext` in
-`WinTimeline.Render`).
-
-Revelei compiles its HLSL at start with `Compiler.Compile`, which costs start-up time
-and turns a typo into a crash on a user's desk. Here every `.hlsl` under
-`src/WinTimeline.Render/Shaders` is compiled at build time with DXC (the
-`Microsoft.Direct3D.DXC` package, cs_5_0 for D3D11 and cs_6_x where D3D12 interop runs),
-through an MSBuild target that feeds the bytecode in as embedded resources. A shader
-that does not compile fails the build with DXC's message and line.
-
-`ShaderLibrary` loads a shader by name from the resources. In Debug, when the source
-tree is present, it watches `Shaders/` and recompiles a changed file at runtime, so a
-colour or composite shader can be tuned without restarting; Release never reads the
-source.
-
-Done when one compute shader (a BGRA clear or fill, enough to prove the path) is
-compiled at build time, run on the WARP device in a test, and a deliberately broken
-shader turns the build red.
-
 ### §WT151 D3D12 interop, VRAM budget and decode capabilities
 
 Split out of WT3, which shipped the shared D3D11.1 device (`GpuContext` in

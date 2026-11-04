@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- The one D3D11 device (Vortice), the surfaces that live on it and the shaders that composite
        and present them. Media and Inference stand on it, so decoded frames and model tensors
@@ -20,10 +20,59 @@
     <PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
     <!-- Direct2D and DirectWrite on the same device: the timeline's rectangles and names (WT47). -->
     <PackageReference Include="Vortice.Direct2D1" Version="3.8.3" />
+    <!-- Debug only recompiles a shader whose source changed while the app runs (WT150). -->
+    <PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WinTimeline.Diagnostics\WinTimeline.Diagnostics.csproj" />
+    <!-- WT150: built first and run by CompileShaders below; never referenced at run time. -->
+    <ProjectReference Include="..\..\tools\WinTimeline.ShaderCompiler\WinTimeline.ShaderCompiler.csproj" ReferenceOutputAssembly="false" Private="false" />
+  </ItemGroup>
+
+  <!-- WT150: every Shaders\*.hlsl is compiled at build time into obj\shaders\*.cso and embedded;
+       a shader that does not compile fails the build with the compiler's file, line and message.
+       ShaderLibrary loads them by name; Debug also recompiles a changed source while running. -->
+  <ItemGroup>
+    <Shader Include="Shaders\*.hlsl" />
+    <None Include="@(Shader)" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ShaderCompiler>$(MSBuildThisFileDirectory)..\..\tools\WinTimeline.ShaderCompiler\bin\$(Configuration)\net10.0-windows10.0.19041.0\WinTimeline.ShaderCompiler.dll</ShaderCompiler>
+  </PropertyGroup>
+
+  <!-- After ResolveReferences, so the compiler is built and the .cso joins the resources before
+       PrepareResources sorts them (its own dependencies run before any BeforeTargets hook).
+       The output folder is set here, not beside the other properties: IntermediateOutputPath is
+       still empty while the project body is read, and "shaders\" alone is the source folder. -->
+  <Target Name="ShaderPaths">
+    <PropertyGroup>
+      <ShaderOutput>$(ProjectDir)$(IntermediateOutputPath)shaders\</ShaderOutput>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="CompileShaders" AfterTargets="ResolveReferences" DependsOnTargets="ShaderPaths" Inputs="@(Shader);$(ShaderCompiler)" Outputs="@(Shader->'$(ProjectDir)$(IntermediateOutputPath)shaders\%(Filename).cso')">
+    <Exec Command="dotnet &quot;$(ShaderCompiler)&quot; &quot;$(ShaderOutput.TrimEnd('\'))&quot; @(Shader->'&quot;%(FullPath)&quot;', ' ')" />
+  </Target>
+
+  <Target Name="EmbedShaders" AfterTargets="CompileShaders" DependsOnTargets="ShaderPaths">
+    <!-- WithCulture false: "fill.cs.cso" would otherwise be read as a Czech (cs) resource and go to a satellite assembly. -->
+    <ItemGroup>
+      <EmbeddedResource Include="@(Shader->'$(ShaderOutput)%(Filename).cso')" LogicalName="WinTimeline.Render.Shaders.%(Filename).cso" WithCulture="false" />
+    </ItemGroup>
+  </Target>
+
+  <PropertyGroup>
+    <!-- Debug's hot reload finds the sources here; Release never reads them. -->
+    <ShaderSourceFolder>$(MSBuildThisFileDirectory)Shaders</ShaderSourceFolder>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ShaderSourceFolder</_Parameter1>
+      <_Parameter2>$(ShaderSourceFolder)</_Parameter2>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>
