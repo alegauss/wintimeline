@@ -21,8 +21,8 @@ public partial class MainWindow
 
     private void BuildSurfaces()
     {
-        Viewer = Surface("ViewerSurface", "Viewer", new Color4(0.02f, 0.02f, 0.02f, 1f));
-        Timeline = Surface("TimelineSurface", "Timeline", new Color4(0.11f, 0.11f, 0.13f, 1f));
+        Viewer = Surface("ViewerSurface", UiText.ViewerName, new Color4(0.02f, 0.02f, 0.02f, 1f));
+        Timeline = Surface("TimelineSurface", UiText.TimelineName, new Color4(0.11f, 0.11f, 0.13f, 1f));
 
         DockArea.RowDefinitions.Add(new RowDefinition { Height = new GridLength(3, GridUnitType.Star), MinHeight = 120 });
         DockArea.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });

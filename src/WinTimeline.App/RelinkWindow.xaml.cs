@@ -35,8 +35,7 @@ public partial class RelinkWindow : Window
     /// <param name="stillMissing">How many are still missing.</param>
     /// <returns>The sentence.</returns>
     public static string ResultText(int relinked, int stillMissing) =>
-        $"Relinked {relinked} {(relinked == 1 ? "clip" : "clips")}. "
-        + (stillMissing == 0 ? "Nothing is missing." : $"{stillMissing} {(stillMissing == 1 ? "is" : "are")} still missing.");
+        UiText.Relinked(relinked, stillMissing);
 
     /// <summary>How a missing clip is listed.</summary>
     /// <param name="missing">The clip.</param>
@@ -44,8 +43,8 @@ public partial class RelinkWindow : Window
     public static string Line(MissingMedia missing)
     {
         ArgumentNullException.ThrowIfNull(missing);
-        string where = missing.Expected ?? (missing.Reference as ExternalReference)?.TargetUrl ?? "no file";
-        return $"{missing.Clip.Name} — {where}";
+        string where = missing.Expected ?? (missing.Reference as ExternalReference)?.TargetUrl ?? UiText.NoFile;
+        return UiText.MissingLine(missing.Clip.Name, where);
     }
 
     private void Refresh()
@@ -68,14 +67,14 @@ public partial class RelinkWindow : Window
         }
 
         MissingMedia located = _missing[MissingList.SelectedIndex];
-        OpenFileDialog dialog = new() { Title = $"Locate {located.Clip.Name}", FileName = located.Expected is { } path ? System.IO.Path.GetFileName(path) : string.Empty };
+        OpenFileDialog dialog = new() { Title = UiText.LocateTitle(located.Clip.Name), FileName = located.Expected is { } path ? System.IO.Path.GetFileName(path) : string.Empty };
         if (dialog.ShowDialog(this) != true)
         {
             return;
         }
 
         RelinkPlan plan = RelinkPlan.From(_missing, located, dialog.FileName);
-        using (_history.BeginTransaction($"Relink {plan.Found.Count} clips"))
+        using (_history.BeginTransaction(UiText.RelinkStep(plan.Found.Count)))
         {
             foreach ((MissingMedia m, string file) in plan.Found)
             {

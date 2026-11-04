@@ -69,3 +69,4 @@
 
 ## Block N — Performance, delivery and the public face
 
+- ✅ **WT149** **UI strings are not centralised, so a later translation or terminology review would touch every view** — Every word the app shows comes from UiText, constants bound in XAML through x:Static and sentence methods in code, and an architecture test fails on any literal handed to the screen.

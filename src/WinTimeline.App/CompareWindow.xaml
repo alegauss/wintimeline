@@ -2,19 +2,20 @@
 <Window x:Class="WinTimeline.App.CompareWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Compare"
+        xmlns:app="clr-namespace:WinTimeline.App"
+        Title="{x:Static app:UiText.CompareTitle}"
         AutomationProperties.AutomationId="CompareWindow"
         ThemeMode="System"
         Width="720" Height="460" MinWidth="480" MinHeight="300"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
   <DockPanel Margin="16">
     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,12">
-      <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,0,8,0" Text="Changes from" />
+      <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,0,8,0" Text="{x:Static app:UiText.ChangesFrom}" />
       <TextBlock x:Name="ToName" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="8,0,0,0" AutomationProperties.AutomationId="CompareTo" />
-      <ComboBox x:Name="CompareWith" SelectionChanged="OnChosen" AutomationProperties.AutomationId="CompareWith" AutomationProperties.Name="Compare from" />
+      <ComboBox x:Name="CompareWith" SelectionChanged="OnChosen" AutomationProperties.AutomationId="CompareWith" AutomationProperties.Name="{x:Static app:UiText.CompareFrom}" />
     </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
-      <Button DockPanel.Dock="Right" Content="Close" MinWidth="96" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="CompareClose" />
+      <Button DockPanel.Dock="Right" Content="{x:Static app:UiText.Close}" MinWidth="96" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="CompareClose" />
       <TextBlock x:Name="CompareSummary" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="CompareSummary" />
     </DockPanel>
     <ListBox x:Name="ChangeList" AutomationProperties.AutomationId="ChangeList" />

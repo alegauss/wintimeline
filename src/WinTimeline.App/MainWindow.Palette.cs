@@ -16,7 +16,7 @@ namespace WinTimeline.App;
 public partial class MainWindow
 {
     /// <summary>Opens the palette; Ctrl+Shift+P.</summary>
-    public static readonly RoutedUICommand PaletteCommand = new("Command palette", "Palette", typeof(MainWindow));
+    public static readonly RoutedUICommand PaletteCommand = new(UiText.PaletteCommandText, "Palette", typeof(MainWindow));
 
     private readonly List<string> _recentCommands = [];
 
@@ -39,10 +39,10 @@ public partial class MainWindow
                 break;
             case PaletteKind.Clip or PaletteKind.Marker or PaletteKind.Timecode:
                 TimelinePanel.Seek(result.Seconds);
-                StatusText.Text = $"Playhead at {TimelinePanel.TimecodeAt(TimelinePanel.PlayheadSeconds)}: {result.Title}.";
+                StatusText.Text = UiText.PlayheadAt(TimelinePanel.TimecodeAt(TimelinePanel.PlayheadSeconds), result.Title);
                 break;
             case PaletteKind.Ask:
-                StatusText.Text = "The assistant is not here yet; it arrives with Block L.";
+                StatusText.Text = UiText.AssistantNotHere;
                 break;
         }
     }
@@ -80,13 +80,13 @@ public partial class MainWindow
             foreach (LaneItem item in layout.Lanes.SelectMany(l => l.Items).Where(i => i.Kind == LaneItemKind.Clip))
             {
                 string lane = layout.Lanes[item.Lane].Label;
-                clips.Add(new PalettePlace(item.Name, item.Start, $"{lane}, {TimelinePanel.TimecodeAt(item.Start)}"));
+                clips.Add(new PalettePlace(item.Name, item.Start, UiText.LaneAt(lane, TimelinePanel.TimecodeAt(item.Start))));
                 if (item.Item is Clip clip)
                 {
                     foreach (Marker marker in clip.Markers)
                     {
                         double at = item.Start + (marker.MarkedRange.StartTime - clip.TrimmedRange().StartTime).ValueRescaledTo(1);
-                        markers.Add(new PalettePlace(marker.Name.Length > 0 ? marker.Name : marker.Comment, at, $"{lane}, {TimelinePanel.TimecodeAt(at)}"));
+                        markers.Add(new PalettePlace(marker.Name.Length > 0 ? marker.Name : marker.Comment, at, UiText.LaneAt(lane, TimelinePanel.TimecodeAt(at))));
                     }
                 }
             }
@@ -112,7 +112,7 @@ public partial class MainWindow
             }
             else
             {
-                StatusText.Text = $"{item.Header.ToString()?.Replace("_", string.Empty, StringComparison.Ordinal)} cannot be done now.";
+                StatusText.Text = UiText.CannotBeDoneNow(UiText.Plain(item.Header.ToString()));
             }
 
             return;

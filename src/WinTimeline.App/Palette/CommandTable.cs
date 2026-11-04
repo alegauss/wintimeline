@@ -10,20 +10,25 @@ public static class CommandTable
     /// <summary>The commands, in menu order, each with the menu item it backs.</summary>
     public static IReadOnlyList<(AppCommand Command, string MenuItem)> All { get; } =
     [
-        (new("file.open", "Open…", "File", ["load", "import", "edl"], "Ctrl+O"), "OpenMenuItem"),
-        (new("file.save", "Save", "File", ["write"], "Ctrl+S"), "SaveMenuItem"),
-        (new("file.save-as", "Save As…", "File", ["copy", "bundle", "otioz"], "Ctrl+Shift+S"), "SaveAsMenuItem"),
-        (new("file.relink", "Relink media…", "File", ["missing media", "offline", "reconnect"], null), "RelinkMenuItem"),
-        (new("file.exit", "Exit", "File", ["quit", "close"], "Alt+F4"), "ExitMenuItem"),
-        (new("edit.undo", "Undo", "Edit", ["back"], "Ctrl+Z"), "UndoMenuItem"),
-        (new("edit.redo", "Redo", "Edit", ["again"], "Ctrl+Y"), "RedoMenuItem"),
-        (new("edit.duplicate-timeline", "Duplicate timeline as version", "Edit", ["new version", "copy timeline"], null), "DuplicateTimelineMenuItem"),
-        (new("view.palette", "Command palette…", "View", ["search", "find command"], "Ctrl+Shift+P"), "PaletteMenuItem"),
-        (new("view.problems", "Problems…", "View", ["validate", "errors", "check"], null), "ProblemsMenuItem"),
-        (new("view.compare", "Compare with another version…", "View", ["diff", "changes", "what changed"], null), "CompareMenuItem"),
-        (new("help.diagnostics", "Create diagnostics bundle…", "Help", ["bug report", "logs", "support"], null), "DiagnosticsMenuItem"),
+        (Command("file.open", UiText.OpenMenu, UiText.FileMenu, ["load", "import", "edl"], UiText.OpenGesture), "OpenMenuItem"),
+        (Command("file.save", UiText.SaveMenu, UiText.FileMenu, ["write"], UiText.SaveGesture), "SaveMenuItem"),
+        (Command("file.save-as", UiText.SaveAsMenu, UiText.FileMenu, ["copy", "bundle", "otioz"], UiText.SaveAsGesture), "SaveAsMenuItem"),
+        (Command("file.relink", UiText.RelinkMenu, UiText.FileMenu, ["missing media", "offline", "reconnect"], null), "RelinkMenuItem"),
+        (Command("file.exit", UiText.ExitMenu, UiText.FileMenu, ["quit", "close"], UiText.ExitGesture), "ExitMenuItem"),
+        (Command("edit.undo", UiText.UndoMenu, UiText.EditMenu, ["back"], UiText.UndoGesture), "UndoMenuItem"),
+        (Command("edit.redo", UiText.RedoMenu, UiText.EditMenu, ["again"], UiText.RedoGesture), "RedoMenuItem"),
+        (Command("edit.duplicate-timeline", UiText.DuplicateTimelineMenu, UiText.EditMenu, ["new version", "copy timeline"], null), "DuplicateTimelineMenuItem"),
+        (Command("view.palette", UiText.PaletteMenu, UiText.ViewMenu, ["search", "find command"], UiText.PaletteGesture), "PaletteMenuItem"),
+        (Command("view.problems", UiText.ProblemsMenu, UiText.ViewMenu, ["validate", "errors", "check"], null), "ProblemsMenuItem"),
+        (Command("view.compare", UiText.CompareMenu, UiText.ViewMenu, ["diff", "changes", "what changed"], null), "CompareMenuItem"),
+        (Command("help.diagnostics", UiText.DiagnosticsMenu, UiText.HelpMenu, ["bug report", "logs", "support"], null), "DiagnosticsMenuItem"),
     ];
 
     /// <summary>The commands alone.</summary>
     public static IReadOnlyList<AppCommand> Commands { get; } = [.. All.Select(a => a.Command)];
+
+    // A command titled by its menu item's header and its menu's, as the palette shows them: the
+    // menu's own words from UiText, without the access-key underscore.
+    private static AppCommand Command(string id, string header, string menu, IReadOnlyList<string> synonyms, string? gesture) =>
+        new(id, UiText.Plain(header), UiText.Plain(menu), synonyms, gesture);
 }

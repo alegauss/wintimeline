@@ -14,13 +14,12 @@ public partial class MainWindow
     public static string GpuText(GpuAdapter adapter)
     {
         ArgumentNullException.ThrowIfNull(adapter);
-        return "GPU: " + adapter.Label;
+        return UiText.Gpu(adapter.Label);
     }
 
     private void ShowGpu()
     {
         GpuStatus.Text = GpuText(Gpu.Adapter);
-        GpuStatus.ToolTip = $"{Gpu.Adapter.Vendor}, driver {Gpu.Adapter.DriverVersion}, feature level {Gpu.FeatureLevel}"
-                            + (Gpu.VideoSupport ? ", video decode" : ", no video decode");
+        GpuStatus.ToolTip = UiText.GpuDetail(Gpu.Adapter.Vendor, Gpu.Adapter.DriverVersion, Gpu.FeatureLevel.ToString(), Gpu.VideoSupport);
     }
 }

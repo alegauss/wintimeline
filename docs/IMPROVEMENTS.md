@@ -1753,12 +1753,3 @@ tools.
 
 Done when a recorded macro replays on another timeline, and a Python script sends an
 .otio that opens in a new tab.
-
-### §WT149 One place for UI terminology
-
-All visible strings live in resource files with stable keys and a terminology list
-(clip, item, track, stack, gap, marker: OTIO's words, never synonyms). This is not a
-translation layer; it keeps the large UI consistent and makes the winwright cases assert
-on keys' values from one source.
-
-Done when a test finds no hard-coded user-visible string in XAML or code-behind.

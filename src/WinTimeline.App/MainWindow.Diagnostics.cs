@@ -44,9 +44,9 @@ public partial class MainWindow
     {
         SaveFileDialog dialog = new()
         {
-            Title = "Create diagnostics bundle",
+            Title = UiText.DiagnosticsDialogTitle,
             FileName = $"wintimeline-diagnostics-{DateTime.Now:yyyyMMdd-HHmmss}.zip",
-            Filter = "Zip archive (*.zip)|*.zip",
+            Filter = UiText.ZipFilter,
             DefaultExt = ".zip",
         };
         if (dialog.ShowDialog(this) != true)
@@ -59,15 +59,15 @@ public partial class MainWindow
             IReadOnlyList<string> written = Diagnostics().Save(dialog.FileName);
             Log.Write(LogLevel.Info, LogCategory.Ui, "Diagnostics bundle saved.",
                 new Dictionary<string, string>(StringComparer.Ordinal) { ["entries"] = string.Join(", ", written) });
-            StatusText.Text = $"Diagnostics saved to {Path.GetFileName(dialog.FileName)}.";
+            StatusText.Text = UiText.DiagnosticsSavedTo(Path.GetFileName(dialog.FileName));
             string saved = dialog.FileName;
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Success, "Diagnostics saved", Path.GetFileName(saved), [new Notices.NoticeAction("Show file", () => ShowInExplorer(saved))]));
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Success, UiText.DiagnosticsSaved, Path.GetFileName(saved), [new Notices.NoticeAction(UiText.ShowFile, () => ShowInExplorer(saved))]));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             Log.Write(LogLevel.Error, LogCategory.Ui, "Diagnostics bundle could not be saved.", error: ex);
-            StatusText.Text = $"Diagnostics could not be saved: {ex.Message}";
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, "Diagnostics could not be saved", ex.Message, [new Notices.NoticeAction("Try again", () => OnDiagnostics(this, new RoutedEventArgs()))]));
+            StatusText.Text = UiText.DiagnosticsNotSavedBecause(ex.Message);
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, UiText.DiagnosticsNotSaved, ex.Message, [new Notices.NoticeAction(UiText.TryAgain,() => OnDiagnostics(this, new RoutedEventArgs()))]));
         }
     }
 }

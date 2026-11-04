@@ -33,3 +33,4 @@
 
 ## Block N — Performance, delivery and the public face
 
+- ✅ **WT149** **UI strings are not centralised, so a later translation or terminology review would touch every view** — UI text is a C# class, not .resx: a multilingual UI is a non-goal, and x:Static on constants needs no generated class during WPF's markup compile.

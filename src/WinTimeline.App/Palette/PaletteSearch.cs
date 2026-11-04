@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace WinTimeline.App.Palette;
 
 /// <summary>A command the app can run, as the palette and the menus know it.</summary>
@@ -38,7 +36,7 @@ public enum PaletteKind
 public sealed record PaletteResult(PaletteKind Kind, string Title, string Detail, string? CommandId = null, double Seconds = 0)
 {
     /// <summary>How the result reads in the list, e.g. "Open… — File, Ctrl+O".</summary>
-    public string Text => Detail.Length == 0 ? Title : $"{Title} — {Detail}";
+    public string Text => UiText.PaletteLine(Title, Detail);
 }
 
 /// <summary>A clip or marker the palette can jump to.</summary>
@@ -85,7 +83,7 @@ public static class PaletteSearch
 
         if (prefix == '?')
         {
-            return query.Length == 0 ? [] : [new PaletteResult(PaletteKind.Ask, $"Ask: {query}", "the assistant arrives with Block L")];
+            return query.Length == 0 ? [] : [new PaletteResult(PaletteKind.Ask, UiText.Ask(query), UiText.AssistantArrives)];
         }
 
         if (query.Length == 0)
@@ -101,7 +99,7 @@ public static class PaletteSearch
         List<(int Score, PaletteResult Result)> ranked = [];
         if (prefix == '\0' && sources.Timecode(query) is { } seconds)
         {
-            ranked.Add((int.MaxValue, new PaletteResult(PaletteKind.Timecode, $"Go to {query}", "timecode", Seconds: seconds)));
+            ranked.Add((int.MaxValue, new PaletteResult(PaletteKind.Timecode, UiText.GoTo(query), UiText.TimecodeDetail, Seconds: seconds)));
         }
 
         if (prefix is '\0' or '>')
@@ -195,7 +193,7 @@ public static class PaletteSearch
     }
 
     private static PaletteResult Command(AppCommand command) =>
-        new(PaletteKind.Command, command.Title, command.Gesture is { } g ? $"{command.Menu}, {g}" : command.Menu, command.Id);
+        new(PaletteKind.Command, command.Title, UiText.CommandDetail(command.Menu, command.Gesture), command.Id);
 
     private static Func<PalettePlace, PaletteResult> Place(PaletteKind kind) =>
         place => new PaletteResult(kind, place.Name, place.Where, Seconds: place.Seconds);
@@ -207,5 +205,5 @@ public static class PaletteSearch
     /// <summary>Formats seconds for a result's detail, for callers without a timeline.</summary>
     /// <param name="seconds">The time.</param>
     /// <returns>e.g. "12.500 s".</returns>
-    public static string Seconds(double seconds) => string.Create(CultureInfo.InvariantCulture, $"{seconds:F3} s");
+    public static string Seconds(double seconds) => UiText.Seconds(seconds);
 }

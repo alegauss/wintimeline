@@ -21,7 +21,7 @@ public partial class CompareWindow : Window
         ArgumentNullException.ThrowIfNull(timelines);
         _shown = shown;
         InitializeComponent();
-        ToName.Text = $"to {shown.Name}";
+        ToName.Text = UiText.CompareTo(shown.Name);
         List<Timeline> others = [.. timelines.Where(t => !ReferenceEquals(t, shown))];
         foreach (Timeline other in others)
         {

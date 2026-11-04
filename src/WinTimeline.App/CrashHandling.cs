@@ -160,10 +160,8 @@ public static class CrashHandling
     {
         Log.Write(LogLevel.Error, LogCategory.App, "Unhandled exception on the UI thread.", error: e.Exception);
         MessageBoxResult answer = MessageBox.Show(
-            $"WinTimeline hit an error it did not expect:\n\n{e.Exception.Message}\n\n"
-            + "Restart WinTimeline? Choose No to keep working; the error is in the log, and Help > "
-            + "Create diagnostics bundle collects it for a report.",
-            "WinTimeline",
+            UiText.UnexpectedError(e.Exception.Message),
+            UiText.AppName,
             MessageBoxButton.YesNo,
             MessageBoxImage.Error);
         e.Handled = true;

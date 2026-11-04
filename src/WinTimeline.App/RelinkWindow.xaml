@@ -2,18 +2,19 @@
 <Window x:Class="WinTimeline.App.RelinkWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Relink media"
+        xmlns:app="clr-namespace:WinTimeline.App"
+        Title="{x:Static app:UiText.RelinkTitle}"
         AutomationProperties.AutomationId="RelinkWindow"
         ThemeMode="System"
         Width="720" Height="420" MinWidth="480" MinHeight="300"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
   <DockPanel Margin="16">
     <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="0,0,0,8"
-               Text="Pick a clip and locate its file. Every other missing clip whose file sits the same way under the new folder, or beside the file you pick, is relinked with it." />
+               Text="{x:Static app:UiText.RelinkHelp}" />
     <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
       <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-        <Button x:Name="LocateButton" Content="Locate…" MinWidth="96" Click="OnLocate" AutomationProperties.AutomationId="LocateButton" />
-        <Button Content="Close" MinWidth="96" Margin="8,0,0,0" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="RelinkClose" />
+        <Button x:Name="LocateButton" Content="{x:Static app:UiText.Locate}" MinWidth="96" Click="OnLocate" AutomationProperties.AutomationId="LocateButton" />
+        <Button Content="{x:Static app:UiText.Close}" MinWidth="96" Margin="8,0,0,0" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="RelinkClose" />
       </StackPanel>
       <TextBlock x:Name="RelinkStatus" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="RelinkStatus" />
     </DockPanel>

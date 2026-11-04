@@ -182,7 +182,6 @@
 - 📋 **WT146** (deps: WT133) **There is no README or site saying what WinTimeline does, for whom, and with which hardware** — A visitor decides in seconds whether the app is for them, and the sibling apps show the same family promise. → §WT146
 - 📋 **WT147** (deps: WT133, WT15 ✅) **Timelines cannot be validated, converted, rendered or analysed from the command line or a script** — Pipelines (render farms, dailies, CI for editorial) drive OTIO headless, and the CLI also powers the soak and bench tests. → §WT147
 - 💭 **WT148** (deps: WT147, WT114 ⏳) **Repetitive pipeline tasks inside an open project cannot be automated by users** — OTIO users are often pipeline TDs who script everything, and the command pipeline makes safe scripting possible. → §WT148
-- 💭 **WT149** (deps: WT1 ✅) **UI strings are not centralised, so a later translation or terminology review would touch every view** — The siblings keep English everywhere on purpose, but centralised strings still keep terminology consistent across a large UI. → §WT149
 
 ## Done when — Block A
 

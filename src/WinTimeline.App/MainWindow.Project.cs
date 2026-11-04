@@ -21,7 +21,7 @@ public partial class MainWindow
     public static string RestoredText(ProjectState state, string documentPath)
     {
         ArgumentNullException.ThrowIfNull(state);
-        return state.IsEmpty ? string.Empty : $" Restored the project from {Path.GetFileName(ProjectSidecar.FolderFor(documentPath))}.";
+        return state.IsEmpty ? string.Empty : UiText.RestoredProject(Path.GetFileName(ProjectSidecar.FolderFor(documentPath)));
     }
 
     /// <summary>Reads the sidecar beside the open document and applies its layout.</summary>
@@ -41,7 +41,7 @@ public partial class MainWindow
         catch (Exception ex) when (ex is InvalidDataException or IOException or UnauthorizedAccessException)
         {
             Log.Write(LogLevel.Warning, LogCategory.App, "Project sidecar could not be read.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
-            return $" Its project state was not restored: {ex.Message}";
+            return UiText.ProjectNotRestored(ex.Message);
         }
 
         WorkspaceLayout layout = _project.Layout ?? WorkspaceLayout.Default;

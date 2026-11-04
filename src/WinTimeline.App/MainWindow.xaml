@@ -4,7 +4,8 @@
 <Window x:Class="WinTimeline.App.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="WinTimeline"
+        xmlns:app="clr-namespace:WinTimeline.App"
+        Title="{x:Static app:UiText.AppName}"
         AutomationProperties.AutomationId="MainWindow"
         ThemeMode="System"
         Width="1280" Height="800"
@@ -16,29 +17,29 @@
   </Window.InputBindings>
   <DockPanel>
     <Menu x:Name="MainMenu" DockPanel.Dock="Top" AutomationProperties.AutomationId="MainMenu">
-      <MenuItem Header="_File" AutomationProperties.AutomationId="FileMenu">
-        <MenuItem Header="_Open…" Command="Open" AutomationProperties.AutomationId="OpenMenuItem" />
-        <MenuItem Header="_Save" Command="Save" AutomationProperties.AutomationId="SaveMenuItem" />
-        <MenuItem Header="Save _As…" Command="SaveAs" InputGestureText="Ctrl+Shift+S" AutomationProperties.AutomationId="SaveAsMenuItem" />
+      <MenuItem Header="{x:Static app:UiText.FileMenu}" AutomationProperties.AutomationId="FileMenu">
+        <MenuItem Header="{x:Static app:UiText.OpenMenu}" Command="Open" AutomationProperties.AutomationId="OpenMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.SaveMenu}" Command="Save" AutomationProperties.AutomationId="SaveMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.SaveAsMenu}" Command="SaveAs" InputGestureText="{x:Static app:UiText.SaveAsGesture}" AutomationProperties.AutomationId="SaveAsMenuItem" />
         <Separator />
-        <MenuItem x:Name="RelinkMenuItem" Header="_Relink media…" Click="OnRelink" AutomationProperties.AutomationId="RelinkMenuItem" />
+        <MenuItem x:Name="RelinkMenuItem" Header="{x:Static app:UiText.RelinkMenu}" Click="OnRelink" AutomationProperties.AutomationId="RelinkMenuItem" />
         <Separator />
-        <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="OnExit" AutomationProperties.AutomationId="ExitMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.ExitMenu}" InputGestureText="{x:Static app:UiText.ExitGesture}" Click="OnExit" AutomationProperties.AutomationId="ExitMenuItem" />
       </MenuItem>
-      <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu">
-        <MenuItem Header="_Undo" Command="Undo" AutomationProperties.AutomationId="UndoMenuItem" />
-        <MenuItem Header="_Redo" Command="Redo" AutomationProperties.AutomationId="RedoMenuItem" />
+      <MenuItem Header="{x:Static app:UiText.EditMenu}" AutomationProperties.AutomationId="EditMenu">
+        <MenuItem Header="{x:Static app:UiText.UndoMenu}" Command="Undo" AutomationProperties.AutomationId="UndoMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.RedoMenu}" Command="Redo" AutomationProperties.AutomationId="RedoMenuItem" />
         <Separator />
-        <MenuItem Header="_Duplicate timeline as version" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.DuplicateTimelineMenu}" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
       </MenuItem>
-      <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu">
-        <MenuItem Header="Command _palette…" InputGestureText="Ctrl+Shift+P" Click="OnPalette" AutomationProperties.AutomationId="PaletteMenuItem" />
+      <MenuItem Header="{x:Static app:UiText.ViewMenu}" AutomationProperties.AutomationId="ViewMenu">
+        <MenuItem Header="{x:Static app:UiText.PaletteMenu}" InputGestureText="{x:Static app:UiText.PaletteGesture}" Click="OnPalette" AutomationProperties.AutomationId="PaletteMenuItem" />
         <Separator />
-        <MenuItem Header="_Problems…" Click="OnProblems" AutomationProperties.AutomationId="ProblemsMenuItem" />
-        <MenuItem Header="_Compare with another version…" Click="OnCompare" AutomationProperties.AutomationId="CompareMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.ProblemsMenu}" Click="OnProblems" AutomationProperties.AutomationId="ProblemsMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.CompareMenu}" Click="OnCompare" AutomationProperties.AutomationId="CompareMenuItem" />
       </MenuItem>
-      <MenuItem Header="_Help" AutomationProperties.AutomationId="HelpMenu">
-        <MenuItem Header="Create _diagnostics bundle…" Click="OnDiagnostics" AutomationProperties.AutomationId="DiagnosticsMenuItem" />
+      <MenuItem Header="{x:Static app:UiText.HelpMenu}" AutomationProperties.AutomationId="HelpMenu">
+        <MenuItem Header="{x:Static app:UiText.DiagnosticsMenu}" Click="OnDiagnostics" AutomationProperties.AutomationId="DiagnosticsMenuItem" />
       </MenuItem>
     </Menu>
 
@@ -48,8 +49,8 @@
             AutomationProperties.AutomationId="RecoveryBar">
       <DockPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-          <Button Content="Save diagnostics bundle…" Margin="8,0,0,0" Click="OnDiagnostics" AutomationProperties.AutomationId="RecoveryDiagnostics" />
-          <Button Content="Dismiss" Margin="8,0,0,0" Click="OnRecoveryDismiss" AutomationProperties.AutomationId="RecoveryDismiss" />
+          <Button Content="{x:Static app:UiText.SaveDiagnostics}" Margin="8,0,0,0" Click="OnDiagnostics" AutomationProperties.AutomationId="RecoveryDiagnostics" />
+          <Button Content="{x:Static app:UiText.Dismiss}" Margin="8,0,0,0" Click="OnRecoveryDismiss" AutomationProperties.AutomationId="RecoveryDismiss" />
         </StackPanel>
         <TextBlock x:Name="RecoveryText" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="RecoveryText" />
       </DockPanel>
@@ -61,8 +62,8 @@
             AutomationProperties.AutomationId="EditsRecoveryBar">
       <DockPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-          <Button Content="Recover edits" Margin="8,0,0,0" Click="OnRecoverEdits" AutomationProperties.AutomationId="RecoverEdits" />
-          <Button Content="Discard" Margin="8,0,0,0" Click="OnDiscardEdits" AutomationProperties.AutomationId="DiscardEdits" />
+          <Button Content="{x:Static app:UiText.RecoverEdits}" Margin="8,0,0,0" Click="OnRecoverEdits" AutomationProperties.AutomationId="RecoverEdits" />
+          <Button Content="{x:Static app:UiText.Discard}" Margin="8,0,0,0" Click="OnDiscardEdits" AutomationProperties.AutomationId="DiscardEdits" />
         </StackPanel>
         <TextBlock x:Name="EditsRecoveryText" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="EditsRecoveryText" />
       </DockPanel>
@@ -73,7 +74,7 @@
 
     <StatusBar DockPanel.Dock="Bottom" AutomationProperties.AutomationId="StatusBar">
       <StatusBarItem>
-        <TextBlock x:Name="StatusText" AutomationProperties.AutomationId="StatusText" Text="Ready" />
+        <TextBlock x:Name="StatusText" AutomationProperties.AutomationId="StatusText" Text="{x:Static app:UiText.Ready}" />
       </StatusBarItem>
       <Separator />
       <StatusBarItem>
@@ -96,22 +97,22 @@
       <!-- WT68: shown while no document is open; the surfaces' child windows cannot be drawn over (airspace), so it takes their place. -->
       <ScrollViewer x:Name="WelcomePanel" VerticalScrollBarVisibility="Auto" AllowDrop="True" DragOver="OnWelcomeDragOver" Drop="OnWelcomeDrop" AutomationProperties.AutomationId="WelcomePanel">
         <StackPanel MaxWidth="760" Margin="32,28">
-          <TextBlock Text="WinTimeline" FontSize="28" FontWeight="SemiBold" />
-          <TextBlock Text="Open a timeline, or drop media to start one." Margin="0,4,0,20" Opacity="0.75" />
+          <TextBlock Text="{x:Static app:UiText.AppName}" FontSize="28" FontWeight="SemiBold" />
+          <TextBlock Text="{x:Static app:UiText.WelcomeLine}" Margin="0,4,0,20" Opacity="0.75" />
           <Border x:Name="DropZone"
                   MinHeight="140" Padding="24" CornerRadius="8" BorderThickness="2"
                   BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
                   Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                  AutomationProperties.AutomationId="DropZone" AutomationProperties.Name="Drop an .otio, an EDL or video and audio files here">
+                  AutomationProperties.AutomationId="DropZone" AutomationProperties.Name="{x:Static app:UiText.DropZoneName}">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
-                       Text="Drop an .otio, an EDL, or video and audio files here" FontSize="16" />
+                       Text="{x:Static app:UiText.DropZoneText}" FontSize="16" />
           </Border>
           <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-            <Button Content="Open…" Command="Open" MinWidth="120" AutomationProperties.AutomationId="WelcomeOpen" />
-            <Button Content="New empty timeline" Margin="8,0,0,0" MinWidth="120" Click="OnNewTimeline" AutomationProperties.AutomationId="WelcomeNew" />
+            <Button Content="{x:Static app:UiText.OpenButton}" Command="Open" MinWidth="120" AutomationProperties.AutomationId="WelcomeOpen" />
+            <Button Content="{x:Static app:UiText.NewEmptyTimeline}" Margin="8,0,0,0" MinWidth="120" Click="OnNewTimeline" AutomationProperties.AutomationId="WelcomeNew" />
           </StackPanel>
-          <TextBlock Text="Recent" FontSize="18" FontWeight="SemiBold" Margin="0,28,0,8" />
-          <TextBlock x:Name="NoRecent" Text="Nothing opened yet." Opacity="0.7" AutomationProperties.AutomationId="NoRecent" />
+          <TextBlock Text="{x:Static app:UiText.Recent}" FontSize="18" FontWeight="SemiBold" Margin="0,28,0,8" />
+          <TextBlock x:Name="NoRecent" Text="{x:Static app:UiText.NothingOpened}" Opacity="0.7" AutomationProperties.AutomationId="NoRecent" />
           <ItemsControl x:Name="RecentList" AutomationProperties.AutomationId="RecentList" />
         </StackPanel>
       </ScrollViewer>

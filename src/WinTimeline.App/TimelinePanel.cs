@@ -312,8 +312,7 @@ public sealed class TimelinePanel : IDisposable
         }
 
         double[] sorted = [.. _frameTimes.Order()];
-        _surface.Status = string.Create(CultureInfo.InvariantCulture,
-            $"draw {sorted[sorted.Length / 2]:F1} ms median, {sorted[(int)(sorted.Length * 0.95)]:F1} ms p95 over {sorted.Length} frames");
+        _surface.Status = UiText.DrawTimes(sorted[sorted.Length / 2], sorted[(int)(sorted.Length * 0.95)], sorted.Length);
     }
 
     private void OnWheel(object? sender, SurfaceWheel wheel)
@@ -368,7 +367,7 @@ public sealed class TimelinePanel : IDisposable
                 item.Name,
                 string.Create(CultureInfo.InvariantCulture, $"{lane.Label}-{index}"),
                 kind,
-                $"{lane.Label}, {Timecode(item.Start)} to {Timecode(item.End)}",
+                UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End)),
                 x, y, w, h));
         }
 
@@ -394,7 +393,7 @@ public sealed class TimelinePanel : IDisposable
         }
         catch (TimecodeException)
         {
-            return string.Create(CultureInfo.InvariantCulture, $"{at.ValueRescaledTo(1):F3} s");
+            return UiText.Seconds(at.ValueRescaledTo(1));
         }
     }
 }

@@ -16,10 +16,6 @@ namespace WinTimeline.App;
 /// </summary>
 public partial class MainWindow
 {
-    // An .otiod is a folder: it is opened by picking the content.otio inside it.
-    private const string OpenFilter = "Timelines (*.otio;*.otioz;*.edl)|*.otio;*.otioz;*.edl|OpenTimelineIO (*.otio;*.otioz)|*.otio;*.otioz|CMX 3600 EDL (*.edl)|*.edl|All files (*.*)|*.*";
-    private const string SaveFilter = "OpenTimelineIO (*.otio)|*.otio|OpenTimelineIO bundle with media (*.otioz)|*.otioz";
-
     // WT14: the bundle the document came from, which knows where its media is.
     private OtioBundle? _bundle;
 
@@ -65,17 +61,15 @@ public partial class MainWindow
         if (document is SerializableCollection)
         {
             int count = DocumentTimelines.Of(document).Count;
-            return count == 0 ? $"Opened {fileName}: no timelines." : $"Opened {fileName}: {count} {(count == 1 ? "timeline" : "timelines")}.";
+            return UiText.OpenedTimelines(fileName, count);
         }
 
         if (document is not Timeline timeline)
         {
-            return $"Opened {fileName}: a {document.Schema}, not a timeline.";
+            return UiText.OpenedNotATimeline(fileName, document.Schema);
         }
 
-        int clips = timeline.FindClips().Count();
-        int tracks = timeline.Tracks.Children.Count;
-        return $"Opened {fileName}: {clips} {(clips == 1 ? "clip" : "clips")} on {tracks} {(tracks == 1 ? "track" : "tracks")}.";
+        return UiText.Opened(fileName, timeline.FindClips().Count(), timeline.Tracks.Children.Count);
     }
 
     /// <summary>Opens a file as the document, saying in the status bar how it went.</summary>
@@ -100,7 +94,7 @@ public partial class MainWindow
             // An imported file (an EDL) is not written back over: Save asks where the .otio goes.
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
             StartJournal(name);
-            Title = $"{name} — WinTimeline";
+            Title = UiText.DocumentTitle(name);
             string restored = RestoreProject();
             StatusText.Text = OpenedText(name, document) + MissingText()
                 + (ActiveTimeline is { } opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty)
@@ -112,9 +106,9 @@ public partial class MainWindow
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException)
         {
-            string reason = ex is FileNotFoundException or DirectoryNotFoundException ? "it was not found" : ex.Message;
-            StatusText.Text = $"{name} could not be opened: {reason}";
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, $"{name} could not be opened", reason, [new Notices.NoticeAction("Open another", AskToOpen)]));
+            string reason = ex is FileNotFoundException or DirectoryNotFoundException ? UiText.NotFound : ex.Message;
+            StatusText.Text = UiText.CouldNotOpen(name, reason);
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, UiText.CouldNotOpen(name), reason, [new Notices.NoticeAction(UiText.OpenAnother, AskToOpen)]));
             Log.Write(LogLevel.Warning, LogCategory.App, "Document could not be opened.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
             return false;
         }
@@ -146,16 +140,16 @@ public partial class MainWindow
             DocumentPath = Path.GetFullPath(path);
             KeepProject(DocumentPath);
             _journal?.MarkSaved();
-            Title = $"{name} — WinTimeline";
-            StatusText.Text = $"Saved {name}.";
+            Title = UiText.DocumentTitle(name);
+            StatusText.Text = UiText.Saved(name);
             Log.Write(LogLevel.Info, LogCategory.App, "Document saved.", Fields(path, Document));
             Remember(DocumentPath);
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or BundleException)
         {
-            StatusText.Text = $"{name} could not be saved: {ex.Message}";
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, $"{name} could not be saved", ex.Message, [new Notices.NoticeAction("Save As", AskToSaveAs)]));
+            StatusText.Text = UiText.CouldNotSave(name, ex.Message);
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, UiText.CouldNotSave(name), ex.Message, [new Notices.NoticeAction(UiText.SaveAsAction, AskToSaveAs)]));
             Log.Write(LogLevel.Error, LogCategory.App, "Document could not be saved.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
             return false;
         }
@@ -186,14 +180,14 @@ public partial class MainWindow
     {
         string? folder = DocumentPath is { } p ? Path.GetDirectoryName(p) : null;
         int missing = ActiveTimeline is { } t && _bundle is null ? Model.Media.MediaLinks.Missing(t, folder).Count : 0;
-        return missing == 0 ? string.Empty : $" Media is missing for {missing} {(missing == 1 ? "clip" : "clips")}: File > Relink media.";
+        return UiText.MediaMissing(missing);
     }
 
     private void OnRelink(object sender, RoutedEventArgs e)
     {
         if (ActiveTimeline is not { } timeline)
         {
-            StatusText.Text = "Open a timeline to relink its media.";
+            StatusText.Text = UiText.RelinkNeedsTimeline;
             return;
         }
 
@@ -204,7 +198,7 @@ public partial class MainWindow
     {
         if (ActiveTimeline is not { } timeline)
         {
-            StatusText.Text = "Open a timeline to check it for problems.";
+            StatusText.Text = UiText.ProblemsNeedTimeline;
             return;
         }
 
@@ -233,7 +227,7 @@ public partial class MainWindow
 
     private void AskToOpen()
     {
-        OpenFileDialog dialog = new() { Title = "Open timeline", Filter = OpenFilter };
+        OpenFileDialog dialog = new() { Title = UiText.OpenDialogTitle, Filter = UiText.OpenFilter };
         if (dialog.ShowDialog(this) == true)
         {
             OpenDocument(dialog.FileName);
@@ -256,8 +250,8 @@ public partial class MainWindow
     {
         SaveFileDialog dialog = new()
         {
-            Title = "Save timeline as",
-            Filter = SaveFilter,
+            Title = UiText.SaveDialogTitle,
+            Filter = UiText.SaveFilter,
             DefaultExt = ".otio",
             FileName = DocumentPath is { } path ? Path.GetFileName(path) : "timeline.otio",
         };

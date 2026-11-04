@@ -117,8 +117,8 @@ public sealed class SettingsStore
     /// <summary>What the status bar says about a load that did not go plainly, or null.</summary>
     public string? Notice => Origin switch
     {
-        SettingsOrigin.Damaged => $"Settings could not be read; defaults are in use. The file was kept as {System.IO.Path.GetFileName(Path)}.broken.",
-        SettingsOrigin.Newer => "Settings were saved by a newer WinTimeline; they are read but not changed.",
+        SettingsOrigin.Damaged => UiText.SettingsDamaged(System.IO.Path.GetFileName(Path)),
+        SettingsOrigin.Newer => UiText.SettingsNewer,
         _ => null,
     };
 

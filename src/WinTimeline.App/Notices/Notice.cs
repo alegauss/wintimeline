@@ -57,9 +57,9 @@ public static class JobNotices
         ArgumentNullException.ThrowIfNull(scheduler);
         return job.State switch
         {
-            JobState.Failed => new Notice(NoticeSeverity.Error, $"{job.Request.Title} failed", job.Error ?? "It stopped with an error.",
-                [new NoticeAction("Retry", () => scheduler.Retry(job))]),
-            JobState.Completed => new Notice(NoticeSeverity.Success, $"{job.Request.Title} finished", string.Empty, []),
+            JobState.Failed => new Notice(NoticeSeverity.Error, UiText.JobFailed(job.Request.Title), job.Error ?? UiText.JobStopped,
+                [new NoticeAction(UiText.Retry, () => scheduler.Retry(job))]),
+            JobState.Completed => new Notice(NoticeSeverity.Success, UiText.JobFinished(job.Request.Title), string.Empty, []),
             _ => null,
         };
     }

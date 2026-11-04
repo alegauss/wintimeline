@@ -16,9 +16,7 @@ public partial class MainWindow
     {
         ArgumentNullException.ThrowIfNull(previous);
         string when = previous.Started.LocalDateTime.ToString("g", System.Globalization.CultureInfo.CurrentCulture);
-        return previous.Dump is { } dump
-            ? $"WinTimeline closed unexpectedly last time (started {when}). A crash dump was kept ({Path.GetFileName(dump)}); the diagnostics bundle includes it."
-            : $"WinTimeline closed unexpectedly last time (started {when}). The diagnostics bundle holds its log.";
+        return UiText.CrashedLastTime(when, previous.Dump is { } dump ? Path.GetFileName(dump) : null);
     }
 
     private void ShowRecovery(PreviousCrash? previous)

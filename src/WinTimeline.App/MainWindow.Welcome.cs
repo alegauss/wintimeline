@@ -27,9 +27,7 @@ public partial class MainWindow
     {
         ArgumentNullException.ThrowIfNull(timeline);
         ArgumentNullException.ThrowIfNull(refused);
-        int clips = timeline.FindClips().Count();
-        string made = $"Created a timeline from {files} {(files == 1 ? "file" : "files")}: {clips} {(clips == 1 ? "clip" : "clips")} on {timeline.Tracks.Children.Count} tracks.";
-        return refused.Count == 0 ? made : $"{made} Not media: {string.Join("; ", refused)}.";
+        return UiText.Created(files, timeline.FindClips().Count(), timeline.Tracks.Children.Count, refused);
     }
 
     /// <summary>Shows the welcome page while no document is open, and the surfaces once one is.</summary>
@@ -52,7 +50,7 @@ public partial class MainWindow
             bool there = File.Exists(path) || Directory.Exists(path);
             Button open = new()
             {
-                Content = $"{Path.GetFileName(path)}    {Path.GetDirectoryName(path)}{(there ? string.Empty : "  (not found)")}",
+                Content = UiText.RecentEntry(Path.GetFileName(path), Path.GetDirectoryName(path), there),
                 HorizontalContentAlignment = HorizontalAlignment.Left,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(0, 0, 0, 4),
@@ -81,7 +79,7 @@ public partial class MainWindow
         }
     }
 
-    private void OnNewTimeline(object sender, RoutedEventArgs e) => ShowNew(TimelineBuilder.Empty("Untitled", 24), "Created an empty timeline: 0 clips on 2 tracks.");
+    private void OnNewTimeline(object sender, RoutedEventArgs e) => ShowNew(TimelineBuilder.Empty(UiText.Untitled, 24), UiText.CreatedEmpty);
 
     private void OnWelcomeDragOver(object sender, DragEventArgs e)
     {
@@ -125,13 +123,13 @@ public partial class MainWindow
 
         if (clips.Count == 0)
         {
-            StatusText.Text = $"Nothing dropped could be used: {string.Join("; ", refused)}.";
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Warning, "Nothing dropped could be used", string.Join("; ", refused), []));
+            StatusText.Text = UiText.NothingDroppedUsableBecause(string.Join("; ", refused));
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Warning, UiText.NothingDroppedUsable, string.Join("; ", refused), []));
             return;
         }
 
         double rate = clips.FirstOrDefault(c => c.Rate is not null)?.Rate ?? 24;
-        Timeline timeline = TimelineBuilder.FromMedia("Untitled", rate, clips);
+        Timeline timeline = TimelineBuilder.FromMedia(UiText.Untitled, rate, clips);
         ShowNew(timeline, CreatedText(clips.Count, timeline, refused));
     }
 
@@ -143,7 +141,7 @@ public partial class MainWindow
         DocumentPath = null;
         LoadTimelines(timeline);
         _project = Model.Project.ProjectState.Empty;
-        Title = "Untitled — WinTimeline";
+        Title = UiText.DocumentTitle(UiText.Untitled);
         ShowWelcome();
         StatusText.Text = status;
         Log.Write(LogLevel.Info, LogCategory.App, "New timeline created.", new Dictionary<string, string>(StringComparer.Ordinal) { ["clips"] = timeline.FindClips().Count().ToString(System.Globalization.CultureInfo.InvariantCulture) });

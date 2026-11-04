@@ -82,10 +82,10 @@ public partial class MainWindow
         int number = _noticeCount++;
         (string background, string glyph) = notice.Severity switch
         {
-            NoticeSeverity.Error => ("SystemFillColorCriticalBackgroundBrush", ""),
-            NoticeSeverity.Warning => ("SystemFillColorCautionBackgroundBrush", ""),
-            NoticeSeverity.Success => ("SystemFillColorSuccessBackgroundBrush", ""),
-            _ => ("SystemFillColorAttentionBackgroundBrush", ""),
+            NoticeSeverity.Error => ("SystemFillColorCriticalBackgroundBrush", UiText.ErrorGlyph),
+            NoticeSeverity.Warning => ("SystemFillColorCautionBackgroundBrush", UiText.WarningGlyph),
+            NoticeSeverity.Success => ("SystemFillColorSuccessBackgroundBrush", UiText.SuccessGlyph),
+            _ => ("SystemFillColorAttentionBackgroundBrush", UiText.InfoGlyph),
         };
 
         Border bar = new() { Padding = new Thickness(12, 8, 8, 8), Margin = new Thickness(0, 0, 0, 1) };
@@ -106,9 +106,9 @@ public partial class MainWindow
             buttons.Children.Add(button);
         }
 
-        Button dismiss = new() { Content = "", FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"), Margin = new Thickness(8, 0, 0, 0) };
+        Button dismiss = new() { Content = UiText.DismissGlyph, FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"), Margin = new Thickness(8, 0, 0, 0) };
         AutomationProperties.SetAutomationId(dismiss, $"Notice{number}Dismiss");
-        AutomationProperties.SetName(dismiss, "Dismiss");
+        AutomationProperties.SetName(dismiss, UiText.Dismiss);
         dismiss.Click += (_, _) => NoticeArea.Children.Remove(bar);
         buttons.Children.Add(dismiss);
 

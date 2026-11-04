@@ -34,22 +34,21 @@ public partial class ProblemsWindow : Window
     public static string Line(Timeline timeline, Problem problem)
     {
         ArgumentNullException.ThrowIfNull(problem);
-        return $"{problem.Severity} at {Paths.Of(timeline, problem.Target)}: {problem.Message}{(problem.Fix is null ? string.Empty : " (fixable)")}";
+        return UiText.ProblemLine(problem.Severity.ToString(), Paths.Of(timeline, problem.Target), problem.Message, problem.Fix is not null);
     }
 
     /// <summary>What the status bar adds after an open, e.g. " 2 problems: View > Problems."</summary>
     /// <param name="count">How many problems.</param>
     /// <returns>The sentence, or empty.</returns>
     public static string CountText(int count) =>
-        count == 0 ? string.Empty : $" {count} {(count == 1 ? "problem" : "problems")}: View > Problems.";
+        UiText.ProblemCount(count);
 
     /// <summary>What the panel says after fixing.</summary>
     /// <param name="fixedCount">How many were fixed.</param>
     /// <param name="left">How many are left.</param>
     /// <returns>The sentence.</returns>
     public static string FixedText(int fixedCount, int left) =>
-        $"Fixed {fixedCount} {(fixedCount == 1 ? "problem" : "problems")}. "
-        + (left == 0 ? "Nothing else is wrong." : $"{left} {(left == 1 ? "needs" : "need")} a person.");
+        UiText.Fixed(fixedCount, left);
 
     /// <summary>The problems, most serious first, then in timeline order.</summary>
     /// <param name="timeline">The timeline.</param>
@@ -88,7 +87,7 @@ public partial class ProblemsWindow : Window
     private void OnFixAll(object sender, RoutedEventArgs e)
     {
         int count = 0;
-        using (_history.BeginTransaction("Fix problems"))
+        using (_history.BeginTransaction(UiText.FixProblemsStep))
         {
             // Re-checked after each fix: one fix can change what the next one should do.
             while (Validator.Check(_timeline).FirstOrDefault(p => p.Fix is not null) is { Fix: { } fix } && count < 1000)

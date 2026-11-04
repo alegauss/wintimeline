@@ -31,7 +31,7 @@ public partial class MainWindow
     public static string RecoveryOfferText(RecoveryCandidate candidate)
     {
         ArgumentNullException.ThrowIfNull(candidate);
-        return $"Edits to {candidate.Name} were not saved when WinTimeline last closed: {candidate.Edits} {(candidate.Edits == 1 ? "edit" : "edits")}.";
+        return UiText.RecoveryOffer(candidate.Name, candidate.Edits);
     }
 
     /// <summary>What the status bar says after a recovery, e.g. "Recovered cut.otio: 3 clips on 1 track. Save to keep the edits."</summary>
@@ -41,9 +41,7 @@ public partial class MainWindow
     public static string RecoveredText(string name, RecoveredDocument recovered)
     {
         ArgumentNullException.ThrowIfNull(recovered);
-        string opened = OpenedText(name, recovered.Timeline);
-        return "Recovered" + opened["Opened".Length..]
-            + (recovered.FromAutosave ? " From the last autosave." : string.Empty) + " Save to keep the edits.";
+        return UiText.Recovered(name, recovered.Timeline.FindClips().Count(), recovered.Timeline.Tracks.Children.Count, recovered.FromAutosave);
     }
 
     private void StartJournal(string name)
@@ -133,15 +131,15 @@ public partial class MainWindow
             ShowWelcome();
             DocumentPath = candidate.SourcePath;
             WatchForAutosave();
-            Title = $"{candidate.Name} — WinTimeline";
+            Title = UiText.DocumentTitle(candidate.Name);
             StatusText.Text = RecoveredText(candidate.Name, recovered);
             Log.Write(LogLevel.Info, LogCategory.App, "Edits recovered.",
                 new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = candidate.Name, ["edits"] = candidate.Edits.ToString(System.Globalization.CultureInfo.InvariantCulture), ["autosave"] = recovered.FromAutosave ? "true" : "false" });
         }
         catch (InvalidDataException ex)
         {
-            StatusText.Text = $"The edits to {candidate.Name} could not be recovered: {ex.Message}";
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, $"The edits to {candidate.Name} could not be recovered", ex.Message, []));
+            StatusText.Text = UiText.CouldNotRecover(candidate.Name, ex.Message);
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Error, UiText.CouldNotRecover(candidate.Name), ex.Message, []));
             Log.Write(LogLevel.Error, LogCategory.App, "Edits could not be recovered.", error: ex);
         }
     }
@@ -163,7 +161,7 @@ public partial class MainWindow
     {
         if (Document is not Timeline timeline)
         {
-            StatusText.Text = "--run-commands needs a timeline open.";
+            StatusText.Text = UiText.RunCommandsNeedsTimeline;
             return;
         }
 
@@ -176,12 +174,12 @@ public partial class MainWindow
                 ran++;
             }
 
-            StatusText.Text = $"Ran {ran} {(ran == 1 ? "command" : "commands")} from {Path.GetFileName(path)}.";
+            StatusText.Text = UiText.RanCommands(ran, Path.GetFileName(path));
         }
         catch (Exception ex) when (ex is IOException or JsonException or ArgumentException or InvalidOperationException)
         {
-            StatusText.Text = $"{Path.GetFileName(path)} stopped at command {ran + 1}: {ex.Message}";
-            Notify(new Notices.Notice(Notices.NoticeSeverity.Warning, $"{Path.GetFileName(path)} stopped at command {ran + 1}", ex.Message, []));
+            StatusText.Text = UiText.CommandsStopped(Path.GetFileName(path), ran + 1, ex.Message);
+            Notify(new Notices.Notice(Notices.NoticeSeverity.Warning, UiText.CommandsStopped(Path.GetFileName(path), ran + 1), ex.Message, []));
         }
     }
 }

@@ -27,9 +27,7 @@ public partial class MainWindow
     public static string ShowingText(Timeline timeline)
     {
         ArgumentNullException.ThrowIfNull(timeline);
-        int clips = timeline.FindClips().Count();
-        int tracks = timeline.Tracks.Children.Count;
-        return $"Showing {timeline.Name}: {clips} {(clips == 1 ? "clip" : "clips")} on {tracks} {(tracks == 1 ? "track" : "tracks")}.";
+        return UiText.Showing(timeline.Name, timeline.FindClips().Count(), timeline.Tracks.Children.Count);
     }
 
     private void LoadTimelines(ModelObject document)
@@ -116,13 +114,13 @@ public partial class MainWindow
     {
         if (ActiveTimeline is not { } shown)
         {
-            StatusText.Text = "Open a timeline to compare it.";
+            StatusText.Text = UiText.CompareNeedsTimeline;
             return;
         }
 
         if (Timelines.Count < 2)
         {
-            StatusText.Text = "Compare needs a second timeline: open a file of several, or use Edit > Duplicate timeline as version.";
+            StatusText.Text = UiText.CompareNeedsSecond;
             return;
         }
 
@@ -138,7 +136,7 @@ public partial class MainWindow
 
         if (timeline.Owner is not SerializableCollection)
         {
-            StatusText.Text = $"{timeline.Name} is the file's only timeline; a version can be added to a file that holds a collection.";
+            StatusText.Text = UiText.OnlyTimeline(timeline.Name);
             return;
         }
 
@@ -148,6 +146,6 @@ public partial class MainWindow
         Timelines = DocumentTimelines.Of(Document!);
         Activate(copy);
         RebuildTabs();
-        StatusText.Text = $"Added {copy.Name}. " + ShowingText(copy);
+        StatusText.Text = UiText.Added(copy.Name) + ShowingText(copy);
     }
 }

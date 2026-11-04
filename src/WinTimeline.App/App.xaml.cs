@@ -19,7 +19,7 @@ public partial class App : Application
         ParsedCommandLine parsed = CommandLine.Parse(e.Args);
         if (!parsed.Ok)
         {
-            MessageBox.Show(parsed.Error + "\n\nSee docs/COMMAND-LINE.md.", "WinTimeline", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(UiText.CommandLineRefused(parsed.Error), UiText.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(BadCommandLine);
             return;
         }
@@ -57,14 +57,14 @@ public partial class App : Application
         AdapterChoice choice = AdapterChoice.Pick(adapters, parsed.Options!.Adapter ?? settings.Current.Adapter);
         if (!choice.Ok && parsed.Options.Adapter is not null)
         {
-            MessageBox.Show(choice.Error + "\n\nSee docs/COMMAND-LINE.md.", "WinTimeline", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(UiText.CommandLineRefused(choice.Error), UiText.AppName, MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(BadCommandLine);
             return;
         }
 
         if (!choice.Ok)
         {
-            notices.Add($"The saved GPU \"{settings.Current.Adapter}\" is not on this PC; using the default one.");
+            notices.Add(UiText.SavedGpuGone(settings.Current.Adapter));
             choice = AdapterChoice.Pick(adapters, null);
         }
 

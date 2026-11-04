@@ -58,15 +58,15 @@ public static class CommandLine
             if (!Flags.Contains(flag, StringComparer.Ordinal))
             {
                 return Refuse(arg.StartsWith('-')
-                    ? $"Unknown option {flag}. Known: {string.Join(", ", Flags)}."
-                    : $"Unexpected argument \"{arg}\". To open a file, use --open \"{arg}\".");
+                    ? UiText.UnknownOption(flag, string.Join(", ", Flags))
+                    : UiText.UnexpectedArgument(arg));
             }
 
             if (value is null)
             {
                 if (i + 1 >= args.Count || args[i + 1].StartsWith("--", StringComparison.Ordinal))
                 {
-                    return Refuse($"{flag} needs a value.");
+                    return Refuse(UiText.NeedsAValue(flag));
                 }
 
                 value = args[++i];
@@ -74,12 +74,12 @@ public static class CommandLine
 
             if (value.Length == 0)
             {
-                return Refuse($"{flag} needs a value.");
+                return Refuse(UiText.NeedsAValue(flag));
             }
 
             if (!given.TryAdd(flag, value))
             {
-                return Refuse($"{flag} is given twice.");
+                return Refuse(UiText.GivenTwice(flag));
             }
         }
 
@@ -97,7 +97,7 @@ public static class CommandLine
             };
             if (parsed is null)
             {
-                return Refuse($"--log-level {levelValue} is not one of trace, debug, info, warning, error.");
+                return Refuse(UiText.BadLogLevel(levelValue));
             }
 
             level = parsed.Value;
@@ -106,7 +106,7 @@ public static class CommandLine
         string? crash = given.GetValueOrDefault("--crash-test");
         if (crash is not null and not "managed" and not "native")
         {
-            return Refuse($"--crash-test {crash} is not one of managed, native.");
+            return Refuse(UiText.BadCrashTest(crash));
         }
 
         return new ParsedCommandLine(
