@@ -46,7 +46,7 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- ✅ **WT47 (panel)** **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — The timeline surface draws lanes, clips, transitions, names, ruler and playhead with Direct2D from a viewport query, scrolls and zooms by wheel, and exposes each visible clip to UI Automation.
+- ✅ **WT47** **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — The Direct2D timeline panel stands; its thumbnail and waveform strips are WT55, its WPF track headers WT50, and the reference-laptop measurement WT167.
 
 ## Block G — Workspace, panels and viewers
 

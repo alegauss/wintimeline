@@ -16,6 +16,8 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
+- ⏸ **WT167** (deps: WT47 ✅) **Nobody has measured the 3,000-clip timeline scrolling at refresh rate on the reference laptop** — set aside (Needs a person on the reference laptop.): The draw-time budget only counts on the hardware it is promised for, and neither WARP nor this desk's GPU is that machine. → §WT167
+
 ## Block G — Workspace, panels and viewers
 
 ## Block H — Editing: tools, trims and drag and drop

@@ -12,7 +12,7 @@
 ## Block B — OTIO document model and file formats
 
 - 📋 **WT159** (deps: WT18 ✅, WT24, WT22 ✅) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
-- 📋 **WT160** (deps: WT20 ✅) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
+- 🛠 **WT160** (deps: WT20 ✅, WT52) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
 - 📋 **WT161** (deps: WT17 ✅, WT20 ✅) **Edits to a file of several timelines are not journaled, so a crash loses them** — The recovery journal addresses commands from one timeline; collections need paths that name the timeline too. → §WT161
 - 📋 **WT162** (deps: WT21 ✅) **A comparison cannot be exported as a change-list EDL or as markers for another tool** — Online and sound editors receive changes as a change list or markers, and retyping the list is where conform errors come from. → §WT162
 - 📋 **WT163** (deps: WT21 ✅) **The changes between two versions show only as a list, not as colour bands on the timeline** — A reviewer reads a cut by its shape; bands on the clips that moved, trimmed or were replaced show where the edits fall. → §WT163
@@ -53,16 +53,15 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- ⏳ **WT47** (deps: WT12 ✅, WT4 ✅, WT44, WT45) **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — Still needed: proof the 3,000-clip cut holds the refresh rate on the reference laptop, WPF track headers in place of drawn labels, and thumbnail and waveform strips. → §WT47
-- 📋 **WT48** (deps: WT47 ⏳) **The timeline cannot be zoomed from whole-program to single-frame or scrolled smoothly** — Editing alternates between the whole structure and frame-accurate detail many times a minute. → §WT48
-- 📋 **WT49** (deps: WT47 ⏳) **There is no time ruler, so positions cannot be read in timecode, frames, feet+frames or seconds** — Editors, assistants and sound people each read time in a different unit, and the ruler is where they look first. → §WT49
-- 📋 **WT50** (deps: WT47 ⏳, WT16 ✅) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
+- 📋 **WT48** (deps: WT47 ✅) **The timeline cannot be zoomed from whole-program to single-frame or scrolled smoothly** — Editing alternates between the whole structure and frame-accurate detail many times a minute. → §WT48
+- 📋 **WT49** (deps: WT47 ✅) **There is no time ruler, so positions cannot be read in timecode, frames, feet+frames or seconds** — Editors, assistants and sound people each read time in a different unit, and the ruler is where they look first. → §WT49
+- 📋 **WT50** (deps: WT47 ✅, WT16 ✅) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
 - 📋 **WT51** (deps: WT49) **No playhead marks the current frame, and the viewer is not tied to a position in the timeline** — The playhead is the shared cursor between the viewer, the edit tools and the AI assistant. → §WT51
-- 📋 **WT52** (deps: WT47 ⏳) **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Every edit acts on a selection, and a weak selection model forces editors into many repeated clicks. → §WT52
+- 📋 **WT52** (deps: WT47 ✅) **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Every edit acts on a selection, and a weak selection model forces editors into many repeated clicks. → §WT52
 - 📋 **WT53** (deps: WT52) **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Without snapping every edit risks one-frame gaps and flashes that are invisible until export. → §WT53
-- 📋 **WT54** (deps: WT47 ⏳, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
-- 📋 **WT55** (deps: WT47 ⏳, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
-- 📋 **WT56** (deps: WT47 ⏳) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
+- 📋 **WT54** (deps: WT47 ✅, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
+- 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
+- 📋 **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
 - 💭 **WT57** (deps: WT48) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
 - 📋 **WT58** (deps: WT52, WT51) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
 
@@ -168,7 +167,7 @@
 
 ## Block N — Performance, delivery and the public face
 
-- 📋 **WT141** (deps: WT34, WT47 ⏳) (requires: three-gpu-vendors) **No measured budgets say how fast opening, scrubbing, playback and export must be, or on which machines** — Performance claims are only meaningful against named machines and numbers, and regressions hide without them. → §WT141
+- 📋 **WT141** (deps: WT34, WT47 ✅) (requires: three-gpu-vendors) **No measured budgets say how fast opening, scrubbing, playback and export must be, or on which machines** — Performance claims are only meaningful against named machines and numbers, and regressions hide without them. → §WT141
 - 📋 **WT142** (deps: WT141, WT35) **Memory and VRAM use grow without bounds on long sessions with many media files** — Editors leave the app open all day, and a slow leak shows up as a crash in the afternoon. → §WT142
 - 📋 **WT143** (deps: WT1 ✅, WT133) **There is no installer, file association or thumbnail preview for .otio files in Explorer** — People install from a single download, and seeing a timeline's thumbnail in Explorer makes the file type feel native. → §WT143
 - 📋 **WT144** (deps: WT143) **Users are not told about new versions and cannot update from inside the app** — Media apps ship decoder and driver workarounds often, and stale versions cause support load. → §WT144
@@ -314,17 +313,6 @@
   exists, a minute of playback with the scheduler throttled and 200 proxy jobs queued
   reports zero dropped frames, and the jobs' threads run at background priority while it
   plays.
-
-## Done when — WT47
-
-- **The feature cut scrolls and zooms at refresh rate on the reference laptop** On the
-  reference laptop, tests/fixtures/timeline/feature.otio is scrolled and zoomed for a
-  minute, and the surface's status (draw median and p95) stays under the display's frame
-  time. A person runs this on that hardware; WARP numbers do not count.
-- **Track headers are WPF chrome and clips show thumbnails and waveforms** The lane
-  labels move from the surface into WPF headers that theme and narrate natively, and
-  clips draw thumbnail and waveform strips from Block E's atlases. A UI case reads a
-  header by name and finds a thumbnailed clip.
 
 ## Done when — WT68
 

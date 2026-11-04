@@ -487,22 +487,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT47 Drawing the timeline on the GPU
-
-The track area is one GPU surface (the swap-chain host from Block A), drawn with
-Direct2D on the D3D11 device: clip rectangles, names, thumbnails strips, waveforms,
-transitions, markers and the playhead. Only items intersecting the viewport are drawn,
-found through an interval tree per track rebuilt on change notifications. Text layouts
-are cached per clip name and zoom bucket; thumbnails and waveforms are texture atlases
-fed by Block E.
-
-WPF still owns the chrome around it (track headers, toolbars, rulers labels) so
-accessibility and theming stay native; the surface exposes a UI Automation peer per
-visible clip so winwright cases can address them.
-
-Done when a 3,000-clip, 24-track timeline scrolls and zooms at the display's refresh
-rate on the reference laptop (see Block N budgets), measured by the frame-time overlay.
-
 ### §WT48 Zoom, scroll and the overview strip
 
 Zoom is continuous from fit-all to one frame = 200 px, anchored on the mouse
@@ -624,6 +608,17 @@ ranges as values and Invoke/Select patterns, so Narrator reads 'Clip interview_0
 
 Done when a case trims and moves a clip using keys only, and Accessibility Insights
 reports no errors on the panel.
+
+### §WT167 Measuring the timeline on the reference laptop
+
+WT47 drew the timeline with Direct2D from a viewport query, and its surface reports the
+draw time (median and p95) in its UI Automation status. What no test here can say is
+whether tests/fixtures/timeline/feature.otio, 24 tracks and 3,000 clips, scrolls and
+zooms at the display's refresh rate on the reference laptop (Block N's budgets), because
+WARP in the guest and this desk's discrete GPU are not that machine. A person opens the
+cut there, scrolls and zooms for a minute, and reads the status: both numbers must stay
+under the display's frame time. Thumbnail and waveform strips are WT55's and WPF track
+headers are WT50's, so they are not part of this measurement.
 
 ## Block G — Workspace, panels and viewers
 
