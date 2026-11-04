@@ -156,6 +156,42 @@ public static class UiText
     /// <summary>Edit > Duplicate timeline as version.</summary>
     public const string DuplicateTimelineMenu = "_Duplicate timeline as version";
 
+    /// <summary>WT160: copies the selected clips.</summary>
+    public const string CopyClipsMenu = "_Copy clips";
+
+    /// <summary>WT160: the gesture shown beside Copy clips.</summary>
+    public const string CopyClipsGesture = "Ctrl+C";
+
+    /// <summary>WT160: pastes clips at the playhead.</summary>
+    public const string PasteClipsMenu = "_Paste clips";
+
+    /// <summary>WT160: the gesture shown beside Paste clips.</summary>
+    public const string PasteClipsGesture = "Ctrl+V";
+
+    /// <summary>WT160: what the history calls a paste.</summary>
+    public const string PasteStep = "Paste clips";
+
+    /// <summary>WT160: Copy with nothing selected.</summary>
+    public const string NothingToCopy = "Select clips on the timeline to copy them.";
+
+    /// <summary>WT160: Paste with nothing copied.</summary>
+    public const string NothingToPaste = "Nothing has been copied to paste.";
+
+    /// <summary>WT160: what a copy did.</summary>
+    /// <param name="items">How many items.</param>
+    /// <param name="placed">Whether the clipboard took them; when not, only this window can paste them.</param>
+    /// <returns>The status.</returns>
+    public static string Copied(int items, bool placed) =>
+        string.Create(CultureInfo.InvariantCulture, $"Copied {items} {(items == 1 ? "item" : "items")}.{(placed ? string.Empty : " The clipboard was busy, so only this window can paste them.")}");
+
+    /// <summary>WT160: what a paste did.</summary>
+    /// <param name="items">How many items.</param>
+    /// <param name="lanes">The lanes, e.g. "V1, A1".</param>
+    /// <param name="timecode">The playhead's timecode.</param>
+    /// <returns>The status.</returns>
+    public static string Pasted(int items, string lanes, string timecode) =>
+        string.Create(CultureInfo.InvariantCulture, $"Pasted {items} {(items == 1 ? "item" : "items")} onto {lanes} at the first cut from {timecode}.");
+
     /// <summary>WT52: selects every item on the timeline.</summary>
     public const string SelectAllMenu = "Select _all";
 

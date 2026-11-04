@@ -21,6 +21,19 @@ public sealed class CollectionTests
     }
 
     [Fact]
+    public void AnEditToAReelInACollectionIsAnnouncedByThatReel()
+    {
+        SerializableCollection document = Assert.IsType<SerializableCollection>(OtioReader.ReadFile(Reels));
+        Timeline reel2 = DocumentTimelines.Of(document)[1];
+        List<ModelChange> heard = [];
+        reel2.ModelChanged += (_, change) => heard.Add(change);
+
+        new History().Execute(new Rename(reel2.FindClips().First(), "renamed"));
+
+        Assert.Equal("name", Assert.Single(heard).What);
+    }
+
+    [Fact]
     public void ATimelineIsDuplicatedAsItsNextVersionBesideItAndTheCopyIsIndependent()
     {
         SerializableCollection document = Assert.IsType<SerializableCollection>(OtioReader.ReadFile(Reels));

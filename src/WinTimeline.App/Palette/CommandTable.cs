@@ -18,6 +18,8 @@ public static class CommandTable
         (Command("edit.undo", UiText.UndoMenu, UiText.EditMenu, ["back"], UiText.UndoGesture), "UndoMenuItem"),
         (Command("edit.redo", UiText.RedoMenu, UiText.EditMenu, ["again"], UiText.RedoGesture), "RedoMenuItem"),
         (Command("edit.duplicate-timeline", UiText.DuplicateTimelineMenu, UiText.EditMenu, ["new version", "copy timeline"], null), "DuplicateTimelineMenuItem"),
+        (Command("edit.copy-clips", UiText.CopyClipsMenu, UiText.EditMenu, ["copy", "duplicate clips"], UiText.CopyClipsGesture), "CopyClipsMenuItem"),
+        (Command("edit.paste-clips", UiText.PasteClipsMenu, UiText.EditMenu, ["paste", "insert clips"], UiText.PasteClipsGesture), "PasteClipsMenuItem"),
         (Command("edit.select-all", UiText.SelectAllMenu, UiText.EditMenu, ["select everything", "all clips"], UiText.SelectAllGesture), "SelectAllMenuItem"),
         (Command("edit.deselect-all", UiText.DeselectAllMenu, UiText.EditMenu, ["select none", "clear selection"], UiText.DeselectAllGesture), "DeselectAllMenuItem"),
         (Command("edit.track-forward", UiText.TrackForwardMenu, UiText.EditMenu, ["select forward", "everything after"], UiText.TrackForwardGesture), "TrackForwardMenuItem"),

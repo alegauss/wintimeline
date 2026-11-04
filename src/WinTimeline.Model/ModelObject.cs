@@ -28,13 +28,15 @@ public abstract class ModelObject
     /// <summary>Announces a change to whatever timeline holds this object.</summary>
     internal void Changed(string what)
     {
-        ModelObject top = this;
-        while (top.Owner is { } owner)
+        // The nearest timeline above, not the topmost owner: in a collection the topmost is the
+        // collection, and an edit to one of its reels must still be announced by that reel (WT160).
+        ModelObject? at = this;
+        while (at is not null and not Timeline)
         {
-            top = owner;
+            at = at.Owner;
         }
 
-        (top as Timeline)?.Announce(new ModelChange(this, what));
+        (at as Timeline)?.Announce(new ModelChange(this, what));
     }
 
     /// <summary>Moves the fields no class claimed into <see cref="DynamicFields"/>.</summary>

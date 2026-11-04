@@ -127,6 +127,12 @@
       "shareable": false
     },
     {
+      // WT160: the three reels again, to paste between; not lent, since its case pastes into reel3.
+      "name": "a window on three reels to paste between",
+      "arguments": ["--open", "tests/fixtures/collections/reels.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT21: two versions of a cut with known edits between them, in one collection.
       "name": "a window on two versions of a cut",
       "arguments": ["--open", "tests/fixtures/diff/cuts.otio", "--adapter", "warp"],
@@ -1268,6 +1274,134 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "a clip copied in one reel is pasted into another at the playhead, and the paste undoes in one step",
+      "catches": "clips that cannot leave the timeline they are in, so a version is assembled from another reel by hand",
+      "filed": "WT160",
+      "tags": ["clipboard", "collection", "edit"],
+      "fixture": "a window on three reels to paste between",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^Opened reels\\.otio: 3 timelines\\.",
+          "named": "the reels have opened, which a tab chosen sooner would lose to"
+        },
+        {
+          // Clicked, not selected through its pattern: a window that activates after a pattern
+          // select hands the focus back to the first tab, and a tab that gets the focus selects itself.
+          "locator": "TabItem#TimelineTab1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the reel2 tab is clicked"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Showing reel2: 3 clips on 1 track.",
+          "named": "reel2 is shown"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "name",
+          "expect": "r2c1",
+          "named": "and its clips are what the surface holds, not reel1's"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": "view 03:00:00:00 to 03:00:0[6-9]:\\d\\d,",
+          "named": "and the view fits reel2's six seconds, not reel1's three"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "r2c3 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+C",
+          "named": "Ctrl+C is pressed"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Copied 1 item.",
+          "named": "the clip is copied"
+        },
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "select",
+          "named": "the reel3 tab is chosen"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#PasteClipsMenuItem",
+          "act": "invoke",
+          "named": "Paste clips is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Pasted 1 item onto V1 at the first cut from 04:00:00:00.",
+          "named": "the paste says where it went"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "name",
+          "expect": "r2c3",
+          "named": "reel2's clip now opens reel3"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#ZoomFitMenuItem",
+          "act": "invoke",
+          "named": "Zoom to fit is chosen, since the view still fits reel3's one second"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 04:00:03:00 to 04:00:04:00",
+          "named": "and reel3's own clip follows it, three seconds later"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened again"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "invoke",
+          "named": "Undo is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "name",
+          "expect": "r3c1",
+          "named": "and the whole paste is gone"
         }
       ]
     },

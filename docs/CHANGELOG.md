@@ -35,6 +35,7 @@
 - ✅ **WT156** **FCP 7 XML and FCPXML timelines from Premiere and Resolve cannot be opened** — FCP 7 XML and FCPXML open through ports of the published OTIO adapters (1.0.0) that read all twelve of their samples byte for byte as the reference does, and File > Open lists both.
 - ✅ **WT157** **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — AAF and the other Python-only formats open through OpenTimelineIO in a child process wherever a Python with it exists; the menu lists them only then, and a failure names the adapter.
 - ✅ **WT158** **Every EDL opens at 24 fps, so a 25 or 30 fps EDL is refused or read at the wrong speed** — Opening an EDL asks its frame rate and timecode handling, remembering the last choice; --edl-rate skips it, and a refusal names the rates the EDL fits, so 25fps.edl opens at 25.
+- ✅ **WT160** **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Ctrl+C and Ctrl+V copy selected clips as an OTIO fragment and paste them at the playhead in any tab, in one undo; edits inside a collection's reels now announce themselves.
 
 ## Block C — Media probing and GPU decoding
 

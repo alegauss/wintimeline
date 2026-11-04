@@ -40,6 +40,7 @@ public partial class MainWindow : Window
         BindRuler();
         BindPlayhead();
         BindSelection();
+        BindClipboard();
         BindDocumentCommands();
         ShowWelcome();
     }

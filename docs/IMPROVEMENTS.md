@@ -120,16 +120,6 @@ The substitution rules a person confirms are kept per project (WT22) and tried o
 Done when a clip whose file was renamed and moved relinks by signature, and a project
 reopened on the same machine relinks itself from its saved rule.
 
-### §WT160 Copy and paste clips between timelines
-
-WT20 opens every timeline of a collection as its own tab, and Duplicate timeline as
-version copies a whole reel. Nothing copies less than a reel. Copy should put the
-selected clips, gaps and transitions on the clipboard as an OTIO SerializableCollection
-fragment in the reference's own format. Paste should insert them through InsertChild
-commands, as one transaction in the target timeline's history, so one undo takes the
-paste back. Pasting into another tab must resolve media references against that
-document's folder. This waits on a timeline panel that can select items.
-
 ### §WT161 Journal edits to collections
 
 The WT17 recovery journal writes each command's JSON form, and that form addresses items

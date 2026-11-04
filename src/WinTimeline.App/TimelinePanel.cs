@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Vortice.DXGI;
 using Vortice.Mathematics;
 using WinTimeline.Engine.Timeline;
@@ -56,6 +57,7 @@ public sealed class TimelinePanel : IDisposable
     private TimelineViewport? _view;
     private TimelineViewport? _from;
     private TimelineViewport? _to;
+    private TimelineViewport? _published;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
     private double? _inPoint;
@@ -318,6 +320,10 @@ public sealed class TimelinePanel : IDisposable
             TimelineViewport fit = TimelineViewport.Fit(_layout.Duration, w, h, Math.Round(LaneDip * Scale));
             fit = fit with { FrameRate = Rate };
             _view = fit.PixelsPerSecond < 10 ? fit with { PixelsPerSecond = 10 } : fit;
+
+            // WT160: the items exist from this frame on, and a client that listed none (or the last
+            // timeline's) before it must be told, or a tab chosen just now reads the old reel.
+            LanesMoved?.Invoke(this, EventArgs.Empty);
         }
         else if (_view.Width != w || _view.Height != h)
         {
@@ -345,6 +351,15 @@ public sealed class TimelinePanel : IDisposable
             DrawItems(view, layout);
             DrawRuler(view, target.Width);
             _canvas.End();
+        }
+
+        // WT160: UI Automation lists what is in view, so a view it has not seen since it was made
+        // (a timeline just shown, a resize) is published once drawn. Posted, because a peer
+        // invalidated inside the render callback kept the old children; a zoom publishes as it ends.
+        if (_from is null && !ReferenceEquals(view, _published))
+        {
+            _published = view;
+            _surface.Dispatcher.BeginInvoke(DispatcherPriority.Background, _surface.ItemsChanged);
         }
 
         Measure(watch.Elapsed.TotalMilliseconds);

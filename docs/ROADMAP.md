@@ -12,7 +12,6 @@
 ## Block B — OTIO document model and file formats
 
 - 📋 **WT159** (deps: WT18 ✅, WT24, WT22 ✅) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
-- 🛠 **WT160** (deps: WT20 ✅, WT52 ✅) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
 - 📋 **WT161** (deps: WT17 ✅, WT20 ✅) **Edits to a file of several timelines are not journaled, so a crash loses them** — The recovery journal addresses commands from one timeline; collections need paths that name the timeline too. → §WT161
 - 📋 **WT162** (deps: WT21 ✅) **A comparison cannot be exported as a change-list EDL or as markers for another tool** — Online and sound editors receive changes as a change list or markers, and retyping the list is where conform errors come from. → §WT162
 - 📋 **WT163** (deps: WT21 ✅) **The changes between two versions show only as a list, not as colour bands on the timeline** — A reviewer reads a cut by its shape; bands on the clips that moved, trimmed or were replaced show where the edits fall. → §WT163

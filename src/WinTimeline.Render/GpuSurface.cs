@@ -90,8 +90,19 @@ public sealed class GpuSurface : HwndHost
     /// <summary>A line the surface's peer adds to its status, e.g. the frame time.</summary>
     public string? Status { get; set; }
 
-    /// <summary>Tells UI Automation the items have changed; cheap, and batched by WPF.</summary>
-    public void ItemsChanged() => UIElementAutomationPeer.FromElement(this)?.InvalidatePeer();
+    /// <summary>
+    /// Tells UI Automation the items have changed. The children are listed again at once: an
+    /// invalidated peer waits for WPF's next layout pass, and drawing the swap chain makes none,
+    /// so a timeline shown in a tab kept the last one's items (WT160).
+    /// </summary>
+    public void ItemsChanged()
+    {
+        if (UIElementAutomationPeer.FromElement(this) is { } peer)
+        {
+            peer.ResetChildrenCache();
+            peer.InvalidatePeer();
+        }
+    }
 
     /// <summary>What the surface is cleared to before <see cref="Draw"/>.</summary>
     public Color4 Background { get; set; } = new(0.08f, 0.08f, 0.09f, 1f);
