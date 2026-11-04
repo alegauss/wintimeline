@@ -30,6 +30,23 @@ public sealed class DocumentTextTests
     }
 
     [Fact]
+    public void TheRecoveryOfferAndItsResultSayWhatAndHowMuch()
+    {
+        // WT17
+        WinTimeline.Model.Commands.RecoveryCandidate one = new("id", "cut.otio", null, 1, DateTimeOffset.Now);
+        Assert.Equal("Edits to cut.otio were not saved when WinTimeline last closed: 1 edit.", MainWindow.RecoveryOfferText(one));
+        Assert.EndsWith("3 edits.", MainWindow.RecoveryOfferText(one with { Edits = 3 }), StringComparison.Ordinal);
+
+        Timeline timeline = Assert.IsType<Timeline>(Corpus("simple_cut.otio"));
+        Assert.Equal(
+            "Recovered cut.otio: 4 clips on 1 track. Save to keep the edits.",
+            MainWindow.RecoveredText("cut.otio", new WinTimeline.Model.Commands.RecoveredDocument(timeline, new WinTimeline.Model.Commands.History(), false)));
+        Assert.Equal(
+            "Recovered cut.otio: 4 clips on 1 track. From the last autosave. Save to keep the edits.",
+            MainWindow.RecoveredText("cut.otio", new WinTimeline.Model.Commands.RecoveredDocument(timeline, new WinTimeline.Model.Commands.History(), true)));
+    }
+
+    [Fact]
     public void SomethingElseSaysWhatItIs()
     {
         ModelObject collection = OtioReader.ReadString("""{ "OTIO_SCHEMA": "SerializableCollection.1", "children": [] }""");

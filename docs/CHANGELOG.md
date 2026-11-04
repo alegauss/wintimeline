@@ -22,6 +22,7 @@
 - ✅ **WT14** **An .otioz or .otiod bundle cannot be opened, so timelines shipped with their media by other tools are unusable** — .otioz and .otiod open with media extracted on demand and save in the reference's layout; the reference reads bundles written here.
 - ✅ **WT15** **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — One adapter interface lists formats for Open, and CMX 3600 EDLs read exactly as the reference adapter reads its 19 samples; FCP XML and the Python bridge are WT156, WT157.
 - ✅ **WT16** **No edit can be undone, and there is no single place where a change to the document is described** — Every edit runs as a command through one history with transactions, drag coalescing and a byte budget; 10,000 random sequences undo and redo to the byte, and replay from JSON.
+- ✅ **WT17** **A crash or power cut loses every edit since the last manual save** — A flushed journal of every command, undo and transaction rebuilds a crashed session up to its last committed command, undo intact, offered at start; an idle autosave backs it.
 
 ## Block C — Media probing and GPU decoding
 

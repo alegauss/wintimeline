@@ -14,7 +14,6 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT17** (deps: WT13 ✅, WT16 ✅) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
 - 📋 **WT18** (deps: WT13 ✅) **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — OTIO files travel between machines and drive letters constantly, so relinking is needed on almost every file received from someone else. → §WT18
 - 📋 **WT19** (deps: WT12 ✅) **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — Files from other tools are often subtly broken, and reporting it on open beats an exporter crash an hour later. → §WT19
 - 📋 **WT20** (deps: WT13 ✅) **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — Editorial hand-offs often carry several reels or versions in one file, and comparing versions side by side is a core review task. → §WT20

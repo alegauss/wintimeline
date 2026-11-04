@@ -93,6 +93,7 @@ public partial class MainWindow
 
             // An imported file (an EDL) is not written back over: Save asks where the .otio goes.
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
+            StartJournal(name);
             Title = $"{name} — WinTimeline";
             StatusText.Text = OpenedText(name, document);
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
@@ -131,6 +132,7 @@ public partial class MainWindow
             }
 
             DocumentPath = Path.GetFullPath(path);
+            _journal?.MarkSaved();
             Title = $"{name} — WinTimeline";
             StatusText.Text = $"Saved {name}.";
             Log.Write(LogLevel.Info, LogCategory.App, "Document saved.", Fields(path, Document));
@@ -174,6 +176,13 @@ public partial class MainWindow
         {
             OpenDocument(path);
         }
+
+        if (Options.RunCommands is { } commands)
+        {
+            RunCommands(commands);
+        }
+
+        OfferRecovery();
     }
 
     private void AskToOpen()

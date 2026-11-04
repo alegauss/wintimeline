@@ -169,17 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT17 Autosave, recovery and session journal
-
-The document is autosaved every 60 seconds of idle-after-change to
-`%LOCALAPPDATA%\WinTimeline\recovery\<doc-guid>.otio`, plus an append-only journal of
-serialised commands since the last autosave. On start, a document with a newer recovery
-file than its saved one is offered back, replaying the journal. Recovery files are
-pruned after a clean close.
-
-Done when killing the process mid-drag and relaunching restores the document up to the
-last committed command.
-
 ### §WT18 Missing media detection and relink
 
 On open, every `ExternalReference` and `ImageSequenceReference` is resolved (file URLs,

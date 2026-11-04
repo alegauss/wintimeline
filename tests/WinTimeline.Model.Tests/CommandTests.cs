@@ -161,7 +161,7 @@ public sealed class CommandTests
     }
 
     // One random edit, recorded as JSON just before it runs, while its paths still name what it targets.
-    private static void RandomEdit(Random random, Timeline timeline, History history, List<JsonObject> recorded)
+    internal static void RandomEdit(Random random, Timeline timeline, History history, List<JsonObject> recorded)
     {
         void Run(IEditCommand command)
         {

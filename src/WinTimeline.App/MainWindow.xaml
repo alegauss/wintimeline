@@ -46,6 +46,19 @@
       </DockPanel>
     </Border>
 
+    <!-- WT17: edits a session that did not close cleanly left behind. -->
+    <Border x:Name="EditsRecoveryBar" DockPanel.Dock="Top" Visibility="Collapsed" Padding="12,8"
+            Background="{DynamicResource SystemFillColorAttentionBackgroundBrush}"
+            AutomationProperties.AutomationId="EditsRecoveryBar">
+      <DockPanel>
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+          <Button Content="Recover edits" Margin="8,0,0,0" Click="OnRecoverEdits" AutomationProperties.AutomationId="RecoverEdits" />
+          <Button Content="Discard" Margin="8,0,0,0" Click="OnDiscardEdits" AutomationProperties.AutomationId="DiscardEdits" />
+        </StackPanel>
+        <TextBlock x:Name="EditsRecoveryText" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="EditsRecoveryText" />
+      </DockPanel>
+    </Border>
+
     <StatusBar DockPanel.Dock="Bottom" AutomationProperties.AutomationId="StatusBar">
       <StatusBarItem>
         <TextBlock x:Name="StatusText" AutomationProperties.AutomationId="StatusText" Text="Ready" />

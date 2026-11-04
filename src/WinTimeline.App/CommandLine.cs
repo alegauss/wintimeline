@@ -8,12 +8,14 @@ namespace WinTimeline.App;
 /// <param name="Adapter">The GPU to run on, by index or by a part of its name, instead of the one the app picks.</param>
 /// <param name="LogLevel">How much the log records.</param>
 /// <param name="CrashTest">WT7: "managed" or "native" to crash on purpose once the window is up, or null.</param>
+/// <param name="RunCommands">WT17: a file of edit commands, one JSON object a line, to apply to the opened document.</param>
 public sealed record AppOptions(
     string? Open = null,
     string? Models = null,
     string? Adapter = null,
     LogLevel LogLevel = LogLevel.Info,
-    string? CrashTest = null);
+    string? CrashTest = null,
+    string? RunCommands = null);
 
 /// <summary>A parse: the options, or why the command line was refused.</summary>
 /// <param name="Options">What was asked for, when it parsed.</param>
@@ -32,7 +34,7 @@ public sealed record ParsedCommandLine(AppOptions? Options, string? Error)
 /// </summary>
 public static class CommandLine
 {
-    private static readonly string[] Flags = ["--open", "--models", "--adapter", "--log-level", "--crash-test"];
+    private static readonly string[] Flags = ["--open", "--models", "--adapter", "--log-level", "--crash-test", "--run-commands"];
 
     /// <summary>Parses the arguments after the executable's name.</summary>
     /// <param name="args">The arguments.</param>
@@ -113,7 +115,8 @@ public static class CommandLine
                 Models: given.GetValueOrDefault("--models"),
                 Adapter: given.GetValueOrDefault("--adapter"),
                 LogLevel: level,
-                CrashTest: crash),
+                CrashTest: crash,
+                RunCommands: given.GetValueOrDefault("--run-commands")),
             null);
     }
 

@@ -5,7 +5,8 @@ case can reach a state without a file dialog, and they work for anyone.
 
 ```
 WinTimeline.exe [--open <file>] [--models <folder>] [--adapter <index-or-name>|warp]
-                [--log-level trace|debug|info|warning|error] [--crash-test managed|native]
+                [--log-level trace|debug|info|warning|error] [--run-commands <file>]
+                [--crash-test managed|native]
 ```
 
 Each flag takes its value after a space or an equals sign (`--log-level debug` or
@@ -18,6 +19,7 @@ the list is refused: WinTimeline says which one in a message box and exits with 
 | `--models <folder>` | Reads the AI models from this folder instead of the default one. |
 | `--adapter <index-or-name>\|warp` | Runs on this GPU instead of the one WinTimeline picks, which is the first hardware GPU in Windows' high-performance order (the discrete one on a hybrid laptop). Give its index in that order or a part of its name (`1`, `NVIDIA`); `warp` runs on the software rasteriser. A value that matches no GPU, or more than one, is refused with the list of GPUs this PC has. The status bar names the GPU in use. |
 | `--log-level trace\|debug\|info\|warning\|error` | How much the log records in `logs\wintimeline.jsonl` under the data folder; `info` unless given. |
+| `--run-commands <file>` | After `--open`, applies the edit commands in this file, one JSON object a line, as the history and the recovery journal record them (`{"op": "remove_child", "target": "0", "index": 0}`). Each is an undoable edit; the status bar says how many ran, or which one stopped the run. |
 | `--crash-test managed\|native` | Crashes on purpose once the window is up, to test the crash handling: `managed` throws an error the app catches and offers to restart from; `native` faults inside native code, which ends the process, and the next start says the last run crashed. |
 
 ## Where WinTimeline keeps its settings

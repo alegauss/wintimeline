@@ -30,6 +30,13 @@ public sealed class History
     /// <summary>Raised after anything is done, undone or redone.</summary>
     public event EventHandler? Changed;
 
+    /// <summary>
+    /// WT17: raised for everything that changes what the history holds, a command before it runs,
+    /// so a journal replaying these events into a fresh history ends in the same document and the
+    /// same undo steps.
+    /// </summary>
+    public event EventHandler<HistoryEvent>? Recording;
+
     /// <summary>How much the undo steps may retain.</summary>
     public long BudgetBytes { get; }
 
@@ -56,6 +63,7 @@ public sealed class History
     public void Execute(IEditCommand command)
     {
         ArgumentNullException.ThrowIfNull(command);
+        Recording?.Invoke(this, new HistoryEvent(HistoryEventKind.Execute, command));
         command.Do();
         if (_open is { } transaction)
         {
@@ -83,6 +91,7 @@ public sealed class History
             return false;
         }
 
+        Recording?.Invoke(this, new HistoryEvent(HistoryEventKind.Undo));
         IEditCommand command = _undo.Last!.Value;
         _undo.RemoveLast();
         _retained -= command.EstimatedBytes;
@@ -101,6 +110,7 @@ public sealed class History
             return false;
         }
 
+        Recording?.Invoke(this, new HistoryEvent(HistoryEventKind.Redo));
         IEditCommand command = _redo.Pop();
         command.Do();
         Push(command);
@@ -121,6 +131,7 @@ public sealed class History
             return new TransactionScope(this, null);
         }
 
+        Recording?.Invoke(this, new HistoryEvent(HistoryEventKind.BeginTransaction, Description: description));
         _open = new Transaction(description);
         return new TransactionScope(this, _open);
     }
@@ -129,6 +140,7 @@ public sealed class History
     /// <returns>The scope.</returns>
     public IDisposable BeginGesture()
     {
+        Recording?.Invoke(this, new HistoryEvent(HistoryEventKind.BeginGesture));
         _gestures++;
         return new Gesture(this);
     }
@@ -149,6 +161,7 @@ public sealed class History
     private void Close(Transaction transaction, bool commit)
     {
         _open = null;
+        Recording?.Invoke(this, new HistoryEvent(commit ? HistoryEventKind.Commit : HistoryEventKind.Cancel));
         if (!commit)
         {
             transaction.Rollback();
@@ -206,10 +219,45 @@ public sealed class History
             {
                 _done = true;
                 history._gestures--;
+                history.Recording?.Invoke(history, new HistoryEvent(HistoryEventKind.EndGesture));
             }
         }
     }
 }
+
+/// <summary>What changed in a history, for a journal.</summary>
+public enum HistoryEventKind
+{
+    /// <summary>A command is about to run.</summary>
+    Execute,
+
+    /// <summary>The last step was undone.</summary>
+    Undo,
+
+    /// <summary>The last undone step was redone.</summary>
+    Redo,
+
+    /// <summary>A transaction began.</summary>
+    BeginTransaction,
+
+    /// <summary>The open transaction was committed as one step.</summary>
+    Commit,
+
+    /// <summary>The open transaction was undone and dropped.</summary>
+    Cancel,
+
+    /// <summary>A gesture (a drag) began.</summary>
+    BeginGesture,
+
+    /// <summary>The gesture ended.</summary>
+    EndGesture,
+}
+
+/// <summary>One thing a history did.</summary>
+/// <param name="Kind">What.</param>
+/// <param name="Command">The command, for <see cref="HistoryEventKind.Execute"/>.</param>
+/// <param name="Description">The transaction's name, for <see cref="HistoryEventKind.BeginTransaction"/>.</param>
+public sealed record HistoryEvent(HistoryEventKind Kind, IEditCommand? Command = null, string? Description = null);
 
 /// <summary>The JSON form of commands: what a macro records, the AI assistant emits and a script sends.</summary>
 public static class CommandJson
