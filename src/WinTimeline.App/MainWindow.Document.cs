@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using WinTimeline.Diagnostics;
 using WinTimeline.Model;
 using WinTimeline.Model.Adapters;
+using WinTimeline.Model.Commands;
 using WinTimeline.Model.Serialization;
 
 namespace WinTimeline.App;
@@ -48,6 +49,9 @@ public partial class MainWindow
     /// <summary>The open document, or null.</summary>
     public ModelObject? Document { get; private set; }
 
+    /// <summary>WT16: the open document's undo history; every edit goes through it.</summary>
+    public History History { get; private set; } = new();
+
     /// <summary>Where the open document lives, or null when none is open.</summary>
     public string? DocumentPath { get; private set; }
 
@@ -85,6 +89,7 @@ public partial class MainWindow
             ModelObject document = bundle?.Content ?? adapter.Read(path, new AdapterOptions());
             _bundle = bundle;
             Document = document;
+            History = new History();
 
             // An imported file (an EDL) is not written back over: Save asks where the .otio goes.
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
@@ -161,6 +166,8 @@ public partial class MainWindow
     private void BindDocumentCommands()
     {
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, (_, _) => AskToOpen()));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo, (_, _) => History.Undo(), (_, e) => e.CanExecute = History.CanUndo));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Redo, (_, _) => History.Redo(), (_, e) => e.CanExecute = History.CanRedo));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, _) => Save(), (_, e) => e.CanExecute = Document is not null));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, (_, _) => AskToSaveAs(), (_, e) => e.CanExecute = Document is not null));
         if (Options.Open is { } path)

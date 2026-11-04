@@ -23,7 +23,10 @@
         <Separator />
         <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="OnExit" AutomationProperties.AutomationId="ExitMenuItem" />
       </MenuItem>
-      <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu" />
+      <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu">
+        <MenuItem Header="_Undo" Command="Undo" AutomationProperties.AutomationId="UndoMenuItem" />
+        <MenuItem Header="_Redo" Command="Redo" AutomationProperties.AutomationId="RedoMenuItem" />
+      </MenuItem>
       <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu" />
       <MenuItem Header="_Help" AutomationProperties.AutomationId="HelpMenu">
         <MenuItem Header="Create _diagnostics bundle…" Click="OnDiagnostics" AutomationProperties.AutomationId="DiagnosticsMenuItem" />

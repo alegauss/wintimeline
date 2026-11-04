@@ -124,11 +124,22 @@ public abstract class Item : Composable
         Changed("effects");
     }
 
-    internal void AddMarker(Marker marker)
+    internal void AddMarker(Marker marker) => InsertMarker(_markers.Count, marker);
+
+    internal void InsertMarker(int index, Marker marker)
     {
         marker.Owner = this;
-        _markers.Add(marker);
+        _markers.Insert(index, marker);
         Changed("markers");
+    }
+
+    internal Marker RemoveMarkerAt(int index)
+    {
+        Marker marker = _markers[index];
+        _markers.RemoveAt(index);
+        marker.Owner = null;
+        Changed("markers");
+        return marker;
     }
 }
 

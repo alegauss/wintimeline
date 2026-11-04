@@ -14,8 +14,7 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT16** (deps: WT12 ✅) **No edit can be undone, and there is no single place where a change to the document is described** — Every editing tool, the AI assistant and scripting all need one command pipeline, or undo breaks the first time two of them touch the same clip. → §WT16
-- 📋 **WT17** (deps: WT13 ✅, WT16) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
+- 📋 **WT17** (deps: WT13 ✅, WT16 ✅) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
 - 📋 **WT18** (deps: WT13 ✅) **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — OTIO files travel between machines and drive letters constantly, so relinking is needed on almost every file received from someone else. → §WT18
 - 📋 **WT19** (deps: WT12 ✅) **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — Files from other tools are often subtly broken, and reporting it on open beats an exporter crash an hour later. → §WT19
 - 📋 **WT20** (deps: WT13 ✅) **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — Editorial hand-offs often carry several reels or versions in one file, and comparing versions side by side is a core review task. → §WT20
@@ -63,11 +62,11 @@
 - 📋 **WT47** (deps: WT12 ✅, WT4 ✅) **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — A feature-length cut has 3,000 clips and dozens of tracks, and one visual per clip collapses WPF layout long before that. → §WT47
 - 📋 **WT48** (deps: WT47) **The timeline cannot be zoomed from whole-program to single-frame or scrolled smoothly** — Editing alternates between the whole structure and frame-accurate detail many times a minute. → §WT48
 - 📋 **WT49** (deps: WT47) **There is no time ruler, so positions cannot be read in timecode, frames, feet+frames or seconds** — Editors, assistants and sound people each read time in a different unit, and the ruler is where they look first. → §WT49
-- 📋 **WT50** (deps: WT47, WT16) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
+- 📋 **WT50** (deps: WT47, WT16 ✅) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
 - 📋 **WT51** (deps: WT49) **No playhead marks the current frame, and the viewer is not tied to a position in the timeline** — The playhead is the shared cursor between the viewer, the edit tools and the AI assistant. → §WT51
 - 📋 **WT52** (deps: WT47) **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Every edit acts on a selection, and a weak selection model forces editors into many repeated clicks. → §WT52
 - 📋 **WT53** (deps: WT52) **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Without snapping every edit risks one-frame gaps and flashes that are invisible until export. → §WT53
-- 📋 **WT54** (deps: WT47, WT16) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
+- 📋 **WT54** (deps: WT47, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
 - 📋 **WT55** (deps: WT47, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - 📋 **WT56** (deps: WT47) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
 - 💭 **WT57** (deps: WT48) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
@@ -80,7 +79,7 @@
 - 📋 **WT61** (deps: WT60) **A media file cannot be opened in a source viewer to mark in and out before editing** — Choosing the part of a shot to use happens in the source viewer, before the timeline. → §WT61
 - 📋 **WT62** (deps: WT59, WT22, WT24) **Imported media has nowhere to live: no bins, folders, list or grid views, search or metadata columns** — Projects have hundreds of files, and finding the right one quickly is a large share of editing time. → §WT62
 - 📋 **WT63** (deps: WT59, WT52) **Clip, track, transition and timeline properties, including OTIO metadata, cannot be seen or edited** — OTIO carries rich metadata, and a viewer-editor must show and edit it faithfully. → §WT63
-- 📋 **WT64** (deps: WT59, WT16) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
+- 📋 **WT64** (deps: WT59, WT16 ✅) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
 - 📋 **WT66** (deps: WT1 ✅) **Actions can only be found in menus, so less common commands are hard to discover** — A searchable command palette makes the whole feature set reachable and is also where the AI assistant's commands surface. → §WT66
 - 📋 **WT67** (deps: WT5 ✅, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
@@ -89,8 +88,8 @@
 
 ## Block H — Editing: tools, trims and drag and drop
 
-- 📋 **WT70** (deps: WT53, WT16) **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Moving clips is the most frequent edit, and its overwrite versus insert behaviour decides whether the tool feels safe. → §WT70
-- 📋 **WT71** (deps: WT52, WT16) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
+- 📋 **WT70** (deps: WT53, WT16 ✅) **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Moving clips is the most frequent edit, and its overwrite versus insert behaviour decides whether the tool feels safe. → §WT70
+- 📋 **WT71** (deps: WT52, WT16 ✅) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
 - 📋 **WT72** (deps: WT70) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
 - 📋 **WT73** (deps: WT70, WT24) **Media cannot be dragged from the bin or from Windows Explorer onto the timeline or the viewer** — Drag and drop is how people expect to start an edit, and Explorer drops make the first minute of use obvious. → §WT73
 - 📋 **WT74** (deps: WT70, WT61) **A source clip's marked range cannot be edited into the timeline with insert, overwrite, replace or fit-to-fill** — Three-point editing with the keyboard is the fastest way to assemble, and professional editors expect it. → §WT74
@@ -145,7 +144,7 @@
 - 📋 **WT111** (deps: WT104, WT25) **Long recordings and delivered masters are not split into shots, so finding a cut point means scrubbing** — Shot boundaries let an editor re-cut a master and let the other AI tools reason about shots instead of frames. → §WT111
 - 📋 **WT112** (deps: WT111) **Footage has no descriptive tags (shot size, subjects, location, motion), so bins cannot be filtered by content** — Logging footage by hand is a full-time assistant job that vision models now do well enough to help. → §WT112
 - 📋 **WT113** (deps: WT112, WT106, WT62) **Footage cannot be searched by describing what is in it, like 'a woman laughing near a window'** — Natural-language search across hours of footage is the AI feature editors say saves the most time. → §WT113
-- 📋 **WT114** (deps: WT99, WT16, WT66) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — A local assistant that proposes edits as commands, not as a black box, can do tedious multi-step work while the editor keeps control. → §WT114
+- 📋 **WT114** (deps: WT99, WT16 ✅, WT66) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — A local assistant that proposes edits as commands, not as a black box, can do tedious multi-step work while the editor keeps control. → §WT114
 - 💭 **WT115** (deps: WT110, WT114) **Captions and transcripts cannot be translated into other languages** — Reaching other audiences needs subtitles in their language, and translation can run locally. → §WT115
 - 📋 **WT116** (deps: WT114, WT113) **A first assembly from a script or a list of selects must be built clip by clip** — Assembling a rough cut from transcripts is mechanical work the assistant and search can do in minutes. → §WT116
 - 💭 **WT117** (deps: WT113, WT108) **Finding B-roll that matches what is being said requires browsing the whole library** — Covering interviews with relevant visuals is a constant need, and transcript plus image search can suggest it. → §WT117

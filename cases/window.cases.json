@@ -434,6 +434,35 @@
           "named": "and the title names it"
         }
       ]
+    },
+
+    {
+      "name": "a freshly opened timeline has nothing to undo or redo",
+      "catches": "an Undo that can be pressed before any edit, which would undo the open itself or throw",
+      "filed": "WT16",
+      "tags": ["edit", "history"],
+      "fixture": "a window opened on the simple cut",
+      "steps": [
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "not enabled",
+          "named": "Undo waits for an edit"
+        },
+        {
+          "locator": "MenuItem#RedoMenuItem",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "not enabled",
+          "named": "and so does Redo"
+        }
+      ]
     }
   ]
 }

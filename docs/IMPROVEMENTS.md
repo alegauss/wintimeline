@@ -169,21 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT16 Command pipeline with undo, redo and coalescing
-
-All mutations go through `IEditCommand` (Do, Undo, Description, MergeWith). Commands are
-small and composable: a ripple trim is a transaction of item moves. A `Transaction`
-scope groups commands so one user gesture is one undo step; drags coalesce continuously
-and commit on mouse up. The history keeps a bounded memory budget (default 512 MB of
-retained state) and stores structural diffs, not snapshots.
-
-Every command is also serialisable to a small JSON form, which is what the AI assistant
-emits and what a macro records. History is shown in a panel (H block) with
-jump-to-state.
-
-Done when 10,000 random edit sequences followed by full undo return a document
-byte-equal to the original, and full redo returns the final one.
-
 ### §WT17 Autosave, recovery and session journal
 
 The document is autosaved every 60 seconds of idle-after-change to
