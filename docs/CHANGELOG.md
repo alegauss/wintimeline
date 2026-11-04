@@ -16,6 +16,7 @@
 - ✅ **WT165** **CI fails every EDL comparison because the Windows runner checks fixtures out with CRLF** — Every file under tests/fixtures and cases/fixtures is checked out byte for byte whatever core.autocrlf says, with the generator scripts kept as text, so CI compares the bytes that were committed.
 - ✅ **WT150** **Shaders would be compiled at start-up, so a broken one crashes on the user's desk instead of failing the build** — Shaders compile at build time and embed; a broken one fails the build, and Debug recompiles edits (design superseded: DXC cannot emit D3D11's SM5 bytecode, so d3dcompiler_47 is used).
 - ✅ **WT151** **A texture on the shared device cannot reach D3D12 without a copy, and nothing reports VRAM pressure or GPU decode** — A D3D11 texture opens on D3D12 by NT handle with a shared fence, a watch reports VRAM budget changes, and the device names its hardware decoders.
+- ✅ **WT152** **The GPU surfaces swallow mouse, touch, pen, keys and dropped files, and nothing can draw over them** — The surfaces raise wheel, drag with capture, pen pressure and dropped files, hand keyboard focus to WPF so keys run commands, and draw an overlay after each frame.
 
 ## Block B — OTIO document model and file formats
 

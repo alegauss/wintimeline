@@ -37,6 +37,7 @@ public sealed class GpuSurface : HwndHost
     {
         ArgumentNullException.ThrowIfNull(gpu);
         _gpu = gpu;
+        Focusable = true;
     }
 
     private delegate nint SurfaceProc(nint hwnd, uint msg, nint wParam, nint lParam);
@@ -52,6 +53,22 @@ public sealed class GpuSurface : HwndHost
 
     /// <summary>Raised for a left click on the surface, in device pixels.</summary>
     public event EventHandler<SurfacePoint>? Click;
+
+    /// <summary>
+    /// WT152: raised for every press, drag and release of the mouse or a pen over the surface, in
+    /// device pixels; the surface captures the mouse from press to release, so a drag that leaves
+    /// it still reports.
+    /// </summary>
+    public event EventHandler<SurfacePointer>? Pointer;
+
+    /// <summary>WT152: raised when files are dropped on the surface from Explorer or another app.</summary>
+    public event EventHandler<SurfaceDrop>? FilesDropped;
+
+    /// <summary>
+    /// WT152: raised after <see cref="Draw"/> on the same frame, for what sits over the picture
+    /// (playhead, guides, safe areas): nothing WPF draws can sit over the child window.
+    /// </summary>
+    public event EventHandler<SurfaceSwapChain>? Overlay;
 
     /// <summary>
     /// What is drawn that UI Automation should see, since a swap chain publishes nothing: each
@@ -107,6 +124,7 @@ public sealed class GpuSurface : HwndHost
         }
 
         Hosts[_child] = this;
+        DragAcceptFiles(_child, true);
         (int w, int h) = DevicePixels();
         _swapChain = new SurfaceSwapChain(_gpu, _child, w, h);
         Invalidate();
@@ -220,6 +238,7 @@ public sealed class GpuSurface : HwndHost
         _gpu.ImmediateContext.OMSetRenderTargets(_swapChain.Target);
         _swapChain.Clear(Background);
         Draw?.Invoke(this, _swapChain);
+        Overlay?.Invoke(this, _swapChain);
         _swapChain.Present();
     }
 
@@ -248,29 +267,147 @@ public sealed class GpuSurface : HwndHost
         }
     }
 
-    /// <summary>Turns the child window's mouse messages into the surface's events.</summary>
+    /// <summary>
+    /// Turns the child window's messages into the surface's events (WT152). A press gives the
+    /// keyboard focus to this element in WPF rather than to the child window, so the window's
+    /// key bindings keep working and Tab leaves the surface as it leaves any control.
+    /// </summary>
     /// <returns>Whether the message was handled.</returns>
     private bool Input(nint hwnd, uint msg, nint wParam, nint lParam)
     {
-        const uint WmMouseWheel = 0x020A, WmMouseHWheel = 0x020E, WmLButtonDown = 0x0201;
-        const int MkShift = 0x0004, MkControl = 0x0008;
-        switch (msg)
+        (int X, int Y) ToClient((int X, int Y) screen)
         {
-            case WmMouseWheel or WmMouseHWheel when Wheel is not null:
-                // Wheel messages carry screen coordinates; a click carries the window's own.
-                Point32 screen = new() { X = (short)(lParam & 0xFFFF), Y = (short)((lParam >> 16) & 0xFFFF) };
-                ScreenToClient(hwnd, ref screen);
-                int keys = (int)(wParam & 0xFFFF);
-                Wheel(this, new SurfaceWheel(screen.X, screen.Y, (short)((wParam >> 16) & 0xFFFF), msg == WmMouseHWheel, (keys & MkShift) != 0, (keys & MkControl) != 0));
-                return true;
-            case WmLButtonDown:
-                SetFocus(hwnd);
-                Click?.Invoke(this, new SurfacePoint((short)(lParam & 0xFFFF), (short)((lParam >> 16) & 0xFFFF)));
-                return Click is not null;
-            default:
+            Point32 point = new() { X = screen.X, Y = screen.Y };
+            ScreenToClient(hwnd, ref point);
+            return (point.X, point.Y);
+        }
+
+        if (SurfaceInput.Wheel(msg, wParam, lParam, ToClient) is { } wheel)
+        {
+            Wheel?.Invoke(this, wheel);
+            return Wheel is not null;
+        }
+
+        if (SurfaceInput.Mouse(msg, wParam, lParam) is { } mouse)
+        {
+            if (mouse.Phase == PointerPhase.Down)
+            {
+                SetCapture(hwnd);
+                Dispatcher.BeginInvoke(() => Focus());
+                Click?.Invoke(this, new SurfacePoint(mouse.X, mouse.Y));
+            }
+            else if (mouse.Phase == PointerPhase.Up)
+            {
+                ReleaseCapture();
+            }
+
+            Pointer?.Invoke(this, mouse);
+            return Pointer is not null || Click is not null;
+        }
+
+        if (msg is SurfaceInput.PointerDown or SurfaceInput.PointerUpdate or SurfaceInput.PointerUp)
+        {
+            // A pen reports pressure here; touch and the mouse fall through to their mouse messages.
+            uint id = (uint)(wParam & 0xFFFF);
+            if (!GetPointerType(id, out int type) || type != PenPointer || !GetPointerPenInfo(id, out PointerPenInfo pen)
+                || SurfaceInput.Pen(msg, lParam, pen.Pressure, ToClient) is not { } stroke)
+            {
                 return false;
+            }
+
+            if (stroke.Phase == PointerPhase.Down)
+            {
+                Dispatcher.BeginInvoke(() => Focus());
+            }
+
+            Pointer?.Invoke(this, stroke);
+            return Pointer is not null;
+        }
+
+        if (msg == SurfaceInput.DropFiles)
+        {
+            Dropped(wParam);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void Dropped(nint drop)
+    {
+        try
+        {
+            uint count = DragQueryFileW(drop, 0xFFFFFFFF, null, 0);
+            List<string> paths = [];
+            for (uint i = 0; i < count; i++)
+            {
+                char[] buffer = new char[DragQueryFileW(drop, i, null, 0) + 1];
+                uint copied = DragQueryFileW(drop, i, buffer, (uint)buffer.Length);
+                paths.Add(new string(buffer, 0, (int)copied));
+            }
+
+            DragQueryPoint(drop, out Point32 at);
+            FilesDropped?.Invoke(this, new SurfaceDrop(paths, at.X, at.Y));
+        }
+        finally
+        {
+            DragFinish(drop);
         }
     }
+
+    private const int PenPointer = 3;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct PointerPenInfo
+    {
+        // POINTER_INFO, then the pen's own fields; only Pressure is read.
+        public int PointerType;
+        public uint PointerId;
+        public uint FrameId;
+        public int PointerFlags;
+        public nint SourceDevice;
+        public nint HwndTarget;
+        public Point32 PixelLocation;
+        public Point32 HimetricLocation;
+        public Point32 PixelLocationRaw;
+        public Point32 HimetricLocationRaw;
+        public uint Time;
+        public uint HistoryCount;
+        public int InputData;
+        public uint KeyStates;
+        public ulong PerformanceCount;
+        public int ButtonChangeType;
+        public uint PenFlags;
+        public uint PenMask;
+        public uint Pressure;
+        public uint Rotation;
+        public int TiltX;
+        public int TiltY;
+    }
+
+    [DllImport("user32.dll")]
+    private static extern bool GetPointerType(uint pointerId, out int type);
+
+    [DllImport("user32.dll")]
+    private static extern bool GetPointerPenInfo(uint pointerId, out PointerPenInfo info);
+
+    [DllImport("user32.dll")]
+    private static extern nint SetCapture(nint hwnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool ReleaseCapture();
+
+    [DllImport("shell32.dll")]
+    private static extern void DragAcceptFiles(nint hwnd, bool accept);
+
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    private static extern uint DragQueryFileW(nint drop, uint index, char[]? file, uint length);
+
+    [DllImport("shell32.dll")]
+    private static extern bool DragQueryPoint(nint drop, out Point32 point);
+
+    [DllImport("shell32.dll")]
+    private static extern void DragFinish(nint drop);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct Point32
@@ -282,8 +419,6 @@ public sealed class GpuSurface : HwndHost
     [DllImport("user32.dll")]
     private static extern bool ScreenToClient(nint hwnd, ref Point32 point);
 
-    [DllImport("user32.dll")]
-    private static extern nint SetFocus(nint hwnd);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct WndClassEx

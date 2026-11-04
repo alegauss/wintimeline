@@ -55,6 +55,14 @@
       "shareable": true
     },
     {
+      // WT152: the simple cut, with media beside it to drop on the viewer; not lent, since the drop replaces the document.
+      "name": "a window on the simple cut, with media to drop on its viewer",
+      "files": ["tests/fixtures/media/bars-3s-25p.mp4"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--open", "tests/fixtures/otio/corpus/simple_cut.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT68: an empty window with its own data folder, so its recent list starts empty.
       "name": "an empty window to drop media on",
       "files": ["tests/fixtures/media/bars-3s-25p.mp4"],
@@ -966,6 +974,53 @@
           "reads": "name",
           "expect": "01:00:00:00",
           "named": "the playhead starts at the timeline's first frame"
+        }
+      ]
+    },
+
+    {
+      "name": "a file dropped on the viewer opens, and a key pressed with the viewer focused runs its command",
+      "catches": "a GPU surface that swallows dropped files and keys, so nothing happens where the editing is",
+      "filed": "WT152",
+      "tags": ["surface", "drop", "keyboard"],
+      "fixture": "a window on the simple cut, with media to drop on its viewer",
+      "steps": [
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the viewer is clicked, which focuses it"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Ctrl+Shift+P",
+          "named": "Ctrl+Shift+P is pressed with the viewer focused"
+        },
+        {
+          "locator": "Edit#PaletteQuery",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "enabled",
+          "named": "the command palette opens"
+        },
+        {
+          "locator": "Button#PaletteClose",
+          "act": "invoke",
+          "named": "and is closed"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "drop file",
+          "with": "{files}/bars-3s-25p.mp4",
+          "named": "a video is dropped on the viewer"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Created a timeline from 1 file: 2 clips on 2 tracks.",
+          "named": "and becomes a timeline, as on the welcome page"
         }
       ]
     },

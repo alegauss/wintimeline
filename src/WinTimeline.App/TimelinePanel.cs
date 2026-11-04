@@ -60,6 +60,8 @@ public sealed class TimelinePanel : IDisposable
         _surface.Draw += OnDraw;
         _surface.Wheel += OnWheel;
         _surface.Click += OnClick;
+        _surface.Pointer += OnPointer;
+        _surface.Overlay += OnOverlay;
         _surface.Items = VisibleItems;
     }
 
@@ -146,6 +148,8 @@ public sealed class TimelinePanel : IDisposable
         _surface.Draw -= OnDraw;
         _surface.Wheel -= OnWheel;
         _surface.Click -= OnClick;
+        _surface.Pointer -= OnPointer;
+        _surface.Overlay -= OnOverlay;
         _surface.Items = null;
         _canvas.Dispose();
     }
@@ -211,16 +215,39 @@ public sealed class TimelinePanel : IDisposable
             DrawItems(view, layout);
             DrawRuler(view, target.Width);
             DrawHeaders(view, layout);
-            float x = (float)(Header + view.X(_playhead));
-            if (x >= Header)
-            {
-                _canvas.Line(new Vector2(x, 0), new Vector2(x, target.Height), Playhead, (float)Math.Max(1, Scale));
-            }
-
             _canvas.End();
         }
 
         Measure(watch.Elapsed.TotalMilliseconds);
+    }
+
+    /// <summary>WT152: the playhead, drawn over the frame as the surface's overlay.</summary>
+    private void OnOverlay(object? sender, SurfaceSwapChain target)
+    {
+        if (_view is not { } view || _layout is null)
+        {
+            return;
+        }
+
+        float x = (float)(Header + view.X(_playhead));
+        if (x < Header)
+        {
+            return;
+        }
+
+        using IDXGISurface back = target.BackBuffer();
+        _canvas.Begin(back);
+        _canvas.Line(new Vector2(x, 0), new Vector2(x, target.Height), Playhead, (float)Math.Max(1, Scale));
+        _canvas.End();
+    }
+
+    /// <summary>WT152: dragging over the lanes scrubs the playhead.</summary>
+    private void OnPointer(object? sender, SurfacePointer pointer)
+    {
+        if (pointer.Phase == PointerPhase.Move && pointer.Pressed)
+        {
+            OnClick(sender, new SurfacePoint(pointer.X, pointer.Y));
+        }
     }
 
     private void DrawLanes(TimelineViewport view, TimelineLayout layout, int width)

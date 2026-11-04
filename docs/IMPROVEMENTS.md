@@ -27,28 +27,6 @@ does, so UI cases can be authored with the plugin's help.
 Done when the skill names only commands that exist in this repository and a session can
 run a winwright case through the plugin.
 
-### §WT152 Input, focus, drag and drop, and the overlay on GPU surfaces
-
-Split out of WT4, which shipped `GpuSurface` in `WinTimeline.Render`: an `HwndHost`
-child window with a flip-model, waitable `SurfaceSwapChain` on the shared device,
-resized in place, following DPI, and publishing its size and frames to UI Automation.
-The viewer and the timeline each have one in the main window's dock area.
-
-The child window swallows input WPF never sees. It needs:
-
-- mouse, wheel and precision touchpad (`WM_POINTER*`), and pen with pressure, raised as
-  surface events in device-independent units, with capture on press;
-- keyboard focus handover: a press focuses the host so WPF's command bindings keep
-  working, and Tab leaves the surface (`IKeyboardInputSink`);
-- drag and drop: OLE `RegisterDragDrop` on the child window, forwarding to WPF's
-  `DragEnter`/`Drop` with the data object, so files dropped on the viewer open;
-- an overlay layer drawn inside the surface after `Draw` (playhead, guides, safe areas),
-  since nothing WPF draws can sit over the child window.
-
-Done when a case drops a file on the viewer and the app sees it, a case presses a key
-with the viewer focused and a menu command runs, and wheel and drag events reach a test
-handler.
-
 ### §WT153 Surface render thread at display refresh, and the host spike
 
 Split out of WT4, which shipped `GpuSurface` (an `HwndHost` child window with a waitable

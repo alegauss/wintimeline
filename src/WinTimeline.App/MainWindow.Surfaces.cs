@@ -43,6 +43,10 @@ public partial class MainWindow
         DockArea.Children.Add(splitter);
         DockArea.Children.Add(Timeline);
 
+        // WT152: files dropped on either surface open, or become a timeline, as on the welcome page.
+        Viewer.FilesDropped += (_, drop) => DropFiles(drop.Paths);
+        Timeline.FilesDropped += (_, drop) => DropFiles(drop.Paths);
+
         // WT47: the timeline surface draws the active timeline.
         TimelinePanel = new TimelinePanel(Timeline, Gpu);
         Closed += (_, _) => TimelinePanel.Dispose();
