@@ -127,7 +127,7 @@
 
 - 📋 **WT101** (deps: WT100 ✅, WT40 ⏳) **Models cannot be downloaded, resumed, verified, moved to another drive or removed from inside the app** — Models weigh from 50 MB to 10 GB, and an interrupted or corrupt download must never break a feature. → §WT101
 - 📋 **WT102** (deps: WT101, WT67) **Nothing in the UI shows which AI features are available, which models they need and whether this PC can run them** — AI features must explain themselves before a 4 GB download, or people will not trust them. → §WT102
-- 📋 **WT103** (deps: WT99 ✅) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Editors work under NDA, and a local-only promise is only worth something if it is enforced and visible. → §WT103
+- ⏳ **WT103** (deps: WT99 ✅, WT106) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Still needed: the AI activity view and air-gapped switch in the app, and UI cases showing each feature run (from WT106 on) recorded in the activity log. → §WT103
 - 📋 **WT104** (deps: WT22 ✅, WT99 ✅) **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis is expensive, and its results are what search, the assistant and the timeline all read. → §WT104
 - 📋 **WT105** (deps: WT99 ✅, WT34) **AI inference running during playback fights the decoder and compositor for the GPU and causes dropped frames** — AI analysis is meant to run in the background while the user edits, not instead of editing. → §WT105
 - 📋 **WT166** (deps: WT100 ✅) **The language model and fast transcription have no native engine, so GGUF models cannot run** — llama.cpp and whisper.cpp out of process are the fastest local engines for them, and a native crash there must never take the editor down. → §WT166
@@ -361,6 +361,13 @@
   ships with, takes it only when its catalog_version is higher, and keeps the shipped
   catalog when the signature or the download fails. A test feeds it a tampered file and
   sees it refused.
+
+## Done when — WT103
+
+- **The app shows the AI activity log and an air-gapped switch** Help > AI activity
+  lists AiActivity's records newest first, and a setting turns downloads off; a UI case
+  runs transcription (WT106) on a fixture, reads its record in the view, then flips
+  air-gapped and sees a model download refused with the notice saying why.
 
 ## Non-goals
 
