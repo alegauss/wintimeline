@@ -1,0 +1,3 @@
+{
+  "window.title": "WinTimeline ${separator} ${dirty}${activeEditorShort} ${separator} ${appName}"
+}
