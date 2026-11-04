@@ -35,6 +35,10 @@
       <MenuItem Header="{x:Static app:UiText.ViewMenu}" AutomationProperties.AutomationId="ViewMenu">
         <MenuItem Header="{x:Static app:UiText.PaletteMenu}" InputGestureText="{x:Static app:UiText.PaletteGesture}" Click="OnPalette" AutomationProperties.AutomationId="PaletteMenuItem" />
         <Separator />
+        <MenuItem Header="{x:Static app:UiText.ZoomInMenu}" InputGestureText="{x:Static app:UiText.ZoomInGesture}" Click="OnZoomIn" AutomationProperties.AutomationId="ZoomInMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.ZoomOutMenu}" InputGestureText="{x:Static app:UiText.ZoomOutGesture}" Click="OnZoomOut" AutomationProperties.AutomationId="ZoomOutMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.ZoomFitMenu}" InputGestureText="{x:Static app:UiText.ZoomFitGesture}" Click="OnZoomFit" AutomationProperties.AutomationId="ZoomFitMenuItem" />
+        <Separator />
         <MenuItem Header="{x:Static app:UiText.ProblemsMenu}" Click="OnProblems" AutomationProperties.AutomationId="ProblemsMenuItem" />
         <MenuItem Header="{x:Static app:UiText.CompareMenu}" Click="OnCompare" AutomationProperties.AutomationId="CompareMenuItem" />
       </MenuItem>

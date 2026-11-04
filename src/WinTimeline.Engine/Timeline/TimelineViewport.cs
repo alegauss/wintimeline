@@ -13,11 +13,73 @@ namespace WinTimeline.Engine.Timeline;
 /// <param name="Height">The view's height.</param>
 public sealed record TimelineViewport(double Start, double PixelsPerSecond, double Top, double LaneHeight, double Width, double Height)
 {
-    /// <summary>The closest zoom: a frame at 120 fps is still 10 pixels wide.</summary>
-    public const double MaxPixelsPerSecond = 1200;
-
-    /// <summary>The farthest zoom: ten hours fit in 3,600 pixels.</summary>
+    /// <summary>The farthest zoom any timeline goes to: ten hours fit in 3,600 pixels.</summary>
     public const double MinPixelsPerSecond = 0.1;
+
+    /// <summary>WT48: how wide one frame is at the closest zoom.</summary>
+    public const double FramePixels = 200;
+
+    /// <summary>The timeline's frame rate, which sets the closest zoom; 24 unless given.</summary>
+    public double FrameRate { get; init; } = 24;
+
+    /// <summary>WT48: the closest zoom, one frame <see cref="FramePixels"/> wide.</summary>
+    public double MostPixelsPerSecond => FramePixels * FrameRate;
+
+    /// <summary>WT48: the farthest zoom for a timeline: all of it across the view.</summary>
+    /// <param name="duration">The timeline's length.</param>
+    /// <returns>The zoom.</returns>
+    public double LeastPixelsPerSecond(double duration) =>
+        Math.Clamp(Width / Math.Max(duration, 1 / FrameRate), MinPixelsPerSecond, MostPixelsPerSecond);
+
+    /// <summary>WT48: all of the timeline across the view, scrolled to its start.</summary>
+    /// <param name="duration">The timeline's length.</param>
+    /// <returns>The new viewport.</returns>
+    public TimelineViewport FitAll(double duration) => this with { Start = 0, PixelsPerSecond = LeastPixelsPerSecond(duration) };
+
+    /// <summary>WT48: zooms by a factor keeping a time where it is on screen, as +/- do about the playhead.</summary>
+    /// <param name="seconds">The time held in place; scrolled into view first when it is outside.</param>
+    /// <param name="factor">Above 1 zooms in.</param>
+    /// <param name="duration">The timeline's length.</param>
+    /// <returns>The new viewport.</returns>
+    public TimelineViewport ZoomAroundTime(double seconds, double factor, double duration)
+    {
+        double x = seconds >= Start && seconds <= End ? X(seconds) : Width / 2;
+        TimelineViewport at = this with { Start = seconds - (x / PixelsPerSecond) };
+        return at.ZoomAround(x, factor, duration);
+    }
+
+    /// <summary>WT48: shows exactly a range of time across the view, as a zoom box does.</summary>
+    /// <param name="from">One end of the range.</param>
+    /// <param name="to">The other.</param>
+    /// <param name="duration">The timeline's length.</param>
+    /// <returns>The new viewport.</returns>
+    public TimelineViewport ZoomToRange(double from, double to, double duration)
+    {
+        double start = Math.Min(from, to), span = Math.Max(Math.Abs(to - from), 1 / FrameRate);
+        double pps = Math.Clamp(Width / span, LeastPixelsPerSecond(duration), MostPixelsPerSecond);
+        return (this with { PixelsPerSecond = pps, Start = start + ((span - (Width / pps)) / 2) }).Clamped(duration, int.MaxValue);
+    }
+
+    /// <summary>
+    /// WT48: the view a share of the way to another, zoom eased in log space so a deep zoom moves
+    /// as smoothly at frame level as at fit-all; what a 120 ms zoom animation draws each frame.
+    /// </summary>
+    /// <param name="to">Where the animation ends.</param>
+    /// <param name="share">0 for this view, 1 for the other.</param>
+    /// <returns>The view in between.</returns>
+    public TimelineViewport Toward(TimelineViewport to, double share)
+    {
+        ArgumentNullException.ThrowIfNull(to);
+        double t = Math.Clamp(share, 0, 1);
+        double pps = Math.Exp(Math.Log(PixelsPerSecond) + ((Math.Log(to.PixelsPerSecond) - Math.Log(PixelsPerSecond)) * t));
+
+        // The time at the screen point both views agree on stays put, so the zoom does not drift.
+        double pivot = Math.Abs(to.PixelsPerSecond - PixelsPerSecond) < 1e-9 ? 0 : (to.Start - Start) / ((1 / PixelsPerSecond) - (1 / to.PixelsPerSecond));
+        double start = double.IsFinite(pivot) && Math.Abs(to.PixelsPerSecond - PixelsPerSecond) > 1e-9
+            ? Start + (pivot / PixelsPerSecond) - (pivot / pps)
+            : Start + ((to.Start - Start) * t);
+        return this with { PixelsPerSecond = pps, Start = start, Top = Top + ((to.Top - Top) * t) };
+    }
 
     /// <summary>The second at the right edge.</summary>
     public double End => Start + (Width / PixelsPerSecond);
@@ -35,7 +97,7 @@ public sealed record TimelineViewport(double Start, double PixelsPerSecond, doub
     /// <param name="laneHeight">A lane's height.</param>
     /// <returns>The viewport.</returns>
     public static TimelineViewport Fit(double duration, double width, double height, double laneHeight) =>
-        new(0, Math.Clamp(width / Math.Max(duration, 1), MinPixelsPerSecond, MaxPixelsPerSecond), 0, laneHeight, width, height);
+        new(0, Math.Clamp(width / Math.Max(duration, 1), MinPixelsPerSecond, FramePixels * 24), 0, laneHeight, width, height);
 
     /// <summary>Where a time is across the view.</summary>
     /// <param name="seconds">The time.</param>
@@ -65,7 +127,7 @@ public sealed record TimelineViewport(double Start, double PixelsPerSecond, doub
     public TimelineViewport ZoomAround(double x, double factor, double duration)
     {
         double pinned = Seconds(x);
-        double pps = Math.Clamp(PixelsPerSecond * factor, MinPixelsPerSecond, MaxPixelsPerSecond);
+        double pps = Math.Clamp(PixelsPerSecond * factor, LeastPixelsPerSecond(duration), MostPixelsPerSecond);
         return (this with { PixelsPerSecond = pps, Start = pinned - (x / pps) }).Clamped(duration, int.MaxValue);
     }
 

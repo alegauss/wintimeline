@@ -53,7 +53,6 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- 📋 **WT48** (deps: WT47 ✅) **The timeline cannot be zoomed from whole-program to single-frame or scrolled smoothly** — Editing alternates between the whole structure and frame-accurate detail many times a minute. → §WT48
 - 📋 **WT49** (deps: WT47 ✅) **There is no time ruler, so positions cannot be read in timecode, frames, feet+frames or seconds** — Editors, assistants and sound people each read time in a different unit, and the ruler is where they look first. → §WT49
 - 📋 **WT50** (deps: WT47 ✅, WT16 ✅) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
 - 📋 **WT51** (deps: WT49) **No playhead marks the current frame, and the viewer is not tied to a position in the timeline** — The playhead is the shared cursor between the viewer, the edit tools and the AI assistant. → §WT51
@@ -62,8 +61,9 @@
 - 📋 **WT54** (deps: WT47 ✅, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - 📋 **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
-- 💭 **WT57** (deps: WT48) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
+- 💭 **WT57** (deps: WT48 ✅) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
 - 📋 **WT58** (deps: WT52, WT51) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
+- 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 
 ## Block G — Workspace, panels and viewers
 

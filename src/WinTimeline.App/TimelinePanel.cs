@@ -22,6 +22,8 @@ namespace WinTimeline.App;
 public sealed class TimelinePanel : IDisposable
 {
     private const double RulerDip = 22;
+    private const double OverviewDip = 12;
+    private static readonly TimeSpan ZoomTime = TimeSpan.FromMilliseconds(120);
     private const double HeaderDip = 44;
     private const double LaneDip = 28;
     private const int FrameWindow = 120;
@@ -39,6 +41,8 @@ public sealed class TimelinePanel : IDisposable
     private static readonly Color4 ClipEdge = new(0f, 0f, 0f, 0.55f);
     private static readonly Color4 TransitionFill = new(1f, 1f, 1f, 0.22f);
     private static readonly Color4 Playhead = new(0.95f, 0.3f, 0.25f, 1f);
+    private static readonly Color4 OverviewGround = new(0.06f, 0.06f, 0.07f, 1f);
+    private static readonly Color4 ZoomBoxFill = new(1f, 1f, 1f, 0.12f);
     private static readonly double[] TickSteps = [1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, 3600];
 
     private readonly GpuSurface _surface;
@@ -47,6 +51,12 @@ public sealed class TimelinePanel : IDisposable
     private ModelTimeline? _timeline;
     private TimelineLayout? _layout;
     private TimelineViewport? _view;
+    private TimelineViewport? _from;
+    private TimelineViewport? _to;
+    private readonly Stopwatch _animation = new();
+    private Drag _dragging;
+    private double _boxFrom;
+    private double _boxTo;
     private double _playhead;
 
     /// <summary>Draws timelines on a surface.</summary>
@@ -156,7 +166,14 @@ public sealed class TimelinePanel : IDisposable
 
     private double Scale => VisualTreeHelper.GetDpi(_surface).DpiScaleY;
 
-    private double Ruler => Math.Round(RulerDip * Scale);
+    /// <summary>The timeline's frame rate, from its global start time; 24 when it states none.</summary>
+    private double Rate => _timeline?.GlobalStartTime is { Rate: > 0 } start ? start.Rate : 24;
+
+    /// <summary>WT48: the overview strip's height above the ruler.</summary>
+    private double Overview => Math.Round(OverviewDip * Scale);
+
+    /// <summary>Where the lanes start: below the overview strip and the ruler.</summary>
+    private double Ruler => Overview + Math.Round(RulerDip * Scale);
 
     private double Header => Math.Round(HeaderDip * Scale);
 
@@ -190,6 +207,7 @@ public sealed class TimelinePanel : IDisposable
         {
             // The whole cut, unless that makes a second narrower than 10 pixels: then its first minutes.
             TimelineViewport fit = TimelineViewport.Fit(_layout.Duration, w, h, Math.Round(LaneDip * Scale));
+            fit = fit with { FrameRate = Rate };
             _view = fit.PixelsPerSecond < 10 ? fit with { PixelsPerSecond = 10 } : fit;
         }
         else if (_view.Width != w || _view.Height != h)
@@ -207,10 +225,13 @@ public sealed class TimelinePanel : IDisposable
             return;
         }
 
+        Animate();
+        view = _view!;
         Stopwatch watch = Stopwatch.StartNew();
         using (IDXGISurface back = target.BackBuffer())
         {
             _canvas.Begin(back);
+            DrawOverview(view, layout, target.Width);
             DrawLanes(view, layout, target.Width);
             DrawItems(view, layout);
             DrawRuler(view, target.Width);
@@ -237,17 +258,147 @@ public sealed class TimelinePanel : IDisposable
 
         using IDXGISurface back = target.BackBuffer();
         _canvas.Begin(back);
-        _canvas.Line(new Vector2(x, 0), new Vector2(x, target.Height), Playhead, (float)Math.Max(1, Scale));
+        _canvas.Line(new Vector2(x, (float)Overview), new Vector2(x, target.Height), Playhead, (float)Math.Max(1, Scale));
+        if (_dragging == Drag.ZoomBox)
+        {
+            float from = (float)(Header + Math.Min(_boxFrom, _boxTo)), span = (float)Math.Abs(_boxTo - _boxFrom);
+            _canvas.Fill(from, (float)Ruler, span, target.Height - (float)Ruler, ZoomBoxFill);
+            _canvas.Outline(from, (float)Ruler, span, target.Height - (float)Ruler, Label, 1);
+        }
+
         _canvas.End();
     }
 
-    /// <summary>WT152: dragging over the lanes scrubs the playhead.</summary>
+    /// <summary>
+    /// WT152 and WT48: a drag over the overview strip moves the view there; a drag with Z held
+    /// draws a zoom box and zooms to it on release; any other drag over the lanes scrubs.
+    /// </summary>
     private void OnPointer(object? sender, SurfacePointer pointer)
     {
-        if (pointer.Phase == PointerPhase.Move && pointer.Pressed)
+        if (_view is not { } view || _layout is not { } layout)
         {
-            OnClick(sender, new SurfacePoint(pointer.X, pointer.Y));
+            return;
         }
+
+        if (pointer.Phase == PointerPhase.Down)
+        {
+            _dragging = pointer.Y < Overview ? Drag.Overview : System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.Z) ? Drag.ZoomBox : Drag.Scrub;
+            _boxFrom = _boxTo = Math.Max(0, pointer.X - Header);
+        }
+
+        switch (_dragging)
+        {
+            case Drag.Overview when pointer.Pressed:
+                double centre = (pointer.X - Header) / Math.Max(1, view.Width) * layout.Duration;
+                _view = view.ScrollBy(view.X(centre) - (view.Width / 2), 0, layout.Duration, layout.Lanes.Count);
+                Changed();
+                break;
+            case Drag.ZoomBox:
+                _boxTo = Math.Max(0, pointer.X - Header);
+                if (pointer.Phase == PointerPhase.Up)
+                {
+                    _dragging = Drag.None;
+                    if (Math.Abs(_boxTo - _boxFrom) > 4)
+                    {
+                        AnimateTo(view.ZoomToRange(view.Seconds(_boxFrom), view.Seconds(_boxTo), layout.Duration));
+                    }
+                }
+
+                _surface.Invalidate();
+                break;
+            case Drag.Scrub when pointer.Phase == PointerPhase.Move && pointer.Pressed:
+                OnClick(sender, new SurfacePoint(pointer.X, pointer.Y));
+                break;
+        }
+
+        if (pointer.Phase == PointerPhase.Up)
+        {
+            _dragging = Drag.None;
+        }
+    }
+
+    /// <summary>WT48: zooms in about the playhead, as + does.</summary>
+    public void ZoomIn() => ZoomAboutPlayhead(2);
+
+    /// <summary>WT48: zooms out about the playhead, as - does.</summary>
+    public void ZoomOut() => ZoomAboutPlayhead(0.5);
+
+    /// <summary>WT48: shows the whole programme, as Shift+Z does.</summary>
+    public void ZoomToFit()
+    {
+        if (_view is { } view && _layout is { } layout)
+        {
+            AnimateTo(view.FitAll(layout.Duration));
+        }
+    }
+
+    private void ZoomAboutPlayhead(double factor)
+    {
+        if (_view is { } view && _layout is { } layout)
+        {
+            AnimateTo((_to ?? view).ZoomAroundTime(_playhead, factor, layout.Duration));
+        }
+    }
+
+    /// <summary>WT48: eases the view to another over 120 ms, a frame at a time.</summary>
+    private void AnimateTo(TimelineViewport to)
+    {
+        _from = _view;
+        _to = to;
+        _animation.Restart();
+        _surface.Continuous = true;
+        Changed();
+    }
+
+    /// <summary>Advances a running zoom; true while it is still moving.</summary>
+    private void Animate()
+    {
+        if (_from is not { } from || _to is not { } to)
+        {
+            return;
+        }
+
+        double share = Math.Min(1, _animation.Elapsed.TotalMilliseconds / ZoomTime.TotalMilliseconds);
+        double eased = 1 - Math.Pow(1 - share, 3);
+        _view = from.Toward(to, eased);
+        if (share >= 1)
+        {
+            _view = to;
+            _from = _to = null;
+            _surface.Continuous = false;
+            _surface.ItemsChanged();
+        }
+    }
+
+    /// <summary>WT48: the whole programme in a strip above the ruler, its clips as bands and the view as a window.</summary>
+    private void DrawOverview(TimelineViewport view, TimelineLayout layout, int width)
+    {
+        float top = 0, height = (float)Overview, across = (float)Math.Max(1, width - Header);
+        _canvas.Fill(0, top, width, height, OverviewGround);
+        double scale = across / Math.Max(layout.Duration, 1e-6);
+        float band = Math.Max(1, height / Math.Max(1, layout.Lanes.Count));
+        foreach (Lane lane in layout.Lanes)
+        {
+            foreach (LaneItem item in lane.Items)
+            {
+                if (item.Kind is LaneItemKind.Clip or LaneItemKind.Nested)
+                {
+                    float x = (float)(Header + (item.Start * scale));
+                    _canvas.Fill(x, top + (item.Lane * band), Math.Max(1, (float)((item.End - item.Start) * scale)), band, lane.IsAudio ? AudioClip : VideoClip);
+                }
+            }
+        }
+
+        float left = (float)(Header + (view.Start * scale)), right = (float)(Header + (view.End * scale));
+        _canvas.Outline(left, top + 0.5f, Math.Max(2, right - left), height - 1, Label, 1);
+    }
+
+    private enum Drag
+    {
+        None,
+        Scrub,
+        Overview,
+        ZoomBox,
     }
 
     private void DrawLanes(TimelineViewport view, TimelineLayout layout, int width)
@@ -292,7 +443,7 @@ public sealed class TimelinePanel : IDisposable
 
     private void DrawRuler(TimelineViewport view, int width)
     {
-        _canvas.Fill(0, 0, width, (float)Ruler, RulerGround);
+        _canvas.Fill(0, (float)Overview, width, (float)(Ruler - Overview), RulerGround);
         double step = TickSteps.FirstOrDefault(s => s * view.PixelsPerSecond >= 90 * Scale, TickSteps[^1]);
         float textSize = (float)(10 * Scale);
         for (double t = Math.Floor(view.Start / step) * step; t <= view.End; t += step)
@@ -303,8 +454,8 @@ public sealed class TimelinePanel : IDisposable
                 continue;
             }
 
-            _canvas.Line(new Vector2(x, (float)(Ruler * 0.55)), new Vector2(x, (float)Ruler), Tick, 1);
-            _canvas.Text(Timecode(t), x + 3, (float)(Ruler * 0.05), (float)(step * view.PixelsPerSecond) - 6, textSize, Tick);
+            _canvas.Line(new Vector2(x, (float)(Overview + ((Ruler - Overview) * 0.55))), new Vector2(x, (float)Ruler), Tick, 1);
+            _canvas.Text(Timecode(t), x + 3, (float)(Overview + ((Ruler - Overview) * 0.05)), (float)(step * view.PixelsPerSecond) - 6, textSize, Tick);
         }
     }
 
@@ -339,7 +490,8 @@ public sealed class TimelinePanel : IDisposable
         }
 
         double[] sorted = [.. _frameTimes.Order()];
-        _surface.Status = UiText.DrawTimes(sorted[sorted.Length / 2], sorted[(int)(sorted.Length * 0.95)], sorted.Length);
+        string span = _view is { } view ? ", " + UiText.ViewSpan(Timecode(view.Start), Timecode(view.End)) : string.Empty;
+        _surface.Status = UiText.DrawTimes(sorted[sorted.Length / 2], sorted[(int)(sorted.Length * 0.95)], sorted.Length) + span;
     }
 
     private void OnWheel(object? sender, SurfaceWheel wheel)
@@ -350,11 +502,15 @@ public sealed class TimelinePanel : IDisposable
         }
 
         double notches = wheel.Delta / 120.0;
-        _view = wheel.Control
-            ? view.ZoomAround(Math.Max(0, wheel.X - Header), Math.Pow(1.25, notches), layout.Duration)
-            : wheel.Shift || wheel.Horizontal
-                ? view.ScrollBy((wheel.Horizontal ? notches : -notches) * 96 * Scale, 0, layout.Duration, layout.Lanes.Count)
-                : view.ScrollBy(0, -notches * view.LaneHeight, layout.Duration, layout.Lanes.Count);
+        if (wheel.Control)
+        {
+            AnimateTo((_to ?? view).ZoomAround(Math.Max(0, wheel.X - Header), Math.Pow(1.25, notches), layout.Duration));
+            return;
+        }
+
+        _view = wheel.Shift || wheel.Horizontal
+            ? view.ScrollBy((wheel.Horizontal ? notches : -notches) * 96 * Scale, 0, layout.Duration, layout.Lanes.Count)
+            : view.ScrollBy(0, -notches * view.LaneHeight, layout.Duration, layout.Lanes.Count);
         Changed();
     }
 

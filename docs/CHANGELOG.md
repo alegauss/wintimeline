@@ -47,6 +47,7 @@
 ## Block F — Timeline view: GPU drawing and navigation
 
 - ✅ **WT47** **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — The Direct2D timeline panel stands; its thumbnail and waveform strips are WT55, its WPF track headers WT50, and the reference-laptop measurement WT167.
+- ✅ **WT48** **The timeline cannot be zoomed from whole-program to single-frame or scrolled smoothly** — Zoom runs from the whole programme to one frame at 200 px, animated and anchored on cursor, playhead or a Z-box, with a draggable overview strip; the frame under the cursor holds within a pixel.
 
 ## Block G — Workspace, panels and viewers
 

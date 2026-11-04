@@ -99,6 +99,6 @@ public sealed class TimelineLayoutTests
 
         TimelineViewport scrolled = zoomed.ScrollBy(-1e9, -1e9, 600, 4);
         Assert.Equal((0.0, 0.0), (scrolled.Start, scrolled.Top));
-        Assert.Equal(TimelineViewport.MaxPixelsPerSecond, view.ZoomAround(0, 1e9, 600).PixelsPerSecond);
+        Assert.Equal(view.MostPixelsPerSecond, view.ZoomAround(0, 1e9, 600).PixelsPerSecond);
     }
 }

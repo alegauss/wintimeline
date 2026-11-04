@@ -168,6 +168,15 @@ public static class UiText
     /// <summary>View > Compare with another version.</summary>
     public const string CompareMenu = "_Compare with another version…";
 
+    /// <summary>WT48: View > Zoom in.</summary>
+    public const string ZoomInMenu = "Zoom _in";
+
+    /// <summary>WT48: View > Zoom out.</summary>
+    public const string ZoomOutMenu = "Zoom _out";
+
+    /// <summary>WT48: View > Zoom to fit.</summary>
+    public const string ZoomFitMenu = "Zoom to _fit";
+
     /// <summary>The Help menu.</summary>
     public const string HelpMenu = "_Help";
 
@@ -194,6 +203,15 @@ public static class UiText
 
     /// <summary>The command palette's shortcut.</summary>
     public const string PaletteGesture = "Ctrl+Shift+P";
+
+    /// <summary>WT48: Zoom in's key.</summary>
+    public const string ZoomInGesture = "+";
+
+    /// <summary>WT48: Zoom out's key.</summary>
+    public const string ZoomOutGesture = "-";
+
+    /// <summary>WT48: Zoom to fit's key.</summary>
+    public const string ZoomFitGesture = "Shift+Z";
 
     /// <summary>A menu header as the palette and the status bar show it, without its access-key underscore.</summary>
     /// <param name="header">e.g. "Save _As…".</param>
@@ -720,6 +738,12 @@ public static class UiText
     /// <returns>The text.</returns>
     public static string DrawTimes(double median, double p95, int frames) =>
         string.Create(CultureInfo.InvariantCulture, $"draw {median:F1} ms median, {p95:F1} ms p95 over {frames} frames");
+
+    /// <summary>WT48: what the timeline surface shows, as its status adds it, e.g. "view 01:00:00:00 to 01:02:30:00".</summary>
+    /// <param name="from">The timecode at the left edge.</param>
+    /// <param name="to">The timecode at the right edge.</param>
+    /// <returns>The phrase.</returns>
+    public static string ViewSpan(string from, string to) => $"view {from} to {to}";
 
     // ---- Shared ----
 

@@ -150,6 +150,12 @@
       "shareable": true
     },
     {
+      // WT48: the same cut, not lent, since its case zooms it.
+      "name": "a feature-length cut to zoom",
+      "arguments": ["--open", "tests/fixtures/timeline/feature.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--edl-rate", "24", "--adapter", "warp"],
@@ -1119,6 +1125,33 @@
           "reads": "name",
           "matches": "^Opened 25fps\\.edl: 4 clips on 1 track\\.",
           "named": "the EDL opens with its four events"
+        }
+      ]
+    },
+
+    {
+      "name": "zoom to fit shows the whole programme, down to its last clip",
+      "catches": "a timeline that cannot be zoomed out to the whole programme, so its end can only be reached by scrolling",
+      "filed": "WT48",
+      "tags": ["timeline", "zoom"],
+      "fixture": "a feature-length cut to zoom",
+      "steps": [
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#ZoomFitMenuItem",
+          "act": "invoke",
+          "named": "Zoom to fit is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": "view 01:00:00:00 to 01:1\\d:\\d\\d:\\d\\d$",
+          "named": "the view now spans the whole programme, seventy minutes and more"
         }
       ]
     },

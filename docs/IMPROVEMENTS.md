@@ -487,18 +487,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT48 Zoom, scroll and the overview strip
-
-Zoom is continuous from fit-all to one frame = 200 px, anchored on the mouse
-(Ctrl+wheel), the playhead (+/- keys) or a range (Z drags a zoom box). Horizontal scroll
-uses wheel/Shift+wheel and touchpad inertia (precision touchpad events via WM_POINTER).
-A thin overview strip above the tracks shows the whole program with the viewport as a
-draggable window and colour bands for clip colours and markers. Zoom levels animate over
-120 ms.
-
-Done when zoom from fit-all to frame level and back holds the frame under the cursor in
-place within one pixel.
-
 ### §WT49 Time ruler and display units
 
 The ruler draws ticks adapted to the zoom (hours to frames), labelled in the chosen
@@ -619,6 +607,17 @@ WARP in the guest and this desk's discrete GPU are not that machine. A person op
 cut there, scrolls and zooms for a minute, and reads the status: both numbers must stay
 under the display's frame time. Thumbnail and waveform strips are WT55's and WPF track
 headers are WT50's, so they are not part of this measurement.
+
+### §WT168 Keeping the timeline's automation items cheap
+
+WT47 made every clip in view a UI Automation item of the timeline surface, built afresh
+on each query. At fit-all a feature-length cut shows about 500 clips, and WT48's case
+measured one query of the surface's children taking 8 seconds in the guest, so a locator
+for one clip times out and a screen reader stalls on the panel. The items should be kept
+between queries and rebuilt only when the viewport or the layout changes, cheap to name
+(bounds computed when asked, not upfront), and clips too narrow to point at (under 2 px)
+grouped per lane into one item that names its range and count. Done when the 500-clip
+fit-all view answers a ListItem query by name in under 200 ms on WARP.
 
 ## Block G — Workspace, panels and viewers
 

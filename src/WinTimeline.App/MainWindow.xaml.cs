@@ -36,6 +36,7 @@ public partial class MainWindow : Window
         StartBridge();
         ShowRecovery(previous);
         BindPalette();
+        BindZoom();
         BindDocumentCommands();
         ShowWelcome();
     }
