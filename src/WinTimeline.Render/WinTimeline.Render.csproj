@@ -20,6 +20,8 @@
     <PackageReference Include="Vortice.MediaFoundation" Version="3.8.3" />
     <!-- Direct2D and DirectWrite on the same device: the timeline's rectangles and names (WT47). -->
     <PackageReference Include="Vortice.Direct2D1" Version="3.8.3" />
+    <!-- WT151: a D3D12 device on the same adapter, opened onto the D3D11 device's shared textures. -->
+    <PackageReference Include="Vortice.Direct3D12" Version="3.8.3" />
     <!-- Debug only recompiles a shader whose source changed while the app runs (WT150). -->
     <PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
   </ItemGroup>

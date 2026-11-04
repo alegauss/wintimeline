@@ -27,32 +27,6 @@ does, so UI cases can be authored with the plugin's help.
 Done when the skill names only commands that exist in this repository and a session can
 run a winwright case through the plugin.
 
-### §WT151 D3D12 interop, VRAM budget and decode capabilities
-
-Split out of WT3, which shipped the shared D3D11.1 device (`GpuContext` in
-`WinTimeline.Render`) and its Media Foundation device manager.
-
-Windows ML and heavy compute passes run on D3D12, so a texture made on the D3D11 device
-must reach a D3D12 device on the same adapter without a copy: create it with
-`D3D11_RESOURCE_MISC_SHARED_NTHANDLE | SHARED_KEYEDMUTEX`, export it through
-`IDXGIResource1::CreateSharedHandle`, open it on a D3D12 device created on the same LUID
-(`GpuAdapter.Luid`), and fence the hand-off.
-
-`GpuContext` also listens for video memory budget changes through
-`IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent`, exposes the current
-budget and usage (`QueryVideoMemoryInfo`, local and non-local), and raises an event the
-cache and proxy layers can shrink on. `GpuAdapter` gains the hardware decode and encode
-profiles the device supports (`ID3D11VideoDevice::GetVideoDecoderProfile`), so the media
-layer knows before opening a file whether it decodes on the GPU.
-
-Measure the hand-off: a 4K BGRA texture shared to D3D12 and back, against a copy through
-staging, on this desk's hardware adapter.
-
-Done when a texture round-trips D3D11 to D3D12 by NT handle in a test, the budget event
-fires in a test that allocates past a low budget or is skipped with its reason, and the
-decision is recorded. On ship: --decides "D3D11.1 is the core device, D3D12 only for
-interop, because <measured reason>"
-
 ### §WT152 Input, focus, drag and drop, and the overlay on GPU surfaces
 
 Split out of WT4, which shipped `GpuSurface` in `WinTimeline.Render`: an `HwndHost`

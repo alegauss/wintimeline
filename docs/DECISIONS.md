@@ -2,6 +2,8 @@
 
 ## Block A — Project foundation
 
+- ✅ **WT151** **A texture on the shared device cannot reach D3D12 without a copy, and nothing reports VRAM pressure or GPU decode** — D3D11.1 is the core device and D3D12 only for interop: on an RTX 4060 a 4K BGRA hand-off by shared handle took 0.04 ms against 9.8 ms through staging.
+
 ## Block B — OTIO document model and file formats
 
 - ✅ **WT11** **Nobody knows yet whether .otio files are read by a C# port or by the C++ reference library behind P/Invoke** — The OTIO model is a managed C# port, because it loads 1.6x faster in a quarter of the memory and needs no per-call C ABI.

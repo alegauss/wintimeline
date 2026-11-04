@@ -6,7 +6,6 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT151** (deps: WT3 ✅) **A texture on the shared device cannot reach D3D12 without a copy, and nothing reports VRAM pressure or GPU decode** — Windows ML and heavy compute run on D3D12, and caches must shrink before the driver evicts; split out of WT3. → §WT151
 - 📋 **WT152** (deps: WT4 ✅) **The GPU surfaces swallow mouse, touch, pen, keys and dropped files, and nothing can draw over them** — The viewer and timeline are where editing happens, so input, focus and drops must reach the app; split out of WT4. → §WT152
 - 📋 **WT153** (deps: WT4 ✅) (requires: second-monitor) **The surfaces draw on the UI thread at its pace, and nobody measured the HwndHost against D3DImage or composition** — Playback needs the display's refresh with the UI thread out of the loop, and the host choice decides latency; split out of WT4. → §WT153
 - 📋 **WT154** (deps: WT143) **A crash in native code leaves no dump, since .NET fails fast past every in-process handler** — Decoder and driver crashes are the ones a log cannot explain, and only a dump shows where they happened; split out of WT7. → §WT154
