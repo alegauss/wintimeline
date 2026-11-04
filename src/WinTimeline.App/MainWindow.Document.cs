@@ -92,7 +92,14 @@ public partial class MainWindow
             }
 
             ITimelineAdapter adapter = TimelineAdapters.ForPath(path) ?? TimelineAdapters.All[0];
-            ModelObject document = bundle?.Content ?? adapter.Read(path, new AdapterOptions());
+            AdapterOptions? options = bundle is null ? OptionsFor(path, adapter) : new AdapterOptions();
+            if (options is null)
+            {
+                StatusText.Text = UiText.EdlCancelled(name);
+                return false;
+            }
+
+            ModelObject document = bundle?.Content ?? adapter.Read(path, options);
             _bundle = bundle;
             Document = document;
             LoadTimelines(document);
@@ -113,6 +120,11 @@ public partial class MainWindow
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException or FcpXmlException or FcpxXmlException or PythonBridgeException)
         {
             string reason = ex is FileNotFoundException or DirectoryNotFoundException ? UiText.NotFound : ex.Message;
+            if (ex is EdlParseException && File.Exists(path))
+            {
+                // WT158: a refusal for frames beyond the rate names the rates the EDL does fit.
+                reason += UiText.EdlFits([.. EdlRates.Fitting(File.ReadAllText(path)).Select(EdlRates.Label)]);
+            }
             StatusText.Text = UiText.CouldNotOpen(name, reason);
             Notify(new Notices.Notice(Notices.NoticeSeverity.Error, UiText.CouldNotOpen(name), reason, [new Notices.NoticeAction(UiText.OpenAnother, AskToOpen)]));
             Log.Write(LogLevel.Warning, LogCategory.App, "Document could not be opened.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
@@ -187,6 +199,38 @@ public partial class MainWindow
         string? folder = DocumentPath is { } p ? Path.GetDirectoryName(p) : null;
         int missing = ActiveTimeline is { } t && _bundle is null ? Model.Media.MediaLinks.Missing(t, folder).Count : 0;
         return UiText.MediaMissing(missing);
+    }
+
+    /// <summary>
+    /// WT158: what an adapter reads with. An EDL states no rate, so it asks, offering the last
+    /// choice, unless --edl-rate gave one for the file --open names; any other format needs nothing.
+    /// </summary>
+    /// <returns>The options, or null when the question was cancelled.</returns>
+    private AdapterOptions? OptionsFor(string path, ITimelineAdapter adapter)
+    {
+        if (!adapter.Suffixes.Contains(".edl", StringComparer.Ordinal))
+        {
+            return new AdapterOptions();
+        }
+
+        if (Options.EdlRate is { } given && Options.Open is { } open && string.Equals(Path.GetFullPath(open), Path.GetFullPath(path), StringComparison.OrdinalIgnoreCase))
+        {
+            return new AdapterOptions(Rate: given);
+        }
+
+        EdlOptionsWindow ask = new(Path.GetFileName(path), Settings.Current.EdlRate ?? 24, Settings.Current.EdlIgnoreTimecodeMismatch ?? false);
+        if (IsLoaded)
+        {
+            ask.Owner = this;
+        }
+
+        if (ask.ShowDialog() != true)
+        {
+            return null;
+        }
+
+        Settings.Update(s => s with { EdlRate = ask.Rate, EdlIgnoreTimecodeMismatch = ask.IgnoreMismatch });
+        return new AdapterOptions(Rate: ask.Rate, IgnoreTimecodeMismatch: ask.IgnoreMismatch);
     }
 
     private void OnRelink(object sender, RoutedEventArgs e)

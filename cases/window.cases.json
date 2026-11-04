@@ -63,6 +63,14 @@
       "shareable": false
     },
     {
+      // WT158: an empty window with the CMX samples' 25 fps EDL staged beside it, to open through File > Open.
+      "name": "an empty window with a 25 fps EDL to open",
+      "files": ["tests/fixtures/edl/samples/25fps.edl"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT68: an empty window with its own data folder, so its recent list starts empty.
       "name": "an empty window to drop media on",
       "files": ["tests/fixtures/media/bars-3s-25p.mp4"],
@@ -144,7 +152,7 @@
     {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
-      "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
+      "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--edl-rate", "24", "--adapter", "warp"],
       "shareable": true
     },
     {
@@ -1066,6 +1074,51 @@
           "reads": "name",
           "matches": "^Opened fcpx_project\\.fcpxml: ",
           "named": "the status bar says what it opened"
+        }
+      ]
+    },
+
+    {
+      "name": "an EDL asks its frame rate on open, and a 25 fps one opens at 25",
+      "catches": "an EDL read at 24 fps whatever it was cut at, refused or played at the wrong speed",
+      "filed": "WT158",
+      "tags": ["open", "edl", "dialog"],
+      "fixture": "an empty window with a 25 fps EDL to open",
+      "steps": [
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#OpenMenuItem",
+          "act": "invoke",
+          "named": "Open is chosen"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/25fps.edl",
+          "named": "the 25 fps EDL is picked"
+        },
+        {
+          "locator": "ComboBox#EdlRate",
+          "act": "pick",
+          "with": "25",
+          "expect": "25",
+          "named": "the dialog is told 25 fps"
+        },
+        {
+          "locator": "Button#EdlOk",
+          "act": "invoke",
+          "named": "and Open is pressed"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^Opened 25fps\\.edl: 4 clips on 1 track\\.",
+          "named": "the EDL opens with its four events"
         }
       ]
     },

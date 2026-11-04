@@ -9,13 +9,15 @@ namespace WinTimeline.App;
 /// <param name="LogLevel">How much the log records.</param>
 /// <param name="CrashTest">WT7: "managed" or "native" to crash on purpose once the window is up, or null.</param>
 /// <param name="RunCommands">WT17: a file of edit commands, one JSON object a line, to apply to the opened document.</param>
+/// <param name="EdlRate">WT158: the frame rate an EDL given with --open is read at, so no dialog asks.</param>
 public sealed record AppOptions(
     string? Open = null,
     string? Models = null,
     string? Adapter = null,
     LogLevel LogLevel = LogLevel.Info,
     string? CrashTest = null,
-    string? RunCommands = null);
+    string? RunCommands = null,
+    double? EdlRate = null);
 
 /// <summary>A parse: the options, or why the command line was refused.</summary>
 /// <param name="Options">What was asked for, when it parsed.</param>
@@ -34,7 +36,7 @@ public sealed record ParsedCommandLine(AppOptions? Options, string? Error)
 /// </summary>
 public static class CommandLine
 {
-    private static readonly string[] Flags = ["--open", "--models", "--adapter", "--log-level", "--crash-test", "--run-commands"];
+    private static readonly string[] Flags = ["--open", "--models", "--adapter", "--log-level", "--crash-test", "--run-commands", "--edl-rate"];
 
     /// <summary>Parses the arguments after the executable's name.</summary>
     /// <param name="args">The arguments.</param>
@@ -109,6 +111,17 @@ public static class CommandLine
             return Refuse(UiText.BadCrashTest(crash));
         }
 
+        double? edlRate = null;
+        if (given.TryGetValue("--edl-rate", out string? rateValue))
+        {
+            if (!double.TryParse(rateValue, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double rate) || rate <= 0 || rate > 1000)
+            {
+                return Refuse(UiText.BadEdlRate(rateValue));
+            }
+
+            edlRate = rate;
+        }
+
         return new ParsedCommandLine(
             new AppOptions(
                 Open: given.GetValueOrDefault("--open"),
@@ -116,7 +129,8 @@ public static class CommandLine
                 Adapter: given.GetValueOrDefault("--adapter"),
                 LogLevel: level,
                 CrashTest: crash,
-                RunCommands: given.GetValueOrDefault("--run-commands")),
+                RunCommands: given.GetValueOrDefault("--run-commands"),
+                EdlRate: edlRate),
             null);
     }
 

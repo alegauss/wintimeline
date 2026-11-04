@@ -1,0 +1,20 @@
+<!-- WT158: an EDL states no frame rate, so opening one asks. -->
+<Window x:Class="WinTimeline.App.EdlOptionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:WinTimeline.App"
+        Title="{x:Static app:UiText.EdlTitle}"
+        AutomationProperties.AutomationId="EdlOptionsWindow"
+        ThemeMode="System"
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <StackPanel Margin="20" MinWidth="380">
+    <TextBlock x:Name="EdlQuestion" TextWrapping="Wrap" AutomationProperties.AutomationId="EdlQuestion" />
+    <ComboBox x:Name="EdlRate" Margin="0,10,0,0" AutomationProperties.AutomationId="EdlRate" AutomationProperties.Name="{x:Static app:UiText.EdlRateName}" />
+    <CheckBox x:Name="EdlIgnoreMismatch" Margin="0,12,0,0" Content="{x:Static app:UiText.EdlIgnoreMismatch}" AutomationProperties.AutomationId="EdlIgnoreMismatch" />
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+      <Button x:Name="EdlOk" Content="{x:Static app:UiText.EdlOpen}" MinWidth="88" IsDefault="True" Click="OnOk" AutomationProperties.AutomationId="EdlOk" />
+      <Button Content="{x:Static app:UiText.Cancel}" MinWidth="88" Margin="8,0,0,0" IsCancel="True" AutomationProperties.AutomationId="EdlCancel" />
+    </StackPanel>
+  </StackPanel>
+</Window>

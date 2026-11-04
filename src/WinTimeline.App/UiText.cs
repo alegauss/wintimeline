@@ -83,6 +83,47 @@ public static class UiText
     /// <returns>The sentence.</returns>
     public static string BadCrashTest(string value) => $"--crash-test {value} is not one of managed, native.";
 
+    /// <summary>WT158: --edl-rate given something that is not a frame rate.</summary>
+    /// <param name="value">What was given.</param>
+    /// <returns>The sentence.</returns>
+    public static string BadEdlRate(string value) => $"--edl-rate {value} is not a frame rate, such as 25 or 29.97.";
+
+    // ---- EDL options (WT158) ----
+
+    /// <summary>The EDL dialog's title.</summary>
+    public const string EdlTitle = "Open EDL";
+
+    /// <summary>What the EDL dialog asks.</summary>
+    /// <param name="file">The EDL's file name.</param>
+    /// <returns>The sentence.</returns>
+    public static string EdlQuestion(string file) => $"{file} does not say its frame rate. Read it at:";
+
+    /// <summary>The frame rate picker's automation name.</summary>
+    public const string EdlRateName = "Frame rate";
+
+    /// <summary>The mismatch option.</summary>
+    public const string EdlIgnoreMismatch = "Place clips by source timecode where the record timecode disagrees";
+
+    /// <summary>A dialog's Cancel button.</summary>
+    public const string Cancel = "Cancel";
+
+    /// <summary>The EDL dialog's Open button.</summary>
+    public const string EdlOpen = "Open";
+
+    /// <summary>What the status bar says when the EDL dialog is cancelled.</summary>
+    /// <param name="file">The EDL's file name.</param>
+    /// <returns>The sentence.</returns>
+    public static string EdlCancelled(string file) => $"{file} was not opened.";
+
+    /// <summary>What a refusal for frames beyond the rate adds: the rates the EDL fits.</summary>
+    /// <param name="rates">The rates, as labels.</param>
+    /// <returns>The sentence, or empty when none fits.</returns>
+    public static string EdlFits(IReadOnlyList<string> rates)
+    {
+        ArgumentNullException.ThrowIfNull(rates);
+        return rates.Count == 0 ? string.Empty : $" Its timecodes fit {string.Join(", ", rates)} fps.";
+    }
+
     // ---- Main window: menus ----
 
     /// <summary>The File menu.</summary>

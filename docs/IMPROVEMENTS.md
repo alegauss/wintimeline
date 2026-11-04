@@ -100,24 +100,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT158 Choosing an EDL's frame rate on open
-
-Found while shipping WT15: an EDL states no frame rate, and the app reads every one at
-24, the reference adapter's default. A 25 fps EDL with an event at frame 24 is refused
-("frames beyond 23"), and a 30 fps one that happens to fit is read at the wrong speed.
-
-Opening an .edl asks once, in a small dialog: the rate (23.976, 24, 25, 29.97, 30, 50, 59.94,
-60) and whether to ignore record timecode mismatches. The defaults come from settings (WT5)
-and the last choice is remembered. When a read at the chosen rate is refused for frames
-beyond the rate, the message names the rates the EDL's timecodes fit, so the next try is
-one click. `--edl-rate` sets it from the command line for cases and scripts.
-
-`AdapterOptions` already carries `Rate` and `IgnoreTimecodeMismatch`; this is the UI and
-the setting that fill them.
-
-Done when 25fps.edl from the CMX samples opens at 25 after choosing it, and a case
-drives the dialog.
-
 ### §WT159 Relinking by duration and content, and remembered rules
 
 Split out of WT18, which shipped relinking by folder substitution and by file name
