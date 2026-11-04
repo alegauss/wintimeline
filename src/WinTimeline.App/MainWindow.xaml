@@ -28,6 +28,8 @@
       <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu">
         <MenuItem Header="_Undo" Command="Undo" AutomationProperties.AutomationId="UndoMenuItem" />
         <MenuItem Header="_Redo" Command="Redo" AutomationProperties.AutomationId="RedoMenuItem" />
+        <Separator />
+        <MenuItem Header="_Duplicate timeline as version" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
       </MenuItem>
       <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu">
         <MenuItem Header="_Problems…" Click="OnProblems" AutomationProperties.AutomationId="ProblemsMenuItem" />
@@ -72,6 +74,10 @@
         <TextBlock x:Name="GpuStatus" AutomationProperties.AutomationId="GpuStatus" />
       </StatusBarItem>
     </StatusBar>
+
+    <!-- WT20: one tab per timeline when the file holds several (MainWindow.Timelines.cs). -->
+    <TabControl x:Name="TimelineTabs" DockPanel.Dock="Top" Visibility="Collapsed"
+                AutomationProperties.AutomationId="TimelineTabs" />
 
     <!-- The viewer and timeline surfaces (MainWindow.Surfaces.cs); the inspectors dock here later. -->
     <Grid x:Name="DockArea" AutomationProperties.AutomationId="DockArea" />

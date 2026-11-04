@@ -169,15 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT20 Several timelines and collections per window
-
-A document holds a `SerializableCollection` tree; each timeline opens in its own tab of
-the timeline panel and its own history. Clips can be copied between tabs. A timeline can
-be duplicated as a version (v002) inside the same file.
-
-Done when a collection file with three reels opens as three tabs and saves back as one
-collection.
-
 ### §WT21 Comparing two timeline versions
 
 A diff matches clips between two timelines by media reference and source range overlap,
@@ -281,6 +272,26 @@ The substitution rules a person confirms are kept per project (WT22) and tried o
 
 Done when a clip whose file was renamed and moved relinks by signature, and a project
 reopened on the same machine relinks itself from its saved rule.
+
+### §WT160 Copy and paste clips between timelines
+
+WT20 opens every timeline of a collection as its own tab, and Duplicate timeline as
+version copies a whole reel. Nothing copies less than a reel. Copy should put the
+selected clips, gaps and transitions on the clipboard as an OTIO SerializableCollection
+fragment in the reference's own format. Paste should insert them through InsertChild
+commands, as one transaction in the target timeline's history, so one undo takes the
+paste back. Pasting into another tab must resolve media references against that
+document's folder. This waits on a timeline panel that can select items.
+
+### §WT161 Journal edits to collections
+
+The WT17 recovery journal writes each command's JSON form, and that form addresses items
+by path from a single timeline. A collection's timelines each keep their own history
+(WT20), and collection edits such as AddToCollection have no JSON form. So StartJournal
+skips any document that is not one Timeline, and a crash loses every edit to a
+multi-reel file. The fix: prefix every journaled path with the timeline's index in the
+collection, give AddToCollection and RemoveFromCollection a JSON form carrying the
+copied timeline, and replay the commands per timeline in the order they were recorded.
 
 ## Block C — Media probing and GPU decoding
 

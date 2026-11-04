@@ -128,7 +128,8 @@ public partial class MainWindow
             _journal = journal;
             _bundle = null;
             Document = recovered.Timeline;
-            History = recovered.History;
+            LoadTimelines(recovered.Timeline);
+            _histories[recovered.Timeline] = History = recovered.History;
             DocumentPath = candidate.SourcePath;
             WatchForAutosave();
             Title = $"{candidate.Name} — WinTimeline";

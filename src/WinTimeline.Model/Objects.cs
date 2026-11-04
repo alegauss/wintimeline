@@ -314,4 +314,18 @@ public sealed class SerializableCollection : NamedObject
 
     /// <summary>What it holds.</summary>
     public IReadOnlyList<ModelObject> Children => _children;
+
+    internal void Insert(int index, ModelObject child)
+    {
+        child.Owner = this;
+        _children.Insert(index, child);
+        Changed("children");
+    }
+
+    internal void RemoveAt(int index)
+    {
+        _children[index].Owner = null;
+        _children.RemoveAt(index);
+        Changed("children");
+    }
 }

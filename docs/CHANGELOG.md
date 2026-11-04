@@ -25,6 +25,7 @@
 - ✅ **WT17** **A crash or power cut loses every edit since the last manual save** — A flushed journal of every command, undo and transaction rebuilds a crashed session up to its last committed command, undo intact, offered at start; an idle autosave backs it.
 - ✅ **WT18** **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — Missing media is named on open, and File > Relink media relinks every clip one located file implies, by folder substitution or by name, as one undoable step.
 - ✅ **WT19** **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — A validator reports bad transitions, empty items, out-of-media ranges, rate mismatches, deep nesting and duplicate markers on open; View > Problems fixes what it can.
+- ✅ **WT20** **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — A file of several timelines opens as one tab each with its own undo, saves back byte-equal, and Edit > Duplicate timeline as version adds the next numbered copy beside it.
 
 ## Block C — Media probing and GPU decoding
 

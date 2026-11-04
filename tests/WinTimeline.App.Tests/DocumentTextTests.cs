@@ -1,5 +1,6 @@
 using System.IO;
 using WinTimeline.Model;
+using WinTimeline.Model.Commands;
 using WinTimeline.Model.Serialization;
 
 namespace WinTimeline.App.Tests;
@@ -72,10 +73,21 @@ public sealed class DocumentTextTests
     }
 
     [Fact]
+    public void ACollectionSaysHowManyTimelinesItHolds()
+    {
+        ModelObject empty = OtioReader.ReadString("""{ "OTIO_SCHEMA": "SerializableCollection.1", "children": [] }""");
+        ModelObject reels = OtioReader.ReadFile(Path.Combine(Repository.Root, "tests", "fixtures", "collections", "reels.otio"));
+
+        Assert.Equal("Opened empty.otio: no timelines.", MainWindow.OpenedText("empty.otio", empty));
+        Assert.Equal("Opened reels.otio: 3 timelines.", MainWindow.OpenedText("reels.otio", reels));
+        Assert.Equal("Showing reel2: 3 clips on 1 track.", MainWindow.ShowingText(DocumentTimelines.Of(reels)[1]));
+    }
+
+    [Fact]
     public void SomethingElseSaysWhatItIs()
     {
-        ModelObject collection = OtioReader.ReadString("""{ "OTIO_SCHEMA": "SerializableCollection.1", "children": [] }""");
+        ModelObject clip = OtioReader.ReadString("""{ "OTIO_SCHEMA": "Clip.2", "name": "c" }""");
 
-        Assert.Equal("Opened reels.otio: a SerializableCollection, not a single timeline.", MainWindow.OpenedText("reels.otio", collection));
+        Assert.Equal("Opened c.otio: a Clip, not a timeline.", MainWindow.OpenedText("c.otio", clip));
     }
 }

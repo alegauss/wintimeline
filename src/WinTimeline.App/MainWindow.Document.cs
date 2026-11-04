@@ -62,9 +62,15 @@ public partial class MainWindow
     public static string OpenedText(string fileName, ModelObject document)
     {
         ArgumentNullException.ThrowIfNull(document);
+        if (document is SerializableCollection)
+        {
+            int count = DocumentTimelines.Of(document).Count;
+            return count == 0 ? $"Opened {fileName}: no timelines." : $"Opened {fileName}: {count} {(count == 1 ? "timeline" : "timelines")}.";
+        }
+
         if (document is not Timeline timeline)
         {
-            return $"Opened {fileName}: a {document.Schema}, not a single timeline.";
+            return $"Opened {fileName}: a {document.Schema}, not a timeline.";
         }
 
         int clips = timeline.FindClips().Count();
@@ -89,14 +95,14 @@ public partial class MainWindow
             ModelObject document = bundle?.Content ?? adapter.Read(path, new AdapterOptions());
             _bundle = bundle;
             Document = document;
-            History = new History();
+            LoadTimelines(document);
 
             // An imported file (an EDL) is not written back over: Save asks where the .otio goes.
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
             StartJournal(name);
             Title = $"{name} — WinTimeline";
-            StatusText.Text = OpenedText(name, document) + MissingText(document)
-                + (document is Timeline opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty);
+            StatusText.Text = OpenedText(name, document) + MissingText()
+                + (ActiveTimeline is { } opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty);
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
             return true;
         }
@@ -167,18 +173,17 @@ public partial class MainWindow
     }
 
     /// <summary>WT18: what the status bar adds when media is missing, e.g. " Media is missing for 2 clips: File > Relink media."</summary>
-    /// <param name="document">The opened document.</param>
     /// <returns>The sentence, or empty.</returns>
-    private string MissingText(ModelObject document)
+    private string MissingText()
     {
         string? folder = DocumentPath is { } p ? Path.GetDirectoryName(p) : null;
-        int missing = document is Timeline t && _bundle is null ? Model.Media.MediaLinks.Missing(t, folder).Count : 0;
+        int missing = ActiveTimeline is { } t && _bundle is null ? Model.Media.MediaLinks.Missing(t, folder).Count : 0;
         return missing == 0 ? string.Empty : $" Media is missing for {missing} {(missing == 1 ? "clip" : "clips")}: File > Relink media.";
     }
 
     private void OnRelink(object sender, RoutedEventArgs e)
     {
-        if (Document is not Timeline timeline)
+        if (ActiveTimeline is not { } timeline)
         {
             StatusText.Text = "Open a timeline to relink its media.";
             return;
@@ -189,7 +194,7 @@ public partial class MainWindow
 
     private void OnProblems(object sender, RoutedEventArgs e)
     {
-        if (Document is not Timeline timeline)
+        if (ActiveTimeline is not { } timeline)
         {
             StatusText.Text = "Open a timeline to check it for problems.";
             return;
@@ -201,8 +206,8 @@ public partial class MainWindow
     private void BindDocumentCommands()
     {
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, (_, _) => AskToOpen()));
-        CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo, (_, _) => History.Undo(), (_, e) => e.CanExecute = History.CanUndo));
-        CommandBindings.Add(new CommandBinding(ApplicationCommands.Redo, (_, _) => History.Redo(), (_, e) => e.CanExecute = History.CanRedo));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo, (_, _) => { History.Undo(); SyncTimelines(); }, (_, e) => e.CanExecute = History.CanUndo));
+        CommandBindings.Add(new CommandBinding(ApplicationCommands.Redo, (_, _) => { History.Redo(); SyncTimelines(); },(_, e) => e.CanExecute = History.CanRedo));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, _) => Save(), (_, e) => e.CanExecute = Document is not null));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, (_, _) => AskToSaveAs(), (_, e) => e.CanExecute = Document is not null));
         if (Options.Open is { } path)

@@ -1,0 +1,310 @@
+{
+    "OTIO_SCHEMA": "SerializableCollection.1",
+    "metadata": {},
+    "name": "feature reels",
+    "children": [
+        {
+            "OTIO_SCHEMA": "Timeline.1",
+            "metadata": {},
+            "name": "reel1",
+            "global_start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 24.0,
+                "value": 172800.0
+            },
+            "tracks": {
+                "OTIO_SCHEMA": "Stack.1",
+                "metadata": {},
+                "name": "tracks",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Track.1",
+                        "metadata": {},
+                        "name": "V1",
+                        "source_range": null,
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "children": [
+                            {
+                                "OTIO_SCHEMA": "Clip.2",
+                                "metadata": {},
+                                "name": "r1c1",
+                                "source_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 24.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "media_references": {
+                                    "DEFAULT_MEDIA": {
+                                        "OTIO_SCHEMA": "ExternalReference.1",
+                                        "metadata": {},
+                                        "name": "",
+                                        "available_range": null,
+                                        "available_image_bounds": null,
+                                        "target_url": "file:///media/r1c1.mov"
+                                    }
+                                },
+                                "active_media_reference_key": "DEFAULT_MEDIA"
+                            },
+                            {
+                                "OTIO_SCHEMA": "Clip.2",
+                                "metadata": {},
+                                "name": "r1c2",
+                                "source_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 48.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "media_references": {
+                                    "DEFAULT_MEDIA": {
+                                        "OTIO_SCHEMA": "ExternalReference.1",
+                                        "metadata": {},
+                                        "name": "",
+                                        "available_range": null,
+                                        "available_image_bounds": null,
+                                        "target_url": "file:///media/r1c2.mov"
+                                    }
+                                },
+                                "active_media_reference_key": "DEFAULT_MEDIA"
+                            }
+                        ],
+                        "kind": "Video"
+                    }
+                ]
+            }
+        },
+        {
+            "OTIO_SCHEMA": "Timeline.1",
+            "metadata": {},
+            "name": "reel2",
+            "global_start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 24.0,
+                "value": 259200.0
+            },
+            "tracks": {
+                "OTIO_SCHEMA": "Stack.1",
+                "metadata": {},
+                "name": "tracks",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Track.1",
+                        "metadata": {},
+                        "name": "V1",
+                        "source_range": null,
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "children": [
+                            {
+                                "OTIO_SCHEMA": "Clip.2",
+                                "metadata": {},
+                                "name": "r2c1",
+                                "source_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 24.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "media_references": {
+                                    "DEFAULT_MEDIA": {
+                                        "OTIO_SCHEMA": "ExternalReference.1",
+                                        "metadata": {},
+                                        "name": "",
+                                        "available_range": null,
+                                        "available_image_bounds": null,
+                                        "target_url": "file:///media/r2c1.mov"
+                                    }
+                                },
+                                "active_media_reference_key": "DEFAULT_MEDIA"
+                            },
+                            {
+                                "OTIO_SCHEMA": "Clip.2",
+                                "metadata": {},
+                                "name": "r2c2",
+                                "source_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 48.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "media_references": {
+                                    "DEFAULT_MEDIA": {
+                                        "OTIO_SCHEMA": "ExternalReference.1",
+                                        "metadata": {},
+                                        "name": "",
+                                        "available_range": null,
+                                        "available_image_bounds": null,
+                                        "target_url": "file:///media/r2c2.mov"
+                                    }
+                                },
+                                "active_media_reference_key": "DEFAULT_MEDIA"
+                            },
+                            {
+                                "OTIO_SCHEMA": "Clip.2",
+                                "metadata": {},
+                                "name": "r2c3",
+                                "source_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 72.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "media_references": {
+                                    "DEFAULT_MEDIA": {
+                                        "OTIO_SCHEMA": "ExternalReference.1",
+                                        "metadata": {},
+                                        "name": "",
+                                        "available_range": null,
+                                        "available_image_bounds": null,
+                                        "target_url": "file:///media/r2c3.mov"
+                                    }
+                                },
+                                "active_media_reference_key": "DEFAULT_MEDIA"
+                            }
+                        ],
+                        "kind": "Video"
+                    }
+                ]
+            }
+        },
+        {
+            "OTIO_SCHEMA": "Timeline.1",
+            "metadata": {},
+            "name": "reel3",
+            "global_start_time": {
+                "OTIO_SCHEMA": "RationalTime.1",
+                "rate": 24.0,
+                "value": 345600.0
+            },
+            "tracks": {
+                "OTIO_SCHEMA": "Stack.1",
+                "metadata": {},
+                "name": "tracks",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Track.1",
+                        "metadata": {},
+                        "name": "V1",
+                        "source_range": null,
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "children": [
+                            {
+                                "OTIO_SCHEMA": "Clip.2",
+                                "metadata": {},
+                                "name": "r3c1",
+                                "source_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 24.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "effects": [],
+                                "markers": [],
+                                "enabled": true,
+                                "color": null,
+                                "media_references": {
+                                    "DEFAULT_MEDIA": {
+                                        "OTIO_SCHEMA": "ExternalReference.1",
+                                        "metadata": {},
+                                        "name": "",
+                                        "available_range": null,
+                                        "available_image_bounds": null,
+                                        "target_url": "file:///media/r3c1.mov"
+                                    }
+                                },
+                                "active_media_reference_key": "DEFAULT_MEDIA"
+                            }
+                        ],
+                        "kind": "Video"
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -90,6 +90,13 @@
       "shareable": false
     },
     {
+      // WT20: three reels in one SerializableCollection; staged, since its case saves a copy beside it.
+      "name": "a window on a file of three reels",
+      "files": ["tests/fixtures/collections/reels.otio"],
+      "arguments": ["--open", "{files}/reels.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
@@ -631,6 +638,64 @@
           "locator": "Button#ProblemsClose",
           "act": "invoke",
           "named": "the panel is closed"
+        }
+      ]
+    },
+
+    {
+      "name": "a file of three reels opens as three tabs and saves back as one collection",
+      "catches": "a collection that shows only its first timeline, or saves back as less than it held",
+      "filed": "WT20",
+      "tags": ["open", "save", "otio", "collection", "dialog"],
+      "fixture": "a window on a file of three reels",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened reels.otio: 3 timelines. Media is missing for 2 clips: File > Relink media.",
+          "named": "the open counts the three timelines and reel1's media nobody has"
+        },
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "read",
+          "reads": "name",
+          "expect": "reel3",
+          "named": "the third tab is reel3"
+        },
+        {
+          "locator": "TabItem#TimelineTab1",
+          "act": "select",
+          "named": "the reel2 tab is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Showing reel2: 3 clips on 1 track.",
+          "named": "the window shows reel2"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#SaveAsMenuItem",
+          "act": "invoke",
+          "named": "Save As is chosen"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/copy.otio",
+          "named": "the dialog is told to save copy.otio beside it"
+        },
+        {
+          "file": "{files}/copy.otio",
+          "act": "read",
+          "sameBytesAs": "tests/fixtures/collections/reels.otio",
+          "named": "and the copy is the same collection, byte for byte"
         }
       ]
     }
