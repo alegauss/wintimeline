@@ -22,6 +22,19 @@
       </MenuItem>
     </Menu>
 
+    <!-- WT7: shown on the start after a crash. -->
+    <Border x:Name="RecoveryBar" DockPanel.Dock="Top" Visibility="Collapsed" Padding="12,8"
+            Background="{DynamicResource SystemFillColorCautionBackgroundBrush}"
+            AutomationProperties.AutomationId="RecoveryBar">
+      <DockPanel>
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+          <Button Content="Save diagnostics bundle…" Margin="8,0,0,0" Click="OnDiagnostics" AutomationProperties.AutomationId="RecoveryDiagnostics" />
+          <Button Content="Dismiss" Margin="8,0,0,0" Click="OnRecoveryDismiss" AutomationProperties.AutomationId="RecoveryDismiss" />
+        </StackPanel>
+        <TextBlock x:Name="RecoveryText" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="RecoveryText" />
+      </DockPanel>
+    </Border>
+
     <StatusBar DockPanel.Dock="Bottom" AutomationProperties.AutomationId="StatusBar">
       <StatusBarItem>
         <TextBlock x:Name="StatusText" AutomationProperties.AutomationId="StatusText" Text="Ready" />

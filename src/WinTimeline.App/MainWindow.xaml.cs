@@ -14,7 +14,8 @@ public partial class MainWindow : Window
     /// <param name="gpu">The app's one GPU device.</param>
     /// <param name="settings">The persisted settings.</param>
     /// <param name="notices">What went wrong at start and was recovered from, for the status bar.</param>
-    public MainWindow(AppOptions options, GpuContext gpu, SettingsStore settings, IReadOnlyList<string> notices)
+    /// <param name="previous">The last run, when it crashed.</param>
+    public MainWindow(AppOptions options, GpuContext gpu, SettingsStore settings, IReadOnlyList<string> notices, PreviousCrash? previous = null)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(gpu);
@@ -31,6 +32,7 @@ public partial class MainWindow : Window
 
         ShowGpu();
         BuildSurfaces();
+        ShowRecovery(previous);
     }
 
     /// <summary>What this run was started with.</summary>

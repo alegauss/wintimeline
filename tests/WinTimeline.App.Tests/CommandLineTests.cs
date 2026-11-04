@@ -46,7 +46,8 @@ public sealed class CommandLineTests
     }
 
     [Theory]
-    [InlineData(new[] { "--frobnicate" }, "Unknown option --frobnicate. Known: --open, --models, --adapter, --log-level.")]
+    [InlineData(new[] { "--frobnicate" }, "Unknown option --frobnicate. Known: --open, --models, --adapter, --log-level, --crash-test.")]
+    [InlineData(new[] { "--crash-test", "gently" }, "--crash-test gently is not one of managed, native.")]
     [InlineData(new[] { "cut.otio" }, "Unexpected argument \"cut.otio\". To open a file, use --open \"cut.otio\".")]
     [InlineData(new[] { "--open" }, "--open needs a value.")]
     [InlineData(new[] { "--open", "--models", "m" }, "--open needs a value.")]
@@ -66,7 +67,7 @@ public sealed class CommandLineTests
     {
         string document = File.ReadAllText(Path.Combine(Repository.Root, "docs", "COMMAND-LINE.md"));
 
-        foreach (string flag in new[] { "--open", "--models", "--adapter", "--log-level" })
+        foreach (string flag in new[] { "--open", "--models", "--adapter", "--log-level", "--crash-test" })
         {
             Assert.Contains($"`{flag}", document, StringComparison.Ordinal);
         }

@@ -7,11 +7,13 @@ namespace WinTimeline.App;
 /// <param name="Models">The AI models folder, instead of the default.</param>
 /// <param name="Adapter">The GPU to run on, by index or by a part of its name, instead of the one the app picks.</param>
 /// <param name="LogLevel">How much the log records.</param>
+/// <param name="CrashTest">WT7: "managed" or "native" to crash on purpose once the window is up, or null.</param>
 public sealed record AppOptions(
     string? Open = null,
     string? Models = null,
     string? Adapter = null,
-    LogLevel LogLevel = LogLevel.Info);
+    LogLevel LogLevel = LogLevel.Info,
+    string? CrashTest = null);
 
 /// <summary>A parse: the options, or why the command line was refused.</summary>
 /// <param name="Options">What was asked for, when it parsed.</param>
@@ -30,7 +32,7 @@ public sealed record ParsedCommandLine(AppOptions? Options, string? Error)
 /// </summary>
 public static class CommandLine
 {
-    private static readonly string[] Flags = ["--open", "--models", "--adapter", "--log-level"];
+    private static readonly string[] Flags = ["--open", "--models", "--adapter", "--log-level", "--crash-test"];
 
     /// <summary>Parses the arguments after the executable's name.</summary>
     /// <param name="args">The arguments.</param>
@@ -99,12 +101,19 @@ public static class CommandLine
             level = parsed.Value;
         }
 
+        string? crash = given.GetValueOrDefault("--crash-test");
+        if (crash is not null and not "managed" and not "native")
+        {
+            return Refuse($"--crash-test {crash} is not one of managed, native.");
+        }
+
         return new ParsedCommandLine(
             new AppOptions(
                 Open: given.GetValueOrDefault("--open"),
                 Models: given.GetValueOrDefault("--models"),
                 Adapter: given.GetValueOrDefault("--adapter"),
-                LogLevel: level),
+                LogLevel: level,
+                CrashTest: crash),
             null);
     }
 

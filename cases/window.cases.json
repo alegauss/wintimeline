@@ -27,6 +27,20 @@
       "variables": { "WINTIMELINE_DATA": "{files}" },
       "arguments": ["--adapter", "warp"],
       "shareable": false
+    },
+    {
+      // WT7: the same data folder after a run that crashed in native code (0xC0000005).
+      "name": "a window started after a native crash",
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "before": [
+        {
+          "run": "src/WinTimeline.App/bin/{configuration}/net10.0-windows10.0.19041.0/win-x64/WinTimeline.exe",
+          "arguments": ["--adapter", "warp", "--crash-test", "native"],
+          "expectExit": -1073741819
+        }
+      ],
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
     }
   ],
 
@@ -200,6 +214,41 @@
           "reads": "name",
           "expect": "Diagnostics saved to diag.zip.",
           "named": "the status bar says where it went"
+        }
+      ]
+    },
+
+    {
+      "name": "the start after a native crash says so and offers the diagnostics bundle",
+      "catches": "a crash that is forgotten by the next start, so nobody sends the log that would explain it",
+      "filed": "WT7",
+      "tags": ["crash", "recovery"],
+      "fixture": "a window started after a native crash",
+      "steps": [
+        {
+          "locator": "Text#RecoveryText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^WinTimeline closed unexpectedly last time \\(started .+\\)\\.",
+          "named": "the recovery bar says the last run crashed"
+        },
+        {
+          "locator": "Button#RecoveryDiagnostics",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "enabled",
+          "named": "and offers the diagnostics bundle"
+        },
+        {
+          "locator": "Button#RecoveryDismiss",
+          "act": "invoke",
+          "named": "it is dismissed"
+        },
+        {
+          "locator": "Text#RecoveryText",
+          "act": "read",
+          "absent": true,
+          "named": "and goes"
         }
       ]
     }

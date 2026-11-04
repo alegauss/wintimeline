@@ -34,6 +34,19 @@ public partial class App : Application
                 ["runtime"] = Environment.Version.ToString(),
             });
 
+        // WT7: every failure path is caught or dumped, and a crash of the last run is noticed.
+        CrashHandling.Install(this, CrashFolder);
+        _session = SessionMarker.Begin(SettingsStore.DataFolder, CrashFolder, out PreviousCrash? previous);
+        if (previous is not null)
+        {
+            Log.Write(LogLevel.Warning, LogCategory.App, "The last run did not close cleanly.",
+                new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    ["started"] = previous.Started.ToString("O", System.Globalization.CultureInfo.InvariantCulture),
+                    ["dump"] = previous.Dump ?? "none",
+                });
+        }
+
         // WT5: the settings, which a damaged file never stops; the window says when it happened.
         SettingsStore settings = SettingsStore.Load(SettingsStore.DefaultPath);
         List<string> notices = settings.Notice is { } notice ? [notice] : [];
@@ -71,9 +84,14 @@ public partial class App : Application
                 ["warp"] = _gpu.IsWarp ? "true" : "false",
             });
 
-        MainWindow window = new(parsed.Options!, _gpu, settings, notices);
+        MainWindow window = new(parsed.Options!, _gpu, settings, notices, previous);
         MainWindow = window;
         window.Show();
+
+        if (parsed.Options.CrashTest is { } crash)
+        {
+            Dispatcher.BeginInvoke(() => CrashHandling.Crash(crash), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+        }
     }
 
     /// <summary>logs in the data folder.</summary>
@@ -87,8 +105,10 @@ public partial class App : Application
     {
         Log.Write(LogLevel.Info, LogCategory.App, "WinTimeline closed.");
         _gpu?.Dispose();
+        _session?.End();
         base.OnExit(e);
     }
 
     private GpuContext? _gpu;
+    private SessionMarker? _session;
 }

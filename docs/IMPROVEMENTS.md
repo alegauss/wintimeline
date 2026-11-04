@@ -2,17 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT7 Crash dumps and recovery
-
-Managed unhandled exceptions on any thread are logged and shown with a 'Save and
-restart' choice; native crashes write a minidump via WER LocalDumps registration for the
-app (per user) and the next start offers to recover the autosave (Block B) and to open
-the diagnostics bundle. Native engines run out of process where possible so their
-crashes become recoverable errors.
-
-Done when a deliberate native crash in a test build produces a dump and the next start
-offers recovery.
-
 ### §WT8 run-tests.cmd, winwright and fixtures
 
 `run-tests.cmd` builds the solution and runs every `tests\*.Tests` exe (xunit.v3 on
@@ -142,6 +131,32 @@ Done when the viewer and timeline surfaces sustain 120 Hz side by side on a 120 
 display (frame statistics from `IDXGISwapChain::GetFrameStatistics`), a DPI change
 between monitors redraws both at the new size, and the spike's numbers are recorded. On
 ship: --decides "the GPU surface is <chosen host>, because <measured reason>"
+
+### §WT154 Native crash dumps through a launcher and createdump
+
+Split out of WT7, which shipped the crash handling: managed exceptions logged with a
+restart offer, a minidump (`MiniDump.Write`) for a terminating managed exception, and
+the session marker that makes the next start show the recovery bar after any crash.
+
+A crash in native code (a decoder, a driver, an inference engine) leaves no dump, and
+every in-process route was measured to fail on .NET 10:
+
+- an access violation in native code makes the runtime fail fast, which skips
+  `AppDomain.UnhandledException` and any `SetUnhandledExceptionFilter` filter;
+- Windows Error Reporting ignores `LocalDumps` under HKCU and honours only HKLM, which the
+  per-user installer (WT143, `PrivilegesRequired=lowest`) cannot write;
+- the runtime's own createdump works (`DOTNET_DbgEnableMiniDump=1`,
+  `DOTNET_DbgMiniDumpType=1`, `DOTNET_DbgMiniDumpName=<crashes>\wintimeline-%p.dmp` wrote a
+  25 MB dump of `--crash-test native`), but only when the variables exist before the
+  process starts; setting them at start-up or in runtimeconfig.json does nothing.
+
+So the installer's shortcuts and file associations start a small launcher that sets
+those three variables, with the crash folder resolved from `WINTIMELINE_DATA` or
+`LOCALAPPDATA`, and starts WinTimeline.exe with the same arguments. A run started any
+other way (a case, a debugger) keeps today's behaviour.
+
+Done when `--crash-test native` started through the launcher leaves a dump in the crash
+folder, the next start's recovery bar names it, and the diagnostics bundle carries it.
 
 ## Block B — OTIO document model and file formats
 
