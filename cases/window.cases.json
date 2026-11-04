@@ -77,6 +77,13 @@
       "shareable": false
     },
     {
+      // WT18: a timeline whose media was under C:\gone\media and now sits beside it.
+      "name": "a window on a timeline whose media moved",
+      "files": ["cases/fixtures/relink/moved.otio", "tests/fixtures/otio/bundles/media/shot-a.mov", "tests/fixtures/otio/bundles/media/shot-b.wav"],
+      "arguments": ["--open", "{files}/moved.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
@@ -318,7 +325,7 @@
           "locator": "Text#StatusText",
           "act": "read",
           "reads": "name",
-          "expect": "Opened simple_cut.otio: 4 clips on 1 track.",
+          "matches": "^Opened simple_cut\\.otio: 4 clips on 1 track\\.",
           "named": "the status bar says what it holds"
         }
       ]
@@ -438,7 +445,7 @@
           "locator": "Text#StatusText",
           "act": "read",
           "reads": "name",
-          "expect": "Opened dissolve_test.edl: 3 clips on 1 track.",
+          "matches": "^Opened dissolve_test\\.edl: 3 clips on 1 track\\.",
           "named": "the EDL's three events are three clips on the V track"
         },
         {
@@ -517,6 +524,56 @@
           "reads": "enabled",
           "expect": "enabled",
           "named": "and the recovered edit can be undone"
+        }
+      ]
+    },
+
+    {
+      "name": "media that moved is relinked for every clip from one choice",
+      "catches": "a timeline whose media moved that can only be relinked clip by clip, or not at all",
+      "filed": "WT18",
+      "tags": ["relink", "media", "dialog"],
+      "fixture": "a window on a timeline whose media moved",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened moved.otio: 2 clips on 1 track. Media is missing for 2 clips: File > Relink media.",
+          "named": "the status bar says both clips' media is missing"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#RelinkMenuItem",
+          "act": "invoke",
+          "named": "Relink media is chosen"
+        },
+        {
+          "locator": "Button#LocateButton",
+          "act": "invoke",
+          "named": "the first clip is located"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/shot-a.mov",
+          "named": "the dialog is pointed at where shot-a.mov is now"
+        },
+        {
+          "locator": "Text#RelinkStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "Relinked 2 clips. Nothing is missing.",
+          "named": "both clips are relinked from that one choice"
+        },
+        {
+          "locator": "Button#RelinkClose",
+          "act": "invoke",
+          "named": "the dialog is closed"
         }
       ]
     }

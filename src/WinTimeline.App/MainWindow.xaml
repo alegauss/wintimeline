@@ -21,6 +21,8 @@
         <MenuItem Header="_Save" Command="Save" AutomationProperties.AutomationId="SaveMenuItem" />
         <MenuItem Header="Save _As…" Command="SaveAs" InputGestureText="Ctrl+Shift+S" AutomationProperties.AutomationId="SaveAsMenuItem" />
         <Separator />
+        <MenuItem x:Name="RelinkMenuItem" Header="_Relink media…" Click="OnRelink" AutomationProperties.AutomationId="RelinkMenuItem" />
+        <Separator />
         <MenuItem Header="E_xit" InputGestureText="Alt+F4" Click="OnExit" AutomationProperties.AutomationId="ExitMenuItem" />
       </MenuItem>
       <MenuItem Header="_Edit" AutomationProperties.AutomationId="EditMenu">

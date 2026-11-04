@@ -295,6 +295,9 @@ public static class CommandJson
                 Paths.Resolve(timeline, Path(json["target"])) as Transition ?? throw new ArgumentException("the target is not a transition", nameof(json)),
                 ParseTime(json["in_offset"]),
                 ParseTime(json["out_offset"])),
+            "relink" => new Relink(
+                Paths.Resolve(timeline, Path(json["target"])) as Clip ?? throw new ArgumentException("the target is not a clip", nameof(json)),
+                (string?)json["file"] ?? throw new ArgumentException("relink needs a file", nameof(json))),
             "add_marker" => new AddMarker(Item(timeline, json["target"]), (string?)json["name"] ?? string.Empty, ParseRange(json["range"]) ?? new TimeRange(), (string?)json["color"] ?? MarkerColor.Red),
             _ => throw new ArgumentException($"unknown op '{op}'", nameof(json)),
         };

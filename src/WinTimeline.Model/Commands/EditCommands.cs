@@ -531,6 +531,71 @@ public sealed class AddMarker(Item target, string name, TimeRange range, string 
     };
 }
 
+/// <summary>
+/// Points a clip's media at a file (WT18): an external reference's URL becomes the file's, an
+/// image sequence's base becomes the file's folder.
+/// </summary>
+/// <param name="target">The clip.</param>
+/// <param name="file">The local file its media is in now.</param>
+public sealed class Relink(Clip target, string file) : IEditCommand
+{
+    private string _before = string.Empty;
+
+    /// <summary>The clip.</summary>
+    public Clip Target { get; } = target;
+
+    /// <summary>The file.</summary>
+    public string File { get; } = file;
+
+    /// <inheritdoc/>
+    public string Description => $"Relink {Target.Name}";
+
+    /// <inheritdoc/>
+    public long EstimatedBytes => 64 + (2L * (File.Length + _before.Length));
+
+    /// <inheritdoc/>
+    public void Do()
+    {
+        switch (Target.MediaReference)
+        {
+            case ExternalReference external:
+                _before = external.TargetUrl;
+                external.TargetUrl = FileUrl.FromPath(File);
+                break;
+            case ImageSequenceReference sequence:
+                _before = sequence.TargetUrlBase;
+                sequence.TargetUrlBase = FileUrl.FromPath(Path.GetDirectoryName(Path.GetFullPath(File))!) + "/";
+                break;
+            default:
+                throw new InvalidOperationException($"{Target.Name} has no media reference to relink");
+        }
+
+        Target.Changed("media_references");
+    }
+
+    /// <inheritdoc/>
+    public void Undo()
+    {
+        switch (Target.MediaReference)
+        {
+            case ExternalReference external:
+                external.TargetUrl = _before;
+                break;
+            case ImageSequenceReference sequence:
+                sequence.TargetUrlBase = _before;
+                break;
+        }
+
+        Target.Changed("media_references");
+    }
+
+    /// <inheritdoc/>
+    public bool TryMerge(IEditCommand next) => false;
+
+    /// <inheritdoc/>
+    public JsonObject ToJson(Timeline timeline) => new() { ["op"] = "relink", ["target"] = Paths.Of(timeline, Target), ["file"] = File };
+}
+
 /// <summary>Several commands as one undo step: a ripple trim is a transaction of moves and trims.</summary>
 public sealed class Transaction : IEditCommand
 {

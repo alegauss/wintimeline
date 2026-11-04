@@ -169,18 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT18 Missing media detection and relink
-
-On open, every `ExternalReference` and `ImageSequenceReference` is resolved (file URLs,
-UNC, relative paths against the document); unresolved ones are shown red in the timeline
-and listed in a Relink dialog. Relinking one clip offers to apply the same folder
-substitution to every other missing clip, and searches by filename, then by name plus
-duration, then by a content hash of the first frames. Substitution rules can be saved
-per project. Relinking is an undoable command.
-
-Done when a corpus timeline whose media folder was renamed relinks completely from one
-choice.
-
 ### §WT19 Document validation and a problems panel
 
 A validator walks the model and reports: transitions longer than their neighbours, items
@@ -284,6 +272,26 @@ the setting that fill them.
 
 Done when 25fps.edl from the CMX samples opens at 25 after choosing it, and a case
 drives the dialog.
+
+### §WT159 Relinking by duration and content, and remembered rules
+
+Split out of WT18, which shipped relinking by folder substitution and by file name
+(`RelinkPlan` in `WinTimeline.Model.Media`, the `Relink` command, File > Relink media).
+
+Two matches need to know what a file holds, which arrives with probing (WT24):
+
+- **name plus duration**: a renamed copy (`A001_v2.mov` for `A001.mov`) is offered when its
+  base name contains the original's and its duration equals the clip's available range;
+- **content signature**: a file renamed beyond recognition is found by the same signature
+  proxies use (WT46: size, a hash of the first and last MB, duration), compared against the
+  signature the reference's metadata carries when it was probed on the first machine.
+
+Both run after substitution and the name search, over the folders `RelinkPlan` already
+indexes, and each candidate is listed for the person to confirm when it is not unique.
+The substitution rules a person confirms are kept per project (WT22) and tried on open.
+
+Done when a clip whose file was renamed and moved relinks by signature, and a project
+reopened on the same machine relinks itself from its saved rule.
 
 ## Block C — Media probing and GPU decoding
 

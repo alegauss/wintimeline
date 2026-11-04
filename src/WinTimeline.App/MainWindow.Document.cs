@@ -95,7 +95,7 @@ public partial class MainWindow
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
             StartJournal(name);
             Title = $"{name} — WinTimeline";
-            StatusText.Text = OpenedText(name, document);
+            StatusText.Text = OpenedText(name, document) + MissingText(document);
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
             return true;
         }
@@ -163,6 +163,27 @@ public partial class MainWindow
         File.Delete(fresh);
         OtioBundle.Write(Document!, fresh, MediaReferencePolicy.MissingIfNotFile, _bundle is { } open ? open.MediaPath : null);
         File.Replace(fresh, path, path + ".bak", ignoreMetadataErrors: true);
+    }
+
+    /// <summary>WT18: what the status bar adds when media is missing, e.g. " Media is missing for 2 clips: File > Relink media."</summary>
+    /// <param name="document">The opened document.</param>
+    /// <returns>The sentence, or empty.</returns>
+    private string MissingText(ModelObject document)
+    {
+        string? folder = DocumentPath is { } p ? Path.GetDirectoryName(p) : null;
+        int missing = document is Timeline t && _bundle is null ? Model.Media.MediaLinks.Missing(t, folder).Count : 0;
+        return missing == 0 ? string.Empty : $" Media is missing for {missing} {(missing == 1 ? "clip" : "clips")}: File > Relink media.";
+    }
+
+    private void OnRelink(object sender, RoutedEventArgs e)
+    {
+        if (Document is not Timeline timeline)
+        {
+            StatusText.Text = "Open a timeline to relink its media.";
+            return;
+        }
+
+        new RelinkWindow(timeline, History, DocumentPath is { } p ? Path.GetDirectoryName(p) : null) { Owner = this }.ShowDialog();
     }
 
     private void BindDocumentCommands()

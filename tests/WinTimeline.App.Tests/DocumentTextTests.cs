@@ -46,6 +46,16 @@ public sealed class DocumentTextTests
             MainWindow.RecoveredText("cut.otio", new WinTimeline.Model.Commands.RecoveredDocument(timeline, new WinTimeline.Model.Commands.History(), true)));
     }
 
+    [Theory]
+    [InlineData(2, 0, "Relinked 2 clips. Nothing is missing.")]
+    [InlineData(1, 1, "Relinked 1 clip. 1 is still missing.")]
+    [InlineData(3, 2, "Relinked 3 clips. 2 are still missing.")]
+    public void TheRelinkResultSaysHowManyAndWhatIsLeft(int relinked, int left, string text)
+    {
+        // WT18
+        Assert.Equal(text, RelinkWindow.ResultText(relinked, left));
+    }
+
     [Fact]
     public void SomethingElseSaysWhatItIs()
     {
