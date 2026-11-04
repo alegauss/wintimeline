@@ -487,17 +487,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT52 Selection model
-
-Selection holds items and edit points (a clip's head or tail, used by trims). Click
-selects, Ctrl toggles, Shift extends, marquee drag on empty space selects intersected
-items, A/Shift+A selects track forward/backward from the cursor (as Premiere's track
-select), Ctrl+A selects all, and Edit > Select by finds clips by name, colour, media,
-effect or AI tag. Linked audio/video pairs select together unless linking is toggled off
-(L). Selection is mirrored into the inspector and exposed to UI Automation.
-
-Done when each selection gesture has a case asserting the selected item ids.
-
 ### §WT53 Snapping and magnetic guides
 
 Snapping candidates are the edit points of all tracks, markers, the playhead and in/out;
@@ -598,6 +587,21 @@ the track through TrackCommands.Move. Target: an insert/overwrite target toggle 
 WT75's edits read, and that the playhead's Up and Down (WT51's EditPoints.Of, which
 today takes every lane) narrow to. Done when a UI case drives each, and a resized lane
 keeps its clips aligned with its header.
+
+### §WT170 Edit points, linking and Select by
+
+WT52 gave the timeline an item selection: the engine's Selection holds item ids (a
+lane's label and the item's index in its track, as UI Automation names them). It changes
+on a click, a Ctrl click (toggle) or a Shift click (the range from the last item
+clicked, across the lanes between). A marquee drawn over empty lane space takes what it
+touches. A and Shift+A take every item from the playhead on, or up to it. Ctrl+A takes
+everything and Ctrl+Shift+A clears it. Each is outlined on the surface and read through
+the surface items' selection pattern. Four things remain. Edit points: a press near a
+clip's head or tail selects that edit point rather than the clip, which the trims of
+WT72 act on. Linking: a clip's linked audio or video selects with it unless linking is
+toggled off with L. Edit > Select by: clips found by name, colour, media, effect or AI
+tag. The inspector mirrors the selection once there is one. Done when each has a case
+asserting the selected ids.
 
 ## Block G — Workspace, panels and viewers
 

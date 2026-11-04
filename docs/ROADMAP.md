@@ -12,7 +12,7 @@
 ## Block B — OTIO document model and file formats
 
 - 📋 **WT159** (deps: WT18 ✅, WT24, WT22 ✅) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
-- 🛠 **WT160** (deps: WT20 ✅, WT52) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
+- 🛠 **WT160** (deps: WT20 ✅, WT52 ✅) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
 - 📋 **WT161** (deps: WT17 ✅, WT20 ✅) **Edits to a file of several timelines are not journaled, so a crash loses them** — The recovery journal addresses commands from one timeline; collections need paths that name the timeline too. → §WT161
 - 📋 **WT162** (deps: WT21 ✅) **A comparison cannot be exported as a change-list EDL or as markers for another tool** — Online and sound editors receive changes as a change list or markers, and retyping the list is where conform errors come from. → §WT162
 - 📋 **WT163** (deps: WT21 ✅) **The changes between two versions show only as a list, not as colour bands on the timeline** — A reviewer reads a cut by its shape; bands on the clips that moved, trimmed or were replaced show where the edits fall. → §WT163
@@ -53,15 +53,15 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- 📋 **WT52** (deps: WT47 ✅) **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Every edit acts on a selection, and a weak selection model forces editors into many repeated clicks. → §WT52
-- 📋 **WT53** (deps: WT52) **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Without snapping every edit risks one-frame gaps and flashes that are invisible until export. → §WT53
+- 📋 **WT53** (deps: WT52 ✅) **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Without snapping every edit risks one-frame gaps and flashes that are invisible until export. → §WT53
 - 📋 **WT54** (deps: WT47 ✅, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - 📋 **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
 - 💭 **WT57** (deps: WT48 ✅) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
-- 📋 **WT58** (deps: WT52, WT51 ✅) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
+- 📋 **WT58** (deps: WT52 ✅, WT51 ✅) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 - 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
+- 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
 
 ## Block G — Workspace, panels and viewers
 
@@ -69,7 +69,7 @@
 - 📋 **WT60** (deps: WT59, WT36, WT34) **No program viewer shows the timeline at the playhead with transport controls** — The program viewer is where every edit is judged. → §WT60
 - 📋 **WT61** (deps: WT60) **A media file cannot be opened in a source viewer to mark in and out before editing** — Choosing the part of a shot to use happens in the source viewer, before the timeline. → §WT61
 - 📋 **WT62** (deps: WT59, WT22 ✅, WT24) **Imported media has nowhere to live: no bins, folders, list or grid views, search or metadata columns** — Projects have hundreds of files, and finding the right one quickly is a large share of editing time. → §WT62
-- 📋 **WT63** (deps: WT59, WT52) **Clip, track, transition and timeline properties, including OTIO metadata, cannot be seen or edited** — OTIO carries rich metadata, and a viewer-editor must show and edit it faithfully. → §WT63
+- 📋 **WT63** (deps: WT59, WT52 ✅) **Clip, track, transition and timeline properties, including OTIO metadata, cannot be seen or edited** — OTIO carries rich metadata, and a viewer-editor must show and edit it faithfully. → §WT63
 - 📋 **WT64** (deps: WT59, WT16 ✅) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
 - 📋 **WT67** (deps: WT5 ✅, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
@@ -79,8 +79,8 @@
 ## Block H — Editing: tools, trims and drag and drop
 
 - 📋 **WT70** (deps: WT53, WT16 ✅) **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Moving clips is the most frequent edit, and its overwrite versus insert behaviour decides whether the tool feels safe. → §WT70
-- 📋 **WT71** (deps: WT52, WT16 ✅) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
-- 📋 **WT72** (deps: WT70) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
+- 📋 **WT71** (deps: WT52 ✅, WT16 ✅) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
+- 📋 **WT72** (deps: WT70, WT170) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
 - 📋 **WT73** (deps: WT70, WT24) **Media cannot be dragged from the bin or from Windows Explorer onto the timeline or the viewer** — Drag and drop is how people expect to start an edit, and Explorer drops make the first minute of use obvious. → §WT73
 - 📋 **WT74** (deps: WT70, WT61) **A source clip's marked range cannot be edited into the timeline with insert, overwrite, replace or fit-to-fill** — Three-point editing with the keyboard is the fastest way to assemble, and professional editors expect it. → §WT74
 - 📋 **WT75** (deps: WT72) **A marked range cannot be lifted or extracted, and selected clips cannot be ripple deleted** — Removing material cleanly, with or without closing the gap, is half of editing. → §WT75

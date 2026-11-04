@@ -39,6 +39,7 @@ public partial class MainWindow : Window
         BindZoom();
         BindRuler();
         BindPlayhead();
+        BindSelection();
         BindDocumentCommands();
         ShowWelcome();
     }

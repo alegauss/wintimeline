@@ -46,6 +46,7 @@ public sealed class TimelinePanel : IDisposable
     private static readonly Color4 OverviewGround = new(0.06f, 0.06f, 0.07f, 1f);
     private static readonly Color4 ZoomBoxFill = new(1f, 1f, 1f, 0.12f);
     private static readonly Color4 InOutFill = new(0.3f, 0.55f, 0.95f, 0.45f);
+    private static readonly Color4 SelectedEdge = new(1f, 0.82f, 0.25f, 1f);
 
     private readonly GpuSurface _surface;
     private readonly Canvas2D _canvas;
@@ -61,6 +62,8 @@ public sealed class TimelinePanel : IDisposable
     private double? _outPoint;
     private double _boxFrom;
     private double _boxTo;
+    private double _boxTop;
+    private double _boxBottom;
     private bool _scrubbing;
 
     /// <summary>Draws timelines on a surface.</summary>
@@ -78,6 +81,37 @@ public sealed class TimelinePanel : IDisposable
         _surface.Overlay += OnOverlay;
         _surface.Items = VisibleItems;
         Position.Changed += OnPositionChanged;
+        Selection.Changed += OnSelectionChanged;
+        _surface.SelectRequested += OnSelectRequested;
+        _surface.IsItemSelected = Selection.Contains;
+    }
+
+    /// <summary>WT52: the selected items of the shown timeline.</summary>
+    public Selection Selection { get; } = new();
+
+    /// <summary>WT52: selects everything, as Ctrl+A does.</summary>
+    public void SelectAll()
+    {
+        if (_layout is { } layout)
+        {
+            Selection.All(layout);
+        }
+    }
+
+    /// <summary>WT52: selects every item from the playhead on (A), or up to it (Shift+A).</summary>
+    /// <param name="forward">Which way.</param>
+    public void TrackSelect(bool forward)
+    {
+        if (_layout is { } layout)
+        {
+            Selection.TrackSelect(layout, Position.Seconds, forward);
+        }
+    }
+
+    private void OnSelectionChanged(object? sender, EventArgs e)
+    {
+        _surface.Invalidate();
+        _surface.ItemsChanged();
     }
 
     /// <summary>Raised when the playhead moves: a click, a seek, a step, or a new timeline shown.</summary>
@@ -211,6 +245,7 @@ public sealed class TimelinePanel : IDisposable
         _timeline = timeline;
         _layout = timeline is null ? null : TimelineLayout.Build(timeline);
         _view = null;
+        Selection.Clear();
         Position.Reset(Rate, _layout?.Duration ?? 0);
         if (timeline is not null)
         {
@@ -229,6 +264,8 @@ public sealed class TimelinePanel : IDisposable
         _surface.Click -= OnClick;
         _surface.Pointer -= OnPointer;
         _surface.Overlay -= OnOverlay;
+        _surface.SelectRequested -= OnSelectRequested;
+        _surface.IsItemSelected = null;
         _surface.Items = null;
         _canvas.Dispose();
     }
@@ -259,6 +296,7 @@ public sealed class TimelinePanel : IDisposable
         {
             _layout = TimelineLayout.Build(_timeline);
             Position.Lengthen(_layout.Duration);
+            Selection.Keep(_layout);
         }
 
         Changed();
@@ -335,6 +373,13 @@ public sealed class TimelinePanel : IDisposable
             _canvas.Fill(from, (float)Ruler, span, target.Height - (float)Ruler, ZoomBoxFill);
             _canvas.Outline(from, (float)Ruler, span, target.Height - (float)Ruler, Label, 1);
         }
+        else if (_dragging == Drag.Marquee)
+        {
+            float from = (float)(Header + Math.Min(_boxFrom, _boxTo)), top = (float)(Ruler + Math.Min(_boxTop, _boxBottom));
+            float across = (float)Math.Abs(_boxTo - _boxFrom), down = (float)Math.Abs(_boxBottom - _boxTop);
+            _canvas.Fill(from, top, across, down, ZoomBoxFill);
+            _canvas.Outline(from, top, across, down, SelectedEdge, 1);
+        }
 
         _canvas.End();
     }
@@ -352,15 +397,14 @@ public sealed class TimelinePanel : IDisposable
 
         if (pointer.Phase == PointerPhase.Down)
         {
-            _dragging = pointer.Y < Overview ? Drag.Overview
-                : pointer.Y < Ruler && pointer.Shift ? Drag.InOut
-                : System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.Z) ? Drag.ZoomBox
-                : Drag.Scrub;
+            _dragging = Pressed(view, layout, pointer);
             if (_dragging == Drag.InOut)
             {
                 _inPoint = _outPoint = Math.Max(0, view.Seconds(pointer.X - Header));
             }
+
             _boxFrom = _boxTo = Math.Max(0, pointer.X - Header);
+            _boxTop = _boxBottom = pointer.Y - Ruler;
         }
 
         switch (_dragging)
@@ -383,18 +427,88 @@ public sealed class TimelinePanel : IDisposable
 
                 _surface.Invalidate();
                 break;
+            case Drag.Marquee:
+                _boxTo = Math.Max(0, pointer.X - Header);
+                _boxBottom = pointer.Y - Ruler;
+                if (pointer.Phase == PointerPhase.Up)
+                {
+                    _dragging = Drag.None;
+                    bool add = pointer.Control || pointer.Shift;
+                    if (Math.Abs(_boxTo - _boxFrom) > 4 || Math.Abs(_boxBottom - _boxTop) > 4)
+                    {
+                        Selection.Marquee(layout, view.Seconds(_boxFrom), view.Seconds(_boxTo), view.Lane(Math.Min(_boxTop, _boxBottom)), view.Lane(Math.Max(_boxTop, _boxBottom)), add);
+                    }
+                    else if (!add)
+                    {
+                        Selection.Clear();
+                    }
+                }
+
+                _surface.InvalidateOverlay();
+                break;
             case Drag.InOut:
                 _outPoint = Math.Max(0, view.Seconds(pointer.X - Header));
                 _surface.Invalidate();
                 break;
             case Drag.Scrub when pointer.Phase == PointerPhase.Move && pointer.Pressed:
-                OnClick(sender, new SurfacePoint(pointer.X, pointer.Y));
+                // A scrub started on the ruler keeps scrubbing wherever the pointer goes down the lanes.
+                OnClick(sender, new SurfacePoint(pointer.X, (int)Overview));
                 break;
         }
 
         if (pointer.Phase == PointerPhase.Up)
         {
             _dragging = Drag.None;
+        }
+    }
+
+    /// <summary>
+    /// What a press starts: over the overview strip, moving the view; over the ruler, scrubbing
+    /// (with Shift, marking in and out); over the lanes with Z held, a zoom box; over an item, a
+    /// selection by the click (Ctrl toggles, Shift extends); over empty lane space, a marquee.
+    /// </summary>
+    private Drag Pressed(TimelineViewport view, TimelineLayout layout, SurfacePointer pointer)
+    {
+        if (pointer.Y < Overview)
+        {
+            return Drag.Overview;
+        }
+
+        if (pointer.Y < Ruler)
+        {
+            return pointer.Shift ? Drag.InOut : Drag.Scrub;
+        }
+
+        if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.Z))
+        {
+            return Drag.ZoomBox;
+        }
+
+        if (pointer.X >= Header && layout.At(view.Seconds(pointer.X - Header), view.Lane(pointer.Y - Ruler)) is { Kind: not LaneItemKind.Gap } item)
+        {
+            Selection.Click(layout, item, pointer.Control ? SelectGesture.Toggle : pointer.Shift ? SelectGesture.Extend : SelectGesture.Replace);
+            return Drag.None;
+        }
+
+        return Drag.Marquee;
+    }
+
+    /// <summary>WT52: a UI Automation client selecting a drawn item through its pattern, as a click would.</summary>
+    private void OnSelectRequested(object? sender, SurfaceSelect select)
+    {
+        if (_layout is not { } layout || layout.Find(select.AutomationId) is not { } item)
+        {
+            return;
+        }
+
+        bool selected = Selection.Contains(select.AutomationId);
+        if (select.Mode == SurfaceSelectMode.Replace)
+        {
+            Selection.Click(layout, item, SelectGesture.Replace);
+        }
+        else if (selected != (select.Mode == SurfaceSelectMode.Add))
+        {
+            Selection.Click(layout, item, SelectGesture.Toggle);
         }
     }
 
@@ -481,6 +595,7 @@ public sealed class TimelinePanel : IDisposable
         Overview,
         ZoomBox,
         InOut,
+        Marquee,
     }
 
     private void DrawLanes(TimelineViewport view, TimelineLayout layout, int width)
@@ -512,7 +627,12 @@ public sealed class TimelinePanel : IDisposable
             bool enabled = item.Item is not Item { Enabled: false };
             Color4 fill = !enabled ? DisabledClip : item.Kind == LaneItemKind.Nested ? NestedItem : layout.Lanes[item.Lane].IsAudio ? AudioClip : VideoClip;
             _canvas.Fill(x, y, w, h, fill);
-            if (w >= 3)
+            if (Selection.Ids.Count > 0 && Selection.Contains(layout.IdOf(item)))
+            {
+                float edge = (float)Math.Max(2, 2 * Scale);
+                _canvas.Outline(x + (edge / 2), y + (edge / 2), w - edge, h - edge, SelectedEdge, edge);
+            }
+            else if (w >= 3)
             {
                 _canvas.Outline(x + 0.5f, y + 0.5f, w - 1, h - 1, ClipEdge);
             }
@@ -595,9 +715,10 @@ public sealed class TimelinePanel : IDisposable
         Changed();
     }
 
+    // WT52: only over the ruler: a press on the lanes selects or starts a marquee.
     private void OnClick(object? sender, SurfacePoint point)
     {
-        if (_view is not { } view || point.X < Header)
+        if (_view is not { } view || point.X < Header || point.Y < Overview || point.Y >= Ruler)
         {
             return;
         }
@@ -633,10 +754,10 @@ public sealed class TimelinePanel : IDisposable
             Lane lane = layout.Lanes[item.Lane];
             (float x, float y, float w, float h) = Bounds(view, item);
             string kind = item.Kind.ToString().ToLowerInvariant();
-            int index = lane.Track.Children.ToList().IndexOf(item.Item);
+            string id = layout.IdOf(item);
             items.Add(new SurfaceItem(
                 item.Name,
-                string.Create(CultureInfo.InvariantCulture, $"{lane.Label}-{index}"),
+                id,
                 kind,
                 UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End)),
                 x, y, w, h));

@@ -156,6 +156,12 @@
       "shareable": false
     },
     {
+      // WT52: the same cut, V1-0 to V1-5 cut at 0, 2, 4, 5, 6.5, 7.5 and 8.5 seconds over A1-0 from 0 to 5; not lent, since its case selects.
+      "name": "a window on a cut to select in",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT50: a cut of one video and one audio track; not lent, since its case adds, locks and deletes tracks.
       "name": "a window on a cut whose tracks are managed",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1105,6 +1111,163 @@
           "reads": "name",
           "expect": "01:00:00:00",
           "named": "the playhead is on the first frame"
+        }
+      ]
+    },
+
+    {
+      "name": "a click selects a clip, Ctrl adds, Shift takes the range, a marquee takes what it touches, and A, Shift+A, Ctrl+A and Ctrl+Shift+A select by track and all",
+      "catches": "a timeline whose clips cannot be selected, or whose selection UI Automation cannot read",
+      "filed": "WT52",
+      "tags": ["selection", "surface", "keyboard"],
+      "fixture": "a window on a cut to select in",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c2 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "c2 is selected"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-3",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "holding": "ctrl",
+          "named": "c4 is Ctrl-clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "c2 stays selected beside it"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#A1-0",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "holding": "shift",
+          "named": "the audio clip is Shift-clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "the range from c4 back to it takes c1, which nobody clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-5",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c7 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "selected",
+          "expect": "not selected",
+          "named": "and c1 is no longer selected"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "90%,76",
+          "to": "70%,50",
+          "named": "a marquee is drawn from the empty audio lane after a1 up over c4 to c7"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-3",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "c4, which the marquee touches, is selected"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "selected",
+          "expect": "not selected",
+          "named": "and c2, outside it, is not"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "add to selection",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "c2 is added through its selection pattern"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+Shift+A",
+          "named": "Ctrl+Shift+A is pressed"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-3",
+          "act": "read",
+          "reads": "selected",
+          "expect": "not selected",
+          "named": "nothing is selected"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Down",
+          "named": "the playhead jumps to the cut at two seconds"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Shift+A",
+          "named": "Shift+A is pressed"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#A1-0",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "the audio clip, which starts before the playhead, is selected"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "selected",
+          "expect": "not selected",
+          "named": "and c2, which starts on it, is not"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "A",
+          "named": "A is pressed"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "selected",
+          "expect": "not selected",
+          "named": "c1, which ends on the playhead, is not selected forward"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+A",
+          "named": "Ctrl+A is pressed"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "and everything is selected"
         }
       ]
     },

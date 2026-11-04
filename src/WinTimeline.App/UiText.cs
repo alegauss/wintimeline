@@ -156,6 +156,30 @@ public static class UiText
     /// <summary>Edit > Duplicate timeline as version.</summary>
     public const string DuplicateTimelineMenu = "_Duplicate timeline as version";
 
+    /// <summary>WT52: selects every item on the timeline.</summary>
+    public const string SelectAllMenu = "Select _all";
+
+    /// <summary>WT52: the gesture shown beside Select all.</summary>
+    public const string SelectAllGesture = "Ctrl+A";
+
+    /// <summary>WT52: selects nothing.</summary>
+    public const string DeselectAllMenu = "Dese_lect all";
+
+    /// <summary>WT52: the gesture shown beside Deselect all.</summary>
+    public const string DeselectAllGesture = "Ctrl+Shift+A";
+
+    /// <summary>WT52: selects every item from the playhead on, on every track.</summary>
+    public const string TrackForwardMenu = "Select track _forward";
+
+    /// <summary>WT52: the gesture shown beside Select track forward.</summary>
+    public const string TrackForwardGesture = "A";
+
+    /// <summary>WT52: selects every item up to the playhead, on every track.</summary>
+    public const string TrackBackwardMenu = "Select track _backward";
+
+    /// <summary>WT52: the gesture shown beside Select track backward.</summary>
+    public const string TrackBackwardGesture = "Shift+A";
+
     /// <summary>The View menu.</summary>
     public const string ViewMenu = "_View";
 

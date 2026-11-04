@@ -51,6 +51,7 @@
 - ✅ **WT49** **There is no time ruler, so positions cannot be read in timecode, frames, feet+frames or seconds** — The ruler's ticks follow the zoom from frames to hours and read in timecode, frames, feet+frames or seconds, matching the reference at 23.976, 25 and 29.97 and 59.94 drop-frame.
 - ✅ **WT50** **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track headers add, delete, rename, lock, mute, solo and hide tracks undoably, a lock guards a track's items, and heights, colours, drag order and targets moved to WT169.
 - ✅ **WT51** **No playhead marks the current frame, and the viewer is not tied to a position in the timeline** — A shared PlaybackPosition drives the playhead, status bar and viewer; arrows, Up/Down, Home/End and scrubbing move it, with page, smooth or off follow and an overlay-only redraw.
+- ✅ **WT52** **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Click, Ctrl and Shift clicks, the marquee, A, Shift+A, Ctrl+A and Ctrl+Shift+A select clips, read through UI Automation; edit points, linking and Select by went to WT170.
 
 ## Block G — Workspace, panels and viewers
 

@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Vortice.Mathematics;
@@ -79,6 +80,12 @@ public sealed class GpuSurface : HwndHost
     /// item becomes a child of the surface's peer, so a UI case can find a clip by its name.
     /// </summary>
     public Func<IReadOnlyList<SurfaceItem>>? Items { get; set; }
+
+    /// <summary>WT52: whether the drawn item with an automation id is selected; null where nothing on the surface is selectable.</summary>
+    public Func<string, bool>? IsItemSelected { get; set; }
+
+    /// <summary>WT52: raised when a UI Automation client selects, adds or removes a drawn item through its pattern.</summary>
+    public event EventHandler<SurfaceSelect>? SelectRequested;
 
     /// <summary>A line the surface's peer adds to its status, e.g. the frame time.</summary>
     public string? Status { get; set; }
@@ -496,8 +503,22 @@ public sealed class GpuSurface : HwndHost
     /// read: a pane whose item status gives its size in device pixels, the frames presented and
     /// whether the device is hardware or WARP.
     /// </summary>
-    private sealed class SurfacePeer(GpuSurface owner) : FrameworkElementAutomationPeer(owner)
+    private sealed class SurfacePeer(GpuSurface owner) : FrameworkElementAutomationPeer(owner), ISelectionProvider
     {
+        public bool CanSelectMultiple => true;
+
+        public bool IsSelectionRequired => false;
+
+        public override object? GetPattern(PatternInterface patternInterface) =>
+            patternInterface == PatternInterface.Selection && owner.IsItemSelected is not null ? this : base.GetPattern(patternInterface);
+
+        public IRawElementProviderSimple[] GetSelection() =>
+            [.. (GetChildren() ?? []).OfType<SurfaceItemPeer>().Where(p => p.IsSelected).Select(ProviderFromPeer)];
+
+        internal void Ask(SurfaceSelect select) => owner.SelectRequested?.Invoke(owner, select);
+
+        internal IRawElementProviderSimple Provider() => ProviderFromPeer(this);
+
         protected override AutomationControlType GetAutomationControlTypeCore() => AutomationControlType.Pane;
 
         protected override string GetClassNameCore() => nameof(GpuSurface);
@@ -529,8 +550,29 @@ public sealed class GpuSurface : HwndHost
     }
 
     /// <summary>One drawn item as UI Automation sees it: named, with a status and where it is on screen.</summary>
-    private sealed class SurfaceItemPeer(GpuSurface owner, SurfaceItem item) : AutomationPeer
+    private sealed class SurfaceItemPeer(GpuSurface owner, SurfaceItem item) : AutomationPeer, ISelectionItemProvider
     {
+        // Asked live: a client resolves an item once and polls it, so a flag copied into the
+        // record would answer what was selected when the peer was made.
+        public bool IsSelected => owner.IsItemSelected?.Invoke(item.AutomationId) ?? false;
+
+        public IRawElementProviderSimple? SelectionContainer =>
+            UIElementAutomationPeer.FromElement(owner) is SurfacePeer surface ? surface.Provider() : null;
+
+        public void Select() => Ask(SurfaceSelectMode.Replace);
+
+        public void AddToSelection() => Ask(SurfaceSelectMode.Add);
+
+        public void RemoveFromSelection() => Ask(SurfaceSelectMode.Remove);
+
+        private void Ask(SurfaceSelectMode mode)
+        {
+            if (UIElementAutomationPeer.FromElement(owner) is SurfacePeer surface)
+            {
+                surface.Ask(new SurfaceSelect(item.AutomationId, mode));
+            }
+        }
+
         protected override string GetAcceleratorKeyCore() => string.Empty;
 
         protected override string GetAccessKeyCore() => string.Empty;
@@ -575,7 +617,8 @@ public sealed class GpuSurface : HwndHost
 
         protected override AutomationOrientation GetOrientationCore() => AutomationOrientation.None;
 
-        public override object? GetPattern(PatternInterface patternInterface) => null;
+        public override object? GetPattern(PatternInterface patternInterface) =>
+            patternInterface == PatternInterface.SelectionItem && owner.IsItemSelected is not null ? this : null;
 
         protected override bool HasKeyboardFocusCore() => false;
 
@@ -625,3 +668,21 @@ public sealed record SurfacePoint(int X, int Y);
 /// <param name="Width">Width.</param>
 /// <param name="Height">Height.</param>
 public sealed record SurfaceItem(string Name, string AutomationId, string Kind, string Status, double X, double Y, double Width, double Height);
+
+/// <summary>WT52: what a UI Automation client asked of a drawn item's selection.</summary>
+public enum SurfaceSelectMode
+{
+    /// <summary>The item alone.</summary>
+    Replace,
+
+    /// <summary>The item added.</summary>
+    Add,
+
+    /// <summary>The item taken out.</summary>
+    Remove,
+}
+
+/// <summary>WT52: a selection asked of a drawn item through UI Automation.</summary>
+/// <param name="AutomationId">The item's id.</param>
+/// <param name="Mode">Replace, add or remove.</param>
+public sealed record SurfaceSelect(string AutomationId, SurfaceSelectMode Mode);

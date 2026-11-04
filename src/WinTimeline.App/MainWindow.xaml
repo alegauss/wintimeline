@@ -31,6 +31,11 @@
         <MenuItem Header="{x:Static app:UiText.RedoMenu}" Command="Redo" AutomationProperties.AutomationId="RedoMenuItem" />
         <Separator />
         <MenuItem Header="{x:Static app:UiText.DuplicateTimelineMenu}" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
+        <Separator />
+        <MenuItem Header="{x:Static app:UiText.SelectAllMenu}" InputGestureText="{x:Static app:UiText.SelectAllGesture}" Click="OnSelectAll" AutomationProperties.AutomationId="SelectAllMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.DeselectAllMenu}" InputGestureText="{x:Static app:UiText.DeselectAllGesture}" Click="OnDeselectAll" AutomationProperties.AutomationId="DeselectAllMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.TrackForwardMenu}" InputGestureText="{x:Static app:UiText.TrackForwardGesture}" Click="OnTrackForward" AutomationProperties.AutomationId="TrackForwardMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.TrackBackwardMenu}" InputGestureText="{x:Static app:UiText.TrackBackwardGesture}" Click="OnTrackBackward" AutomationProperties.AutomationId="TrackBackwardMenuItem" />
       </MenuItem>
       <MenuItem Header="{x:Static app:UiText.ViewMenu}" AutomationProperties.AutomationId="ViewMenu">
         <MenuItem Header="{x:Static app:UiText.PaletteMenu}" InputGestureText="{x:Static app:UiText.PaletteGesture}" Click="OnPalette" AutomationProperties.AutomationId="PaletteMenuItem" />

@@ -51,6 +51,8 @@ public sealed class TimelineLayout
 {
     private readonly double[][] _starts;
     private readonly double[] _longest;
+    private Dictionary<LaneItem, string>? _idOf;
+    private Dictionary<string, LaneItem>? _byId;
 
     private TimelineLayout(IReadOnlyList<Lane> lanes, double duration)
     {
@@ -65,6 +67,54 @@ public sealed class TimelineLayout
 
     /// <summary>How long the timeline is, in seconds.</summary>
     public double Duration { get; }
+
+    /// <summary>WT52: an item's id, its lane's label and its index in its track, e.g. "V1-0".</summary>
+    /// <param name="item">One of this layout's items.</param>
+    /// <returns>The id.</returns>
+    public string IdOf(LaneItem item)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+        Index();
+        return _idOf!.TryGetValue(item, out string? id) ? id : string.Empty;
+    }
+
+    /// <summary>WT52: the item an id names, or null when the layout has none.</summary>
+    /// <param name="id">e.g. "V1-0".</param>
+    /// <returns>The item, or null.</returns>
+    public LaneItem? Find(string id)
+    {
+        Index();
+        return _byId!.GetValueOrDefault(id);
+    }
+
+    private void Index()
+    {
+        if (_idOf is not null)
+        {
+            return;
+        }
+
+        Dictionary<LaneItem, string> idOf = new(ReferenceEqualityComparer.Instance);
+        Dictionary<string, LaneItem> byId = new(StringComparer.Ordinal);
+        foreach (Lane lane in Lanes)
+        {
+            Dictionary<Composable, int> index = new(ReferenceEqualityComparer.Instance);
+            int i = 0;
+            foreach (Composable child in lane.Track.Children)
+            {
+                index.TryAdd(child, i++);
+            }
+
+            foreach (LaneItem item in lane.Items)
+            {
+                string id = string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{lane.Label}-{index.GetValueOrDefault(item.Item, -1)}");
+                idOf[item] = id;
+                byId.TryAdd(id, item);
+            }
+        }
+
+        (_idOf, _byId) = (idOf, byId);
+    }
 
     /// <summary>How many items there are on all lanes.</summary>
     public int Count => Lanes.Sum(l => l.Items.Count);
