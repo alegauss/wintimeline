@@ -2,19 +2,6 @@
 
 ## Block A — Project foundation
 
-### §WT8 run-tests.cmd, winwright and fixtures
-
-`run-tests.cmd` builds the solution and runs every `tests\*.Tests` exe (xunit.v3 on
-Microsoft.Testing.Platform, hang dump and timeout) and every `tests\*.Cases` exe
-(winwright, `winwright.json` and `cases\*.cases.json`), plus `run-tests-vm.cmd` for the
-VMware guest as in Modelado. A `fixtures/` tree holds small generated media (burnt-in
-frame counters, tones, bars) produced by a script with FFmpeg so nothing large is
-committed; big corpora (the OTIO sample data, codec matrix) are fetched by a script into
-`.cache`. `run.cmd` builds and launches with a menu of manual scenarios.
-
-Done when `run-tests.cmd` runs green from a clean clone after the fixture script, and a
-failing case fails the command.
-
 ### §WT9 Continuous integration
 
 GitHub Actions on `windows-latest`: build, the headless test projects (Model, Media with

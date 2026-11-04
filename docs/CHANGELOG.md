@@ -9,6 +9,7 @@
 - ✅ **WT5** **User preferences have nowhere to be stored and validated** — Settings persist atomically in settings.json; a damaged file starts on defaults with a notice and is kept as .broken, a newer one is never overwritten, and the saved GPU is used.
 - ✅ **WT6** **Failures in decode, GPU, export or AI leave no record a user can send or a developer can read** — A rotating JSONL log records each layer by category and level, drops sensitive records unless opted in, and Help saves a bundle of logs, settings, GPU, system and crash dump.
 - ✅ **WT7** **An unhandled exception or a native crash closes the window without a dump or a recovery offer** — Managed errors are logged with a restart offer and a minidump when fatal; the start after any crash shows a recovery bar with the diagnostics bundle, proven on the VMware guest.
+- ✅ **WT8** **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — run-tests.cmd builds and runs every test and UI case suite, failing on any red or missing one; run-tests-vm.cmd runs it in the VMware guest, run.cmd tries scenarios, a script makes fixtures.
 
 ## Block B — OTIO document model and file formats
 

@@ -6,9 +6,8 @@
 
 ## Block A — Project foundation
 
-- 📋 **WT8** (deps: WT2 ✅) **There is no one command that builds and runs every test, case and evaluation the way the sibling apps do** — The one-task-one-commit rule needs a gate, and the siblings' run-tests.cmd is the proven shape. → §WT8
-- 📋 **WT9** (deps: WT8) **No CI builds the solution or runs the headless tests on each push** — A breaking change to the model or the OTIO round trip must be caught before a release, not by a user. → §WT9
-- 📋 **WT10** (deps: WT8) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — A session executing this roadmap follows that skill literally, so wrong gates mean commits validated by commands that do not exist here. → §WT10
+- 📋 **WT9** (deps: WT8 ✅) **No CI builds the solution or runs the headless tests on each push** — A breaking change to the model or the OTIO round trip must be caught before a release, not by a user. → §WT9
+- 📋 **WT10** (deps: WT8 ✅) **The project skill describes another repository's npm gates and RG prefix, and the winwright plugin is not enabled** — A session executing this roadmap follows that skill literally, so wrong gates mean commits validated by commands that do not exist here. → §WT10
 - 📋 **WT150** (deps: WT3 ✅) **Shaders would be compiled at start-up, so a broken one crashes on the user's desk instead of failing the build** — Start-up time and shader errors belong to the build, and tuning a shader should not need a restart; split out of WT3. → §WT150
 - 📋 **WT151** (deps: WT3 ✅) **A texture on the shared device cannot reach D3D12 without a copy, and nothing reports VRAM pressure or GPU decode** — Windows ML and heavy compute run on D3D12, and caches must shrink before the driver evicts; split out of WT3. → §WT151
 - 📋 **WT152** (deps: WT4 ✅) **The GPU surfaces swallow mouse, touch, pen, keys and dropped files, and nothing can draw over them** — The viewer and timeline are where editing happens, so input, focus and drops must reach the app; split out of WT4. → §WT152
