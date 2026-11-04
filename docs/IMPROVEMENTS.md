@@ -487,18 +487,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT50 Track headers and track management
-
-Each track has a header (WPF) with name, kind icon, lock, mute (audio) / disable
-(video), solo, eye (hide in viewer), target toggle for insert/overwrite, and a height
-grip. Tracks can be added above/below, deleted (with confirmation when not empty),
-reordered by dragging the header, and given a colour. Height has three presets plus free
-resize; Alt+wheel over a header resizes. All changes are undoable commands; lock
-prevents every edit on the track's items.
-
-Done when every header action is a winwright case, and locked tracks reject drop, trim
-and delete.
-
 ### §WT51 The playhead and its follow modes
 
 The playhead is drawn on top of the GPU surface and moves with playback without
@@ -607,6 +595,19 @@ between queries and rebuilt only when the viewport or the layout changes, cheap 
 (bounds computed when asked, not upfront), and clips too narrow to point at (under 2 px)
 grouped per lane into one item that names its range and count. Done when the 500-clip
 fit-all view answers a ListItem query by name in under 200 ms on WARP.
+
+### §WT169 Track heights, colours, drag order and targets
+
+WT50 gave every lane a WPF header (TrackHeaders) beside the timeline surface: rename,
+lock, mute or disable, solo, hide, add and delete, all undoable through TrackCommands
+and TrackState, with the history's lock guard. Four things remain. Heights: each lane's
+height follows its header (three presets from its context menu, a grip at its foot,
+Alt+wheel over it), kept in the track's metadata as wintimeline:height, so
+TimelineLayout and TimelineViewport take per-lane heights in place of one LaneHeight.
+Colour: a wintimeline:color tints the lane's clips. Reordering: dragging a header moves
+the track through TrackCommands.Move. Target: an insert/overwrite target toggle that
+WT75's edits read. Done when a UI case drives each, and a resized lane keeps its clips
+aligned with its header.
 
 ## Block G — Workspace, panels and viewers
 

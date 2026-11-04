@@ -25,7 +25,8 @@ public sealed class TimelinePanel : IDisposable
     private const double RulerDip = 22;
     private const double OverviewDip = 12;
     private static readonly TimeSpan ZoomTime = TimeSpan.FromMilliseconds(120);
-    private const double HeaderDip = 44;
+    // WT50: the lane labels are WPF track headers beside the surface now (TrackHeaders), so the surface draws none.
+    private const double HeaderDip = 0;
     private const double LaneDip = 28;
     private const int FrameWindow = 120;
 
@@ -80,6 +81,18 @@ public sealed class TimelinePanel : IDisposable
 
     /// <summary>Raised when the playhead moves: a click, a seek, or a new timeline shown.</summary>
     public event EventHandler? PlayheadMoved;
+
+    /// <summary>WT50: raised when the lanes scroll or change, so the track headers follow.</summary>
+    public event EventHandler? LanesMoved;
+
+    /// <summary>WT50: how far the lanes start below the surface's top, in device-independent pixels.</summary>
+    public static double LanesTopDip => OverviewDip + RulerDip;
+
+    /// <summary>WT50: a lane's height, in device-independent pixels.</summary>
+    public static double LaneHeightDip => LaneDip;
+
+    /// <summary>WT50: how far the lanes are scrolled down, in device-independent pixels.</summary>
+    public double LanesScrollDip => (_view?.Top ?? 0) / Scale;
 
     /// <summary>WT49: what the ruler labels time in; changing it redraws.</summary>
     public RulerUnit Unit
@@ -199,6 +212,7 @@ public sealed class TimelinePanel : IDisposable
 
     private void Changed()
     {
+        LanesMoved?.Invoke(this, EventArgs.Empty);
         _surface.Invalidate();
         _surface.ItemsChanged();
     }
@@ -255,7 +269,6 @@ public sealed class TimelinePanel : IDisposable
             DrawLanes(view, layout, target.Width);
             DrawItems(view, layout);
             DrawRuler(view, target.Width);
-            DrawHeaders(view, layout);
             _canvas.End();
         }
 
@@ -500,20 +513,6 @@ public sealed class TimelinePanel : IDisposable
             if (tick.Major)
             {
                 _canvas.Text(tick.Label, x + 3, (float)(Overview + (band * 0.05)), (float)labelWidth - 6, textSize, Tick);
-            }
-        }
-    }
-
-    private void DrawHeaders(TimelineViewport view, TimelineLayout layout)
-    {
-        _canvas.Fill(0, (float)Ruler, (float)Header, (float)(view.Height + 1), RulerGround);
-        float textSize = (float)(11 * Scale);
-        for (int lane = Math.Max(0, view.FirstLane); lane <= Math.Min(view.LastLane, layout.Lanes.Count - 1); lane++)
-        {
-            float y = (float)(Ruler + view.Y(lane));
-            if (y + view.LaneHeight > Ruler)
-            {
-                _canvas.Text(layout.Lanes[lane].Label, 6, Math.Max(y, (float)Ruler) + ((float)view.LaneHeight - (textSize * 1.4f)) / 2, (float)Header - 8, textSize, Label);
             }
         }
     }

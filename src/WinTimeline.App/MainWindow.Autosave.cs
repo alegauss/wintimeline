@@ -128,6 +128,7 @@ public partial class MainWindow
             Document = recovered.Timeline;
             LoadTimelines(recovered.Timeline);
             _histories[recovered.Timeline] = History = recovered.History;
+            History.Guard = TrackCommands.LockGuard(recovered.Timeline);
             ShowWelcome();
             DocumentPath = candidate.SourcePath;
             WatchForAutosave();

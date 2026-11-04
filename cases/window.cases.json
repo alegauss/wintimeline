@@ -150,6 +150,12 @@
       "shareable": true
     },
     {
+      // WT50: a cut of one video and one audio track; not lent, since its case adds, locks and deletes tracks.
+      "name": "a window on a cut whose tracks are managed",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT48: the same cut, not lent, since its case zooms it.
       "name": "a feature-length cut to zoom",
       "arguments": ["--open", "tests/fixtures/timeline/feature.otio", "--adapter", "warp"],
@@ -1184,6 +1190,62 @@
           "reads": "status",
           "matches": "ruler frames$",
           "named": "the ruler now counts frames"
+        }
+      ]
+    },
+
+    {
+      "name": "a track is added, locked and deleted from its header, and the delete undoes",
+      "catches": "track headers that do nothing, or a track change that cannot be undone",
+      "filed": "WT50",
+      "tags": ["timeline", "tracks", "edit"],
+      "fixture": "a window on a cut whose tracks are managed",
+      "steps": [
+        {
+          "locator": "Button#TrackAdd-V1",
+          "act": "invoke",
+          "named": "a video track is added above V1"
+        },
+        {
+          "locator": "Edit#TrackName-V2",
+          "act": "read",
+          "reads": "value",
+          "expect": "V2",
+          "named": "the new track is V2"
+        },
+        {
+          "locator": "Button#TrackLock-V1",
+          "act": "toggle",
+          "named": "V1 is locked"
+        },
+        {
+          "locator": "Button#TrackLock-V1",
+          "act": "read",
+          "reads": "toggle",
+          "expect": "On",
+          "named": "and shows locked"
+        },
+        {
+          "locator": "Button#TrackDelete-V2",
+          "act": "invoke",
+          "named": "the empty V2 is deleted"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "invoke",
+          "named": "Undo is chosen"
+        },
+        {
+          "locator": "Edit#TrackName-V2",
+          "act": "read",
+          "reads": "value",
+          "expect": "V2",
+          "named": "and V2 is back"
         }
       ]
     },

@@ -58,11 +58,23 @@ public sealed class History
     /// <summary>What Redo would redo, or null.</summary>
     public string? RedoDescription => CanRedo ? _redo.Peek().Description : null;
 
+    /// <summary>
+    /// WT50: asked before every command runs; a reason refuses it (a locked track) and nothing
+    /// changes, nothing is recorded. Null lets everything through.
+    /// </summary>
+    public Func<IEditCommand, string?>? Guard { get; set; }
+
     /// <summary>Runs a command and records it. A new edit forgets whatever could have been redone.</summary>
     /// <param name="command">The command.</param>
+    /// <exception cref="EditRefusedException">The guard refused it.</exception>
     public void Execute(IEditCommand command)
     {
         ArgumentNullException.ThrowIfNull(command);
+        if (Guard?.Invoke(command) is { } refusal)
+        {
+            throw new EditRefusedException(refusal);
+        }
+
         Recording?.Invoke(this, new HistoryEvent(HistoryEventKind.Execute, command));
         command.Do();
         if (_open is { } transaction)

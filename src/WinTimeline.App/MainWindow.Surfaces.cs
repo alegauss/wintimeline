@@ -38,10 +38,16 @@ public partial class MainWindow
 
         Grid.SetRow(Viewer, 0);
         Grid.SetRow(splitter, 1);
-        Grid.SetRow(Timeline, 2);
+        // WT50: the track headers beside the timeline surface, not over it (airspace).
+        Grid timelineRow = new();
+        timelineRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        timelineRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        Grid.SetColumn(Timeline, 1);
+        timelineRow.Children.Add(Timeline);
+        Grid.SetRow(timelineRow, 2);
         DockArea.Children.Add(Viewer);
         DockArea.Children.Add(splitter);
-        DockArea.Children.Add(Timeline);
+        DockArea.Children.Add(timelineRow);
 
         // WT152: files dropped on either surface open, or become a timeline, as on the welcome page.
         Viewer.FilesDropped += (_, drop) => DropFiles(drop.Paths);
@@ -50,7 +56,12 @@ public partial class MainWindow
         // WT47: the timeline surface draws the active timeline.
         TimelinePanel = new TimelinePanel(Timeline, Gpu);
         Closed += (_, _) => TimelinePanel.Dispose();
+        TrackHeaders = new TrackHeaders(TimelinePanel, () => History, said => StatusText.Text = said);
+        timelineRow.Children.Add(TrackHeaders);
     }
+
+    /// <summary>WT50: the WPF headers of the shown timeline's tracks.</summary>
+    public TrackHeaders TrackHeaders { get; private set; } = null!;
 
     /// <summary>What draws the active timeline on <see cref="Timeline"/>.</summary>
     public TimelinePanel TimelinePanel { get; private set; } = null!;

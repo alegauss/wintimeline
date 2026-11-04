@@ -53,7 +53,6 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- 📋 **WT50** (deps: WT47 ✅, WT16 ✅) **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track management is the frame every other editing action happens inside. → §WT50
 - 📋 **WT51** (deps: WT49 ✅) **No playhead marks the current frame, and the viewer is not tied to a position in the timeline** — The playhead is the shared cursor between the viewer, the edit tools and the AI assistant. → §WT51
 - 📋 **WT52** (deps: WT47 ✅) **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Every edit acts on a selection, and a weak selection model forces editors into many repeated clicks. → §WT52
 - 📋 **WT53** (deps: WT52) **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Without snapping every edit risks one-frame gaps and flashes that are invisible until export. → §WT53
@@ -63,6 +62,7 @@
 - 💭 **WT57** (deps: WT48 ✅) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
 - 📋 **WT58** (deps: WT52, WT51) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
+- 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
 
 ## Block G — Workspace, panels and viewers
 
@@ -96,12 +96,12 @@
 ## Block I — Audio: playback, mixing and meters
 
 - 📋 **WT83** (deps: WT27) **Audio cannot be played through a chosen output device with low latency** — The audio device is the master clock for playback, so its stability decides A/V sync. → §WT83
-- 📋 **WT84** (deps: WT83, WT50) **Clip and track volume, pan and mute cannot be set, and there is no mixer** — Balancing dialogue, music and effects is required for any watchable export. → §WT84
+- 📋 **WT84** (deps: WT83, WT50 ✅) **Clip and track volume, pan and mute cannot be set, and there is no mixer** — Balancing dialogue, music and effects is required for any watchable export. → §WT84
 - 📋 **WT85** (deps: WT84) **No level meters or loudness measurement show whether the mix is clipping or meets delivery specs** — Broadcast and streaming platforms reject or turn down mixes outside loudness targets. → §WT85
 - 📋 **WT86** (deps: WT83, WT34) **Scrubbing the playhead is silent, so dialogue edits cannot be found by ear** — Editors find the start of a word by scrubbing audio, not by watching. → §WT86
 - 📋 **WT87** (deps: WT84, WT76) **Audio clips cannot fade in or out, and cuts between audio clips click** — Hard audio cuts produce audible clicks that make an edit sound amateur. → §WT87
 - 📋 **WT88** (deps: WT84, WT62) **Multichannel field recordings cannot be split into the channels an edit needs** — Interviews arrive as poly WAVs with lav, boom and mix on separate channels. → §WT88
-- 💭 **WT89** (deps: WT83, WT50) **A voice-over cannot be recorded directly onto a track while the timeline plays** — Scratch narration during editing is common and otherwise needs a separate app. → §WT89
+- 💭 **WT89** (deps: WT83, WT50 ✅) **A voice-over cannot be recorded directly onto a track while the timeline plays** — Scratch narration during editing is common and otherwise needs a separate app. → §WT89
 
 ## Block J — Effects, titles, keyframes and colour
 

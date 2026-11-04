@@ -42,6 +42,7 @@ public partial class MainWindow
     {
         ActiveTimeline = timeline;
         TimelinePanel.Show(timeline);
+        TrackHeaders.Show(timeline);
         if (timeline is null)
         {
             History = new History();
@@ -50,7 +51,7 @@ public partial class MainWindow
 
         if (!_histories.TryGetValue(timeline, out History? history))
         {
-            _histories[timeline] = history = new History();
+            _histories[timeline] = history = new History { Guard = TrackCommands.LockGuard(timeline) };
         }
 
         History = history;

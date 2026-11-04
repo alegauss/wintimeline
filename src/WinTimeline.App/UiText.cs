@@ -168,6 +168,63 @@ public static class UiText
     /// <summary>View > Compare with another version.</summary>
     public const string CompareMenu = "_Compare with another version…";
 
+    // ---- Track headers (WT50) ----
+
+    /// <summary>A track name box's automation name.</summary>
+    /// <param name="label">The lane, e.g. V1.</param>
+    /// <returns>The name.</returns>
+    public static string TrackNameName(string label) => $"Name of {label}";
+
+    /// <summary>Lock's name.</summary>
+    public const string TrackLock = "Lock";
+
+    /// <summary>Lock's glyph.</summary>
+    public const string TrackLockGlyph = "\uE72E";
+
+    /// <summary>Mute's name, for audio.</summary>
+    public const string TrackMute = "Mute";
+
+    /// <summary>Mute's glyph.</summary>
+    public const string TrackMuteGlyph = "\uE74F";
+
+    /// <summary>Disable's name, for video.</summary>
+    public const string TrackDisable = "Disable";
+
+    /// <summary>Disable's glyph.</summary>
+    public const string TrackDisableGlyph = "\uE7BA";
+
+    /// <summary>Solo's name.</summary>
+    public const string TrackSolo = "Solo";
+
+    /// <summary>Solo's glyph.</summary>
+    public const string TrackSoloGlyph = "\uE720";
+
+    /// <summary>Hide's name: out of the viewer.</summary>
+    public const string TrackHide = "Hide in viewer";
+
+    /// <summary>Hide's glyph.</summary>
+    public const string TrackHideGlyph = "\uED1A";
+
+    /// <summary>Add's name.</summary>
+    /// <param name="audio">Whether the track is audio.</param>
+    /// <returns>The name.</returns>
+    public static string TrackAdd(bool audio) => audio ? "Add an audio track below" : "Add a video track above";
+
+    /// <summary>Add's glyph.</summary>
+    public const string TrackAddGlyph = "\uE710";
+
+    /// <summary>Delete's name.</summary>
+    public const string TrackDelete = "Delete track";
+
+    /// <summary>Delete's glyph.</summary>
+    public const string TrackDeleteGlyph = "\uE74D";
+
+    /// <summary>What deleting a track with items asks.</summary>
+    /// <param name="name">The track's name.</param>
+    /// <param name="count">How many items it holds.</param>
+    /// <returns>The question.</returns>
+    public static string TrackDeleteQuestion(string name, int count) => $"Delete {name} and the {count} {(count == 1 ? "item" : "items")} on it? Undo brings them back.";
+
     /// <summary>WT49: View > Ruler.</summary>
     public const string RulerMenu = "_Ruler";
 
