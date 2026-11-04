@@ -1195,21 +1195,6 @@ Done when a sample plugin folder adds a working effect without restarting the ap
 
 ## Block K — Local AI platform: models, runtimes and hardware fit
 
-### §WT99 Inference runtimes: Windows ML and out-of-process native engines
-
-Two engines cover the features:
-
-- **Windows ML** (`Microsoft.Windows.AI.MachineLearning`, ONNX Runtime underneath), exactly as Revelei uses it: certified execution providers registered through `ExecutionProviderCatalog` (TensorRT-RTX, OpenVINO, QNN for NPUs), DirectML and CPU as defaults, a startup probe, an idle session cache and compiled EP-context engines cached on disk. It runs the vision and audio models (TransNetV2, CLIP/SigLIP, YOLO, segmentation, RIFE, DeepFilterNet, Demucs).
-- **Native engines out of process**: llama.cpp for the language model and whisper.cpp for transcription where it measures faster, each in a host exe talking over stdin/stdout like `Revelei.Generation.Host`, so a native crash or a cancel (kill the process tree) never takes the editor down.
-
-All engines follow the app's adapter choice. A `ModelSession` abstraction exposes load,
-run, unload, VRAM estimate and cancellation, and sessions are unloaded under memory
-pressure (LRU) so the editor's own VRAM budget (frame cache, decoders) is protected.
-
-Done when one ONNX vision model and one GGUF model run side by side (the GGUF in its
-host process), and unloading frees their VRAM as measured by QueryVideoMemoryInfo. On
-ship: --decides "AI runs on ONNX Runtime + llama.cpp because <measured reason>"
-
 ### §WT100 The model catalog
 
 A signed JSON catalog (shipped in the app, refreshable from the project's GitHub
@@ -1286,6 +1271,21 @@ per-feature setting forces CPU.
 
 Done when transcription runs during playback of the stress timeline with zero dropped
 frames on the reference machine.
+
+### §WT166 Native engines out of process
+
+WT99 wired Windows ML's ONNX Runtime in and put every session under one SessionCache
+with an LRU VRAM budget (WinTimeline.Inference). The language model and, where it
+measures faster than an ONNX Whisper, transcription run on native engines instead:
+llama.cpp and whisper.cpp, each in a host exe that speaks a line protocol on stdin and
+stdout, as Revelei.Generation.Host does for stable-diffusion.cpp. A native crash or a
+cancel (killing the process tree) then never takes the editor down. The host session
+implements IDisposable, so the same SessionCache loads, counts and unloads it beside the
+ONNX sessions, and the engines follow the app's adapter. This waits on WT100's catalog
+to download the engines and a small GGUF, since models are never committed. Done when a
+test runs a small GGUF in its host beside an ONNX vision model through one cache,
+unloads both, and GpuContext.VideoMemory shows the VRAM freed; the ship records with
+--decides why llama.cpp was chosen over an ONNX language model, with the measurement.
 
 ## Block L — AI-assisted editing
 

@@ -115,6 +115,27 @@ public sealed class GpuContext : IDisposable
         throw new InvalidOperationException("Neither a hardware device nor WARP could be created.");
     }
 
+    /// <summary>
+    /// WT99: the video memory this process uses on the device's adapter, and what the OS lets it
+    /// use, as DXGI's QueryVideoMemoryInfo reports them; how unloading a model is seen to free it.
+    /// </summary>
+    /// <returns>Bytes in use and the budget, or null when the adapter cannot say.</returns>
+    public (long InUse, long Budget)? VideoMemory()
+    {
+        try
+        {
+            using IDXGIDevice dxgi = Device.QueryInterface<IDXGIDevice>();
+            using IDXGIAdapter adapter = dxgi.GetAdapter();
+            using IDXGIAdapter3 adapter3 = adapter.QueryInterface<IDXGIAdapter3>();
+            QueryVideoMemoryInfo info = adapter3.QueryVideoMemoryInfo(0, MemorySegmentGroup.Local);
+            return ((long)info.CurrentUsage, (long)info.Budget);
+        }
+        catch (SharpGen.Runtime.SharpGenException)
+        {
+            return null;
+        }
+    }
+
     /// <inheritdoc/>
     public void Dispose()
     {

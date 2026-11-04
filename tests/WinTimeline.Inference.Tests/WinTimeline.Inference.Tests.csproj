@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT99: provider detection, the probe model on a real ONNX Runtime, and the session cache's budget. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Inference.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Inference\WinTimeline.Inference.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -125,13 +125,13 @@
 
 ## Block K — Local AI platform: models, runtimes and hardware fit
 
-- 📋 **WT99** (deps: WT3 ✅) **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — Every AI feature needs one runtime choice shared across features, or each one ships its own engine and VRAM fights follow. → §WT99
-- 📋 **WT100** (deps: WT99) **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — People must know what they download, what it costs on disk and in VRAM, and whether its licence allows their use. → §WT100
+- 📋 **WT100** (deps: WT99 ✅) **There is no catalog saying which models exist, their licence, size, hardware needs and download source** — People must know what they download, what it costs on disk and in VRAM, and whether its licence allows their use. → §WT100
 - 📋 **WT101** (deps: WT100, WT40 ⏳) **Models cannot be downloaded, resumed, verified, moved to another drive or removed from inside the app** — Models weigh from 50 MB to 10 GB, and an interrupted or corrupt download must never break a feature. → §WT101
 - 📋 **WT102** (deps: WT101, WT67) **Nothing in the UI shows which AI features are available, which models they need and whether this PC can run them** — AI features must explain themselves before a 4 GB download, or people will not trust them. → §WT102
-- 📋 **WT103** (deps: WT99) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Editors work under NDA, and a local-only promise is only worth something if it is enforced and visible. → §WT103
-- 📋 **WT104** (deps: WT22 ✅, WT99) **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis is expensive, and its results are what search, the assistant and the timeline all read. → §WT104
-- 📋 **WT105** (deps: WT99, WT34) **AI inference running during playback fights the decoder and compositor for the GPU and causes dropped frames** — AI analysis is meant to run in the background while the user edits, not instead of editing. → §WT105
+- 📋 **WT103** (deps: WT99 ✅) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Editors work under NDA, and a local-only promise is only worth something if it is enforced and visible. → §WT103
+- 📋 **WT104** (deps: WT22 ✅, WT99 ✅) **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis is expensive, and its results are what search, the assistant and the timeline all read. → §WT104
+- 📋 **WT105** (deps: WT99 ✅, WT34) **AI inference running during playback fights the decoder and compositor for the GPU and causes dropped frames** — AI analysis is meant to run in the background while the user edits, not instead of editing. → §WT105
+- 📋 **WT166** (deps: WT100) **The language model and fast transcription have no native engine, so GGUF models cannot run** — llama.cpp and whisper.cpp out of process are the fastest local engines for them, and a native crash there must never take the editor down. → §WT166
 
 ## Block L — AI-assisted editing
 
@@ -143,23 +143,23 @@
 - 📋 **WT111** (deps: WT104, WT25) **Long recordings and delivered masters are not split into shots, so finding a cut point means scrubbing** — Shot boundaries let an editor re-cut a master and let the other AI tools reason about shots instead of frames. → §WT111
 - 📋 **WT112** (deps: WT111) **Footage has no descriptive tags (shot size, subjects, location, motion), so bins cannot be filtered by content** — Logging footage by hand is a full-time assistant job that vision models now do well enough to help. → §WT112
 - 📋 **WT113** (deps: WT112, WT106, WT62) **Footage cannot be searched by describing what is in it, like 'a woman laughing near a window'** — Natural-language search across hours of footage is the AI feature editors say saves the most time. → §WT113
-- 📋 **WT114** (deps: WT99, WT16 ✅, WT66 ✅) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — A local assistant that proposes edits as commands, not as a black box, can do tedious multi-step work while the editor keeps control. → §WT114
+- 📋 **WT114** (deps: WT99 ✅, WT16 ✅, WT66 ✅) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — A local assistant that proposes edits as commands, not as a black box, can do tedious multi-step work while the editor keeps control. → §WT114
 - 💭 **WT115** (deps: WT110, WT114) **Captions and transcripts cannot be translated into other languages** — Reaching other audiences needs subtitles in their language, and translation can run locally. → §WT115
 - 📋 **WT116** (deps: WT114, WT113) **A first assembly from a script or a list of selects must be built clip by clip** — Assembling a rough cut from transcripts is mechanical work the assistant and search can do in minutes. → §WT116
 - 💭 **WT117** (deps: WT113, WT108) **Finding B-roll that matches what is being said requires browsing the whole library** — Covering interviews with relevant visuals is a constant need, and transcript plus image search can suggest it. → §WT117
 - 📋 **WT118** (deps: WT112, WT91) **A 16:9 edit cannot be reframed to 9:16 or 1:1 with the subject kept in frame** — Every cut now ships vertical versions for social platforms, and reframing by hand is keyframe drudgery. → §WT118
-- 📋 **WT119** (deps: WT84, WT99) **Noisy dialogue, hum and reverb cannot be cleaned inside the app** — Most location audio needs cleanup, and modern denoisers run in real time on a laptop. → §WT119
+- 📋 **WT119** (deps: WT84, WT99 ✅) **Noisy dialogue, hum and reverb cannot be cleaned inside the app** — Most location audio needs cleanup, and modern denoisers run in real time on a laptop. → §WT119
 - 📋 **WT120** (deps: WT119, WT106) **Music cannot be separated from dialogue, and background music is not ducked under speech automatically** — Ducking music under voice is a step in nearly every video, and stem separation rescues mixed recordings. → §WT120
 - 📋 **WT121** (deps: WT104, WT54) **Cuts cannot be placed on the beats of a music track** — Montages cut to music are common, and beat markers make them fast and precise. → §WT121
-- 📋 **WT122** (deps: WT77, WT99) **Slow motion from normal-rate footage stutters, because frames are only repeated or blended** — Smooth slow motion is a common request and optical-flow models make it possible from ordinary footage. → §WT122
-- 📋 **WT123** (deps: WT99, WT40 ⏳) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
-- 💭 **WT124** (deps: WT92, WT99) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
+- 📋 **WT122** (deps: WT77, WT99 ✅) **Slow motion from normal-rate footage stutters, because frames are only repeated or blended** — Smooth slow motion is a common request and optical-flow models make it possible from ordinary footage. → §WT122
+- 📋 **WT123** (deps: WT99 ✅, WT40 ⏳) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
+- 💭 **WT124** (deps: WT92, WT99 ✅) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
 - 📋 **WT125** (deps: WT112, WT92) **Faces and licence plates cannot be blurred automatically for privacy** — News, documentary and corporate videos must hide bystanders, and tracking them by hand takes hours. → §WT125
 - 📋 **WT126** (deps: WT111, WT19 ✅) **Flash frames, black frames, frozen frames, out-of-focus shots and jump cuts are found only by watching** — A technical QC pass before delivery catches embarrassing errors that a tired editor misses. → §WT126
 - 📋 **WT127** (deps: WT114, WT21 ✅) **Chapters, a description and a summary of a cut, or of what changed between versions, must be written by hand** — Publishing needs chapters and descriptions, and review needs a readable change summary. → §WT127
 - 💭 **WT128** (deps: WT93, WT112) **Shots from different cameras cannot be matched in colour automatically** — Multicam and mixed-camera edits need consistent colour, and a first automatic match saves most of the work. → §WT128
 - 💭 **WT129** (deps: WT81, WT107) **Multicam podcasts must be cut angle by angle even though the speaker is known at every moment** — Speaker diarisation can produce a watchable first cut of a multicam conversation automatically. → §WT129
-- 💭 **WT130** (deps: WT99, WT84) **A scratch narration cannot be produced from text while the real voice-over is not recorded yet** — Editors time a cut against a narration long before the final recording exists. → §WT130
+- 💭 **WT130** (deps: WT99 ✅, WT84) **A scratch narration cannot be produced from text while the real voice-over is not recorded yet** — Editors time a cut against a narration long before the final recording exists. → §WT130
 - 📋 **WT131** (deps: WT27, WT79) **Separately recorded audio cannot be synced to camera audio automatically** — Double-system sound is standard on productions, and clapping by hand is slow. → §WT131
 
 ## Block M — Video export and interchange

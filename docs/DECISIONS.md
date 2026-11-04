@@ -25,6 +25,8 @@
 
 ## Block K — Local AI platform: models, runtimes and hardware fit
 
+- ✅ **WT99** **No inference runtime is wired in, so no model can run on the GPU or NPU of this PC** — ONNX models run on Windows ML's ONNX Runtime, DirectML by default: Revelei measured TensorRT-RTX at 112 ms a tile against 324 ms but a 10-17 s engine build per session.
+
 ## Block L — AI-assisted editing
 
 ## Block M — Video export and interchange

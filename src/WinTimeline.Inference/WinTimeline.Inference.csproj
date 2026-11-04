@@ -7,4 +7,22 @@
     <RootNamespace>WinTimeline.Inference</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- WT99: Windows ML without the Windows App SDK, as Revelei proved it (its PB43 spike): its own
+         ONNX Runtime with DirectML, plus the TensorRT-RTX, OpenVINO and QNN providers Windows Update
+         installs for this PC. Revelei's version. -->
+    <PackageReference Include="Microsoft.Windows.AI.MachineLearning" Version="2.1.74" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The one device's adapters (WT3): inference follows the app's GPU choice. -->
+    <ProjectReference Include="..\WinTimeline.Render\WinTimeline.Render.csproj" />
+    <ProjectReference Include="..\WinTimeline.Diagnostics\WinTimeline.Diagnostics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The tests load ProbeModel to run a real session without a downloaded model. -->
+    <InternalsVisibleTo Include="WinTimeline.Inference.Tests" />
+  </ItemGroup>
+
 </Project>
