@@ -7,4 +7,9 @@
     <RootNamespace>WinTimeline.Media</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Media Foundation comes with Render's Vortice packages, on its one device (WT3). -->
+    <ProjectReference Include="..\WinTimeline.Render\WinTimeline.Render.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -26,7 +26,7 @@ public sealed class MediaDevice : IDisposable
     public void Dispose() => Manager.Dispose();
 
     /// <summary>Starts Media Foundation once for the process; it is never shut down, as the process owns it.</summary>
-    private static void Start()
+    public static void Start()
     {
         lock (StartupLock)
         {

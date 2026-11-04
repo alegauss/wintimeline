@@ -12,14 +12,30 @@ namespace WinTimeline.App;
 /// <param name="Adapter">The GPU to run on, as <c>--adapter</c> spells it, or null for the high-performance one.</param>
 /// <param name="ModelsFolder">Where AI models live, or null for the default.</param>
 /// <param name="CacheFolder">Where proxies and render caches go, or null for the default.</param>
+/// <param name="RecentFiles">The documents opened or saved last, most recent first (WT68), or null for none yet.</param>
 public sealed record AppSettings(
     int Version = AppSettings.CurrentVersion,
     string? Adapter = null,
     string? ModelsFolder = null,
-    string? CacheFolder = null)
+    string? CacheFolder = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<string>? RecentFiles = null)
 {
     /// <summary>The schema version this build writes.</summary>
     public const int CurrentVersion = 1;
+
+    /// <summary>How many recent files are kept.</summary>
+    public const int RecentLimit = 10;
+
+    /// <summary>These settings with a document put first among the recent files, once, the oldest dropped past the limit.</summary>
+    /// <param name="path">The document's full path.</param>
+    /// <returns>The new settings.</returns>
+    public AppSettings WithRecent(string path)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+        IEnumerable<string> rest = (RecentFiles ?? []).Where(p => !string.Equals(p, path, StringComparison.OrdinalIgnoreCase));
+        string[] next = [path, .. rest.Take(RecentLimit - 1)];
+        return RecentFiles is { } now && now.SequenceEqual(next, StringComparer.Ordinal) ? this : this with { RecentFiles = next };
+    }
 
     internal static readonly JsonSerializerOptions Json = new()
     {

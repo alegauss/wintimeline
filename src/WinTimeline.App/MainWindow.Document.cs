@@ -106,6 +106,8 @@ public partial class MainWindow
                 + (ActiveTimeline is { } opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty)
                 + restored;
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
+            Remember(Path.GetFullPath(path));
+            ShowWelcome();
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException)
@@ -146,6 +148,7 @@ public partial class MainWindow
             Title = $"{name} — WinTimeline";
             StatusText.Text = $"Saved {name}.";
             Log.Write(LogLevel.Info, LogCategory.App, "Document saved.", Fields(path, Document));
+            Remember(DocumentPath);
             return true;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or BundleException)

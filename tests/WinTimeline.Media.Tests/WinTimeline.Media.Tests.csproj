@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT68: probing media files through Media Foundation. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Media.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Media\WinTimeline.Media.csproj" />
+  </ItemGroup>
+
+</Project>

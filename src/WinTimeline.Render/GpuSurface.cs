@@ -446,7 +446,7 @@ public sealed record SurfacePoint(int X, int Y);
 
 /// <summary>One thing drawn on a surface that UI Automation sees, in device pixels within the surface.</summary>
 /// <param name="Name">Its name, e.g. a clip's.</param>
-/// <param name="AutomationId">A stable identity, e.g. "Clip:V2:14".</param>
+/// <param name="AutomationId">A stable identity, e.g. "V2-14".</param>
 /// <param name="Kind">What it is, e.g. "clip".</param>
 /// <param name="Status">What a case reads, e.g. where it plays.</param>
 /// <param name="X">Left.</param>

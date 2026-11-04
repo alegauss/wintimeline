@@ -130,6 +130,7 @@ public partial class MainWindow
             Document = recovered.Timeline;
             LoadTimelines(recovered.Timeline);
             _histories[recovered.Timeline] = History = recovered.History;
+            ShowWelcome();
             DocumentPath = candidate.SourcePath;
             WatchForAutosave();
             Title = $"{candidate.Name} — WinTimeline";

@@ -35,6 +35,7 @@ public partial class MainWindow : Window
         ShowRecovery(previous);
         BindPalette();
         BindDocumentCommands();
+        ShowWelcome();
     }
 
     /// <summary>What this run was started with.</summary>

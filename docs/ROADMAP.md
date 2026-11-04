@@ -82,7 +82,7 @@
 - 📋 **WT64** (deps: WT59, WT16 ✅) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
 - 📋 **WT67** (deps: WT5 ✅, WT59) **Preferences (cache locations, GPU choice, autosave, proxies, AI models, keymap) cannot be changed in the app** — Defaults never fit every machine, and editing JSON files by hand is not acceptable for this audience. → §WT67
-- 📋 **WT68** (deps: WT1 ✅) **Opening the app shows an empty window with no recent projects, templates or first steps** — The first minute decides whether someone keeps the app, and a welcome page with drag-a-file guidance makes it obvious. → §WT68
+- ⏳ **WT68** (deps: WT1 ✅, WT44) **Opening the app shows an empty window with no recent projects, templates or first steps** — Still needed: new timelines from presets (resolution, rate, colour space), sample timelines, thumbnails beside recent files, and the .otio association with its thumbnail handler. → §WT68
 - 📋 **WT69** (deps: WT1 ✅) **Errors, finished jobs and warnings appear as modal dialogs or not at all** — Modal dialogs interrupt editing, and silent failures cost more. → §WT69
 
 ## Block H — Editing: tools, trims and drag and drop
@@ -334,6 +334,16 @@
   labels move from the surface into WPF headers that theme and narrate natively, and
   clips draw thumbnail and waveform strips from Block E's atlases. A UI case reads a
   header by name and finds a thumbnailed clip.
+
+## Done when — WT68
+
+- **New timelines start from presets and samples are a click away** The welcome page
+  offers presets (1080p25, 2160p23.976 and others with their colour space) and opens
+  bundled sample timelines; a UI case creates a 2160p23.976 timeline and reads its rate
+  back.
+- **Recent files show thumbnails and Explorer opens .otio in the app** Each recent file
+  shows a frame from its timeline, and once Block N's installer associates .otio, .otioz
+  and .otiod, the jump list lists them and a double click in Explorer opens the app.
 
 ## Non-goals
 

@@ -49,6 +49,20 @@
       "shareable": true
     },
     {
+      // WT68: the surfaces show only once a document is open; an empty window shows the welcome page.
+      "name": "a window opened on the simple cut on the default GPU",
+      "arguments": ["--open", "tests/fixtures/otio/corpus/simple_cut.otio"],
+      "shareable": true
+    },
+    {
+      // WT68: an empty window with its own data folder, so its recent list starts empty.
+      "name": "an empty window to drop media on",
+      "files": ["tests/fixtures/media/bars-3s-25p.mp4"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
+    },
+    {
       "name": "a window asked to open a timeline that is not there",
       "arguments": ["--open", "tests/fixtures/otio/nowhere.otio", "--adapter", "warp"],
       "shareable": true
@@ -205,7 +219,7 @@
       "catches": "a surface whose swap chain never presents, is stuck at one pixel, or lands on another device than the status bar names",
       "filed": "WT4",
       "tags": ["smoke", "gpu", "surface"],
-      "fixture": "the window a default start opens",
+      "fixture": "a window opened on the simple cut on the default GPU",
       "steps": [
         {
           "locator": "Pane#ViewerSurface",
@@ -218,8 +232,8 @@
           "locator": "Pane#TimelineSurface",
           "act": "read",
           "reads": "status",
-          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, hardware$",
-          "named": "and so has the timeline"
+          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, hardware, draw .+$",
+          "named": "and so has the timeline, which says how long a frame took to draw"
         }
       ]
     },
@@ -229,7 +243,7 @@
       "catches": "a surface that needs a hardware GPU, which would leave a VM with a black window",
       "filed": "WT4",
       "tags": ["gpu", "surface"],
-      "fixture": "a window forced onto WARP",
+      "fixture": "a window opened on the simple cut",
       "steps": [
         {
           "locator": "Pane#ViewerSurface",
@@ -867,6 +881,43 @@
           "reads": "name",
           "expect": "Playhead at 01:00:04:00: Go to 01:00:04:00.",
           "named": "the playhead is at that timecode"
+        }
+      ]
+    },
+
+    {
+      "name": "a video dropped on the welcome page becomes a timeline of that clip",
+      "catches": "a first start that offers nothing to do, or a dropped video that does not become a clip",
+      "filed": "WT68",
+      "tags": ["welcome", "drop", "media"],
+      "fixture": "an empty window to drop media on",
+      "steps": [
+        {
+          "locator": "Text#NoRecent",
+          "act": "read",
+          "reads": "name",
+          "expect": "Nothing opened yet.",
+          "named": "the welcome page says nothing was opened before"
+        },
+        {
+          "locator": "Pane#WelcomePanel",
+          "act": "drop file",
+          "with": "{files}/bars-3s-25p.mp4",
+          "named": "a three-second video is dropped on it"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Created a timeline from 1 file: 2 clips on 2 tracks.",
+          "named": "a timeline is made of its picture and its sound"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 00:00:00:00 to 00:00:03:00",
+          "named": "and the clip is on V1 for its three seconds"
         }
       ]
     },

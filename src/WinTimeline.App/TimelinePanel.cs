@@ -360,7 +360,7 @@ public sealed class TimelinePanel : IDisposable
             int index = lane.Track.Children.ToList().IndexOf(item.Item);
             items.Add(new SurfaceItem(
                 item.Name,
-                string.Create(CultureInfo.InvariantCulture, $"{lane.Label}:{index}"),
+                string.Create(CultureInfo.InvariantCulture, $"{lane.Label}-{index}"),
                 kind,
                 $"{lane.Label}, {Timecode(item.Start)} to {Timecode(item.End)}",
                 x, y, w, h));

@@ -83,6 +83,31 @@
                 AutomationProperties.AutomationId="TimelineTabs" />
 
     <!-- The viewer and timeline surfaces (MainWindow.Surfaces.cs); the inspectors dock here later. -->
-    <Grid x:Name="DockArea" AutomationProperties.AutomationId="DockArea" />
+    <Grid>
+      <Grid x:Name="DockArea" AutomationProperties.AutomationId="DockArea" Visibility="Collapsed" />
+
+      <!-- WT68: shown while no document is open; the surfaces' child windows cannot be drawn over (airspace), so it takes their place. -->
+      <ScrollViewer x:Name="WelcomePanel" VerticalScrollBarVisibility="Auto" AllowDrop="True" DragOver="OnWelcomeDragOver" Drop="OnWelcomeDrop" AutomationProperties.AutomationId="WelcomePanel">
+        <StackPanel MaxWidth="760" Margin="32,28">
+          <TextBlock Text="WinTimeline" FontSize="28" FontWeight="SemiBold" />
+          <TextBlock Text="Open a timeline, or drop media to start one." Margin="0,4,0,20" Opacity="0.75" />
+          <Border x:Name="DropZone"
+                  MinHeight="140" Padding="24" CornerRadius="8" BorderThickness="2"
+                  BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                  Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                  AutomationProperties.AutomationId="DropZone" AutomationProperties.Name="Drop an .otio, an EDL or video and audio files here">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                       Text="Drop an .otio, an EDL, or video and audio files here" FontSize="16" />
+          </Border>
+          <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+            <Button Content="Open…" Command="Open" MinWidth="120" AutomationProperties.AutomationId="WelcomeOpen" />
+            <Button Content="New empty timeline" Margin="8,0,0,0" MinWidth="120" Click="OnNewTimeline" AutomationProperties.AutomationId="WelcomeNew" />
+          </StackPanel>
+          <TextBlock Text="Recent" FontSize="18" FontWeight="SemiBold" Margin="0,28,0,8" />
+          <TextBlock x:Name="NoRecent" Text="Nothing opened yet." Opacity="0.7" AutomationProperties.AutomationId="NoRecent" />
+          <ItemsControl x:Name="RecentList" AutomationProperties.AutomationId="RecentList" />
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
   </DockPanel>
 </Window>
