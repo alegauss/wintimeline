@@ -61,6 +61,9 @@ public sealed class GpuSurface : HwndHost
     /// </summary>
     public event EventHandler<SurfacePointer>? Pointer;
 
+    /// <summary>WT49: raised for a right click on the surface, where a context menu belongs, in device pixels.</summary>
+    public event EventHandler<SurfacePoint>? ContextRequested;
+
     /// <summary>WT152: raised when files are dropped on the surface from Explorer or another app.</summary>
     public event EventHandler<SurfaceDrop>? FilesDropped;
 
@@ -322,6 +325,13 @@ public sealed class GpuSurface : HwndHost
 
             Pointer?.Invoke(this, stroke);
             return Pointer is not null;
+        }
+
+        const uint RightUp = 0x0205;
+        if (msg == RightUp && ContextRequested is not null)
+        {
+            ContextRequested(this, new SurfacePoint((short)(lParam & 0xFFFF), (short)((lParam >> 16) & 0xFFFF)));
+            return true;
         }
 
         if (msg == SurfaceInput.DropFiles)

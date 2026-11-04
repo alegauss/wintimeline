@@ -5,6 +5,7 @@ using System.Windows.Media;
 using Vortice.DXGI;
 using Vortice.Mathematics;
 using WinTimeline.Engine.Timeline;
+using TimelineRuler = WinTimeline.Engine.Timeline.Ruler;
 using WinTimeline.Model;
 using WinTimeline.Model.Time;
 using WinTimeline.Render;
@@ -43,7 +44,7 @@ public sealed class TimelinePanel : IDisposable
     private static readonly Color4 Playhead = new(0.95f, 0.3f, 0.25f, 1f);
     private static readonly Color4 OverviewGround = new(0.06f, 0.06f, 0.07f, 1f);
     private static readonly Color4 ZoomBoxFill = new(1f, 1f, 1f, 0.12f);
-    private static readonly double[] TickSteps = [1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, 3600];
+    private static readonly Color4 InOutFill = new(0.3f, 0.55f, 0.95f, 0.45f);
 
     private readonly GpuSurface _surface;
     private readonly Canvas2D _canvas;
@@ -55,6 +56,8 @@ public sealed class TimelinePanel : IDisposable
     private TimelineViewport? _to;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
+    private double? _inPoint;
+    private double? _outPoint;
     private double _boxFrom;
     private double _boxTo;
     private double _playhead;
@@ -77,6 +80,23 @@ public sealed class TimelinePanel : IDisposable
 
     /// <summary>Raised when the playhead moves: a click, a seek, or a new timeline shown.</summary>
     public event EventHandler? PlayheadMoved;
+
+    /// <summary>WT49: what the ruler labels time in; changing it redraws.</summary>
+    public RulerUnit Unit
+    {
+        get;
+        set
+        {
+            field = value;
+            _surface.Invalidate();
+        }
+    }
+
+    /// <summary>WT49: the in point set by Shift-dragging the ruler, in seconds, or null.</summary>
+    public double? InPoint => _inPoint is { } a && _outPoint is { } b ? Math.Min(a, b) : null;
+
+    /// <summary>WT49: the out point, in seconds, or null.</summary>
+    public double? OutPoint => _inPoint is { } a && _outPoint is { } b ? Math.Max(a, b) : null;
 
     /// <summary>The viewport, or null before a timeline is shown on a sized surface.</summary>
     public TimelineViewport? View => _view;
@@ -282,7 +302,14 @@ public sealed class TimelinePanel : IDisposable
 
         if (pointer.Phase == PointerPhase.Down)
         {
-            _dragging = pointer.Y < Overview ? Drag.Overview : System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.Z) ? Drag.ZoomBox : Drag.Scrub;
+            _dragging = pointer.Y < Overview ? Drag.Overview
+                : pointer.Y < Ruler && pointer.Shift ? Drag.InOut
+                : System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.Z) ? Drag.ZoomBox
+                : Drag.Scrub;
+            if (_dragging == Drag.InOut)
+            {
+                _inPoint = _outPoint = Math.Max(0, view.Seconds(pointer.X - Header));
+            }
             _boxFrom = _boxTo = Math.Max(0, pointer.X - Header);
         }
 
@@ -304,6 +331,10 @@ public sealed class TimelinePanel : IDisposable
                     }
                 }
 
+                _surface.Invalidate();
+                break;
+            case Drag.InOut:
+                _outPoint = Math.Max(0, view.Seconds(pointer.X - Header));
                 _surface.Invalidate();
                 break;
             case Drag.Scrub when pointer.Phase == PointerPhase.Move && pointer.Pressed:
@@ -399,6 +430,7 @@ public sealed class TimelinePanel : IDisposable
         Scrub,
         Overview,
         ZoomBox,
+        InOut,
     }
 
     private void DrawLanes(TimelineViewport view, TimelineLayout layout, int width)
@@ -444,18 +476,31 @@ public sealed class TimelinePanel : IDisposable
     private void DrawRuler(TimelineViewport view, int width)
     {
         _canvas.Fill(0, (float)Overview, width, (float)(Ruler - Overview), RulerGround);
-        double step = TickSteps.FirstOrDefault(s => s * view.PixelsPerSecond >= 90 * Scale, TickSteps[^1]);
-        float textSize = (float)(10 * Scale);
-        for (double t = Math.Floor(view.Start / step) * step; t <= view.End; t += step)
+        if (_inPoint is { } inAt && _outPoint is { } outAt)
         {
-            float x = (float)(Header + view.X(t));
+            float from = (float)(Header + view.X(Math.Min(inAt, outAt))), to = (float)(Header + view.X(Math.Max(inAt, outAt)));
+            _canvas.Fill(Math.Max(from, (float)Header), (float)Overview, Math.Max(1, to - Math.Max(from, (float)Header)), (float)(Ruler - Overview), InOutFill);
+        }
+
+        // WT49: ticks on multiples of a step from frame 0, labelled in the chosen unit.
+        float textSize = (float)(10 * Scale);
+        double spacing = 90 * Scale;
+        double labelWidth = TimelineRuler.Step(view.PixelsPerSecond, Rate, spacing) / Rate * view.PixelsPerSecond;
+        RationalTime origin = _timeline?.GlobalStartTime ?? new RationalTime(0, Rate);
+        float band = (float)(Ruler - Overview);
+        foreach (RulerTick tick in TimelineRuler.Ticks(view, Rate, origin, Unit, spacing))
+        {
+            float x = (float)(Header + view.X(tick.Seconds));
             if (x < Header)
             {
                 continue;
             }
 
-            _canvas.Line(new Vector2(x, (float)(Overview + ((Ruler - Overview) * 0.55))), new Vector2(x, (float)Ruler), Tick, 1);
-            _canvas.Text(Timecode(t), x + 3, (float)(Overview + ((Ruler - Overview) * 0.05)), (float)(step * view.PixelsPerSecond) - 6, textSize, Tick);
+            _canvas.Line(new Vector2(x, (float)(Overview + (band * (tick.Major ? 0.55 : 0.8)))), new Vector2(x, (float)Ruler), Tick, 1);
+            if (tick.Major)
+            {
+                _canvas.Text(tick.Label, x + 3, (float)(Overview + (band * 0.05)), (float)labelWidth - 6, textSize, Tick);
+            }
         }
     }
 
@@ -490,7 +535,7 @@ public sealed class TimelinePanel : IDisposable
         }
 
         double[] sorted = [.. _frameTimes.Order()];
-        string span = _view is { } view ? ", " + UiText.ViewSpan(Timecode(view.Start), Timecode(view.End)) : string.Empty;
+        string span = (_view is { } view ? ", " + UiText.ViewSpan(Timecode(view.Start), Timecode(view.End)) : string.Empty) + ", " + UiText.RulerStatus(UiText.RulerUnitName(Unit));
         _surface.Status = UiText.DrawTimes(sorted[sorted.Length / 2], sorted[(int)(sorted.Length * 0.95)], sorted.Length) + span;
     }
 

@@ -35,6 +35,12 @@
       <MenuItem Header="{x:Static app:UiText.ViewMenu}" AutomationProperties.AutomationId="ViewMenu">
         <MenuItem Header="{x:Static app:UiText.PaletteMenu}" InputGestureText="{x:Static app:UiText.PaletteGesture}" Click="OnPalette" AutomationProperties.AutomationId="PaletteMenuItem" />
         <Separator />
+        <MenuItem Header="{x:Static app:UiText.RulerMenu}" AutomationProperties.AutomationId="RulerMenu">
+          <MenuItem x:Name="RulerTimecode" Header="{x:Static app:UiText.RulerTimecodeMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="Timecode" AutomationProperties.AutomationId="RulerTimecodeMenuItem" />
+          <MenuItem x:Name="RulerFrames" Header="{x:Static app:UiText.RulerFramesMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="Frames" AutomationProperties.AutomationId="RulerFramesMenuItem" />
+          <MenuItem x:Name="RulerFeet" Header="{x:Static app:UiText.RulerFeetMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="FeetFrames" AutomationProperties.AutomationId="RulerFeetMenuItem" />
+          <MenuItem x:Name="RulerSeconds" Header="{x:Static app:UiText.RulerSecondsMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="Seconds" AutomationProperties.AutomationId="RulerSecondsMenuItem" />
+        </MenuItem>
         <MenuItem Header="{x:Static app:UiText.ZoomInMenu}" InputGestureText="{x:Static app:UiText.ZoomInGesture}" Click="OnZoomIn" AutomationProperties.AutomationId="ZoomInMenuItem" />
         <MenuItem Header="{x:Static app:UiText.ZoomOutMenu}" InputGestureText="{x:Static app:UiText.ZoomOutGesture}" Click="OnZoomOut" AutomationProperties.AutomationId="ZoomOutMenuItem" />
         <MenuItem Header="{x:Static app:UiText.ZoomFitMenu}" InputGestureText="{x:Static app:UiText.ZoomFitGesture}" Click="OnZoomFit" AutomationProperties.AutomationId="ZoomFitMenuItem" />

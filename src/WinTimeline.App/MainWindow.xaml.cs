@@ -37,6 +37,7 @@ public partial class MainWindow : Window
         ShowRecovery(previous);
         BindPalette();
         BindZoom();
+        BindRuler();
         BindDocumentCommands();
         ShowWelcome();
     }

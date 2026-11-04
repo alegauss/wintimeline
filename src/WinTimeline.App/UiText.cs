@@ -168,6 +168,37 @@ public static class UiText
     /// <summary>View > Compare with another version.</summary>
     public const string CompareMenu = "_Compare with another version…";
 
+    /// <summary>WT49: View > Ruler.</summary>
+    public const string RulerMenu = "_Ruler";
+
+    /// <summary>WT49: the ruler in timecode.</summary>
+    public const string RulerTimecodeMenu = "_Timecode";
+
+    /// <summary>WT49: the ruler in frames.</summary>
+    public const string RulerFramesMenu = "_Frames";
+
+    /// <summary>WT49: the ruler in feet and frames.</summary>
+    public const string RulerFeetMenu = "F_eet+frames";
+
+    /// <summary>WT49: the ruler in seconds.</summary>
+    public const string RulerSecondsMenu = "_Seconds";
+
+    /// <summary>WT49: a ruler unit's name as the surface's status says it.</summary>
+    /// <param name="unit">The unit.</param>
+    /// <returns>e.g. "feet+frames".</returns>
+    public static string RulerUnitName(WinTimeline.Engine.Timeline.RulerUnit unit) => unit switch
+    {
+        WinTimeline.Engine.Timeline.RulerUnit.Frames => "frames",
+        WinTimeline.Engine.Timeline.RulerUnit.FeetFrames => "feet+frames",
+        WinTimeline.Engine.Timeline.RulerUnit.Seconds => "seconds",
+        _ => "timecode",
+    };
+
+    /// <summary>WT49: what the timeline surface's status adds about the ruler.</summary>
+    /// <param name="unit">The unit's name.</param>
+    /// <returns>e.g. "ruler frames".</returns>
+    public static string RulerStatus(string unit) => $"ruler {unit}";
+
     /// <summary>WT48: View > Zoom in.</summary>
     public const string ZoomInMenu = "Zoom _in";
 

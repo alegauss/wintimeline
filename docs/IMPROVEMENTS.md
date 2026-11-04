@@ -487,17 +487,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT49 Time ruler and display units
-
-The ruler draws ticks adapted to the zoom (hours to frames), labelled in the chosen
-unit: SMPTE timecode (drop-frame aware, using the timeline's global_start_time), frames,
-feet+frames (35mm 16 fpf), or seconds. Clicking or dragging the ruler scrubs the
-playhead; dragging with Shift sets in/out. The unit is a per-project setting with a
-quick toggle on the ruler's context menu.
-
-Done when the ruler labels at 23.976, 25, 29.97 DF and 59.94 DF match the reference
-library's timecode strings at every tick.
-
 ### §WT50 Track headers and track management
 
 Each track has a header (WPF) with name, kind icon, lock, mute (audio) / disable

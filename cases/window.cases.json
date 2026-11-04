@@ -1150,8 +1150,40 @@
           "locator": "Pane#TimelineSurface",
           "act": "read",
           "reads": "status",
-          "matches": "view 01:00:00:00 to 01:1\\d:\\d\\d:\\d\\d$",
+          "matches": "view 01:00:00:00 to 01:1\\d:\\d\\d:\\d\\d,",
           "named": "the view now spans the whole programme, seventy minutes and more"
+        }
+      ]
+    },
+
+    {
+      "name": "the ruler is switched to frames from the View menu",
+      "catches": "a ruler stuck in one unit, when assistants count frames and sound counts feet",
+      "filed": "WT49",
+      "tags": ["timeline", "ruler"],
+      "fixture": "a feature-length cut to zoom",
+      "steps": [
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#RulerMenu",
+          "act": "expand",
+          "named": "its Ruler submenu is opened"
+        },
+        {
+          "locator": "MenuItem#RulerFramesMenuItem",
+          "act": "invoke",
+          "named": "Frames is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": "ruler frames$",
+          "named": "the ruler now counts frames"
         }
       ]
     },

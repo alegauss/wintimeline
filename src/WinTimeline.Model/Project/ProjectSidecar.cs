@@ -14,7 +14,8 @@ public sealed record Bin(string Name, IReadOnlyList<string> Items);
 /// <summary>How the window was laid out over this project.</summary>
 /// <param name="ViewerShare">The viewer's share of the height it splits with the timeline, 0 to 1.</param>
 /// <param name="ActiveTimeline">The name of the timeline shown, or null for the first.</param>
-public sealed record WorkspaceLayout(double ViewerShare, string? ActiveTimeline)
+/// <param name="RulerUnit">WT49: what the ruler labels time in, e.g. "Frames", or null for timecode.</param>
+public sealed record WorkspaceLayout(double ViewerShare, string? ActiveTimeline, string? RulerUnit = null)
 {
     /// <summary>The layout a project opens with when it has none.</summary>
     public static WorkspaceLayout Default { get; } = new(0.6, null);
@@ -126,7 +127,7 @@ public static class ProjectSidecar
                     [.. (b["items"] as JsonArray ?? []).Select(i => i?.GetValue<string>() ?? string.Empty)]))],
                 Proxies = (root["proxies"] as JsonObject ?? []).ToDictionary(p => p.Key, p => p.Value?.GetValue<string>() ?? string.Empty, StringComparer.Ordinal),
                 Layout = root["layout"] is JsonObject layout
-                    ? new WorkspaceLayout(layout["viewer_share"]?.GetValue<double>() ?? WorkspaceLayout.Default.ViewerShare, layout["active_timeline"]?.GetValue<string>())
+                    ? new WorkspaceLayout(layout["viewer_share"]?.GetValue<double>() ?? WorkspaceLayout.Default.ViewerShare, layout["active_timeline"]?.GetValue<string>(), layout["ruler_unit"]?.GetValue<string>())
                     : null,
                 Analysis = LoadAnalysis(Path.Combine(folder, AnalysisFolder)),
                 Embeddings = LoadEmbeddings(Path.Combine(folder, AnalysisFolder)),
@@ -173,6 +174,7 @@ public static class ProjectSidecar
             {
                 ["viewer_share"] = Math.Round(layout.ViewerShare, 4),
                 ["active_timeline"] = layout.ActiveTimeline,
+                ["ruler_unit"] = layout.RulerUnit,
             };
         }
 

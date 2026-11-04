@@ -45,6 +45,7 @@ public partial class MainWindow
         }
 
         WorkspaceLayout layout = _project.Layout ?? WorkspaceLayout.Default;
+        SetRulerUnit(Enum.TryParse(layout.RulerUnit, out Engine.Timeline.RulerUnit unit) ? unit : Engine.Timeline.RulerUnit.Timecode);
         if (layout.ActiveTimeline is { } name && Timelines.FirstOrDefault(t => t.Name == name) is { } shown)
         {
             Activate(shown);
@@ -92,6 +93,7 @@ public partial class MainWindow
         }
 
         string? active = ActiveTimeline is { } shown && Timelines.Count > 1 && !ReferenceEquals(shown, Timelines[0]) ? shown.Name : null;
-        return new WorkspaceLayout(share, active);
+        string? unit = TimelinePanel.Unit == Engine.Timeline.RulerUnit.Timecode ? null : TimelinePanel.Unit.ToString();
+        return new WorkspaceLayout(share, active, unit);
     }
 }
