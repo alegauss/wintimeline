@@ -53,6 +53,7 @@
 - ✅ **WT50** **Tracks cannot be added, removed, renamed, resized, reordered, locked, muted, soloed or hidden** — Track headers add, delete, rename, lock, mute, solo and hide tracks undoably, a lock guards a track's items, and heights, colours, drag order and targets moved to WT169.
 - ✅ **WT51** **No playhead marks the current frame, and the viewer is not tied to a position in the timeline** — A shared PlaybackPosition drives the playhead, status bar and viewer; arrows, Up/Down, Home/End and scrubbing move it, with page, smooth or off follow and an overlay-only redraw.
 - ✅ **WT52** **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Click, Ctrl and Shift clicks, the marquee, A, Shift+A, Ctrl+A and Ctrl+Shift+A select clips, read through UI Automation; edit points, linking and Select by went to WT170.
+- ✅ **WT53** **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Ruler scrubs and in/out drags snap within 8 px to cuts, markers, the playhead and in/out, with a guide and frame delta; S or View > Snapping toggles it, Alt inverts one drag.
 
 ## Block G — Workspace, panels and viewers
 

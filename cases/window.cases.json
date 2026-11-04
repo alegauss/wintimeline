@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT53: the same cut again, its first cut at two seconds; not lent, since its case moves the playhead and turns snapping off.
+      "name": "a window on a cut to snap to",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT52: the same cut, V1-0 to V1-5 cut at 0, 2, 4, 5, 6.5, 7.5 and 8.5 seconds over A1-0 from 0 to 5; not lent, since its case selects.
       "name": "a window on a cut to select in",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1274,6 +1280,64 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "a scrub released a few pixels short of a cut lands exactly on it, and with S it lands where it was let go",
+      "catches": "a playhead or a drag that stops a frame off a cut, which is the one-frame gap or flash nobody sees until export",
+      "filed": "WT53",
+      "tags": ["snapping", "playhead", "surface"],
+      "fixture": "a window on a cut to snap to",
+      "steps": [
+        {
+          // The whole 8.5 s cut fits the surface's width, so the cut at 2 s is 23.5% across; the
+          // ruler is the band 12 to 34 pixels down, under the overview strip.
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "5%,20",
+          "to": "23.3%,20",
+          "named": "the playhead is scrubbed along the ruler and let go just short of the cut at two seconds"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "01:00:02:00",
+          "named": "it snapped onto the cut, to the frame"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "S",
+          "named": "S turns snapping off"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "5%,20",
+          "to": "23.3%,20",
+          "named": "the same scrub is made again"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "matches": "^01:00:01:(1\\d|2[0-3])$",
+          "named": "and the playhead stays where it was let go, a few frames short of the cut"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#SnappingMenuItem",
+          "act": "read",
+          "reads": "toggle",
+          "expect": "Off",
+          "named": "and its Snapping item says it is off"
         }
       ]
     },

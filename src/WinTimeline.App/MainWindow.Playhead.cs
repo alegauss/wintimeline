@@ -42,6 +42,7 @@ public partial class MainWindow
             (Key.Left or Key.Right, ModifierKeys.None or ModifierKeys.Shift) => () => TimelinePanel.Step((e.Key == Key.Right ? 1 : -1) * (shift ? 10 : 1)),
             (Key.Up or Key.Down, ModifierKeys.None) => () => TimelinePanel.JumpToEdit(e.Key == Key.Down),
             (Key.Home or Key.End, ModifierKeys.None) => () => TimelinePanel.GoToLimit(e.Key == Key.End),
+            (Key.S, ModifierKeys.None) => () => SetSnapping(!TimelinePanel.Snapping),
             _ => null,
         };
         if (move is not null)
@@ -57,6 +58,17 @@ public partial class MainWindow
         Viewer.ItemsChanged();
         Viewer.Invalidate();
     }
+
+    /// <summary>WT53: turns snapping on or off and ticks the menu item.</summary>
+    /// <param name="on">Whether it snaps.</param>
+    public void SetSnapping(bool on)
+    {
+        TimelinePanel.Snapping = on;
+        SnappingMenuItem.IsChecked = on;
+    }
+
+    // The item is checkable, so a click has already flipped IsChecked: that is the new state.
+    private void OnSnapping(object sender, RoutedEventArgs e) => SetSnapping(SnappingMenuItem.IsChecked);
 
     private void OnFollow(object sender, RoutedEventArgs e)
     {

@@ -52,7 +52,6 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-- 📋 **WT53** (deps: WT52 ✅) **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Without snapping every edit risks one-frame gaps and flashes that are invisible until export. → §WT53
 - 📋 **WT54** (deps: WT47 ✅, WT16 ✅) **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — OTIO markers carry review notes and AI findings, and they are how this app talks back to the rest of a pipeline. → §WT54
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - 📋 **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
@@ -77,7 +76,7 @@
 
 ## Block H — Editing: tools, trims and drag and drop
 
-- 📋 **WT70** (deps: WT53, WT16 ✅) **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Moving clips is the most frequent edit, and its overwrite versus insert behaviour decides whether the tool feels safe. → §WT70
+- 📋 **WT70** (deps: WT53 ✅, WT16 ✅) **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Moving clips is the most frequent edit, and its overwrite versus insert behaviour decides whether the tool feels safe. → §WT70
 - 📋 **WT71** (deps: WT52 ✅, WT16 ✅) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
 - 📋 **WT72** (deps: WT70, WT170) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
 - 📋 **WT73** (deps: WT70, WT24) **Media cannot be dragged from the bin or from Windows Explorer onto the timeline or the viewer** — Drag and drop is how people expect to start an edit, and Explorer drops make the first minute of use obvious. → §WT73

@@ -48,6 +48,7 @@ public sealed class TimelinePanel : IDisposable
     private static readonly Color4 ZoomBoxFill = new(1f, 1f, 1f, 0.12f);
     private static readonly Color4 InOutFill = new(0.3f, 0.55f, 0.95f, 0.45f);
     private static readonly Color4 SelectedEdge = new(1f, 0.82f, 0.25f, 1f);
+    private static readonly Color4 SnapGuide = new(0.35f, 0.9f, 1f, 1f);
 
     private readonly GpuSurface _surface;
     private readonly Canvas2D _canvas;
@@ -58,6 +59,8 @@ public sealed class TimelinePanel : IDisposable
     private TimelineViewport? _from;
     private TimelineViewport? _to;
     private TimelineViewport? _published;
+    private SnapTargets? _targets;
+    private Snapped? _guide;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
     private double? _inPoint;
@@ -203,6 +206,50 @@ public sealed class TimelinePanel : IDisposable
         }
     }
 
+    /// <summary>WT53: whether drags snap to cuts, markers, the playhead and in/out; S toggles it, and Alt held inverts it for one drag.</summary>
+    public bool Snapping
+    {
+        get;
+        set
+        {
+            field = value;
+            _surface.Invalidate();
+        }
+    } = true;
+
+    /// <summary>
+    /// WT53: the time under a point, snapped to the nearest cut, marker, playhead or in/out within
+    /// eight pixels when snapping is on (Alt inverts it). What is being dragged is not its own
+    /// target. Leaves the guide for the overlay to draw.
+    /// </summary>
+    private double SnapAt(TimelineViewport view, double x, SnapKind dragging)
+    {
+        double seconds = Math.Max(0, view.Seconds(x - Header));
+        bool alt = (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Alt) != 0;
+        if (Snapping == alt || _layout is not { } layout)
+        {
+            _guide = null;
+            return seconds;
+        }
+
+        _targets ??= SnapTargets.Of(layout);
+        List<SnapTarget> moving = [];
+        if (dragging != SnapKind.Playhead)
+        {
+            moving.Add(new SnapTarget(Position.Seconds, SnapKind.Playhead));
+        }
+
+        if (dragging != SnapKind.InOut && InPoint is { } a && OutPoint is { } b)
+        {
+            moving.Add(new SnapTarget(a, SnapKind.InOut));
+            moving.Add(new SnapTarget(b, SnapKind.InOut));
+        }
+
+        Snapped snapped = _targets.Snap(seconds, view.PixelsPerSecond, Rate, moving);
+        _guide = snapped.Target is null ? null : snapped;
+        return snapped.Seconds;
+    }
+
     /// <summary>WT51: steps the playhead by frames, back when negative.</summary>
     /// <param name="frames">How many.</param>
     public void Step(long frames) => Position.Step(frames);
@@ -248,6 +295,7 @@ public sealed class TimelinePanel : IDisposable
         _layout = timeline is null ? null : TimelineLayout.Build(timeline);
         _view = null;
         Selection.Clear();
+        _targets = null;
         Position.Reset(Rate, _layout?.Duration ?? 0);
         if (timeline is not null)
         {
@@ -299,6 +347,7 @@ public sealed class TimelinePanel : IDisposable
             _layout = TimelineLayout.Build(_timeline);
             Position.Lengthen(_layout.Duration);
             Selection.Keep(_layout);
+            _targets = null;
         }
 
         Changed();
@@ -382,6 +431,16 @@ public sealed class TimelinePanel : IDisposable
         using IDXGISurface back = target.BackBuffer();
         _canvas.Begin(back);
         _canvas.Line(new Vector2(x, (float)Overview), new Vector2(x, target.Height), Playhead, (float)Math.Max(1, Scale));
+
+        // WT53: the target a drag snapped to, and how many frames the snap moved it.
+        if (_guide is { Target: { } snapped } guide)
+        {
+            float at = (float)(Header + view.X(snapped.Seconds));
+            _canvas.Line(new Vector2(at, (float)Overview), new Vector2(at, target.Height), SnapGuide, (float)Math.Max(1, Scale));
+            float size = (float)(10 * Scale);
+            _canvas.Text(UiText.SnapDelta(guide.Frames), at + 4, (float)(Ruler + (2 * Scale)), (float)(80 * Scale), size, SnapGuide);
+        }
+
         if (_dragging == Drag.ZoomBox)
         {
             float from = (float)(Header + Math.Min(_boxFrom, _boxTo)), span = (float)Math.Abs(_boxTo - _boxFrom);
@@ -415,7 +474,7 @@ public sealed class TimelinePanel : IDisposable
             _dragging = Pressed(view, layout, pointer);
             if (_dragging == Drag.InOut)
             {
-                _inPoint = _outPoint = Math.Max(0, view.Seconds(pointer.X - Header));
+                _inPoint = _outPoint = SnapAt(view, pointer.X, SnapKind.InOut);
             }
 
             _boxFrom = _boxTo = Math.Max(0, pointer.X - Header);
@@ -462,7 +521,7 @@ public sealed class TimelinePanel : IDisposable
                 _surface.InvalidateOverlay();
                 break;
             case Drag.InOut:
-                _outPoint = Math.Max(0, view.Seconds(pointer.X - Header));
+                _outPoint = SnapAt(view, pointer.X, SnapKind.InOut);
                 _surface.Invalidate();
                 break;
             case Drag.Scrub when pointer.Phase == PointerPhase.Move && pointer.Pressed:
@@ -474,6 +533,11 @@ public sealed class TimelinePanel : IDisposable
         if (pointer.Phase == PointerPhase.Up)
         {
             _dragging = Drag.None;
+            if (_guide is not null)
+            {
+                _guide = null;
+                _surface.InvalidateOverlay();
+            }
         }
     }
 
@@ -742,7 +806,7 @@ public sealed class TimelinePanel : IDisposable
         _scrubbing = true;
         try
         {
-            Position.GoTo(Math.Max(0, view.Seconds(point.X - Header)));
+            Position.GoTo(SnapAt(view, point.X, SnapKind.Playhead));
         }
         finally
         {

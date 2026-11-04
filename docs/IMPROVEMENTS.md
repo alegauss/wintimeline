@@ -477,17 +477,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT53 Snapping and magnetic guides
-
-Snapping candidates are the edit points of all tracks, markers, the playhead and in/out;
-the nearest candidate within 8 px wins and a vertical guide line plus a tooltip with the
-delta in frames is drawn. S toggles snapping; holding Alt inverts it for one drag.
-Candidates are kept in a sorted array updated on change so lookup is O(log n) per mouse
-move.
-
-Done when a drag released near a cut lands exactly on it, and a one-frame gap test finds
-none in the snapping fixtures.
-
 ### §WT54 Markers on timeline, tracks and clips
 
 OTIO markers live on the timeline's stack, on tracks and on clips; all three are drawn

@@ -29,6 +29,7 @@ public static class CommandTable
         (Command("view.ruler-frames", UiText.RulerFramesMenu, UiText.ViewMenu, ["ruler frames", "frame count"], null), "RulerFramesMenuItem"),
         (Command("view.ruler-feet", UiText.RulerFeetMenu, UiText.ViewMenu, ["ruler feet", "35mm", "film"], null), "RulerFeetMenuItem"),
         (Command("view.ruler-seconds", UiText.RulerSecondsMenu, UiText.ViewMenu, ["ruler seconds"], null), "RulerSecondsMenuItem"),
+        (Command("view.snapping", UiText.SnappingMenu, UiText.ViewMenu, ["snap", "magnetic", "guides"], UiText.SnappingGesture), "SnappingMenuItem"),
         (Command("view.follow-page", UiText.FollowPageMenu, UiText.ViewMenu, ["follow playhead page", "page scroll"], null), "FollowPageMenuItem"),
         (Command("view.follow-smooth", UiText.FollowSmoothMenu, UiText.ViewMenu, ["follow playhead smooth", "centre playhead", "center playhead"], null), "FollowSmoothMenuItem"),
         (Command("view.follow-off", UiText.FollowOffMenu, UiText.ViewMenu, ["follow playhead off", "no follow"], null), "FollowOffMenuItem"),

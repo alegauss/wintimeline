@@ -409,6 +409,17 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT53: snapping on or off, from the View menu or S.</summary>
+    public const string SnappingMenu = "S_napping";
+
+    /// <summary>WT53: the gesture shown beside Snapping.</summary>
+    public const string SnappingGesture = "S";
+
+    /// <summary>WT53: the label beside a snap guide: how far the snap moved the drag, e.g. "+2f".</summary>
+    /// <param name="frames">The frames.</param>
+    /// <returns>The label.</returns>
+    public static string SnapDelta(long frames) => string.Create(CultureInfo.InvariantCulture, $"{(frames > 0 ? "+" : string.Empty)}{frames}f");
+
     /// <summary>WT51: the View menu's playhead follow submenu.</summary>
     public const string FollowMenu = "_Follow playhead";
 
