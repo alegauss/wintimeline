@@ -15,7 +15,7 @@
     <KeyBinding Command="SaveAs" Gesture="Ctrl+Shift+S" />
   </Window.InputBindings>
   <DockPanel>
-    <Menu DockPanel.Dock="Top" AutomationProperties.AutomationId="MainMenu">
+    <Menu x:Name="MainMenu" DockPanel.Dock="Top" AutomationProperties.AutomationId="MainMenu">
       <MenuItem Header="_File" AutomationProperties.AutomationId="FileMenu">
         <MenuItem Header="_Open…" Command="Open" AutomationProperties.AutomationId="OpenMenuItem" />
         <MenuItem Header="_Save" Command="Save" AutomationProperties.AutomationId="SaveMenuItem" />
@@ -32,6 +32,8 @@
         <MenuItem Header="_Duplicate timeline as version" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
       </MenuItem>
       <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu">
+        <MenuItem Header="Command _palette…" InputGestureText="Ctrl+Shift+P" Click="OnPalette" AutomationProperties.AutomationId="PaletteMenuItem" />
+        <Separator />
         <MenuItem Header="_Problems…" Click="OnProblems" AutomationProperties.AutomationId="ProblemsMenuItem" />
         <MenuItem Header="_Compare with another version…" Click="OnCompare" AutomationProperties.AutomationId="CompareMenuItem" />
       </MenuItem>

@@ -43,6 +43,8 @@
 
 ## Block G — Workspace, panels and viewers
 
+- ✅ **WT66** **Actions can only be found in menus, so less common commands are hard to discover** — Ctrl+Shift+P opens a palette ranking every command fuzzily with synonyms and recent ones first, narrows to clips or markers by prefix, and jumps to typed timecodes; a test ties it to every menu item.
+
 ## Block H — Editing: tools, trims and drag and drop
 
 ## Block I — Audio: playback, mixing and meters

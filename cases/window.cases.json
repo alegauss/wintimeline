@@ -798,6 +798,80 @@
     },
 
     {
+      "name": "the command palette finds a command from a few letters and jumps to a typed timecode",
+      "catches": "a command that can only be found in its menu, or a palette whose choice does nothing",
+      "filed": "WT66",
+      "tags": ["palette", "keyboard", "dialog"],
+      "fixture": "a window on two versions of a cut",
+      "steps": [
+        {
+          "locator": "Window#MainWindow",
+          "act": "press",
+          "with": "Ctrl+Shift+P",
+          "named": "Ctrl+Shift+P is pressed"
+        },
+        {
+          "locator": "Edit#PaletteQuery",
+          "act": "type",
+          "with": "compar",
+          "named": "a few letters of Compare are typed"
+        },
+        {
+          "locator": "List#PaletteResults > ListItem[order=top]",
+          "act": "read",
+          "reads": "name",
+          "expect": "Compare with another version… — View",
+          "named": "the palette offers Compare first"
+        },
+        {
+          "locator": "Button#PaletteRun",
+          "act": "invoke",
+          "named": "it is run"
+        },
+        {
+          "locator": "Text#CompareSummary",
+          "act": "read",
+          "reads": "name",
+          "expect": "5 changes; 3 clips unchanged.",
+          "named": "and the comparison opens, as the menu item opens it"
+        },
+        {
+          "locator": "Button#CompareClose",
+          "act": "invoke",
+          "named": "the comparison is closed"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#PaletteMenuItem",
+          "act": "invoke",
+          "named": "the palette is opened from its menu item"
+        },
+        {
+          "locator": "Edit#PaletteQuery",
+          "act": "type",
+          "with": "01:00:04:00",
+          "named": "a timecode is typed"
+        },
+        {
+          "locator": "Button#PaletteRun",
+          "act": "invoke",
+          "named": "it is run"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Playhead at 01:00:04:00: Go to 01:00:04:00.",
+          "named": "the playhead is at that timecode"
+        }
+      ]
+    },
+
+    {
       "name": "the second version of a cut is compared with the first and lists exactly its edits",
       "catches": "a comparison that misses an edit, reports a ripple as a move, or cannot be reached from the window",
       "filed": "WT21",

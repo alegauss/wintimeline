@@ -66,6 +66,53 @@ public sealed class TimelinePanel : IDisposable
     /// <summary>The viewport, or null before a timeline is shown on a sized surface.</summary>
     public TimelineViewport? View => _view;
 
+    /// <summary>The shown timeline's layout, or null.</summary>
+    public TimelineLayout? Layout => _layout;
+
+    /// <summary>Where the playhead is, in seconds from the timeline's start.</summary>
+    public double PlayheadSeconds => _playhead;
+
+    /// <summary>A time on the shown timeline as timecode.</summary>
+    /// <param name="seconds">Seconds from its start.</param>
+    /// <returns>The timecode.</returns>
+    public string TimecodeAt(double seconds) => Timecode(seconds);
+
+    /// <summary>A typed timecode as seconds on the shown timeline, or null when it is not one.</summary>
+    /// <param name="text">e.g. "01:00:04:12".</param>
+    /// <returns>The seconds, or null.</returns>
+    public double? ParseTimecode(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        if (_timeline is null || text.Count(c => c is ':' or ';') != 3 || !text.All(c => char.IsDigit(c) || c is ':' or ';'))
+        {
+            return null;
+        }
+
+        RationalTime origin = _timeline.GlobalStartTime ?? new RationalTime(0, 24);
+        double rate = origin.Rate > 0 ? origin.Rate : 24;
+        try
+        {
+            return (RationalTime.FromTimecode(text, rate) - origin.RescaledTo(rate)).ValueRescaledTo(1);
+        }
+        catch (TimecodeException)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>Moves the playhead, scrolling the view so it shows.</summary>
+    /// <param name="seconds">Where, in seconds from the timeline's start.</param>
+    public void Seek(double seconds)
+    {
+        _playhead = Math.Max(0, seconds);
+        if (_view is { } view && _layout is { } layout && (_playhead < view.Start || _playhead > view.End))
+        {
+            _view = view.ScrollBy(view.X(_playhead) - (view.Width / 3), 0, layout.Duration, layout.Lanes.Count);
+        }
+
+        Changed();
+    }
+
     /// <summary>Shows a timeline, or nothing.</summary>
     /// <param name="timeline">The timeline.</param>
     public void Show(ModelTimeline? timeline)

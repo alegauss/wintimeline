@@ -1,0 +1,23 @@
+<!-- WT66: the command palette, Ctrl+Shift+P: search commands, clips, markers and timecodes. -->
+<Window x:Class="WinTimeline.App.Palette.PaletteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Command palette"
+        AutomationProperties.AutomationId="PaletteWindow"
+        ThemeMode="System"
+        Width="640" Height="420" MinWidth="400" MinHeight="240"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize">
+  <DockPanel Margin="12">
+    <TextBox x:Name="PaletteQuery" DockPanel.Dock="Top" TextChanged="OnTyped" PreviewKeyDown="OnQueryKey"
+             AutomationProperties.AutomationId="PaletteQuery" AutomationProperties.Name="Search commands, @clips, #markers, or a timecode" />
+    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+        <Button x:Name="PaletteRun" Content="Run" MinWidth="88" IsDefault="True" Click="OnRun" AutomationProperties.AutomationId="PaletteRun" />
+        <Button Content="Close" MinWidth="88" Margin="8,0,0,0" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="PaletteClose" />
+      </StackPanel>
+      <TextBlock x:Name="PaletteHint" VerticalAlignment="Center" TextWrapping="Wrap" Opacity="0.7"
+                 Text="&gt; commands   @ clips   # markers   ? ask" AutomationProperties.AutomationId="PaletteHint" />
+    </DockPanel>
+    <ListBox x:Name="PaletteResults" Margin="0,10,0,0" MouseDoubleClick="OnRun" AutomationProperties.AutomationId="PaletteResults" />
+  </DockPanel>
+</Window>

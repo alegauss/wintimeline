@@ -834,16 +834,6 @@ with thumbnails; import from CSV and from Frame.io-style comment exports.
 Done when an imported CSV of notes appears as markers at the right frames and exports
 back identically.
 
-### §WT66 Command palette
-
-Ctrl+Shift+P opens a palette searching all registered commands by name and synonyms,
-showing shortcuts and recent commands first. Typing a timecode jumps; typing a clip name
-selects it; prefix `>` limits to commands, `@` to clips, `#` to markers, `?` sends the
-text to the AI assistant (Block L). Fuzzy matching ranks results.
-
-Done when every registered command is reachable from the palette, verified by a test
-enumerating the registry.
-
 ### §WT67 Preferences window
 
 A preferences window with searchable sections: General, Appearance (Fluent
