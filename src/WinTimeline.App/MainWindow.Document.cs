@@ -95,7 +95,8 @@ public partial class MainWindow
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
             StartJournal(name);
             Title = $"{name} — WinTimeline";
-            StatusText.Text = OpenedText(name, document) + MissingText(document);
+            StatusText.Text = OpenedText(name, document) + MissingText(document)
+                + (document is Timeline opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty);
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
             return true;
         }
@@ -184,6 +185,17 @@ public partial class MainWindow
         }
 
         new RelinkWindow(timeline, History, DocumentPath is { } p ? Path.GetDirectoryName(p) : null) { Owner = this }.ShowDialog();
+    }
+
+    private void OnProblems(object sender, RoutedEventArgs e)
+    {
+        if (Document is not Timeline timeline)
+        {
+            StatusText.Text = "Open a timeline to check it for problems.";
+            return;
+        }
+
+        new ProblemsWindow(timeline, History) { Owner = this }.ShowDialog();
     }
 
     private void BindDocumentCommands()

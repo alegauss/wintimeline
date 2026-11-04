@@ -1,0 +1,30 @@
+{
+ "clean": [],
+ "long-transition": [
+  "transition-too-long@0/1"
+ ],
+ "orphan-transition": [
+  "transition-without-neighbour@0/0"
+ ],
+ "zero-duration": [
+  "non-positive-duration@0/0",
+  "non-positive-duration@0/1"
+ ],
+ "outside-media": [
+  "source-outside-media@0/0"
+ ],
+ "rate-mismatch": [
+  "rate-mismatch@0/1"
+ ],
+ "no-range": [
+  "range-uncomputable@0/0"
+ ],
+ "duplicate-markers": [
+  "duplicate-marker-name@0/0"
+ ],
+ "deep-nesting": [
+  "nesting-too-deep@0/0/0/0/0/0/0/0/0",
+  "nesting-too-deep@0/0/0/0/0/0/0/0/0/0",
+  "nesting-too-deep@0/0/0/0/0/0/0/0/0/0/0"
+ ]
+}

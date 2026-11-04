@@ -29,7 +29,9 @@
         <MenuItem Header="_Undo" Command="Undo" AutomationProperties.AutomationId="UndoMenuItem" />
         <MenuItem Header="_Redo" Command="Redo" AutomationProperties.AutomationId="RedoMenuItem" />
       </MenuItem>
-      <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu" />
+      <MenuItem Header="_View" AutomationProperties.AutomationId="ViewMenu">
+        <MenuItem Header="_Problems…" Click="OnProblems" AutomationProperties.AutomationId="ProblemsMenuItem" />
+      </MenuItem>
       <MenuItem Header="_Help" AutomationProperties.AutomationId="HelpMenu">
         <MenuItem Header="Create _diagnostics bundle…" Click="OnDiagnostics" AutomationProperties.AutomationId="DiagnosticsMenuItem" />
       </MenuItem>

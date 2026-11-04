@@ -24,6 +24,7 @@
 - ✅ **WT16** **No edit can be undone, and there is no single place where a change to the document is described** — Every edit runs as a command through one history with transactions, drag coalescing and a byte budget; 10,000 random sequences undo and redo to the byte, and replay from JSON.
 - ✅ **WT17** **A crash or power cut loses every edit since the last manual save** — A flushed journal of every command, undo and transaction rebuilds a crashed session up to its last committed command, undo intact, offered at start; an idle autosave backs it.
 - ✅ **WT18** **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — Missing media is named on open, and File > Relink media relinks every clip one located file implies, by folder substitution or by name, as one undoable step.
+- ✅ **WT19** **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — A validator reports bad transitions, empty items, out-of-media ranges, rate mismatches, deep nesting and duplicate markers on open; View > Problems fixes what it can.
 
 ## Block C — Media probing and GPU decoding
 

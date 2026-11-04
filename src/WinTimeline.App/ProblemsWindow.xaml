@@ -1,0 +1,21 @@
+<!-- WT19: what the validator found in the open timeline, and the fixes it knows. -->
+<Window x:Class="WinTimeline.App.ProblemsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Problems"
+        AutomationProperties.AutomationId="ProblemsWindow"
+        ThemeMode="System"
+        Width="720" Height="420" MinWidth="480" MinHeight="300"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <DockPanel Margin="16">
+    <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+        <Button x:Name="FixButton" Content="Fix" MinWidth="96" Click="OnFix" AutomationProperties.AutomationId="FixButton" />
+        <Button x:Name="FixAllButton" Content="Fix all" MinWidth="96" Margin="8,0,0,0" Click="OnFixAll" AutomationProperties.AutomationId="FixAllButton" />
+        <Button Content="Close" MinWidth="96" Margin="8,0,0,0" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="ProblemsClose" />
+      </StackPanel>
+      <TextBlock x:Name="ProblemsStatus" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="ProblemsStatus" />
+    </DockPanel>
+    <ListBox x:Name="ProblemList" SelectionChanged="OnSelection" AutomationProperties.AutomationId="ProblemList" />
+  </DockPanel>
+</Window>

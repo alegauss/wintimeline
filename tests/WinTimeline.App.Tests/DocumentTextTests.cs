@@ -57,6 +57,21 @@ public sealed class DocumentTextTests
     }
 
     [Fact]
+    public void TheProblemsPanelSaysHowManyAndWhatIsLeft()
+    {
+        // WT19
+        Assert.Equal(string.Empty, ProblemsWindow.CountText(0));
+        Assert.Equal(" 1 problem: View > Problems.", ProblemsWindow.CountText(1));
+        Assert.Equal("Fixed 1 problem. Nothing else is wrong.", ProblemsWindow.FixedText(1, 0));
+        Assert.Equal("Fixed 2 problems. 1 needs a person.", ProblemsWindow.FixedText(2, 1));
+
+        Timeline broken = Assert.IsType<Timeline>(OtioReader.ReadFile(Path.Combine(Repository.Root, "tests", "fixtures", "broken", "zero-duration.otio")));
+        Assert.Equal(
+            "Error at 0/0: Clip \"zero\" lasts 0 frames, so it shows nothing.",
+            ProblemsWindow.Line(broken, ProblemsWindow.Sorted(broken)[0]));
+    }
+
+    [Fact]
     public void SomethingElseSaysWhatItIs()
     {
         ModelObject collection = OtioReader.ReadString("""{ "OTIO_SCHEMA": "SerializableCollection.1", "children": [] }""");

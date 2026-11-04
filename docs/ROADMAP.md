@@ -14,7 +14,6 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT19** (deps: WT12 ✅) **A malformed timeline (overlapping transitions, negative durations, rate mismatches) opens silently and misbehaves later** — Files from other tools are often subtly broken, and reporting it on open beats an exporter crash an hour later. → §WT19
 - 📋 **WT20** (deps: WT13 ✅) **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — Editorial hand-offs often carry several reels or versions in one file, and comparing versions side by side is a core review task. → §WT20
 - 📋 **WT21** (deps: WT20) **Two versions of a cut cannot be compared, so what changed between v1 and v2 must be found by eye** — Editorial review is mostly asking what changed, and OTIO's structure makes an exact answer possible. → §WT21
 - 📋 **WT22** (deps: WT13 ✅) **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — The .otio must stay clean for interchange, while the editor needs per-project state that survives reopening. → §WT22
@@ -155,7 +154,7 @@
 - 📋 **WT123** (deps: WT99, WT40) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
 - 💭 **WT124** (deps: WT92, WT99) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
 - 📋 **WT125** (deps: WT112, WT92) **Faces and licence plates cannot be blurred automatically for privacy** — News, documentary and corporate videos must hide bystanders, and tracking them by hand takes hours. → §WT125
-- 📋 **WT126** (deps: WT111, WT19) **Flash frames, black frames, frozen frames, out-of-focus shots and jump cuts are found only by watching** — A technical QC pass before delivery catches embarrassing errors that a tired editor misses. → §WT126
+- 📋 **WT126** (deps: WT111, WT19 ✅) **Flash frames, black frames, frozen frames, out-of-focus shots and jump cuts are found only by watching** — A technical QC pass before delivery catches embarrassing errors that a tired editor misses. → §WT126
 - 📋 **WT127** (deps: WT114, WT21) **Chapters, a description and a summary of a cut, or of what changed between versions, must be written by hand** — Publishing needs chapters and descriptions, and review needs a readable change summary. → §WT127
 - 💭 **WT128** (deps: WT93, WT112) **Shots from different cameras cannot be matched in colour automatically** — Multicam and mixed-camera edits need consistent colour, and a first automatic match saves most of the work. → §WT128
 - 💭 **WT129** (deps: WT81, WT107) **Multicam podcasts must be cut angle by angle even though the speaker is known at every moment** — Speaker diarisation can produce a watchable first cut of a multicam conversation automatically. → §WT129

@@ -169,17 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT19 Document validation and a problems panel
-
-A validator walks the model and reports: transitions longer than their neighbours, items
-with negative or zero duration, source ranges outside the media's available range, rate
-mismatches between clip and timeline, nested stacks deeper than the renderer supports,
-duplicate marker names. Each problem has a severity, a location (jump to item) and,
-where possible, a one-click fix that is an ordinary undoable command.
-
-Done when every deliberately broken file in a fixtures folder produces its expected
-problem list.
-
 ### §WT20 Several timelines and collections per window
 
 A document holds a `SerializableCollection` tree; each timeline opens in its own tab of

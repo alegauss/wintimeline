@@ -84,6 +84,12 @@
       "shareable": false
     },
     {
+      // WT19: a transition longer than the clips it overlaps; not lent, since its case fixes it.
+      "name": "a window on a timeline with a transition too long",
+      "arguments": ["--open", "tests/fixtures/broken/long-transition.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
@@ -574,6 +580,57 @@
           "locator": "Button#RelinkClose",
           "act": "invoke",
           "named": "the dialog is closed"
+        }
+      ]
+    },
+
+    {
+      "name": "a broken timeline says so on open and its fixable problem is fixed from the Problems panel",
+      "catches": "a malformed timeline that opens silently, or a problem whose fix does nothing",
+      "filed": "WT19",
+      "tags": ["problems", "validation", "dialog"],
+      "fixture": "a window on a timeline with a transition too long",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened long-transition.otio: 2 clips on 1 track. 1 problem: View > Problems.",
+          "named": "the open says there is a problem"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#ProblemsMenuItem",
+          "act": "invoke",
+          "named": "Problems is chosen"
+        },
+        {
+          "locator": "List#ProblemList > ListItem[order=top]",
+          "act": "read",
+          "reads": "name",
+          "expect": "Error at 0/1: Transition \"x\" reaches further than a and b last. (fixable)",
+          "named": "the panel names the transition and that it can be fixed"
+        },
+        {
+          "locator": "Button#FixButton",
+          "act": "invoke",
+          "named": "Fix is pressed"
+        },
+        {
+          "locator": "Text#ProblemsStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "Fixed 1 problem. Nothing else is wrong.",
+          "named": "the problem is gone"
+        },
+        {
+          "locator": "Button#ProblemsClose",
+          "act": "invoke",
+          "named": "the panel is closed"
         }
       ]
     }
