@@ -1,0 +1,220 @@
+{
+ "file": "clip_example.otio",
+ "schema": "Timeline",
+ "duration": [
+  19.0,
+  24.0
+ ],
+ "clips": 1,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "Track-001",
+   "duration": [
+    19.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     19.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     19.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     19.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     19.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Gap",
+   "name": "Gap A",
+   "duration": [
+    8.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/1",
+   "schema": "Clip",
+   "name": "Clip-001",
+   "duration": [
+    3.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     8.0,
+     24.0
+    ],
+    [
+     3.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     8.0,
+     24.0
+    ],
+    [
+     3.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     3.0,
+     24.0
+    ],
+    [
+     3.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:03"
+  },
+  {
+   "path": "0/2",
+   "schema": "Transition",
+   "name": "Dissolve",
+   "duration": [
+    3.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     9.0,
+     24.0
+    ],
+    [
+     3.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     9.0,
+     24.0
+    ],
+    [
+     3.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/3",
+   "schema": "Gap",
+   "name": "Gap B",
+   "duration": [
+    8.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     11.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     11.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     8.0,
+     24.0
+    ]
+   ]
+  }
+ ]
+}

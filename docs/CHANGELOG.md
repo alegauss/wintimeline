@@ -16,6 +16,7 @@
 ## Block B — OTIO document model and file formats
 
 - ✅ **WT11** **Nobody knows yet whether .otio files are read by a C# port or by the C++ reference library behind P/Invoke** — Measured both paths on the OTIO corpus and 10,000-clip files: the C# port matches the reference's output, loads faster, holds a quarter of the memory (design recorded in `spike/otio/README.md`).
+- ✅ **WT12** **No in-memory model holds a timeline: tracks, clips, gaps, transitions, markers and metadata have no types** — The OTIO model with opentime's time and timecode, computed ranges and change notifications loads the whole corpus, and every range matches the reference library's answer.
 
 ## Block C — Media probing and GPU decoding
 

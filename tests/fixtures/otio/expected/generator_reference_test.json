@@ -1,0 +1,111 @@
+{
+ "file": "generator_reference_test.otio",
+ "schema": "Timeline",
+ "duration": [
+  50.0,
+  24.0
+ ],
+ "clips": 1,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "Sequence1",
+   "duration": [
+    50.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Clip",
+   "name": "C",
+   "duration": [
+    50.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  }
+ ]
+}

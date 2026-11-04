@@ -147,40 +147,15 @@ folder, the next start's recovery bar names it, and the diagnostics bundle carri
 
 ## Block B — OTIO document model and file formats
 
-### §WT12 The timeline document model
-
-The model mirrors OTIO's schema one to one, so nothing the format can say is lost:
-`Timeline` (global_start_time, tracks Stack), `Stack`, `Track` (kind Video/Audio, plus
-unknown kinds kept as strings), `Clip` (media_references dict with
-`active_media_reference_key`, source_range), `Gap`, `Transition` (in_offset, out_offset,
-transition_type), `Effect`/`LinearTimeWarp`/`FreezeFrame`, `Marker` (marked_range,
-color, comment), and the reference family `ExternalReference`, `ImageSequenceReference`,
-`GeneratorReference`, `MissingReference`.
-
-Time uses `RationalTime` and `TimeRange` with OTIO's exact semantics (rate rescaling,
-`duration_from_start_end_time_inclusive`, SMPTE timecode with drop-frame at
-29.97/59.94). Every object carries a free `metadata` dictionary preserved verbatim,
-because other tools (Resolve, Premiere via adapters, Hiero) store state there.
-
-The model raises change notifications at item granularity so views redraw only what
-changed; parent pointers and `range_in_parent` / `trimmed_range_in_parent` are computed,
-not stored.
-
-Start from `spike/otio/OtioSpike/Port`, which already writes the reference's bytes:
-fields it does not know become dynamic fields written first; dictionaries keep sorted
-keys; bare `NaN`/`Inf` are rewritten before `System.Text.Json` parses; numbers keep full
-precision. Still missing there: `ImageSequenceReference` and `TimeTransform`.
-
-Done when the full OTIO sample corpus loads into the model and every computed range
-matches the Python reference library's answer for the same file.
-
 ### §WT13 Reading and writing .otio JSON losslessly
 
-The reader handles `OTIO_SCHEMA` names with versions (`Clip.2`, `Timeline.1`, ...), runs
-the registered upgrade functions to the version the model knows, and keeps anything
-unrecognised as an `UnknownSchema` node with its raw JSON, re-emitted unchanged on save.
-The writer can target a schema-version set (`--downgrade` to an older OTIO family, as
-`otio.versioning` does) so a file saved here opens in an older Resolve or RV.
+The reading half exists: `WinTimeline.Model.Serialization.OtioReader` (WT12) handles
+versioned `OTIO_SCHEMA` names, the upgrades and aliases, and keeps anything unrecognised
+as an `UnknownSchema`. What is left is the writer, ported from
+`spike/otio/OtioSpike/Port/OtioWriter.cs`, which already writes the reference's bytes,
+re-emitting unknown schemas and dynamic fields unchanged, and opening and saving from
+the app. The writer can target a schema-version set (`--downgrade` to an older OTIO
+family, as `otio.versioning` does) so a file saved here opens in an older Resolve or RV.
 
 Numbers keep their JSON form: rates like 23.976 vs 24000/1001 are written as read.
 Saving is atomic (write to a temp file, flush, replace) and keeps the previous file as

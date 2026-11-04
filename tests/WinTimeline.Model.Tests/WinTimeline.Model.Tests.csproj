@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT12: the timeline model against the OpenTimelineIO reference's own answers, recorded in
+       tests/fixtures/otio/expected by make_expected.py. Headless: no window, no GPU. -->
+  <PropertyGroup>
+    <RootNamespace>WinTimeline.Model.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WinTimeline.Model\WinTimeline.Model.csproj" />
+  </ItemGroup>
+
+</Project>

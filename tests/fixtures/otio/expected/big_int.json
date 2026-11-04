@@ -1,0 +1,111 @@
+{
+ "file": "big_int.otio",
+ "schema": "Timeline",
+ "duration": [
+  24.0,
+  24.0
+ ],
+ "clips": 1,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "",
+   "duration": [
+    24.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Clip",
+   "name": "black",
+   "duration": [
+    24.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     1.0,
+     24.0
+    ],
+    [
+     240.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     1.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:01"
+  }
+ ]
+}

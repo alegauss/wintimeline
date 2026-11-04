@@ -1,0 +1,3742 @@
+{
+ "file": "effects.otio",
+ "schema": "Timeline",
+ "duration": [
+  1125.0,
+  24.0
+ ],
+ "clips": 37,
+ "global_start_timecode": "01:00:00:00",
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "Video 1",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0003.png",
+   "duration": [
+    444.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/1",
+   "schema": "Transition",
+   "name": "Cross Fade 0 dB",
+   "duration": [
+    60.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     414.0,
+     24.0
+    ],
+    [
+     60.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     414.0,
+     24.0
+    ],
+    [
+     60.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/2",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0005.png",
+   "duration": [
+    56.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     56.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     56.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     56.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/3",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0006.png",
+   "duration": [
+    13.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     13.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     13.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     13.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/4",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0007.png",
+   "duration": [
+    18.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     513.0,
+     24.0
+    ],
+    [
+     18.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     513.0,
+     24.0
+    ],
+    [
+     18.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     18.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/5",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0009.png",
+   "duration": [
+    30.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     531.0,
+     24.0
+    ],
+    [
+     30.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     531.0,
+     24.0
+    ],
+    [
+     30.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     30.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/6",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0010.png",
+   "duration": [
+    34.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     561.0,
+     24.0
+    ],
+    [
+     34.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     561.0,
+     24.0
+    ],
+    [
+     34.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     34.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/7",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0011.png",
+   "duration": [
+    18.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     595.0,
+     24.0
+    ],
+    [
+     18.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     595.0,
+     24.0
+    ],
+    [
+     18.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     18.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/8",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0012.png",
+   "duration": [
+    16.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     613.0,
+     24.0
+    ],
+    [
+     16.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     613.0,
+     24.0
+    ],
+    [
+     16.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     16.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/9",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0013.png",
+   "duration": [
+    42.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     629.0,
+     24.0
+    ],
+    [
+     42.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     629.0,
+     24.0
+    ],
+    [
+     42.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     42.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/10",
+   "schema": "Clip",
+   "name": "Panel 3.3.5.png",
+   "duration": [
+    145.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     671.0,
+     24.0
+    ],
+    [
+     145.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     671.0,
+     24.0
+    ],
+    [
+     145.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     145.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/11",
+   "schema": "Clip",
+   "name": "Panel 3.3.5.png",
+   "duration": [
+    202.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     816.0,
+     24.0
+    ],
+    [
+     202.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     816.0,
+     24.0
+    ],
+    [
+     202.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     202.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/12",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0014.png",
+   "duration": [
+    37.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1018.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1018.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/13",
+   "schema": "Clip",
+   "name": "Picchu_V7_310821_0015.png",
+   "duration": [
+    70.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1055.0,
+     24.0
+    ],
+    [
+     70.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1055.0,
+     24.0
+    ],
+    [
+     70.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     70.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "1",
+   "schema": "Track",
+   "name": "Video 2",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "1/0",
+   "schema": "Clip",
+   "name": "A_title.png",
+   "duration": [
+    444.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "1/1",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    681.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "2",
+   "schema": "Track",
+   "name": "Video 3",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "2/0",
+   "schema": "Clip",
+   "name": "_bar.png",
+   "duration": [
+    444.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "2/1",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    681.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "3",
+   "schema": "Track",
+   "name": "Video 4",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "3/0",
+   "schema": "Clip",
+   "name": "A_title.png",
+   "duration": [
+    444.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "3/1",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    681.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     681.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "4",
+   "schema": "Track",
+   "name": "Video 5",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "4/0",
+   "schema": "Clip",
+   "name": "sq0100_sh0010_layout_v004.mp4",
+   "duration": [
+    500.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "4/1",
+   "schema": "Clip",
+   "name": "sq0100_sh0020_layout_v005.mp4",
+   "duration": [
+    316.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     316.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     316.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     316.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     316.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "4/2",
+   "schema": "Clip",
+   "name": "sq0100_sh0030_layout_v004.mp4",
+   "duration": [
+    211.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     816.0,
+     24.0
+    ],
+    [
+     211.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     816.0,
+     24.0
+    ],
+    [
+     211.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     211.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     211.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "4/3",
+   "schema": "Clip",
+   "name": "sq0100_sh0050_layout_v004.mp4",
+   "duration": [
+    98.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1027.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1027.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "5",
+   "schema": "Track",
+   "name": "Video 6",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "5/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "6",
+   "schema": "Track",
+   "name": "Video 7",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "6/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "7",
+   "schema": "Track",
+   "name": "Video 8",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "7/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "8",
+   "schema": "Track",
+   "name": "Audio 1",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "8/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "9",
+   "schema": "Track",
+   "name": "Audio 2",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "9/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    347.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     347.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     347.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     347.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "9/1",
+   "schema": "Clip",
+   "name": "06_Mayu_Sfx_ladderStruggleAhhagg.wav",
+   "duration": [
+    85.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     347.0,
+     24.0
+    ],
+    [
+     85.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     347.0,
+     24.0
+    ],
+    [
+     85.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1139.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     40.0,
+     24.0
+    ],
+    [
+     85.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:01:16"
+  },
+  {
+   "path": "9/2",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    40.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     432.0,
+     24.0
+    ],
+    [
+     40.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     432.0,
+     24.0
+    ],
+    [
+     40.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     40.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "9/3",
+   "schema": "Clip",
+   "name": "06_Mayu_Sfx_ladderStruggleAhhagg.wav",
+   "duration": [
+    28.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     472.0,
+     24.0
+    ],
+    [
+     28.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     472.0,
+     24.0
+    ],
+    [
+     28.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1139.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     354.0,
+     24.0
+    ],
+    [
+     28.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:14:18"
+  },
+  {
+   "path": "9/4",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    625.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     625.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     625.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     625.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "10",
+   "schema": "Track",
+   "name": "Audio 3",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "10/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    220.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     220.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     220.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     220.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "10/1",
+   "schema": "Clip",
+   "name": "MayuYize_-01.wav",
+   "duration": [
+    53.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     220.0,
+     24.0
+    ],
+    [
+     53.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     220.0,
+     24.0
+    ],
+    [
+     53.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     168.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     53.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "10/2",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    717.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     273.0,
+     24.0
+    ],
+    [
+     717.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     273.0,
+     24.0
+    ],
+    [
+     717.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     717.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "10/3",
+   "schema": "Clip",
+   "name": "MayuYize_-03.wav",
+   "duration": [
+    37.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     990.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     990.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     107.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "10/4",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    98.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1027.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1027.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     98.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "11",
+   "schema": "Track",
+   "name": "Audio 4",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "11/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "12",
+   "schema": "Track",
+   "name": "Audio 5",
+   "duration": [
+    1123.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1123.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1123.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1123.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1123.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "12/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    444.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     444.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "12/1",
+   "schema": "Clip",
+   "name": "Slide On Concrete Sound Effect (128 kbps).mp3",
+   "duration": [
+    12.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     12.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     444.0,
+     24.0
+    ],
+    [
+     12.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     2588.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     11.0,
+     24.0
+    ],
+    [
+     12.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:11"
+  },
+  {
+   "path": "12/2",
+   "schema": "Clip",
+   "name": "Slide On Concrete Sound Effect (128 kbps).mp3",
+   "duration": [
+    11.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     456.0,
+     24.0
+    ],
+    [
+     11.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     456.0,
+     24.0
+    ],
+    [
+     11.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     2588.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     68.0,
+     24.0
+    ],
+    [
+     11.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:02:20"
+  },
+  {
+   "path": "12/3",
+   "schema": "Clip",
+   "name": "Slide On Concrete Sound Effect (128 kbps).mp3",
+   "duration": [
+    7.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     467.0,
+     24.0
+    ],
+    [
+     7.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     467.0,
+     24.0
+    ],
+    [
+     7.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     2588.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     135.0,
+     24.0
+    ],
+    [
+     7.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:05:15"
+  },
+  {
+   "path": "12/4",
+   "schema": "Clip",
+   "name": "Slide On Concrete Sound Effect (128 kbps).mp3",
+   "duration": [
+    9.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     474.0,
+     24.0
+    ],
+    [
+     9.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     474.0,
+     24.0
+    ],
+    [
+     9.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     2588.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     202.0,
+     24.0
+    ],
+    [
+     9.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:08:10"
+  },
+  {
+   "path": "12/5",
+   "schema": "Clip",
+   "name": "Slide On Concrete Sound Effect (128 kbps).mp3",
+   "duration": [
+    13.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     483.0,
+     24.0
+    ],
+    [
+     13.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     483.0,
+     24.0
+    ],
+    [
+     13.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     2588.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     262.0,
+     24.0
+    ],
+    [
+     13.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:10:22"
+  },
+  {
+   "path": "12/6",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    580.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     496.0,
+     24.0
+    ],
+    [
+     580.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     496.0,
+     24.0
+    ],
+    [
+     580.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     580.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "12/7",
+   "schema": "Clip",
+   "name": "Snake Hissing sound effect no copyright _ snake sounds _ snake noises _ HQ (128 kbps).mp3",
+   "duration": [
+    47.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1076.0,
+     24.0
+    ],
+    [
+     47.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1076.0,
+     24.0
+    ],
+    [
+     47.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     690.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     199.0,
+     24.0
+    ],
+    [
+     47.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:08:07"
+  },
+  {
+   "path": "13",
+   "schema": "Track",
+   "name": "Audio 6",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "13/0",
+   "schema": "Clip",
+   "name": "Cold wind sound effect (128 kbps).mp3",
+   "duration": [
+    500.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1290.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     500.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "13/1",
+   "schema": "Clip",
+   "name": "Cold wind sound effect (128 kbps).mp3",
+   "duration": [
+    192.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     192.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     500.0,
+     24.0
+    ],
+    [
+     192.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1290.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     616.0,
+     24.0
+    ],
+    [
+     192.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:25:16"
+  },
+  {
+   "path": "13/2",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    433.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     692.0,
+     24.0
+    ],
+    [
+     433.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     692.0,
+     24.0
+    ],
+    [
+     433.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     433.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "14",
+   "schema": "Track",
+   "name": "Audio 7",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "14/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    676.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     676.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     676.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     676.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "14/1",
+   "schema": "Clip",
+   "name": "Andean_SFX-02.wav",
+   "duration": [
+    191.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     676.0,
+     24.0
+    ],
+    [
+     191.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     676.0,
+     24.0
+    ],
+    [
+     191.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     191.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     191.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "14/2",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    258.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     867.0,
+     24.0
+    ],
+    [
+     258.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     867.0,
+     24.0
+    ],
+    [
+     258.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     258.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "15",
+   "schema": "Track",
+   "name": "Audio 8",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "15/0",
+   "schema": "Clip",
+   "name": "PICCHU MAQUETA .wav",
+   "duration": [
+    759.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     759.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     759.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1491.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     759.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "15/1",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    366.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     759.0,
+     24.0
+    ],
+    [
+     366.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     759.0,
+     24.0
+    ],
+    [
+     366.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     366.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "16",
+   "schema": "Track",
+   "name": "Audio 9",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "16/0",
+   "schema": "Clip",
+   "name": "Pachamama Opening Theme-(1080p).wav",
+   "duration": [
+    1034.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1034.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1034.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     2835.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1034.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "16/1",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    91.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1034.0,
+     24.0
+    ],
+    [
+     91.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1034.0,
+     24.0
+    ],
+    [
+     91.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     91.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "17",
+   "schema": "Track",
+   "name": "Audio 10",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "17/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    751.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     751.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     751.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     751.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "17/1",
+   "schema": "Clip",
+   "name": "Sea of Clouds-(1080p).mp3",
+   "duration": [
+    374.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     751.0,
+     24.0
+    ],
+    [
+     374.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     751.0,
+     24.0
+    ],
+    [
+     374.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     3329.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     448.0,
+     24.0
+    ],
+    [
+     374.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:18:16"
+  },
+  {
+   "path": "18",
+   "schema": "Track",
+   "name": "Audio 11",
+   "duration": [
+    1125.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1125.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "18/0",
+   "schema": "Gap",
+   "name": "",
+   "duration": [
+    872.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     872.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     872.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     872.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "18/1",
+   "schema": "Clip",
+   "name": "Sea of Clouds-(1080p).mp3",
+   "duration": [
+    253.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     872.0,
+     24.0
+    ],
+    [
+     253.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     872.0,
+     24.0
+    ],
+    [
+     253.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     3329.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     448.0,
+     24.0
+    ],
+    [
+     253.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:18:16"
+  }
+ ]
+}

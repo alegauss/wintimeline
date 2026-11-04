@@ -1,0 +1,346 @@
+{
+ "file": "preflattened.otio",
+ "schema": "Timeline",
+ "duration": [
+  3282.0,
+  24.0
+ ],
+ "clips": 5,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "Sequence 2",
+   "duration": [
+    3282.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     3282.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     3282.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     3282.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     3282.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Clip",
+   "name": "tech.fux (loop)-HD.mp4",
+   "duration": [
+    482.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     482.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     482.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     482.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/1",
+   "schema": "Clip",
+   "name": "t-hawk (loop)-HD.mp4",
+   "duration": [
+    480.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     482.0,
+     24.0
+    ],
+    [
+     480.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     482.0,
+     24.0
+    ],
+    [
+     480.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     480.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/2",
+   "schema": "Clip",
+   "name": "out-b (loop)-HD.mp4",
+   "duration": [
+    236.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     962.0,
+     24.0
+    ],
+    [
+     236.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     962.0,
+     24.0
+    ],
+    [
+     236.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     159.0,
+     24.0
+    ],
+    [
+     236.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:06:15"
+  },
+  {
+   "path": "0/3",
+   "schema": "Clip",
+   "name": "KOLL-HD.mp4",
+   "duration": [
+    640.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1198.0,
+     24.0
+    ],
+    [
+     640.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1198.0,
+     24.0
+    ],
+    [
+     640.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     640.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/4",
+   "schema": "Gap",
+   "name": "Filler 2",
+   "duration": [
+    119.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1838.0,
+     24.0
+    ],
+    [
+     119.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1838.0,
+     24.0
+    ],
+    [
+     119.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     313.0,
+     24.0
+    ],
+    [
+     119.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/5",
+   "schema": "Clip",
+   "name": "brokchrd (loop)-HD.mp4",
+   "duration": [
+    720.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     1957.0,
+     24.0
+    ],
+    [
+     720.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     1957.0,
+     24.0
+    ],
+    [
+     720.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     720.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/6",
+   "schema": "Gap",
+   "name": "Filler 3",
+   "duration": [
+    605.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     2677.0,
+     24.0
+    ],
+    [
+     605.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     2677.0,
+     24.0
+    ],
+    [
+     605.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     605.0,
+     24.0
+    ]
+   ]
+  }
+ ]
+}

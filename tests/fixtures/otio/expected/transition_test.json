@@ -1,0 +1,271 @@
+{
+ "file": "transition_test.otio",
+ "schema": "Timeline",
+ "duration": [
+  170.0,
+  24.0
+ ],
+ "clips": 3,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "Sequence1",
+   "duration": [
+    170.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     170.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     170.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     170.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     170.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Transition",
+   "name": "t0",
+   "duration": [
+    20.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     -10.0,
+     24.0
+    ],
+    [
+     20.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     -10.0,
+     24.0
+    ],
+    [
+     20.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/1",
+   "schema": "Clip",
+   "name": "A",
+   "duration": [
+    50.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/2",
+   "schema": "Transition",
+   "name": "t1",
+   "duration": [
+    20.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     40.0,
+     24.0
+    ],
+    [
+     20.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     40.0,
+     24.0
+    ],
+    [
+     20.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/3",
+   "schema": "Clip",
+   "name": "B",
+   "duration": [
+    50.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     50.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     50.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/4",
+   "schema": "Clip",
+   "name": "C",
+   "duration": [
+    50.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     100.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     100.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:00:00"
+  },
+  {
+   "path": "0/5",
+   "schema": "Transition",
+   "name": "t3",
+   "duration": [
+    20.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     140.0,
+     24.0
+    ],
+    [
+     20.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     140.0,
+     24.0
+    ],
+    [
+     20.0,
+     24.0
+    ]
+   ]
+  }
+ ]
+}

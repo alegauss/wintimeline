@@ -1,0 +1,495 @@
+{
+ "file": "nested_example.otio",
+ "schema": "Timeline",
+ "duration": [
+  636.0,
+  24.0
+ ],
+ "clips": 7,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "Top Level Track",
+   "duration": [
+    636.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     636.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     636.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     636.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     636.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Clip",
+   "name": "Normal Clip 1",
+   "duration": [
+    238.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     238.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     238.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     135.0,
+     24.0
+    ],
+    [
+     238.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:05:15"
+  },
+  {
+   "path": "0/1",
+   "schema": "Stack",
+   "name": "Nested Stack 1",
+   "duration": [
+    31.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     238.0,
+     24.0
+    ],
+    [
+     31.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     238.0,
+     24.0
+    ],
+    [
+     31.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     31.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/1/0",
+   "schema": "Clip",
+   "name": "Clip Inside A Stack 1",
+   "duration": [
+    37.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     31.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     373.0,
+     24.0
+    ],
+    [
+     37.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:15:13"
+  },
+  {
+   "path": "0/2",
+   "schema": "Clip",
+   "name": "Normal Clip 2",
+   "duration": [
+    33.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     269.0,
+     24.0
+    ],
+    [
+     33.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     269.0,
+     24.0
+    ],
+    [
+     33.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     101.0,
+     24.0
+    ],
+    [
+     33.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:04:05"
+  },
+  {
+   "path": "0/3",
+   "schema": "Stack",
+   "name": "Nested Stack 2 (with effects)",
+   "duration": [
+    29.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     302.0,
+     24.0
+    ],
+    [
+     29.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     302.0,
+     24.0
+    ],
+    [
+     29.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     29.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/3/0",
+   "schema": "Clip",
+   "name": "Clip Inside A Stack 2",
+   "duration": [
+    24.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     429.0,
+     24.0
+    ],
+    [
+     24.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:17:21"
+  },
+  {
+   "path": "0/4",
+   "schema": "Clip",
+   "name": "Normal Clip 3",
+   "duration": [
+    63.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     331.0,
+     24.0
+    ],
+    [
+     63.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     331.0,
+     24.0
+    ],
+    [
+     63.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     179.0,
+     24.0
+    ],
+    [
+     63.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:07:11"
+  },
+  {
+   "path": "0/5",
+   "schema": "Track",
+   "name": "Nested Track",
+   "duration": [
+    4.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     394.0,
+     24.0
+    ],
+    [
+     4.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     394.0,
+     24.0
+    ],
+    [
+     4.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     4.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/5/0",
+   "schema": "Clip",
+   "name": "Clip Inside A Track",
+   "duration": [
+    1.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     471.0,
+     24.0
+    ],
+    [
+     1.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:19:15"
+  },
+  {
+   "path": "0/6",
+   "schema": "Clip",
+   "name": "Normal Clip 4",
+   "duration": [
+    238.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     398.0,
+     24.0
+    ],
+    [
+     238.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     398.0,
+     24.0
+    ],
+    [
+     238.0,
+     24.0
+    ]
+   ],
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     135.0,
+     24.0
+    ],
+    [
+     238.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "00:00:05:15"
+  }
+ ]
+}

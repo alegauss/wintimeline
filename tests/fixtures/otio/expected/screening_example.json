@@ -1,0 +1,349 @@
+{
+ "file": "screening_example.otio",
+ "schema": "Timeline",
+ "duration": [
+  1049.0,
+  24.0
+ ],
+ "clips": 9,
+ "global_start_timecode": null,
+ "children": [
+  {
+   "path": "0",
+   "schema": "Track",
+   "name": "V",
+   "duration": [
+    1049.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1049.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1049.0,
+     24.0
+    ]
+   ],
+   "available_range": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     1049.0,
+     24.0
+    ]
+   ],
+   "trimmed_range": [
+    [
+     -86243.0,
+     24.0
+    ],
+    [
+     1049.0,
+     24.0
+    ]
+   ]
+  },
+  {
+   "path": "0/0",
+   "schema": "Clip",
+   "name": "ZZ100_501 (LAY3)",
+   "duration": [
+    31.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     0.0,
+     24.0
+    ],
+    [
+     31.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86501.0,
+     24.0
+    ],
+    [
+     31.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:04:05"
+  },
+  {
+   "path": "0/1",
+   "schema": "Clip",
+   "name": "ZZ100_502A (LAY3)",
+   "duration": [
+    50.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     31.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86557.0,
+     24.0
+    ],
+    [
+     50.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:06:13"
+  },
+  {
+   "path": "0/2",
+   "schema": "Clip",
+   "name": "ZZ100_503A (LAY1)",
+   "duration": [
+    28.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     81.0,
+     24.0
+    ],
+    [
+     28.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86601.0,
+     24.0
+    ],
+    [
+     28.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:08:09"
+  },
+  {
+   "path": "0/3",
+   "schema": "Clip",
+   "name": "ZZ100_504C (LAY1)",
+   "duration": [
+    115.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     109.0,
+     24.0
+    ],
+    [
+     115.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86641.0,
+     24.0
+    ],
+    [
+     115.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:10:01"
+  },
+  {
+   "path": "0/4",
+   "schema": "Clip",
+   "name": "ZZ100_504B (LAY1)",
+   "duration": [
+    101.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     224.0,
+     24.0
+    ],
+    [
+     101.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86753.0,
+     24.0
+    ],
+    [
+     101.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:14:17"
+  },
+  {
+   "path": "0/5",
+   "schema": "Clip",
+   "name": "ZZ100_507C (LAY2)",
+   "duration": [
+    161.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     325.0,
+     24.0
+    ],
+    [
+     161.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86501.0,
+     24.0
+    ],
+    [
+     161.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:04:05"
+  },
+  {
+   "path": "0/6",
+   "schema": "Clip",
+   "name": "ZZ100_508 (LAY2)",
+   "duration": [
+    170.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     486.0,
+     24.0
+    ],
+    [
+     170.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86628.0,
+     24.0
+    ],
+    [
+     170.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:09:12"
+  },
+  {
+   "path": "0/7",
+   "schema": "Clip",
+   "name": "ZZ100_510 (LAY1)",
+   "duration": [
+    136.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     656.0,
+     24.0
+    ],
+    [
+     136.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86722.0,
+     24.0
+    ],
+    [
+     136.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:13:10"
+  },
+  {
+   "path": "0/8",
+   "schema": "Clip",
+   "name": "ZZ100_510B (LAY1)",
+   "duration": [
+    257.0,
+    24.0
+   ],
+   "range_in_parent": [
+    [
+     792.0,
+     24.0
+    ],
+    [
+     257.0,
+     24.0
+    ]
+   ],
+   "trimmed_range_in_parent": "error",
+   "available_range": "error",
+   "trimmed_range": [
+    [
+     86501.0,
+     24.0
+    ],
+    [
+     257.0,
+     24.0
+    ]
+   ],
+   "source_start_timecode": "01:00:04:05"
+  }
+ ]
+}
