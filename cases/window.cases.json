@@ -131,6 +131,17 @@
       "shareable": true
     },
     {
+      // WT156: Premiere's FCP 7 XML and Final Cut's FCPXML, from their adapters' own samples.
+      "name": "a window opened on a Premiere FCP 7 XML",
+      "arguments": ["--open", "tests/fixtures/fcp/samples/premiere_example.xml", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
+      "name": "a window opened on an FCPXML project",
+      "arguments": ["--open", "tests/fixtures/fcpx/samples/fcpx_project.fcpxml", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
@@ -1021,6 +1032,40 @@
           "reads": "name",
           "expect": "Created a timeline from 1 file: 2 clips on 2 tracks.",
           "named": "and becomes a timeline, as on the welcome page"
+        }
+      ]
+    },
+
+    {
+      "name": "a Premiere FCP 7 XML opens as a timeline of its clips",
+      "catches": "an export from Premiere or Resolve that the app refuses or misreads",
+      "filed": "WT156",
+      "tags": ["open", "adapter", "fcp"],
+      "fixture": "a window opened on a Premiere FCP 7 XML",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^Opened premiere_example\\.xml: [1-9]\\d* clips? on [1-9]\\d* tracks?\\.",
+          "named": "the status bar counts its clips and tracks"
+        }
+      ]
+    },
+
+    {
+      "name": "an FCPXML project opens as a timeline of its clips",
+      "catches": "a Final Cut Pro export that the app refuses or misreads",
+      "filed": "WT156",
+      "tags": ["open", "adapter", "fcpx"],
+      "fixture": "a window opened on an FCPXML project",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^Opened fcpx_project\\.fcpxml: ",
+          "named": "the status bar says what it opened"
         }
       ]
     },

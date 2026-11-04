@@ -78,7 +78,9 @@ public sealed class EdlTests
     [InlineData(@"D:\cuts\reel1.edl", "CMX 3600 EDL")]
     [InlineData(@"D:\cuts\REEL1.EDL", "CMX 3600 EDL")]
     [InlineData(@"D:\cuts\reel1.otio", "OpenTimelineIO")]
-    [InlineData(@"D:\cuts\reel1.xml", null)]
+    [InlineData(@"D:\cuts\reel1.xml", "Final Cut Pro 7 XML")]
+    [InlineData(@"D:\cuts\reel1.fcpxml", "Final Cut Pro XML")]
+    [InlineData(@"D:\cuts\reel1.aaf", null)]
     public void TheRegistryFindsTheAdapterByExtension(string path, string? adapter)
     {
         Assert.Equal(adapter, TimelineAdapters.ForPath(path)?.Name);
@@ -87,7 +89,7 @@ public sealed class EdlTests
     [Fact]
     public void TheDialogFilterListsReadersAndWritersApart()
     {
-        Assert.Equal("OpenTimelineIO (*.otio)|*.otio|CMX 3600 EDL (*.edl)|*.edl", TimelineAdapters.DialogFilter(writing: false));
+        Assert.Equal("OpenTimelineIO (*.otio)|*.otio|CMX 3600 EDL (*.edl)|*.edl|Final Cut Pro 7 XML (*.xml)|*.xml|Final Cut Pro XML (*.fcpxml;*.fcpxmld)|*.fcpxml;*.fcpxmld", TimelineAdapters.DialogFilter(writing: false));
         Assert.Equal("OpenTimelineIO (*.otio)|*.otio", TimelineAdapters.DialogFilter(writing: true));
     }
 

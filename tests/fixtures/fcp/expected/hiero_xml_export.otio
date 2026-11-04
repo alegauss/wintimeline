@@ -1,0 +1,292 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {
+        "fcp_xml": {
+            "@id": "hiero_xml_export",
+            "media": {
+                "audio": {
+                    "format": {
+                        "samplecharacteristics": {
+                            "depth": "16",
+                            "samplerate": "48000"
+                        }
+                    }
+                },
+                "video": {
+                    "format": {
+                        "samplecharacteristics": {
+                            "height": "1080",
+                            "rate": {
+                                "ntsc": "FALSE",
+                                "timebase": "24"
+                            },
+                            "width": "1920"
+                        }
+                    }
+                }
+            },
+            "rate": {
+                "ntsc": "FALSE",
+                "timebase": "24"
+            },
+            "timecode": {
+                "displayformat": "NDF",
+                "rate": {
+                    "ntsc": "FALSE",
+                    "timebase": "24"
+                }
+            }
+        }
+    },
+    "name": "hiero_xml_export",
+    "global_start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 24.0,
+        "value": 86400.0
+    },
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "hiero_xml_export",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "color": null,
+        "children": [
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "name": "Video 1"
+                    }
+                },
+                "name": "Video 1",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Gap.1",
+                        "metadata": {},
+                        "name": "",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 14.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "enabled": "TRUE"
+                            }
+                        },
+                        "name": "A160C005_171213_R0MN",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 1055.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 1101071.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "ExternalReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "A160C005_171213_R0MN",
+                                        "height": "2202",
+                                        "media": {
+                                            "video": {
+                                                "duration": "1055",
+                                                "samplecharacteristics": {
+                                                    "height": "2202",
+                                                    "width": "3424"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "FALSE",
+                                            "timebase": "24"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "NDF",
+                                            "rate": {
+                                                "ntsc": "FALSE",
+                                                "timebase": "24"
+                                            }
+                                        },
+                                        "width": "3424"
+                                    }
+                                },
+                                "name": "A160C005_171213_R0MN",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 1055.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 1101071.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "target_url": "file://localhost/A160R0MN/A160R0MN/A160C005_171213_R0MN.mxf"
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Gap.1",
+                        "metadata": {},
+                        "name": "",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 16.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "enabled": "TRUE",
+                                "filter": {
+                                    "effect": {
+                                        "effectcategory": "motion",
+                                        "effectid": "timeremap",
+                                        "effecttype": "motion",
+                                        "mediatype": "video",
+                                        "name": "Time Remap",
+                                        "parameter": {
+                                            "name": "speed",
+                                            "parameterid": "speed",
+                                            "value": "0.25"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "name": "/",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 239.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 24.0,
+                                "value": 326400.0
+                            }
+                        },
+                        "effects": [
+                            {
+                                "OTIO_SCHEMA": "Effect.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "effectcategory": "motion",
+                                        "effectid": "timeremap",
+                                        "effecttype": "motion",
+                                        "mediatype": "video",
+                                        "parameter": {
+                                            "name": "speed",
+                                            "parameterid": "speed",
+                                            "value": "0.25"
+                                        }
+                                    }
+                                },
+                                "name": "Time Remap",
+                                "effect_name": "",
+                                "enabled": true
+                            }
+                        ],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "MissingReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "/",
+                                        "rate": {
+                                            "ntsc": "FALSE",
+                                            "timebase": "24"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "NDF",
+                                            "rate": {
+                                                "ntsc": "FALSE",
+                                                "timebase": "24"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "/",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 1.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 24.0,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    }
+                ],
+                "kind": "Video"
+            }
+        ]
+    }
+}

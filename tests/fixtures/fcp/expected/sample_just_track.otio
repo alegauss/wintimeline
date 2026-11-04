@@ -1,0 +1,63 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {
+        "fcp_xml": {
+            "@MZ.EditLine": "8856691200000",
+            "@MZ.Sequence.AudioTimeDisplayFormat": "200",
+            "@MZ.Sequence.EditingModeGUID": "9678af98-a7b7-4bdb-b477-7ac9c8df4a4e",
+            "@MZ.Sequence.PreviewFrameSizeHeight": "720",
+            "@MZ.Sequence.PreviewFrameSizeWidth": "1280",
+            "@MZ.Sequence.PreviewRenderingClassID": "1297106761",
+            "@MZ.Sequence.PreviewRenderingPresetCodec": "1297107278",
+            "@MZ.Sequence.PreviewRenderingPresetPath": "EncoderPresets\\SequencePreview\\9678af98-a7b7-4bdb-b477-7ac9c8df4a4e\\I-Frame Only MPEG.epr",
+            "@MZ.Sequence.PreviewUseMaxBitDepth": "false",
+            "@MZ.Sequence.PreviewUseMaxRenderQuality": "false",
+            "@MZ.Sequence.VideoTimeDisplayFormat": "104",
+            "@MZ.WorkInPoint": "0",
+            "@MZ.WorkOutPoint": "9144576000000",
+            "@Monitor.ProgramZoomIn": "0",
+            "@Monitor.ProgramZoomOut": "9144576000000",
+            "@TL.SQAVDividerPosition": "0.5",
+            "@TL.SQAudioVisibleBase": "0",
+            "@TL.SQHeaderWidth": "184",
+            "@TL.SQHideShyTracks": "0",
+            "@TL.SQTimePerPixel": "0.033806825568230996",
+            "@TL.SQVideoVisibleBase": "0",
+            "@TL.SQVisibleBaseTime": "0",
+            "@explodedTracks": "true",
+            "@id": "sequence-1",
+            "labels": {
+                "label2": "Forest"
+            },
+            "rate": {
+                "ntsc": "FALSE",
+                "timebase": "30"
+            },
+            "timecode": {
+                "displayformat": "NDF",
+                "rate": {
+                    "ntsc": "FALSE",
+                    "timebase": "30"
+                }
+            },
+            "uuid": "5ea30a6b-552f-4722-be92-6dfdb66c97e6"
+        }
+    },
+    "name": "sc01_sh010_layerA",
+    "global_start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 30.0,
+        "value": 0.0
+    },
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "sc01_sh010_layerA",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "color": null,
+        "children": []
+    }
+}

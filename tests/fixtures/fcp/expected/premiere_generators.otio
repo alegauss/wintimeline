@@ -1,0 +1,1671 @@
+{
+    "OTIO_SCHEMA": "Timeline.1",
+    "metadata": {
+        "fcp_xml": {
+            "@MZ.EditLine": "8793504720000",
+            "@MZ.Sequence.AudioTimeDisplayFormat": "200",
+            "@MZ.Sequence.EditingModeGUID": "cc7991f5-c236-4db1-957e-2c71f924e81c",
+            "@MZ.Sequence.PreviewFrameSizeHeight": "1080",
+            "@MZ.Sequence.PreviewFrameSizeWidth": "1920",
+            "@MZ.Sequence.PreviewRenderingClassID": "1297106761",
+            "@MZ.Sequence.PreviewRenderingPresetCodec": "1297107278",
+            "@MZ.Sequence.PreviewRenderingPresetPath": "EncoderPresets/SequencePreview/cc7991f5-c236-4db1-957e-2c71f924e81c/I-Frame Only MPEG.epr",
+            "@MZ.Sequence.PreviewUseMaxBitDepth": "false",
+            "@MZ.Sequence.PreviewUseMaxRenderQuality": "false",
+            "@MZ.Sequence.VideoTimeDisplayFormat": "110",
+            "@MZ.WorkInPoint": "0",
+            "@MZ.WorkOutPoint": "15235011792000",
+            "@MZ.ZeroPoint": "0",
+            "@Monitor.ProgramZoomIn": "0",
+            "@Monitor.ProgramZoomOut": "9068963904000",
+            "@TL.SQAVDividerPosition": "0.5",
+            "@TL.SQAudioVisibleBase": "0",
+            "@TL.SQHeaderWidth": "236",
+            "@TL.SQHideShyTracks": "0",
+            "@TL.SQTimePerPixel": "0.071968375881910282",
+            "@TL.SQVideoVisibleBase": "0",
+            "@TL.SQVisibleBaseTime": "0",
+            "@explodedTracks": "true",
+            "@id": "sequence-1",
+            "logginginfo": {
+                "description": null,
+                "good": null,
+                "lognote": null,
+                "originalaudiofilename": null,
+                "originalvideofilename": null,
+                "scene": null,
+                "shottake": null
+            },
+            "media": {
+                "audio": {
+                    "format": {
+                        "samplecharacteristics": {
+                            "depth": "16",
+                            "samplerate": "48000"
+                        }
+                    },
+                    "numOutputChannels": "2",
+                    "outputs": {
+                        "group": [
+                            {
+                                "channel": {
+                                    "index": "1"
+                                },
+                                "downmix": "0",
+                                "index": "1",
+                                "numchannels": "1"
+                            },
+                            {
+                                "channel": {
+                                    "index": "2"
+                                },
+                                "downmix": "0",
+                                "index": "2",
+                                "numchannels": "1"
+                            }
+                        ]
+                    }
+                },
+                "video": {
+                    "format": {
+                        "samplecharacteristics": {
+                            "anamorphic": "FALSE",
+                            "codec": {
+                                "appspecificdata": {
+                                    "appmanufacturer": "Apple Inc.",
+                                    "appname": "Final Cut Pro",
+                                    "appversion": "7.0",
+                                    "data": {
+                                        "qtcodec": {
+                                            "codecname": "Apple ProRes 422",
+                                            "codectypecode": "apcn",
+                                            "codectypename": "Apple ProRes 422",
+                                            "codecvendorcode": "appl",
+                                            "datarate": "0",
+                                            "keyframerate": "0",
+                                            "spatialquality": "1024",
+                                            "temporalquality": "0"
+                                        }
+                                    }
+                                },
+                                "name": "Apple ProRes 422"
+                            },
+                            "colordepth": "24",
+                            "fielddominance": "none",
+                            "height": "1080",
+                            "pixelaspectratio": "square",
+                            "rate": {
+                                "ntsc": "TRUE",
+                                "timebase": "24"
+                            },
+                            "width": "1920"
+                        }
+                    }
+                }
+            },
+            "rate": {
+                "ntsc": "TRUE",
+                "timebase": "24"
+            },
+            "timecode": {
+                "displayformat": "NDF",
+                "rate": {
+                    "ntsc": "TRUE",
+                    "timebase": "24"
+                }
+            },
+            "uuid": "ce4dd6c6-f46e-4ec6-9191-c0da728298b2"
+        }
+    },
+    "name": "Generators",
+    "global_start_time": {
+        "OTIO_SCHEMA": "RationalTime.1",
+        "rate": 23.976023976023978,
+        "value": 0.0
+    },
+    "tracks": {
+        "OTIO_SCHEMA": "Stack.1",
+        "metadata": {},
+        "name": "Generators",
+        "source_range": null,
+        "effects": [],
+        "markers": [],
+        "enabled": true,
+        "color": null,
+        "children": [
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "1",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "enabled": "TRUE",
+                        "locked": "FALSE"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-1",
+                                "alphatype": "none",
+                                "anamorphic": "FALSE",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "labels": "\n\t\t\t\t\t\t",
+                                "link": [
+                                    {
+                                        "clipindex": "1",
+                                        "linkclipref": "clipitem-1",
+                                        "mediatype": "video",
+                                        "trackindex": "1"
+                                    },
+                                    {
+                                        "clipindex": "1",
+                                        "groupindex": "1",
+                                        "linkclipref": "clipitem-7",
+                                        "mediatype": "audio",
+                                        "trackindex": "1"
+                                    }
+                                ],
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-1",
+                                "pixelaspectratio": "square",
+                                "pproTicksIn": "0",
+                                "pproTicksOut": "2796970176000"
+                            }
+                        },
+                        "name": "Universal Counting Leader",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 264.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-1",
+                                        "media": {
+                                            "audio": {
+                                                "audiochannel": {
+                                                    "sourcechannel": "1"
+                                                },
+                                                "channelcount": "1",
+                                                "samplecharacteristics": {
+                                                    "depth": "16",
+                                                    "samplerate": "48000"
+                                                }
+                                            },
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "lower",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "24"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "24"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "NDF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "24"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "Universal Counting Leader",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 23.976023976023978,
+                                        "value": 264.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 23.976023976023978,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "Slug",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-2",
+                                "alphatype": "none",
+                                "anamorphic": "FALSE",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "labels": "\n\t\t\t\t\t\t",
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-2",
+                                "pixelaspectratio": "square",
+                                "pproTicksIn": "914450328792000",
+                                "pproTicksOut": "915711084288000"
+                            }
+                        },
+                        "name": "Black Video",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 119.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 86313.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-2",
+                                        "media": {
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "none",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "30"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "30"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "DF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "30"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "Black Video",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "Slug",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-3",
+                                "enabled": "TRUE"
+                            }
+                        },
+                        "name": "Blue Matte",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 119.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 86313.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "effectcategory": "Matte",
+                                        "effecttype": "generator",
+                                        "mediatype": "video",
+                                        "parameter": {
+                                            "@authoringApp": "PremierePro",
+                                            "name": "Color",
+                                            "parameterid": "fillcolor",
+                                            "value": {
+                                                "alpha": "0",
+                                                "blue": "255",
+                                                "green": "0",
+                                                "red": "0"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "Color",
+                                "available_range": null,
+                                "available_image_bounds": null,
+                                "generator_kind": "Color",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-4",
+                                "alphatype": "none",
+                                "anamorphic": "FALSE",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "labels": "\n\t\t\t\t\t\t",
+                                "link": [
+                                    {
+                                        "clipindex": "4",
+                                        "linkclipref": "clipitem-4",
+                                        "mediatype": "video",
+                                        "trackindex": "1"
+                                    },
+                                    {
+                                        "clipindex": "2",
+                                        "groupindex": "1",
+                                        "linkclipref": "clipitem-8",
+                                        "mediatype": "audio",
+                                        "trackindex": "1"
+                                    },
+                                    {
+                                        "clipindex": "1",
+                                        "groupindex": "1",
+                                        "linkclipref": "clipitem-9",
+                                        "mediatype": "audio",
+                                        "trackindex": "2"
+                                    }
+                                ],
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-4",
+                                "pixelaspectratio": "square",
+                                "pproTicksIn": "914450328792000",
+                                "pproTicksOut": "915711084288000"
+                            }
+                        },
+                        "name": "HD Bars and Tone",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 119.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 86313.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-3",
+                                        "media": {
+                                            "audio": {
+                                                "channelcount": "2",
+                                                "samplecharacteristics": {
+                                                    "depth": "16",
+                                                    "samplerate": "48000"
+                                                }
+                                            },
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "none",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "30"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "30"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "DF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "30"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "HD Bars and Tone",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 1294705.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "Slug",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-5",
+                                "alphatype": "straight",
+                                "anamorphic": "FALSE",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "labels": "\n\t\t\t\t\t\t",
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-5",
+                                "pixelaspectratio": "square",
+                                "pproTicksIn": "914450328792000",
+                                "pproTicksOut": "915679300536000"
+                            }
+                        },
+                        "name": "Transparent Video",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 116.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 86313.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-4",
+                                        "media": {
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "none",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "30"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "30"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "DF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "30"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "Transparent Video",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "Slug",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-6",
+                                "alphatype": "straight",
+                                "anamorphic": "FALSE",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "filter": {
+                                    "effect": {
+                                        "effectcategory": "graphic",
+                                        "effectid": "GraphicAndType",
+                                        "effecttype": "filter",
+                                        "mediatype": "video",
+                                        "name": "A center align Title Card\rwith Menlo Font and\rRGB values -\rfill: 0 0 255\rstroke: 0 0 0\rbackground: 255 0 0\rshadow: 255 255 255",
+                                        "parameter": [
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "hash": "c0272bff-4c78-dced-7d46-b45300003ba6",
+                                                "name": "Source Text",
+                                                "parameterid": "1",
+                                                "value": "kjsAAAAAAAB7ACIAbQBTAGgAYQBkAG8AdwBGAG8AbgB0AE0AYQBwAEgAYQBzAGgAIgA6ACIAYwA5AGIAOQBhAGEAMgBhAC0ANABiADIANAAtADkAYwA0AGEALQBhAGIAMgBkAC0ANQA2AGIAOQAwADAAMAAwADAAZABkADkAIgAsACIAbQBUAGUAeAB0AFAAYQByAGEAbQAiADoAewAiAG0AQQBsAGkAZwBuAG0AZQBuAHQAIgA6ADIALAAiAG0AQgBhAGMAawBGAGkAbABsAEMAbwBsAG8AcgAiADoAMQA2ADcAMQAxADYAOAAwACwAIgBtAEIAYQBjAGsARgBpAGwAbABPAHAAYQBjAGkAdAB5ACIAOgA3ADUALAAiAG0AQgBhAGMAawBGAGkAbABsAFMAaQB6AGUAIgA6ADAALAAiAG0AQgBhAGMAawBGAGkAbABsAFYAaQBzAGkAYgBsAGUAIgA6AHQAcgB1AGUALAAiAG0ARABlAGYAYQB1AGwAdABSAHUAbgAiADoAWwBdACwAIgBtAEgAZQBpAGcAaAB0ACIAOgAwACwAIgBtAEgAaQBuAGQAaQBEAGkAZwBpAHQAcwAiADoAZgBhAGwAcwBlACwAIgBtAEkAbgBkAGkAYwAiADoAZgBhAGwAcwBlACwAIgBtAEkAcwBNAGEAcwBrACIAOgBmAGEAbABzAGUALAAiAG0ASQBzAE0AYQBzAGsASQBuAHYAZQByAHQAZQBkACIAOgBmAGEAbABzAGUALAAiAG0ASQBzAFYAZQByAHQAaQBjAGEAbABUAGUAeAB0ACIAOgBmAGEAbABzAGUALAAiAG0ATABlAGEAZABpAG4AZwAiADoAMAAsACIAbQBMAGkAZwBhAHQAdQByAGUAcwAiADoAZgBhAGwAcwBlACwAIgBtAEwAaQBuAGUAQwBhAHAAVAB5AHAAZQAiADoAMAAsACIAbQBMAGkAbgBlAEoAbwBpAG4AVAB5AHAAZQAiADoAMAAsACIAbQBNAGkAdABlAHIATABpAG0AaQB0ACIAOgAyAC4ANQAsACIAbQBOAHUAbQBTAHQAcgBvAGsAZQBzACIAOgAxACwAIgBtAFIAVABMACIAOgBmAGEAbABzAGUALAAiAG0AUwBoAGEAZABvAHcAQQBuAGcAbABlACIAOgAxADMANQAsACIAbQBTAGgAYQBkAG8AdwBCAGwAdQByACIAOgA0ADAALAAiAG0AUwBoAGEAZABvAHcAQwBvAGwAbwByACIAOgAxADYANwA3ADcAMgAxADUALAAiAG0AUwBoAGEAZABvAHcATwBmAGYAcwBlAHQAIgA6ADcALAAiAG0AUwBoAGEAZABvAHcATwBwAGEAYwBpAHQAeQAiADoANwA1ACwAIgBtAFMAaABhAGQAbwB3AFMAaQB6AGUAIgA6ADAALAAiAG0AUwBoAGEAZABvAHcAVgBpAHMAaQBiAGwAZQAiADoAdAByAHUAZQAsACIAbQBTAHQAeQBsAGUAUwBoAGUAZQB0ACIAOgB7ACIAbQBBAGQAZABpAHQAaQBvAG4AYQBsAFMAdAByAG8AawBlAEMAbwBsAG8AcgAiADoAWwBdACwAIgBtAEEAZABkAGkAdABpAG8AbgBhAGwAUwB0AHIAbwBrAGUAVgBpAHMAaQBiAGwAZQAiADoAWwBdACwAIgBtAEEAZABkAGkAdABpAG8AbgBhAGwAUwB0AHIAbwBrAGUAVwBpAGQAdABoACIAOgBbAF0ALAAiAG0AQgBhAHMAZQBsAGkAbgBlAE8AcAB0AGkAbwBuACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBCAGEAcwBlAGwAaQBuAGUAUwBoAGkAZgB0ACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBDAGEAcABzAE8AcAB0AGkAbwBuACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBGAGEAdQB4AEIAbwBsAGQAIgA6AHsAIgBtAFAAYQByAGEAbQBWAGEAbAB1AGUAcwAiADoAWwBbADAALABmAGEAbABzAGUAXQBdAH0ALAAiAG0ARgBhAHUAeABJAHQAYQBsAGkAYwAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsAGYAYQBsAHMAZQBdAF0AfQAsACIAbQBGAGkAbABsAEMAbwBsAG8AcgAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADIANQA1AF0ALABbADEALAAyADUANQBdACwAWwAyACwAMgA1ADUAXQAsAFsAMwAsADIANQA1AF0ALABbADQALAAyADUANQBdACwAWwA1ACwAMgA1ADUAXQAsAFsANgAsADIANQA1AF0ALABbADcALAAyADUANQBdACwAWwA4ACwAMgA1ADUAXQAsAFsAOQAsADIANQA1AF0ALABbADEAMAAsADIANQA1AF0ALABbADEAMQAsADIANQA1AF0ALABbADEAMgAsADIANQA1AF0ALABbADEAMwAsADIANQA1AF0ALABbADEANAAsADIANQA1AF0ALABbADEANQAsADIANQA1AF0ALABbADEANgAsADIANQA1AF0ALABbADEANwAsADIANQA1AF0ALABbADEAOAAsADIANQA1AF0ALABbADEAOQAsADIANQA1AF0ALABbADIAMAAsADIANQA1AF0ALABbADIAMQAsADIANQA1AF0ALABbADIAMgAsADIANQA1AF0ALABbADIAMwAsADIANQA1AF0ALABbADIANAAsADIANQA1AF0ALABbADIANQAsADIANQA1AF0ALABbADIANgAsADIANQA1AF0ALABbADIANwAsADIANQA1AF0ALABbADIAOAAsADIANQA1AF0ALABbADIAOQAsADIANQA1AF0ALABbADMAMAAsADIANQA1AF0ALABbADMAMQAsADIANQA1AF0ALABbADMAMgAsADIANQA1AF0ALABbADMAMwAsADIANQA1AF0ALABbADMANAAsADIANQA1AF0ALABbADMANQAsADIANQA1AF0ALABbADMANgAsADIANQA1AF0ALABbADMANwAsADIANQA1AF0ALABbADMAOAAsADIANQA1AF0ALABbADMAOQAsADIANQA1AF0ALABbADQAMAAsADIANQA1AF0ALABbADQAMQAsADIANQA1AF0ALABbADQAMgAsADIANQA1AF0ALABbADQAMwAsADIANQA1AF0ALABbADQANAAsADIANQA1AF0ALABbADQANQAsADIANQA1AF0ALABbADQANgAsADIANQA1AF0ALABbADQANwAsADIANQA1AF0ALABbADQAOAAsADIANQA1AF0ALABbADQAOQAsADIANQA1AF0ALABbADUAMAAsADIANQA1AF0ALABbADUAMQAsADIANQA1AF0ALABbADUAMgAsADIANQA1AF0ALABbADUAMwAsADIANQA1AF0ALABbADUANAAsADIANQA1AF0ALABbADUANQAsADIANQA1AF0ALABbADUANgAsADIANQA1AF0ALABbADUANwAsADIANQA1AF0ALABbADUAOAAsADIANQA1AF0ALABbADUAOQAsADIANQA1AF0ALABbADYAMAAsADIANQA1AF0ALABbADYAMQAsADIANQA1AF0ALABbADYAMgAsADIANQA1AF0ALABbADYAMwAsADIANQA1AF0ALABbADYANAAsADIANQA1AF0ALABbADYANQAsADIANQA1AF0ALABbADYANgAsADIANQA1AF0ALABbADYANwAsADIANQA1AF0ALABbADYAOAAsADIANQA1AF0ALABbADYAOQAsADIANQA1AF0ALABbADcAMAAsADIANQA1AF0ALABbADcAMQAsADIANQA1AF0ALABbADcAMgAsADIANQA1AF0ALABbADcAMwAsADIANQA1AF0ALABbADcANAAsADIANQA1AF0ALABbADcANQAsADIANQA1AF0ALABbADcANgAsADIANQA1AF0ALABbADcANwAsADIANQA1AF0ALABbADcAOAAsADIANQA1AF0ALABbADcAOQAsADIANQA1AF0ALABbADgAMAAsADIANQA1AF0ALABbADgAMQAsADIANQA1AF0ALABbADgAMgAsADIANQA1AF0ALABbADgAMwAsADIANQA1AF0ALABbADgANAAsADIANQA1AF0ALABbADgANQAsADIANQA1AF0ALABbADgANgAsADIANQA1AF0ALABbADgANwAsADIANQA1AF0ALABbADgAOAAsADIANQA1AF0ALABbADgAOQAsADIANQA1AF0ALABbADkAMAAsADIANQA1AF0ALABbADkAMQAsADIANQA1AF0ALABbADkAMgAsADIANQA1AF0ALABbADkAMwAsADIANQA1AF0ALABbADkANAAsADIANQA1AF0ALABbADkANQAsADIANQA1AF0ALABbADkANgAsADIANQA1AF0ALABbADkANwAsADIANQA1AF0ALABbADkAOAAsADIANQA1AF0ALABbADkAOQAsADIANQA1AF0ALABbADEAMAAwACwAMgA1ADUAXQAsAFsAMQAwADEALAAyADUANQBdACwAWwAxADAAMgAsADIANQA1AF0ALABbADEAMAAzACwAMgA1ADUAXQAsAFsAMQAwADQALAAyADUANQBdACwAWwAxADAANQAsADIANQA1AF0ALABbADEAMAA2ACwAMgA1ADUAXQAsAFsAMQAwADcALAAyADUANQBdACwAWwAxADAAOAAsADIANQA1AF0ALABbADEAMAA5ACwAMgA1ADUAXQAsAFsAMQAxADAALAAyADUANQBdACwAWwAxADEAMQAsADIANQA1AF0ALABbADEAMQAyACwAMgA1ADUAXQAsAFsAMQAxADMALAAyADUANQBdACwAWwAxADEANAAsADIANQA1AF0ALABbADEAMQA1ACwAMgA1ADUAXQAsAFsAMQAxADYALAAyADUANQBdACwAWwAxADEANwAsADIANQA1AF0ALABbADEAMQA4ACwAMgA1ADUAXQAsAFsAMQAxADkALAAyADUANQBdACwAWwAxADIAMAAsADIANQA1AF0ALABbADEAMgAxACwAMgA1ADUAXQAsAFsAMQAyADIALAAyADUANQBdACwAWwAxADIAMwAsADIANQA1AF0ALABbADEAMgA0ACwAMgA1ADUAXQAsAFsAMQAyADUALAAyADUANQBdACwAWwAxADIANgAsADEANgA3ADcANwAyADEANQBdAF0AfQAsACIAbQBGAGkAbABsAE8AdgBlAHIAUwB0AHIAbwBrAGUAIgA6AHsAIgBtAFAAYQByAGEAbQBWAGEAbAB1AGUAcwAiADoAWwBbADAALAB0AHIAdQBlAF0AXQB9ACwAIgBtAEYAaQBsAGwAVgBpAHMAaQBiAGwAZQAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsAHQAcgB1AGUAXQBdAH0ALAAiAG0ARgBvAG4AdABOAGEAbQBlACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADIALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADUALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADgALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADAALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADAAMQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMAAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADMALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADAANAAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMAA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADYALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADAANwAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMAA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADkALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEAMAAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxADIALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEAMwAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxADUALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEANgAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxADgALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEAOQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMgAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAyADEALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADIAMgAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMgAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAyADQALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADIANQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMgA2ACwAIgA1ADgANwAyADQAMgAwADIALQBEAEQANQA4AC0ANAAyADAAQgAtAEEANgBGADAALQAyAEYAQgBCAEMAOAAxADIARgA3AEIANQAiAF0AXQB9ACwAIgBtAEYAbwBuAHQAUwBpAHoAZQAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADEAMAAwAF0AXQB9ACwAIgBtAEsAZQByAG4AaQBuAGcAIgA6AHsAIgBtAFAAYQByAGEAbQBWAGEAbAB1AGUAcwAiADoAWwBbADAALAAwAF0AXQB9ACwAIgBtAFMAdAByAG8AawBlAEMAbwBsAG8AcgAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADAAXQAsAFsAMQAsADAAXQAsAFsAMgAsADAAXQAsAFsAMwAsADAAXQAsAFsANAAsADAAXQAsAFsANQAsADAAXQAsAFsANgAsADAAXQAsAFsANwAsADAAXQAsAFsAOAAsADAAXQAsAFsAOQAsADAAXQAsAFsAMQAwACwAMABdACwAWwAxADEALAAwAF0ALABbADEAMgAsADAAXQAsAFsAMQAzACwAMABdACwAWwAxADQALAAwAF0ALABbADEANQAsADAAXQAsAFsAMQA2ACwAMABdACwAWwAxADcALAAwAF0ALABbADEAOAAsADAAXQAsAFsAMQA5ACwAMABdACwAWwAyADAALAAwAF0ALABbADIAMQAsADAAXQAsAFsAMgAyACwAMABdACwAWwAyADMALAAwAF0ALABbADIANAAsADAAXQAsAFsAMgA1ACwAMABdACwAWwAyADYALAAwAF0ALABbADIANwAsADAAXQAsAFsAMgA4ACwAMABdACwAWwAyADkALAAwAF0ALABbADMAMAAsADAAXQAsAFsAMwAxACwAMABdACwAWwAzADIALAAwAF0ALABbADMAMwAsADAAXQAsAFsAMwA0ACwAMABdACwAWwAzADUALAAwAF0ALABbADMANgAsADAAXQAsAFsAMwA3ACwAMABdACwAWwAzADgALAAwAF0ALABbADMAOQAsADAAXQAsAFsANAAwACwAMABdACwAWwA0ADEALAAwAF0ALABbADQAMgAsADAAXQAsAFsANAAzACwAMABdACwAWwA0ADQALAAwAF0ALABbADQANQAsADAAXQAsAFsANAA2ACwAMABdACwAWwA0ADcALAAwAF0ALABbADQAOAAsADAAXQAsAFsANAA5ACwAMABdACwAWwA1ADAALAAwAF0ALABbADUAMQAsADAAXQAsAFsANQAyACwAMABdACwAWwA1ADMALAAwAF0ALABbADUANAAsADAAXQAsAFsANQA1ACwAMABdACwAWwA1ADYALAAwAF0ALABbADUANwAsADAAXQAsAFsANQA4ACwAMABdACwAWwA1ADkALAAwAF0ALABbADYAMAAsADAAXQAsAFsANgAxACwAMABdACwAWwA2ADIALAAwAF0ALABbADYAMwAsADAAXQAsAFsANgA0ACwAMABdACwAWwA2ADUALAAwAF0ALABbADYANgAsADAAXQAsAFsANgA3ACwAMABdACwAWwA2ADgALAAwAF0ALABbADYAOQAsADAAXQAsAFsANwAwACwAMABdACwAWwA3ADEALAAwAF0ALABbADcAMgAsADAAXQAsAFsANwAzACwAMABdACwAWwA3ADQALAAwAF0ALABbADcANQAsADAAXQAsAFsANwA2ACwAMABdACwAWwA3ADcALAAwAF0ALABbADcAOAAsADAAXQAsAFsANwA5ACwAMABdACwAWwA4ADAALAAwAF0ALABbADgAMQAsADAAXQAsAFsAOAAyACwAMABdACwAWwA4ADMALAAwAF0ALABbADgANAAsADAAXQAsAFsAOAA1ACwAMABdACwAWwA4ADYALAAwAF0ALABbADgANwAsADAAXQAsAFsAOAA4ACwAMABdACwAWwA4ADkALAAwAF0ALABbADkAMAAsADAAXQAsAFsAOQAxACwAMABdACwAWwA5ADIALAAwAF0ALABbADkAMwAsADAAXQAsAFsAOQA0ACwAMABdACwAWwA5ADUALAAwAF0ALABbADkANgAsADAAXQAsAFsAOQA3ACwAMABdACwAWwA5ADgALAAwAF0ALABbADkAOQAsADAAXQAsAFsAMQAwADAALAAwAF0ALABbADEAMAAxACwAMABdACwAWwAxADAAMgAsADAAXQAsAFsAMQAwADMALAAwAF0ALABbADEAMAA0ACwAMABdACwAWwAxADAANQAsADAAXQAsAFsAMQAwADYALAAwAF0ALABbADEAMAA3ACwAMABdACwAWwAxADAAOAAsADAAXQAsAFsAMQAwADkALAAwAF0ALABbADEAMQAwACwAMABdACwAWwAxADEAMQAsADAAXQAsAFsAMQAxADIALAAwAF0ALABbADEAMQAzACwAMABdACwAWwAxADEANAAsADAAXQAsAFsAMQAxADUALAAwAF0ALABbADEAMQA2ACwAMABdACwAWwAxADEANwAsADAAXQAsAFsAMQAxADgALAAwAF0ALABbADEAMQA5ACwAMABdACwAWwAxADIAMAAsADAAXQAsAFsAMQAyADEALAAwAF0ALABbADEAMgAyACwAMABdACwAWwAxADIAMwAsADAAXQAsAFsAMQAyADQALAAwAF0ALABbADEAMgA1ACwAMABdACwAWwAxADIANgAsADEANgA3ADcANwAyADEANQBdAF0AfQAsACIAbQBTAHQAcgBvAGsAZQBWAGkAcwBpAGIAbABlACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAdAByAHUAZQBdACwAWwAxACwAdAByAHUAZQBdACwAWwAyACwAdAByAHUAZQBdACwAWwAzACwAdAByAHUAZQBdACwAWwA0ACwAdAByAHUAZQBdACwAWwA1ACwAdAByAHUAZQBdACwAWwA2ACwAdAByAHUAZQBdACwAWwA3ACwAdAByAHUAZQBdACwAWwA4ACwAdAByAHUAZQBdACwAWwA5ACwAdAByAHUAZQBdACwAWwAxADAALAB0AHIAdQBlAF0ALABbADEAMQAsAHQAcgB1AGUAXQAsAFsAMQAyACwAdAByAHUAZQBdACwAWwAxADMALAB0AHIAdQBlAF0ALABbADEANAAsAHQAcgB1AGUAXQAsAFsAMQA1ACwAdAByAHUAZQBdACwAWwAxADYALAB0AHIAdQBlAF0ALABbADEANwAsAHQAcgB1AGUAXQAsAFsAMQA4ACwAdAByAHUAZQBdACwAWwAxADkALAB0AHIAdQBlAF0ALABbADIAMAAsAHQAcgB1AGUAXQAsAFsAMgAxACwAdAByAHUAZQBdACwAWwAyADIALAB0AHIAdQBlAF0ALABbADIAMwAsAHQAcgB1AGUAXQAsAFsAMgA0ACwAdAByAHUAZQBdACwAWwAyADUALAB0AHIAdQBlAF0ALABbADIANgAsAHQAcgB1AGUAXQAsAFsAMgA3ACwAdAByAHUAZQBdACwAWwAyADgALAB0AHIAdQBlAF0ALABbADIAOQAsAHQAcgB1AGUAXQAsAFsAMwAwACwAdAByAHUAZQBdACwAWwAzADEALAB0AHIAdQBlAF0ALABbADMAMgAsAHQAcgB1AGUAXQAsAFsAMwAzACwAdAByAHUAZQBdACwAWwAzADQALAB0AHIAdQBlAF0ALABbADMANQAsAHQAcgB1AGUAXQAsAFsAMwA2ACwAdAByAHUAZQBdACwAWwAzADcALAB0AHIAdQBlAF0ALABbADMAOAAsAHQAcgB1AGUAXQAsAFsAMwA5ACwAdAByAHUAZQBdACwAWwA0ADAALAB0AHIAdQBlAF0ALABbADQAMQAsAHQAcgB1AGUAXQAsAFsANAAyACwAdAByAHUAZQBdACwAWwA0ADMALAB0AHIAdQBlAF0ALABbADQANAAsAHQAcgB1AGUAXQAsAFsANAA1ACwAdAByAHUAZQBdACwAWwA0ADYALAB0AHIAdQBlAF0ALABbADQANwAsAHQAcgB1AGUAXQAsAFsANAA4ACwAdAByAHUAZQBdACwAWwA0ADkALAB0AHIAdQBlAF0ALABbADUAMAAsAHQAcgB1AGUAXQAsAFsANQAxACwAdAByAHUAZQBdACwAWwA1ADIALAB0AHIAdQBlAF0ALABbADUAMwAsAHQAcgB1AGUAXQAsAFsANQA0ACwAdAByAHUAZQBdACwAWwA1ADUALAB0AHIAdQBlAF0ALABbADUANgAsAHQAcgB1AGUAXQAsAFsANQA3ACwAdAByAHUAZQBdACwAWwA1ADgALAB0AHIAdQBlAF0ALABbADUAOQAsAHQAcgB1AGUAXQAsAFsANgAwACwAdAByAHUAZQBdACwAWwA2ADEALAB0AHIAdQBlAF0ALABbADYAMgAsAHQAcgB1AGUAXQAsAFsANgAzACwAdAByAHUAZQBdACwAWwA2ADQALAB0AHIAdQBlAF0ALABbADYANQAsAHQAcgB1AGUAXQAsAFsANgA2ACwAdAByAHUAZQBdACwAWwA2ADcALAB0AHIAdQBlAF0ALABbADYAOAAsAHQAcgB1AGUAXQAsAFsANgA5ACwAdAByAHUAZQBdACwAWwA3ADAALAB0AHIAdQBlAF0ALABbADcAMQAsAHQAcgB1AGUAXQAsAFsANwAyACwAdAByAHUAZQBdACwAWwA3ADMALAB0AHIAdQBlAF0ALABbADcANAAsAHQAcgB1AGUAXQAsAFsANwA1ACwAdAByAHUAZQBdACwAWwA3ADYALAB0AHIAdQBlAF0ALABbADcANwAsAHQAcgB1AGUAXQAsAFsANwA4ACwAdAByAHUAZQBdACwAWwA3ADkALAB0AHIAdQBlAF0ALABbADgAMAAsAHQAcgB1AGUAXQAsAFsAOAAxACwAdAByAHUAZQBdACwAWwA4ADIALAB0AHIAdQBlAF0ALABbADgAMwAsAHQAcgB1AGUAXQAsAFsAOAA0ACwAdAByAHUAZQBdACwAWwA4ADUALAB0AHIAdQBlAF0ALABbADgANgAsAHQAcgB1AGUAXQAsAFsAOAA3ACwAdAByAHUAZQBdACwAWwA4ADgALAB0AHIAdQBlAF0ALABbADgAOQAsAHQAcgB1AGUAXQAsAFsAOQAwACwAdAByAHUAZQBdACwAWwA5ADEALAB0AHIAdQBlAF0ALABbADkAMgAsAHQAcgB1AGUAXQAsAFsAOQAzACwAdAByAHUAZQBdACwAWwA5ADQALAB0AHIAdQBlAF0ALABbADkANQAsAHQAcgB1AGUAXQAsAFsAOQA2ACwAdAByAHUAZQBdACwAWwA5ADcALAB0AHIAdQBlAF0ALABbADkAOAAsAHQAcgB1AGUAXQAsAFsAOQA5ACwAdAByAHUAZQBdACwAWwAxADAAMAAsAHQAcgB1AGUAXQAsAFsAMQAwADEALAB0AHIAdQBlAF0ALABbADEAMAAyACwAdAByAHUAZQBdACwAWwAxADAAMwAsAHQAcgB1AGUAXQAsAFsAMQAwADQALAB0AHIAdQBlAF0ALABbADEAMAA1ACwAdAByAHUAZQBdACwAWwAxADAANgAsAHQAcgB1AGUAXQAsAFsAMQAwADcALAB0AHIAdQBlAF0ALABbADEAMAA4ACwAdAByAHUAZQBdACwAWwAxADAAOQAsAHQAcgB1AGUAXQAsAFsAMQAxADAALAB0AHIAdQBlAF0ALABbADEAMQAxACwAdAByAHUAZQBdACwAWwAxADEAMgAsAHQAcgB1AGUAXQAsAFsAMQAxADMALAB0AHIAdQBlAF0ALABbADEAMQA0ACwAdAByAHUAZQBdACwAWwAxADEANQAsAHQAcgB1AGUAXQAsAFsAMQAxADYALAB0AHIAdQBlAF0ALABbADEAMQA3ACwAdAByAHUAZQBdACwAWwAxADEAOAAsAHQAcgB1AGUAXQAsAFsAMQAxADkALAB0AHIAdQBlAF0ALABbADEAMgAwACwAdAByAHUAZQBdACwAWwAxADIAMQAsAHQAcgB1AGUAXQAsAFsAMQAyADIALAB0AHIAdQBlAF0ALABbADEAMgAzACwAdAByAHUAZQBdACwAWwAxADIANAAsAHQAcgB1AGUAXQAsAFsAMQAyADUALAB0AHIAdQBlAF0ALABbADEAMgA2ACwAZgBhAGwAcwBlAF0AXQB9ACwAIgBtAFMAdAByAG8AawBlAFcAaQBkAHQAaAAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADEAXQBdAH0ALAAiAG0AVABlAHgAdAAiADoAIgBBACAAYwBlAG4AdABlAHIAIABhAGwAaQBnAG4AIABUAGkAdABsAGUAIABDAGEAcgBkAFwAcgB3AGkAdABoACAATQBlAG4AbABvACAARgBvAG4AdAAgAGEAbgBkAFwAcgBSAEcAQgAgAHYAYQBsAHUAZQBzACAALQBcAHIAZgBpAGwAbAA6ACAAMAAgADAAIAAyADUANQBcAHIAcwB0AHIAbwBrAGUAOgAgADAAIAAwACAAMABcAHIAYgBhAGMAawBnAHIAbwB1AG4AZAA6ACAAMgA1ADUAIAAwACAAMABcAHIAcwBoAGEAZABvAHcAOgAgADIANQA1ACAAMgA1ADUAIAAyADUANQAiACwAIgBtAFQAcgBhAGMAawBpAG4AZwAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADAAXQBdAH0ALAAiAG0AVABzAHUAbQBpACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBVAG4AZABlAHIAbABpAG4AZQAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsAGYAYQBsAHMAZQBdAF0AfQB9ACwAIgBtAFQAYQBiAFcAaQBkAHQAaAAiADoANAAwADAALAAiAG0AVgBlAHIAdABpAGMAYQBsAEEAbABpAGcAbgBtAGUAbgB0ACIAOgAwACwAIgBtAFcAaQBkAHQAaAAiADoAMAB9ACwAIgBtAFUAcwBlAEwAZQBnAGEAYwB5AFQAZQB4AHQAQgBvAHgAIgA6AGYAYQBsAHMAZQAsACIAbQBWAGUAcgBzAGkAbwBuACIAOgAxAH0A"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "11",
+                                                "UpperBound": "false",
+                                                "name": "Transform",
+                                                "parameterid": "2",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "name": "Position",
+                                                "parameterid": "3",
+                                                "value": "-91445760000000000,0.4997355043888092:0.20081990957260132,0,0,0,0,0,0,5,4,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "4000",
+                                                "name": "Scale",
+                                                "parameterid": "4",
+                                                "value": "-91445760000000000,100.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "4000",
+                                                "name": "Horizontal Scale",
+                                                "parameterid": "5",
+                                                "value": "-91445760000000000,100.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "6",
+                                                "value": "-91445760000000000,true,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-32768",
+                                                "ParameterControlType": "3",
+                                                "UpperBound": "32767",
+                                                "name": "Rotation",
+                                                "parameterid": "7",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "100",
+                                                "name": "Opacity",
+                                                "parameterid": "8",
+                                                "value": "-91445760000000000,100.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "name": "Anchor Point",
+                                                "parameterid": "9",
+                                                "value": "-91445760000000000,0:0,0,0,0,0,0,0,5,4,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "12",
+                                                "UpperBound": "false",
+                                                "name": null,
+                                                "parameterid": "10",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "32768",
+                                                "name": " ",
+                                                "parameterid": "11",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "32768",
+                                                "name": " ",
+                                                "parameterid": "12",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-100",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "1000000000",
+                                                "name": "start",
+                                                "parameterid": "13",
+                                                "value": "-91445760000000000,69.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-100",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "1000000000",
+                                                "name": "end",
+                                                "parameterid": "14",
+                                                "value": "-91445760000000000,69.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "15",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "16",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "17",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "18",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "20000",
+                                                "name": "Parent Width",
+                                                "parameterid": "19",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "20000",
+                                                "name": "Parent Height",
+                                                "parameterid": "20",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-32768",
+                                                "ParameterControlType": "3",
+                                                "UpperBound": "32767",
+                                                "name": "Parent Rotation",
+                                                "parameterid": "21",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            }
+                                        ],
+                                        "pproBypass": "false"
+                                    }
+                                },
+                                "labels": "\n\t\t\t\t\t\t",
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-6",
+                                "pixelaspectratio": "square",
+                                "pproTicksIn": "914450328792000",
+                                "pproTicksOut": "915711084288000"
+                            }
+                        },
+                        "name": "Graphic",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 119.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 86313.0
+                            }
+                        },
+                        "effects": [
+                            {
+                                "OTIO_SCHEMA": "Effect.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "effectcategory": "graphic",
+                                        "effectid": "GraphicAndType",
+                                        "effecttype": "filter",
+                                        "mediatype": "video",
+                                        "parameter": [
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "hash": "c0272bff-4c78-dced-7d46-b45300003ba6",
+                                                "name": "Source Text",
+                                                "parameterid": "1",
+                                                "value": "kjsAAAAAAAB7ACIAbQBTAGgAYQBkAG8AdwBGAG8AbgB0AE0AYQBwAEgAYQBzAGgAIgA6ACIAYwA5AGIAOQBhAGEAMgBhAC0ANABiADIANAAtADkAYwA0AGEALQBhAGIAMgBkAC0ANQA2AGIAOQAwADAAMAAwADAAZABkADkAIgAsACIAbQBUAGUAeAB0AFAAYQByAGEAbQAiADoAewAiAG0AQQBsAGkAZwBuAG0AZQBuAHQAIgA6ADIALAAiAG0AQgBhAGMAawBGAGkAbABsAEMAbwBsAG8AcgAiADoAMQA2ADcAMQAxADYAOAAwACwAIgBtAEIAYQBjAGsARgBpAGwAbABPAHAAYQBjAGkAdAB5ACIAOgA3ADUALAAiAG0AQgBhAGMAawBGAGkAbABsAFMAaQB6AGUAIgA6ADAALAAiAG0AQgBhAGMAawBGAGkAbABsAFYAaQBzAGkAYgBsAGUAIgA6AHQAcgB1AGUALAAiAG0ARABlAGYAYQB1AGwAdABSAHUAbgAiADoAWwBdACwAIgBtAEgAZQBpAGcAaAB0ACIAOgAwACwAIgBtAEgAaQBuAGQAaQBEAGkAZwBpAHQAcwAiADoAZgBhAGwAcwBlACwAIgBtAEkAbgBkAGkAYwAiADoAZgBhAGwAcwBlACwAIgBtAEkAcwBNAGEAcwBrACIAOgBmAGEAbABzAGUALAAiAG0ASQBzAE0AYQBzAGsASQBuAHYAZQByAHQAZQBkACIAOgBmAGEAbABzAGUALAAiAG0ASQBzAFYAZQByAHQAaQBjAGEAbABUAGUAeAB0ACIAOgBmAGEAbABzAGUALAAiAG0ATABlAGEAZABpAG4AZwAiADoAMAAsACIAbQBMAGkAZwBhAHQAdQByAGUAcwAiADoAZgBhAGwAcwBlACwAIgBtAEwAaQBuAGUAQwBhAHAAVAB5AHAAZQAiADoAMAAsACIAbQBMAGkAbgBlAEoAbwBpAG4AVAB5AHAAZQAiADoAMAAsACIAbQBNAGkAdABlAHIATABpAG0AaQB0ACIAOgAyAC4ANQAsACIAbQBOAHUAbQBTAHQAcgBvAGsAZQBzACIAOgAxACwAIgBtAFIAVABMACIAOgBmAGEAbABzAGUALAAiAG0AUwBoAGEAZABvAHcAQQBuAGcAbABlACIAOgAxADMANQAsACIAbQBTAGgAYQBkAG8AdwBCAGwAdQByACIAOgA0ADAALAAiAG0AUwBoAGEAZABvAHcAQwBvAGwAbwByACIAOgAxADYANwA3ADcAMgAxADUALAAiAG0AUwBoAGEAZABvAHcATwBmAGYAcwBlAHQAIgA6ADcALAAiAG0AUwBoAGEAZABvAHcATwBwAGEAYwBpAHQAeQAiADoANwA1ACwAIgBtAFMAaABhAGQAbwB3AFMAaQB6AGUAIgA6ADAALAAiAG0AUwBoAGEAZABvAHcAVgBpAHMAaQBiAGwAZQAiADoAdAByAHUAZQAsACIAbQBTAHQAeQBsAGUAUwBoAGUAZQB0ACIAOgB7ACIAbQBBAGQAZABpAHQAaQBvAG4AYQBsAFMAdAByAG8AawBlAEMAbwBsAG8AcgAiADoAWwBdACwAIgBtAEEAZABkAGkAdABpAG8AbgBhAGwAUwB0AHIAbwBrAGUAVgBpAHMAaQBiAGwAZQAiADoAWwBdACwAIgBtAEEAZABkAGkAdABpAG8AbgBhAGwAUwB0AHIAbwBrAGUAVwBpAGQAdABoACIAOgBbAF0ALAAiAG0AQgBhAHMAZQBsAGkAbgBlAE8AcAB0AGkAbwBuACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBCAGEAcwBlAGwAaQBuAGUAUwBoAGkAZgB0ACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBDAGEAcABzAE8AcAB0AGkAbwBuACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBGAGEAdQB4AEIAbwBsAGQAIgA6AHsAIgBtAFAAYQByAGEAbQBWAGEAbAB1AGUAcwAiADoAWwBbADAALABmAGEAbABzAGUAXQBdAH0ALAAiAG0ARgBhAHUAeABJAHQAYQBsAGkAYwAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsAGYAYQBsAHMAZQBdAF0AfQAsACIAbQBGAGkAbABsAEMAbwBsAG8AcgAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADIANQA1AF0ALABbADEALAAyADUANQBdACwAWwAyACwAMgA1ADUAXQAsAFsAMwAsADIANQA1AF0ALABbADQALAAyADUANQBdACwAWwA1ACwAMgA1ADUAXQAsAFsANgAsADIANQA1AF0ALABbADcALAAyADUANQBdACwAWwA4ACwAMgA1ADUAXQAsAFsAOQAsADIANQA1AF0ALABbADEAMAAsADIANQA1AF0ALABbADEAMQAsADIANQA1AF0ALABbADEAMgAsADIANQA1AF0ALABbADEAMwAsADIANQA1AF0ALABbADEANAAsADIANQA1AF0ALABbADEANQAsADIANQA1AF0ALABbADEANgAsADIANQA1AF0ALABbADEANwAsADIANQA1AF0ALABbADEAOAAsADIANQA1AF0ALABbADEAOQAsADIANQA1AF0ALABbADIAMAAsADIANQA1AF0ALABbADIAMQAsADIANQA1AF0ALABbADIAMgAsADIANQA1AF0ALABbADIAMwAsADIANQA1AF0ALABbADIANAAsADIANQA1AF0ALABbADIANQAsADIANQA1AF0ALABbADIANgAsADIANQA1AF0ALABbADIANwAsADIANQA1AF0ALABbADIAOAAsADIANQA1AF0ALABbADIAOQAsADIANQA1AF0ALABbADMAMAAsADIANQA1AF0ALABbADMAMQAsADIANQA1AF0ALABbADMAMgAsADIANQA1AF0ALABbADMAMwAsADIANQA1AF0ALABbADMANAAsADIANQA1AF0ALABbADMANQAsADIANQA1AF0ALABbADMANgAsADIANQA1AF0ALABbADMANwAsADIANQA1AF0ALABbADMAOAAsADIANQA1AF0ALABbADMAOQAsADIANQA1AF0ALABbADQAMAAsADIANQA1AF0ALABbADQAMQAsADIANQA1AF0ALABbADQAMgAsADIANQA1AF0ALABbADQAMwAsADIANQA1AF0ALABbADQANAAsADIANQA1AF0ALABbADQANQAsADIANQA1AF0ALABbADQANgAsADIANQA1AF0ALABbADQANwAsADIANQA1AF0ALABbADQAOAAsADIANQA1AF0ALABbADQAOQAsADIANQA1AF0ALABbADUAMAAsADIANQA1AF0ALABbADUAMQAsADIANQA1AF0ALABbADUAMgAsADIANQA1AF0ALABbADUAMwAsADIANQA1AF0ALABbADUANAAsADIANQA1AF0ALABbADUANQAsADIANQA1AF0ALABbADUANgAsADIANQA1AF0ALABbADUANwAsADIANQA1AF0ALABbADUAOAAsADIANQA1AF0ALABbADUAOQAsADIANQA1AF0ALABbADYAMAAsADIANQA1AF0ALABbADYAMQAsADIANQA1AF0ALABbADYAMgAsADIANQA1AF0ALABbADYAMwAsADIANQA1AF0ALABbADYANAAsADIANQA1AF0ALABbADYANQAsADIANQA1AF0ALABbADYANgAsADIANQA1AF0ALABbADYANwAsADIANQA1AF0ALABbADYAOAAsADIANQA1AF0ALABbADYAOQAsADIANQA1AF0ALABbADcAMAAsADIANQA1AF0ALABbADcAMQAsADIANQA1AF0ALABbADcAMgAsADIANQA1AF0ALABbADcAMwAsADIANQA1AF0ALABbADcANAAsADIANQA1AF0ALABbADcANQAsADIANQA1AF0ALABbADcANgAsADIANQA1AF0ALABbADcANwAsADIANQA1AF0ALABbADcAOAAsADIANQA1AF0ALABbADcAOQAsADIANQA1AF0ALABbADgAMAAsADIANQA1AF0ALABbADgAMQAsADIANQA1AF0ALABbADgAMgAsADIANQA1AF0ALABbADgAMwAsADIANQA1AF0ALABbADgANAAsADIANQA1AF0ALABbADgANQAsADIANQA1AF0ALABbADgANgAsADIANQA1AF0ALABbADgANwAsADIANQA1AF0ALABbADgAOAAsADIANQA1AF0ALABbADgAOQAsADIANQA1AF0ALABbADkAMAAsADIANQA1AF0ALABbADkAMQAsADIANQA1AF0ALABbADkAMgAsADIANQA1AF0ALABbADkAMwAsADIANQA1AF0ALABbADkANAAsADIANQA1AF0ALABbADkANQAsADIANQA1AF0ALABbADkANgAsADIANQA1AF0ALABbADkANwAsADIANQA1AF0ALABbADkAOAAsADIANQA1AF0ALABbADkAOQAsADIANQA1AF0ALABbADEAMAAwACwAMgA1ADUAXQAsAFsAMQAwADEALAAyADUANQBdACwAWwAxADAAMgAsADIANQA1AF0ALABbADEAMAAzACwAMgA1ADUAXQAsAFsAMQAwADQALAAyADUANQBdACwAWwAxADAANQAsADIANQA1AF0ALABbADEAMAA2ACwAMgA1ADUAXQAsAFsAMQAwADcALAAyADUANQBdACwAWwAxADAAOAAsADIANQA1AF0ALABbADEAMAA5ACwAMgA1ADUAXQAsAFsAMQAxADAALAAyADUANQBdACwAWwAxADEAMQAsADIANQA1AF0ALABbADEAMQAyACwAMgA1ADUAXQAsAFsAMQAxADMALAAyADUANQBdACwAWwAxADEANAAsADIANQA1AF0ALABbADEAMQA1ACwAMgA1ADUAXQAsAFsAMQAxADYALAAyADUANQBdACwAWwAxADEANwAsADIANQA1AF0ALABbADEAMQA4ACwAMgA1ADUAXQAsAFsAMQAxADkALAAyADUANQBdACwAWwAxADIAMAAsADIANQA1AF0ALABbADEAMgAxACwAMgA1ADUAXQAsAFsAMQAyADIALAAyADUANQBdACwAWwAxADIAMwAsADIANQA1AF0ALABbADEAMgA0ACwAMgA1ADUAXQAsAFsAMQAyADUALAAyADUANQBdACwAWwAxADIANgAsADEANgA3ADcANwAyADEANQBdAF0AfQAsACIAbQBGAGkAbABsAE8AdgBlAHIAUwB0AHIAbwBrAGUAIgA6AHsAIgBtAFAAYQByAGEAbQBWAGEAbAB1AGUAcwAiADoAWwBbADAALAB0AHIAdQBlAF0AXQB9ACwAIgBtAEYAaQBsAGwAVgBpAHMAaQBiAGwAZQAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsAHQAcgB1AGUAXQBdAH0ALAAiAG0ARgBvAG4AdABOAGEAbQBlACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADIALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADUALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADgALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMgA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMwA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANAA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANQA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANgA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsANwA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOAA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA2ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAOQA5ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADAALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADAAMQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMAAyACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADMALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADAANAAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMAA1ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADYALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADAANwAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMAA4ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAwADkALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEAMAAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMQAxACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxADIALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEAMwAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMQA0ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxADUALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEANgAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMQA3ACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAxADgALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADEAOQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMgAwACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAyADEALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADIAMgAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMgAzACwAIgBNAGUAbgBsAG8ALQBSAGUAZwB1AGwAYQByACIAXQAsAFsAMQAyADQALAAiAE0AZQBuAGwAbwAtAFIAZQBnAHUAbABhAHIAIgBdACwAWwAxADIANQAsACIATQBlAG4AbABvAC0AUgBlAGcAdQBsAGEAcgAiAF0ALABbADEAMgA2ACwAIgA1ADgANwAyADQAMgAwADIALQBEAEQANQA4AC0ANAAyADAAQgAtAEEANgBGADAALQAyAEYAQgBCAEMAOAAxADIARgA3AEIANQAiAF0AXQB9ACwAIgBtAEYAbwBuAHQAUwBpAHoAZQAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADEAMAAwAF0AXQB9ACwAIgBtAEsAZQByAG4AaQBuAGcAIgA6AHsAIgBtAFAAYQByAGEAbQBWAGEAbAB1AGUAcwAiADoAWwBbADAALAAwAF0AXQB9ACwAIgBtAFMAdAByAG8AawBlAEMAbwBsAG8AcgAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADAAXQAsAFsAMQAsADAAXQAsAFsAMgAsADAAXQAsAFsAMwAsADAAXQAsAFsANAAsADAAXQAsAFsANQAsADAAXQAsAFsANgAsADAAXQAsAFsANwAsADAAXQAsAFsAOAAsADAAXQAsAFsAOQAsADAAXQAsAFsAMQAwACwAMABdACwAWwAxADEALAAwAF0ALABbADEAMgAsADAAXQAsAFsAMQAzACwAMABdACwAWwAxADQALAAwAF0ALABbADEANQAsADAAXQAsAFsAMQA2ACwAMABdACwAWwAxADcALAAwAF0ALABbADEAOAAsADAAXQAsAFsAMQA5ACwAMABdACwAWwAyADAALAAwAF0ALABbADIAMQAsADAAXQAsAFsAMgAyACwAMABdACwAWwAyADMALAAwAF0ALABbADIANAAsADAAXQAsAFsAMgA1ACwAMABdACwAWwAyADYALAAwAF0ALABbADIANwAsADAAXQAsAFsAMgA4ACwAMABdACwAWwAyADkALAAwAF0ALABbADMAMAAsADAAXQAsAFsAMwAxACwAMABdACwAWwAzADIALAAwAF0ALABbADMAMwAsADAAXQAsAFsAMwA0ACwAMABdACwAWwAzADUALAAwAF0ALABbADMANgAsADAAXQAsAFsAMwA3ACwAMABdACwAWwAzADgALAAwAF0ALABbADMAOQAsADAAXQAsAFsANAAwACwAMABdACwAWwA0ADEALAAwAF0ALABbADQAMgAsADAAXQAsAFsANAAzACwAMABdACwAWwA0ADQALAAwAF0ALABbADQANQAsADAAXQAsAFsANAA2ACwAMABdACwAWwA0ADcALAAwAF0ALABbADQAOAAsADAAXQAsAFsANAA5ACwAMABdACwAWwA1ADAALAAwAF0ALABbADUAMQAsADAAXQAsAFsANQAyACwAMABdACwAWwA1ADMALAAwAF0ALABbADUANAAsADAAXQAsAFsANQA1ACwAMABdACwAWwA1ADYALAAwAF0ALABbADUANwAsADAAXQAsAFsANQA4ACwAMABdACwAWwA1ADkALAAwAF0ALABbADYAMAAsADAAXQAsAFsANgAxACwAMABdACwAWwA2ADIALAAwAF0ALABbADYAMwAsADAAXQAsAFsANgA0ACwAMABdACwAWwA2ADUALAAwAF0ALABbADYANgAsADAAXQAsAFsANgA3ACwAMABdACwAWwA2ADgALAAwAF0ALABbADYAOQAsADAAXQAsAFsANwAwACwAMABdACwAWwA3ADEALAAwAF0ALABbADcAMgAsADAAXQAsAFsANwAzACwAMABdACwAWwA3ADQALAAwAF0ALABbADcANQAsADAAXQAsAFsANwA2ACwAMABdACwAWwA3ADcALAAwAF0ALABbADcAOAAsADAAXQAsAFsANwA5ACwAMABdACwAWwA4ADAALAAwAF0ALABbADgAMQAsADAAXQAsAFsAOAAyACwAMABdACwAWwA4ADMALAAwAF0ALABbADgANAAsADAAXQAsAFsAOAA1ACwAMABdACwAWwA4ADYALAAwAF0ALABbADgANwAsADAAXQAsAFsAOAA4ACwAMABdACwAWwA4ADkALAAwAF0ALABbADkAMAAsADAAXQAsAFsAOQAxACwAMABdACwAWwA5ADIALAAwAF0ALABbADkAMwAsADAAXQAsAFsAOQA0ACwAMABdACwAWwA5ADUALAAwAF0ALABbADkANgAsADAAXQAsAFsAOQA3ACwAMABdACwAWwA5ADgALAAwAF0ALABbADkAOQAsADAAXQAsAFsAMQAwADAALAAwAF0ALABbADEAMAAxACwAMABdACwAWwAxADAAMgAsADAAXQAsAFsAMQAwADMALAAwAF0ALABbADEAMAA0ACwAMABdACwAWwAxADAANQAsADAAXQAsAFsAMQAwADYALAAwAF0ALABbADEAMAA3ACwAMABdACwAWwAxADAAOAAsADAAXQAsAFsAMQAwADkALAAwAF0ALABbADEAMQAwACwAMABdACwAWwAxADEAMQAsADAAXQAsAFsAMQAxADIALAAwAF0ALABbADEAMQAzACwAMABdACwAWwAxADEANAAsADAAXQAsAFsAMQAxADUALAAwAF0ALABbADEAMQA2ACwAMABdACwAWwAxADEANwAsADAAXQAsAFsAMQAxADgALAAwAF0ALABbADEAMQA5ACwAMABdACwAWwAxADIAMAAsADAAXQAsAFsAMQAyADEALAAwAF0ALABbADEAMgAyACwAMABdACwAWwAxADIAMwAsADAAXQAsAFsAMQAyADQALAAwAF0ALABbADEAMgA1ACwAMABdACwAWwAxADIANgAsADEANgA3ADcANwAyADEANQBdAF0AfQAsACIAbQBTAHQAcgBvAGsAZQBWAGkAcwBpAGIAbABlACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAdAByAHUAZQBdACwAWwAxACwAdAByAHUAZQBdACwAWwAyACwAdAByAHUAZQBdACwAWwAzACwAdAByAHUAZQBdACwAWwA0ACwAdAByAHUAZQBdACwAWwA1ACwAdAByAHUAZQBdACwAWwA2ACwAdAByAHUAZQBdACwAWwA3ACwAdAByAHUAZQBdACwAWwA4ACwAdAByAHUAZQBdACwAWwA5ACwAdAByAHUAZQBdACwAWwAxADAALAB0AHIAdQBlAF0ALABbADEAMQAsAHQAcgB1AGUAXQAsAFsAMQAyACwAdAByAHUAZQBdACwAWwAxADMALAB0AHIAdQBlAF0ALABbADEANAAsAHQAcgB1AGUAXQAsAFsAMQA1ACwAdAByAHUAZQBdACwAWwAxADYALAB0AHIAdQBlAF0ALABbADEANwAsAHQAcgB1AGUAXQAsAFsAMQA4ACwAdAByAHUAZQBdACwAWwAxADkALAB0AHIAdQBlAF0ALABbADIAMAAsAHQAcgB1AGUAXQAsAFsAMgAxACwAdAByAHUAZQBdACwAWwAyADIALAB0AHIAdQBlAF0ALABbADIAMwAsAHQAcgB1AGUAXQAsAFsAMgA0ACwAdAByAHUAZQBdACwAWwAyADUALAB0AHIAdQBlAF0ALABbADIANgAsAHQAcgB1AGUAXQAsAFsAMgA3ACwAdAByAHUAZQBdACwAWwAyADgALAB0AHIAdQBlAF0ALABbADIAOQAsAHQAcgB1AGUAXQAsAFsAMwAwACwAdAByAHUAZQBdACwAWwAzADEALAB0AHIAdQBlAF0ALABbADMAMgAsAHQAcgB1AGUAXQAsAFsAMwAzACwAdAByAHUAZQBdACwAWwAzADQALAB0AHIAdQBlAF0ALABbADMANQAsAHQAcgB1AGUAXQAsAFsAMwA2ACwAdAByAHUAZQBdACwAWwAzADcALAB0AHIAdQBlAF0ALABbADMAOAAsAHQAcgB1AGUAXQAsAFsAMwA5ACwAdAByAHUAZQBdACwAWwA0ADAALAB0AHIAdQBlAF0ALABbADQAMQAsAHQAcgB1AGUAXQAsAFsANAAyACwAdAByAHUAZQBdACwAWwA0ADMALAB0AHIAdQBlAF0ALABbADQANAAsAHQAcgB1AGUAXQAsAFsANAA1ACwAdAByAHUAZQBdACwAWwA0ADYALAB0AHIAdQBlAF0ALABbADQANwAsAHQAcgB1AGUAXQAsAFsANAA4ACwAdAByAHUAZQBdACwAWwA0ADkALAB0AHIAdQBlAF0ALABbADUAMAAsAHQAcgB1AGUAXQAsAFsANQAxACwAdAByAHUAZQBdACwAWwA1ADIALAB0AHIAdQBlAF0ALABbADUAMwAsAHQAcgB1AGUAXQAsAFsANQA0ACwAdAByAHUAZQBdACwAWwA1ADUALAB0AHIAdQBlAF0ALABbADUANgAsAHQAcgB1AGUAXQAsAFsANQA3ACwAdAByAHUAZQBdACwAWwA1ADgALAB0AHIAdQBlAF0ALABbADUAOQAsAHQAcgB1AGUAXQAsAFsANgAwACwAdAByAHUAZQBdACwAWwA2ADEALAB0AHIAdQBlAF0ALABbADYAMgAsAHQAcgB1AGUAXQAsAFsANgAzACwAdAByAHUAZQBdACwAWwA2ADQALAB0AHIAdQBlAF0ALABbADYANQAsAHQAcgB1AGUAXQAsAFsANgA2ACwAdAByAHUAZQBdACwAWwA2ADcALAB0AHIAdQBlAF0ALABbADYAOAAsAHQAcgB1AGUAXQAsAFsANgA5ACwAdAByAHUAZQBdACwAWwA3ADAALAB0AHIAdQBlAF0ALABbADcAMQAsAHQAcgB1AGUAXQAsAFsANwAyACwAdAByAHUAZQBdACwAWwA3ADMALAB0AHIAdQBlAF0ALABbADcANAAsAHQAcgB1AGUAXQAsAFsANwA1ACwAdAByAHUAZQBdACwAWwA3ADYALAB0AHIAdQBlAF0ALABbADcANwAsAHQAcgB1AGUAXQAsAFsANwA4ACwAdAByAHUAZQBdACwAWwA3ADkALAB0AHIAdQBlAF0ALABbADgAMAAsAHQAcgB1AGUAXQAsAFsAOAAxACwAdAByAHUAZQBdACwAWwA4ADIALAB0AHIAdQBlAF0ALABbADgAMwAsAHQAcgB1AGUAXQAsAFsAOAA0ACwAdAByAHUAZQBdACwAWwA4ADUALAB0AHIAdQBlAF0ALABbADgANgAsAHQAcgB1AGUAXQAsAFsAOAA3ACwAdAByAHUAZQBdACwAWwA4ADgALAB0AHIAdQBlAF0ALABbADgAOQAsAHQAcgB1AGUAXQAsAFsAOQAwACwAdAByAHUAZQBdACwAWwA5ADEALAB0AHIAdQBlAF0ALABbADkAMgAsAHQAcgB1AGUAXQAsAFsAOQAzACwAdAByAHUAZQBdACwAWwA5ADQALAB0AHIAdQBlAF0ALABbADkANQAsAHQAcgB1AGUAXQAsAFsAOQA2ACwAdAByAHUAZQBdACwAWwA5ADcALAB0AHIAdQBlAF0ALABbADkAOAAsAHQAcgB1AGUAXQAsAFsAOQA5ACwAdAByAHUAZQBdACwAWwAxADAAMAAsAHQAcgB1AGUAXQAsAFsAMQAwADEALAB0AHIAdQBlAF0ALABbADEAMAAyACwAdAByAHUAZQBdACwAWwAxADAAMwAsAHQAcgB1AGUAXQAsAFsAMQAwADQALAB0AHIAdQBlAF0ALABbADEAMAA1ACwAdAByAHUAZQBdACwAWwAxADAANgAsAHQAcgB1AGUAXQAsAFsAMQAwADcALAB0AHIAdQBlAF0ALABbADEAMAA4ACwAdAByAHUAZQBdACwAWwAxADAAOQAsAHQAcgB1AGUAXQAsAFsAMQAxADAALAB0AHIAdQBlAF0ALABbADEAMQAxACwAdAByAHUAZQBdACwAWwAxADEAMgAsAHQAcgB1AGUAXQAsAFsAMQAxADMALAB0AHIAdQBlAF0ALABbADEAMQA0ACwAdAByAHUAZQBdACwAWwAxADEANQAsAHQAcgB1AGUAXQAsAFsAMQAxADYALAB0AHIAdQBlAF0ALABbADEAMQA3ACwAdAByAHUAZQBdACwAWwAxADEAOAAsAHQAcgB1AGUAXQAsAFsAMQAxADkALAB0AHIAdQBlAF0ALABbADEAMgAwACwAdAByAHUAZQBdACwAWwAxADIAMQAsAHQAcgB1AGUAXQAsAFsAMQAyADIALAB0AHIAdQBlAF0ALABbADEAMgAzACwAdAByAHUAZQBdACwAWwAxADIANAAsAHQAcgB1AGUAXQAsAFsAMQAyADUALAB0AHIAdQBlAF0ALABbADEAMgA2ACwAZgBhAGwAcwBlAF0AXQB9ACwAIgBtAFMAdAByAG8AawBlAFcAaQBkAHQAaAAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADEAXQBdAH0ALAAiAG0AVABlAHgAdAAiADoAIgBBACAAYwBlAG4AdABlAHIAIABhAGwAaQBnAG4AIABUAGkAdABsAGUAIABDAGEAcgBkAFwAcgB3AGkAdABoACAATQBlAG4AbABvACAARgBvAG4AdAAgAGEAbgBkAFwAcgBSAEcAQgAgAHYAYQBsAHUAZQBzACAALQBcAHIAZgBpAGwAbAA6ACAAMAAgADAAIAAyADUANQBcAHIAcwB0AHIAbwBrAGUAOgAgADAAIAAwACAAMABcAHIAYgBhAGMAawBnAHIAbwB1AG4AZAA6ACAAMgA1ADUAIAAwACAAMABcAHIAcwBoAGEAZABvAHcAOgAgADIANQA1ACAAMgA1ADUAIAAyADUANQAiACwAIgBtAFQAcgBhAGMAawBpAG4AZwAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsADAAXQBdAH0ALAAiAG0AVABzAHUAbQBpACIAOgB7ACIAbQBQAGEAcgBhAG0AVgBhAGwAdQBlAHMAIgA6AFsAWwAwACwAMABdAF0AfQAsACIAbQBVAG4AZABlAHIAbABpAG4AZQAiADoAewAiAG0AUABhAHIAYQBtAFYAYQBsAHUAZQBzACIAOgBbAFsAMAAsAGYAYQBsAHMAZQBdAF0AfQB9ACwAIgBtAFQAYQBiAFcAaQBkAHQAaAAiADoANAAwADAALAAiAG0AVgBlAHIAdABpAGMAYQBsAEEAbABpAGcAbgBtAGUAbgB0ACIAOgAwACwAIgBtAFcAaQBkAHQAaAAiADoAMAB9ACwAIgBtAFUAcwBlAEwAZQBnAGEAYwB5AFQAZQB4AHQAQgBvAHgAIgA6AGYAYQBsAHMAZQAsACIAbQBWAGUAcgBzAGkAbwBuACIAOgAxAH0A"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "11",
+                                                "UpperBound": "false",
+                                                "name": "Transform",
+                                                "parameterid": "2",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "name": "Position",
+                                                "parameterid": "3",
+                                                "value": "-91445760000000000,0.4997355043888092:0.20081990957260132,0,0,0,0,0,0,5,4,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "4000",
+                                                "name": "Scale",
+                                                "parameterid": "4",
+                                                "value": "-91445760000000000,100.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "4000",
+                                                "name": "Horizontal Scale",
+                                                "parameterid": "5",
+                                                "value": "-91445760000000000,100.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "6",
+                                                "value": "-91445760000000000,true,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-32768",
+                                                "ParameterControlType": "3",
+                                                "UpperBound": "32767",
+                                                "name": "Rotation",
+                                                "parameterid": "7",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "100",
+                                                "name": "Opacity",
+                                                "parameterid": "8",
+                                                "value": "-91445760000000000,100.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "name": "Anchor Point",
+                                                "parameterid": "9",
+                                                "value": "-91445760000000000,0:0,0,0,0,0,0,0,5,4,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "12",
+                                                "UpperBound": "false",
+                                                "name": null,
+                                                "parameterid": "10",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "32768",
+                                                "name": " ",
+                                                "parameterid": "11",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "32768",
+                                                "name": " ",
+                                                "parameterid": "12",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-100",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "1000000000",
+                                                "name": "start",
+                                                "parameterid": "13",
+                                                "value": "-91445760000000000,69.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-100",
+                                                "ParameterControlType": "8",
+                                                "UpperBound": "1000000000",
+                                                "name": "end",
+                                                "parameterid": "14",
+                                                "value": "-91445760000000000,69.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "15",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "16",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "17",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "false",
+                                                "ParameterControlType": "4",
+                                                "UpperBound": "true",
+                                                "name": " ",
+                                                "parameterid": "18",
+                                                "value": "-91445760000000000,false,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "20000",
+                                                "name": "Parent Width",
+                                                "parameterid": "19",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "0",
+                                                "ParameterControlType": "2",
+                                                "UpperBound": "20000",
+                                                "name": "Parent Height",
+                                                "parameterid": "20",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            },
+                                            {
+                                                "@authoringApp": "PremierePro",
+                                                "IsTimeVarying": "false",
+                                                "LowerBound": "-32768",
+                                                "ParameterControlType": "3",
+                                                "UpperBound": "32767",
+                                                "name": "Parent Rotation",
+                                                "parameterid": "21",
+                                                "value": "-91445760000000000,0.,0,0,0,0,0,0"
+                                            }
+                                        ],
+                                        "pproBypass": "false"
+                                    }
+                                },
+                                "name": "A center align Title Card\rwith Menlo Font and\rRGB values -\rfill: 0 0 255\rstroke: 0 0 0\rbackground: 255 0 0\rshadow: 255 255 255",
+                                "effect_name": "",
+                                "enabled": true
+                            }
+                        ],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-5",
+                                        "media": {
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "none",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "30"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "30"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "DF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "30"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "Graphic",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "GraphicAndType",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    }
+                ],
+                "kind": "Video"
+            },
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "0",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "enabled": "TRUE",
+                        "locked": "FALSE"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [],
+                "kind": "Video"
+            },
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "0",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "enabled": "TRUE",
+                        "locked": "FALSE"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [],
+                "kind": "Video"
+            },
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "1",
+                        "@PannerCurrentValue": "0.5",
+                        "@PannerIsInverted": "true",
+                        "@PannerName": "Balance",
+                        "@PannerStartKeyframe": "-91445760000000000,0.5,0,0,0,0,0,0",
+                        "@TL.SQTrackAudioKeyframeStyle": "0",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "@currentExplodedTrackIndex": "0",
+                        "@premiereTrackType": "Stereo",
+                        "@totalExplodedTrackCount": "2",
+                        "enabled": "TRUE",
+                        "locked": "FALSE",
+                        "outputchannelindex": "1"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-7",
+                                "@premiereChannelType": "mono",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "link": [
+                                    {
+                                        "clipindex": "1",
+                                        "linkclipref": "clipitem-1",
+                                        "mediatype": "video",
+                                        "trackindex": "1"
+                                    },
+                                    {
+                                        "clipindex": "1",
+                                        "groupindex": "1",
+                                        "linkclipref": "clipitem-7",
+                                        "mediatype": "audio",
+                                        "trackindex": "1"
+                                    }
+                                ],
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-1",
+                                "pproTicksIn": "0",
+                                "pproTicksOut": "2796970176000",
+                                "sourcetrack": {
+                                    "mediatype": "audio",
+                                    "trackindex": "1"
+                                }
+                            }
+                        },
+                        "name": "Universal Counting Leader",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 264.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-1",
+                                        "media": {
+                                            "audio": {
+                                                "audiochannel": {
+                                                    "sourcechannel": "1"
+                                                },
+                                                "channelcount": "1",
+                                                "samplecharacteristics": {
+                                                    "depth": "16",
+                                                    "samplerate": "48000"
+                                                }
+                                            },
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "lower",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "24"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "24"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "NDF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "24"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "Universal Counting Leader",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 23.976023976023978,
+                                        "value": 264.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 23.976023976023978,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "Slug",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    },
+                    {
+                        "OTIO_SCHEMA": "Gap.1",
+                        "metadata": {},
+                        "name": "",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 238.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 0.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null
+                    },
+                    {
+                        "OTIO_SCHEMA": "Clip.2",
+                        "metadata": {
+                            "fcp_xml": {
+                                "@id": "clipitem-8",
+                                "@premiereChannelType": "stereo",
+                                "colorinfo": {
+                                    "asc_sat": null,
+                                    "asc_sop": null,
+                                    "lut": null,
+                                    "lut1": null,
+                                    "lut2": null
+                                },
+                                "enabled": "TRUE",
+                                "link": [
+                                    {
+                                        "clipindex": "4",
+                                        "linkclipref": "clipitem-4",
+                                        "mediatype": "video",
+                                        "trackindex": "1"
+                                    },
+                                    {
+                                        "clipindex": "2",
+                                        "groupindex": "1",
+                                        "linkclipref": "clipitem-8",
+                                        "mediatype": "audio",
+                                        "trackindex": "1"
+                                    },
+                                    {
+                                        "clipindex": "1",
+                                        "groupindex": "1",
+                                        "linkclipref": "clipitem-9",
+                                        "mediatype": "audio",
+                                        "trackindex": "2"
+                                    }
+                                ],
+                                "logginginfo": {
+                                    "description": null,
+                                    "good": null,
+                                    "lognote": null,
+                                    "originalaudiofilename": null,
+                                    "originalvideofilename": null,
+                                    "scene": null,
+                                    "shottake": null
+                                },
+                                "masterclipid": "masterclip-4",
+                                "pproTicksIn": "914450328792000",
+                                "pproTicksOut": "915711084288000",
+                                "sourcetrack": {
+                                    "mediatype": "audio",
+                                    "trackindex": "1"
+                                }
+                            }
+                        },
+                        "name": "HD Bars and Tone",
+                        "source_range": {
+                            "OTIO_SCHEMA": "TimeRange.1",
+                            "duration": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 119.0
+                            },
+                            "start_time": {
+                                "OTIO_SCHEMA": "RationalTime.1",
+                                "rate": 23.976023976023978,
+                                "value": 86313.0
+                            }
+                        },
+                        "effects": [],
+                        "markers": [],
+                        "enabled": true,
+                        "color": null,
+                        "media_references": {
+                            "DEFAULT_MEDIA": {
+                                "OTIO_SCHEMA": "GeneratorReference.1",
+                                "metadata": {
+                                    "fcp_xml": {
+                                        "@id": "file-3",
+                                        "media": {
+                                            "audio": {
+                                                "channelcount": "2",
+                                                "samplecharacteristics": {
+                                                    "depth": "16",
+                                                    "samplerate": "48000"
+                                                }
+                                            },
+                                            "video": {
+                                                "samplecharacteristics": {
+                                                    "anamorphic": "FALSE",
+                                                    "fielddominance": "none",
+                                                    "height": "1080",
+                                                    "pixelaspectratio": "square",
+                                                    "rate": {
+                                                        "ntsc": "TRUE",
+                                                        "timebase": "30"
+                                                    },
+                                                    "width": "1920"
+                                                }
+                                            }
+                                        },
+                                        "rate": {
+                                            "ntsc": "TRUE",
+                                            "timebase": "30"
+                                        },
+                                        "timecode": {
+                                            "displayformat": "DF",
+                                            "rate": {
+                                                "ntsc": "TRUE",
+                                                "timebase": "30"
+                                            }
+                                        }
+                                    }
+                                },
+                                "name": "HD Bars and Tone",
+                                "available_range": {
+                                    "OTIO_SCHEMA": "TimeRange.1",
+                                    "duration": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 1294705.0
+                                    },
+                                    "start_time": {
+                                        "OTIO_SCHEMA": "RationalTime.1",
+                                        "rate": 29.97002997002997,
+                                        "value": 0.0
+                                    }
+                                },
+                                "available_image_bounds": null,
+                                "generator_kind": "Slug",
+                                "parameters": {}
+                            }
+                        },
+                        "active_media_reference_key": "DEFAULT_MEDIA"
+                    }
+                ],
+                "kind": "Audio"
+            },
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "1",
+                        "@PannerCurrentValue": "0.5",
+                        "@PannerIsInverted": "true",
+                        "@PannerName": "Balance",
+                        "@PannerStartKeyframe": "-91445760000000000,0.5,0,0,0,0,0,0",
+                        "@TL.SQTrackAudioKeyframeStyle": "0",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "@currentExplodedTrackIndex": "0",
+                        "@premiereTrackType": "Stereo",
+                        "@totalExplodedTrackCount": "2",
+                        "enabled": "TRUE",
+                        "locked": "FALSE",
+                        "outputchannelindex": "1"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [],
+                "kind": "Audio"
+            },
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "1",
+                        "@PannerCurrentValue": "0.5",
+                        "@PannerIsInverted": "true",
+                        "@PannerName": "Balance",
+                        "@PannerStartKeyframe": "-91445760000000000,0.5,0,0,0,0,0,0",
+                        "@TL.SQTrackAudioKeyframeStyle": "0",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "@currentExplodedTrackIndex": "0",
+                        "@premiereTrackType": "Stereo",
+                        "@totalExplodedTrackCount": "2",
+                        "enabled": "TRUE",
+                        "locked": "FALSE",
+                        "outputchannelindex": "1"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [],
+                "kind": "Audio"
+            },
+            {
+                "OTIO_SCHEMA": "Track.1",
+                "metadata": {
+                    "fcp_xml": {
+                        "@MZ.TrackTargeted": "1",
+                        "@PannerCurrentValue": "0.5",
+                        "@PannerIsInverted": "true",
+                        "@PannerName": "Balance",
+                        "@PannerStartKeyframe": "-91445760000000000,0.5,0,0,0,0,0,0",
+                        "@TL.SQTrackAudioKeyframeStyle": "0",
+                        "@TL.SQTrackExpanded": "0",
+                        "@TL.SQTrackExpandedHeight": "25",
+                        "@TL.SQTrackShy": "0",
+                        "@currentExplodedTrackIndex": "0",
+                        "@premiereTrackType": "Stereo",
+                        "@totalExplodedTrackCount": "2",
+                        "enabled": "TRUE",
+                        "locked": "FALSE",
+                        "outputchannelindex": "1"
+                    }
+                },
+                "name": "",
+                "source_range": null,
+                "effects": [],
+                "markers": [],
+                "enabled": true,
+                "color": null,
+                "children": [],
+                "kind": "Audio"
+            }
+        ]
+    }
+}

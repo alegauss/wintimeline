@@ -43,7 +43,7 @@ public interface ITimelineAdapter
 public static class TimelineAdapters
 {
     /// <summary>Every adapter, the native .otio first.</summary>
-    public static IReadOnlyList<ITimelineAdapter> All { get; } = [new OtioJsonAdapter(), new CmxEdlAdapter()];
+    public static IReadOnlyList<ITimelineAdapter> All { get; } = [new OtioJsonAdapter(), new CmxEdlAdapter(), new FcpXmlAdapter(), new FcpxXmlAdapter()];
 
     /// <summary>The adapter for a path, by its extension, or null when no adapter takes it.</summary>
     /// <param name="path">A file path.</param>
@@ -92,5 +92,40 @@ public static class TimelineAdapters
 
         public void Write(ModelObject root, string path, AdapterOptions options) =>
             throw new NotSupportedException("Writing EDLs is not supported yet.");
+    }
+
+    /// <summary>WT156: Final Cut Pro 7 XML (xmeml), as Premiere and Resolve export it.</summary>
+    private sealed class FcpXmlAdapter : ITimelineAdapter
+    {
+        public string Name => "Final Cut Pro 7 XML";
+
+        public IReadOnlyList<string> Suffixes { get; } = [".xml"];
+
+        public bool CanRead => true;
+
+        public bool CanWrite => false;
+
+        public ModelObject Read(string path, AdapterOptions options) => FcpXmlReader.Read(File.ReadAllText(path));
+
+        public void Write(ModelObject root, string path, AdapterOptions options) =>
+            throw new NotSupportedException("Writing FCP 7 XML is not supported yet.");
+    }
+
+    /// <summary>WT156: FCPXML 1.9 to 1.11, a file or an .fcpxmld bundle whose Info.fcpxml holds it.</summary>
+    private sealed class FcpxXmlAdapter : ITimelineAdapter
+    {
+        public string Name => "Final Cut Pro XML";
+
+        public IReadOnlyList<string> Suffixes { get; } = [".fcpxml", ".fcpxmld"];
+
+        public bool CanRead => true;
+
+        public bool CanWrite => false;
+
+        public ModelObject Read(string path, AdapterOptions options) =>
+            FcpxXmlReader.Read(File.ReadAllText(Directory.Exists(path) ? Path.Combine(path, "Info.fcpxml") : path));
+
+        public void Write(ModelObject root, string path, AdapterOptions options) =>
+            throw new NotSupportedException("Writing FCPXML is not supported yet.");
     }
 }

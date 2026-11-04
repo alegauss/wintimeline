@@ -11,7 +11,6 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT156** (deps: WT15 ✅) **FCP 7 XML and FCPXML timelines from Premiere and Resolve cannot be opened** — They are the formats both editors write; split out of WT15, which shipped the adapter interface and EDL. → §WT156
 - 📋 **WT157** (deps: WT15 ✅) **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — Avid hands off AAF, and porting every adapter is not worth it when the reference can convert out of process; split out of WT15. → §WT157
 - 📋 **WT158** (deps: WT15 ✅, WT5 ✅) **Every EDL opens at 24 fps, so a 25 or 30 fps EDL is refused or read at the wrong speed** — EDLs state no rate, and only the person opening one knows it; found shipping WT15. → §WT158
 - 📋 **WT159** (deps: WT18 ✅, WT24, WT22 ✅) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159

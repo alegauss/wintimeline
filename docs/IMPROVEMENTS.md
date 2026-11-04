@@ -100,27 +100,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT156 FCP 7 XML and FCPXML readers
-
-Split out of WT15, which shipped the adapter interface (`ITimelineAdapter`,
-`TimelineAdapters` in `WinTimeline.Model.Adapters`) and the CMX 3600 EDL reader.
-
-Two native readers remain, each a port of OpenTimelineIO's own adapter so the test can
-be the one WT15 used: for every sample in the adapter's repository, the timeline read
-here is written by `OtioWriter` byte for byte as the reference writes the one it reads,
-or refused where it refuses.
-
-- **FCP 7 XML** (`otio-fcp-adapter`, fcp_xml.py): `xmeml` sequences, tracks, clipitems,
-  transitionitems, generators, markers, and the `file` elements shared by id.
-- **FCPXML 1.9 to 1.11** (fcpx_xml.py): the resource library, spine and connected clips
-  (lanes become tracks), gaps, titles as generators, and markers.
-
-Each registers in `TimelineAdapters.All` with its suffixes (.xml, .fcpxml, .fcpxmld), so
-File > Open lists it without UI changes. An .xml that is not `xmeml` is refused by name,
-not misread.
-
-Done when both adapters' sample files read here as the reference reads them.
-
 ### §WT157 Bridging to OpenTimelineIO's Python adapters
 
 Split out of WT15. Formats with no native reader here (AAF, ALE, kdenlive, and whatever

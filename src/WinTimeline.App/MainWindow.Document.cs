@@ -104,7 +104,7 @@ public partial class MainWindow
             ShowWelcome();
             return true;
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException or FcpXmlException or FcpxXmlException)
         {
             string reason = ex is FileNotFoundException or DirectoryNotFoundException ? UiText.NotFound : ex.Message;
             StatusText.Text = UiText.CouldNotOpen(name, reason);

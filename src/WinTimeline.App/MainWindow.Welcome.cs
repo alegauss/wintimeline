@@ -16,7 +16,7 @@ namespace WinTimeline.App;
 /// </summary>
 public partial class MainWindow
 {
-    private static readonly string[] DocumentExtensions = [".otio", ".otioz", ".otiod", ".edl"];
+    private static readonly string[] DocumentExtensions = [".otio", ".otioz", ".otiod", ".edl", ".xml", ".fcpxml", ".fcpxmld"];
 
     /// <summary>What the status bar says after media was dropped, e.g. "Created a timeline from 2 files: 2 clips on 2 tracks."</summary>
     /// <param name="files">How many files became clips.</param>
