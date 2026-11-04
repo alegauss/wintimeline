@@ -101,8 +101,10 @@ public partial class MainWindow
             DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
             StartJournal(name);
             Title = $"{name} — WinTimeline";
+            string restored = RestoreProject();
             StatusText.Text = OpenedText(name, document) + MissingText()
-                + (ActiveTimeline is { } opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty);
+                + (ActiveTimeline is { } opened ? ProblemsWindow.CountText(Model.Validation.Validator.Check(opened).Count) : string.Empty)
+                + restored;
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
             return true;
         }
@@ -139,6 +141,7 @@ public partial class MainWindow
             }
 
             DocumentPath = Path.GetFullPath(path);
+            KeepProject(DocumentPath);
             _journal?.MarkSaved();
             Title = $"{name} — WinTimeline";
             StatusText.Text = $"Saved {name}.";

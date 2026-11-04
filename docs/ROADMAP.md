@@ -14,15 +14,15 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT22** (deps: WT13 ✅) **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — The .otio must stay clean for interchange, while the editor needs per-project state that survives reopening. → §WT22
 - 📋 **WT156** (deps: WT15 ✅) **FCP 7 XML and FCPXML timelines from Premiere and Resolve cannot be opened** — They are the formats both editors write; split out of WT15, which shipped the adapter interface and EDL. → §WT156
 - 📋 **WT157** (deps: WT15 ✅) **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — Avid hands off AAF, and porting every adapter is not worth it when the reference can convert out of process; split out of WT15. → §WT157
 - 📋 **WT158** (deps: WT15 ✅, WT5 ✅) **Every EDL opens at 24 fps, so a 25 or 30 fps EDL is refused or read at the wrong speed** — EDLs state no rate, and only the person opening one knows it; found shipping WT15. → §WT158
-- 📋 **WT159** (deps: WT18 ✅, WT24, WT22) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
+- 📋 **WT159** (deps: WT18 ✅, WT24, WT22 ✅) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
 - 📋 **WT160** (deps: WT20 ✅) **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Assembling a version from another reel means rebuilding its clips by hand; it waits on a timeline panel that can select clips. → §WT160
 - 📋 **WT161** (deps: WT17 ✅, WT20 ✅) **Edits to a file of several timelines are not journaled, so a crash loses them** — The recovery journal addresses commands from one timeline; collections need paths that name the timeline too. → §WT161
 - 📋 **WT162** (deps: WT21 ✅) **A comparison cannot be exported as a change-list EDL or as markers for another tool** — Online and sound editors receive changes as a change list or markers, and retyping the list is where conform errors come from. → §WT162
 - 📋 **WT163** (deps: WT21 ✅) **The changes between two versions show only as a list, not as colour bands on the timeline** — A reviewer reads a cut by its shape; bands on the clips that moved, trimmed or were replaced show where the edits fall. → §WT163
+- 📋 **WT164** (deps: WT22 ✅) **A layout change or tab choice made without saving the document is lost on close** — The sidecar is written only with a save, so a reviewer who only looked around reopens to the default layout. → §WT164
 
 ## Block C — Media probing and GPU decoding
 
@@ -77,7 +77,7 @@
 - 📋 **WT59** (deps: WT1 ✅) (requires: second-monitor) **Panels cannot be docked, tabbed, floated onto a second monitor, or saved as named workspaces** — Editors arrange the screen per task (cut, sound, colour, review), and a fixed layout wastes a second monitor. → §WT59
 - 📋 **WT60** (deps: WT59, WT36, WT34) **No program viewer shows the timeline at the playhead with transport controls** — The program viewer is where every edit is judged. → §WT60
 - 📋 **WT61** (deps: WT60) **A media file cannot be opened in a source viewer to mark in and out before editing** — Choosing the part of a shot to use happens in the source viewer, before the timeline. → §WT61
-- 📋 **WT62** (deps: WT59, WT22, WT24) **Imported media has nowhere to live: no bins, folders, list or grid views, search or metadata columns** — Projects have hundreds of files, and finding the right one quickly is a large share of editing time. → §WT62
+- 📋 **WT62** (deps: WT59, WT22 ✅, WT24) **Imported media has nowhere to live: no bins, folders, list or grid views, search or metadata columns** — Projects have hundreds of files, and finding the right one quickly is a large share of editing time. → §WT62
 - 📋 **WT63** (deps: WT59, WT52) **Clip, track, transition and timeline properties, including OTIO metadata, cannot be seen or edited** — OTIO carries rich metadata, and a viewer-editor must show and edit it faithfully. → §WT63
 - 📋 **WT64** (deps: WT59, WT16 ✅) **Past edits cannot be seen as a list or jumped to** — Seeing what changed, and returning to a point before a bad idea, is faster than pressing undo twenty times. → §WT64
 - 📋 **WT65** (deps: WT59, WT54) **Markers cannot be listed, filtered, edited in bulk or exported as review notes** — Review feedback arrives as dozens of markers, and working through them needs a list. → §WT65
@@ -131,7 +131,7 @@
 - 📋 **WT101** (deps: WT100, WT40) **Models cannot be downloaded, resumed, verified, moved to another drive or removed from inside the app** — Models weigh from 50 MB to 10 GB, and an interrupted or corrupt download must never break a feature. → §WT101
 - 📋 **WT102** (deps: WT101, WT67) **Nothing in the UI shows which AI features are available, which models they need and whether this PC can run them** — AI features must explain themselves before a 4 GB download, or people will not trust them. → §WT102
 - 📋 **WT103** (deps: WT99) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Editors work under NDA, and a local-only promise is only worth something if it is enforced and visible. → §WT103
-- 📋 **WT104** (deps: WT22, WT99) **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis is expensive, and its results are what search, the assistant and the timeline all read. → §WT104
+- 📋 **WT104** (deps: WT22 ✅, WT99) **AI results (transcripts, shots, tags, embeddings) would be recomputed every time a project opens** — Analysis is expensive, and its results are what search, the assistant and the timeline all read. → §WT104
 - 📋 **WT105** (deps: WT99, WT34) **AI inference running during playback fights the decoder and compositor for the GPU and causes dropped frames** — AI analysis is meant to run in the background while the user edits, not instead of editing. → §WT105
 
 ## Block L — AI-assisted editing

@@ -169,20 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT22 The project sidecar
-
-Beside `cut.otio` the app keeps `cut.otio.wtproj/` (or a single `.wtproj` SQLite file,
-decided in the spike below): bins and their clips, proxy mappings, analysis results
-(transcripts, shot boundaries, embeddings), workspace layout, render presets. Anything
-that another OTIO tool should see goes in `metadata["wintimeline"]` instead, namespaced.
-Opening a bare .otio creates the sidecar lazily on the first state worth keeping.
-
-The choice between a folder of JSON files and SQLite is measured with the embedding
-index (tens of thousands of vectors) in mind.
-
-Done when closing and reopening a project restores bins, layout and analysis without
-reprocessing.
-
 ### §WT156 FCP 7 XML and FCPXML readers
 
 Split out of WT15, which shipped the adapter interface (`ITimelineAdapter`,
@@ -302,6 +288,15 @@ replaced, added), mark removed clips as thin ghosts where they were, and select 
 matching list row when a band is clicked. The colours come from the Fluent theme's
 semantic brushes, so they read in light and dark. Done when the cuts.otio pair shows
 five bands on cut v2 and clicking the c2 band selects its Trimmed row.
+
+### §WT164 Keeping the layout without a save
+
+WT22 writes the sidecar on every save, so its layout and shown tab survive only when the
+document was saved. Closing the window, or opening another file, should write the
+sidecar's layout alone when the document has a path. This must not count as an edit, so
+it neither dirties the document nor touches the journal. A read-only location should be
+skipped silently, with a log line. Done when a file opened, switched to its third tab
+and closed without saving reopens on that tab.
 
 ## Block C — Media probing and GPU decoding
 

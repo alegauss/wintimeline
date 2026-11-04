@@ -84,6 +84,15 @@ public sealed class DocumentTextTests
     }
 
     [Fact]
+    public void ARestoredProjectNamesItsSidecarAndAnEmptyOneSaysNothing()
+    {
+        Model.Project.ProjectState kept = new() { Layout = new Model.Project.WorkspaceLayout(0.5, "reel3") };
+
+        Assert.Equal(" Restored the project from cut.otio.wtproj.", MainWindow.RestoredText(kept, @"D:\cuts\cut.otio"));
+        Assert.Equal(string.Empty, MainWindow.RestoredText(Model.Project.ProjectState.Empty, @"D:\cuts\cut.otio"));
+    }
+
+    [Fact]
     public void SomethingElseSaysWhatItIs()
     {
         ModelObject clip = OtioReader.ReadString("""{ "OTIO_SCHEMA": "Clip.2", "name": "c" }""");

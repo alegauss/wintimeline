@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- WT22: measures where the project sidecar keeps its heaviest state, an embedding index of
+       tens of thousands of vectors: one JSON file, a JSON index beside a raw float32 file, or
+       SQLite blobs. Not in WinTimeline.slnx: a spike, kept to re-run the measurement. See
+       ../README.md for the numbers. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>SidecarSpike</RootNamespace>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- The e_sqlite3 the package bundles carries an advisory (GHSA-2m69-gcr7-jv3q); the spike
+         only times it on generated data, and it is one more reason the sidecar does not use it. -->
+    <NoWarn>$(NoWarn);NU1903</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

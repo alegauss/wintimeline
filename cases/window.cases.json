@@ -707,6 +707,67 @@
     },
 
     {
+      "name": "the timeline shown when a project was saved is shown again when it is reopened",
+      "catches": "per-project state that is lost on reopening, or that is written into the shared .otio",
+      "filed": "WT22",
+      "tags": ["save", "open", "project", "dialog"],
+      "fixture": "a window on a file of three reels",
+      "steps": [
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "select",
+          "named": "the reel3 tab is chosen"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#SaveMenuItem",
+          "act": "invoke",
+          "named": "Save is chosen"
+        },
+        {
+          "file": "{files}/reels.otio",
+          "act": "read",
+          "sameBytesAs": "tests/fixtures/collections/reels.otio",
+          "named": "the .otio is written exactly as it was, with no editor state in it"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened again"
+        },
+        {
+          "locator": "MenuItem#OpenMenuItem",
+          "act": "invoke",
+          "named": "Open is chosen"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/reels.otio",
+          "named": "the same file is reopened"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened reels.otio: 3 timelines. Media is missing for 1 clip: File > Relink media. Restored the project from reels.otio.wtproj.",
+          "named": "the open says the project's state came back"
+        },
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "and reel3 is the tab shown"
+        }
+      ]
+    },
+
+    {
       "name": "the second version of a cut is compared with the first and lists exactly its edits",
       "catches": "a comparison that misses an edit, reports a ripple as a move, or cannot be reached from the window",
       "filed": "WT21",
