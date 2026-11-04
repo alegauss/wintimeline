@@ -43,6 +43,7 @@ public partial class MainWindow
     private void Activate(Timeline? timeline)
     {
         ActiveTimeline = timeline;
+        TimelinePanel.Show(timeline);
         if (timeline is null)
         {
             History = new History();

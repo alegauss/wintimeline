@@ -39,6 +39,8 @@
 
 ## Block F — Timeline view: GPU drawing and navigation
 
+- ✅ **WT47 (panel)** **A timeline with thousands of clips cannot be drawn smoothly by the WPF visual tree** — The timeline surface draws lanes, clips, transitions, names, ruler and playhead with Direct2D from a viewport query, scrolls and zooms by wheel, and exposes each visible clip to UI Automation.
+
 ## Block G — Workspace, panels and viewers
 
 ## Block H — Editing: tools, trims and drag and drop

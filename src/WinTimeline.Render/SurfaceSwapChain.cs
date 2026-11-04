@@ -90,6 +90,10 @@ public sealed class SurfaceSwapChain : IDisposable
         return true;
     }
 
+    /// <summary>The back buffer as a DXGI surface, for Direct2D to draw into; the caller disposes it.</summary>
+    /// <returns>The surface.</returns>
+    public IDXGISurface BackBuffer() => _swapChain.GetBuffer<IDXGISurface>(0);
+
     /// <summary>Clears the back buffer to a colour and presents it, the least a frame can be.</summary>
     /// <param name="color">The colour.</param>
     public void Clear(Color4 color) => _gpu.ImmediateContext.ClearRenderTargetView(Target, color);

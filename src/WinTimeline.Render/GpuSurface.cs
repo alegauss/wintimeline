@@ -5,6 +5,7 @@ using System.Windows.Automation.Peers;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Vortice.Mathematics;
+using Rect = System.Windows.Rect;
 
 namespace WinTimeline.Render;
 
@@ -42,6 +43,27 @@ public sealed class GpuSurface : HwndHost
 
     /// <summary>Raised once per frame with the swap chain to draw into; the surface presents afterwards.</summary>
     public event EventHandler<SurfaceSwapChain>? Draw;
+
+    /// <summary>
+    /// Raised for the mouse wheel over the surface, which the child window receives and WPF never
+    /// sees (WT47). Coordinates are device pixels in the surface.
+    /// </summary>
+    public event EventHandler<SurfaceWheel>? Wheel;
+
+    /// <summary>Raised for a left click on the surface, in device pixels.</summary>
+    public event EventHandler<SurfacePoint>? Click;
+
+    /// <summary>
+    /// What is drawn that UI Automation should see, since a swap chain publishes nothing: each
+    /// item becomes a child of the surface's peer, so a UI case can find a clip by its name.
+    /// </summary>
+    public Func<IReadOnlyList<SurfaceItem>>? Items { get; set; }
+
+    /// <summary>A line the surface's peer adds to its status, e.g. the frame time.</summary>
+    public string? Status { get; set; }
+
+    /// <summary>Tells UI Automation the items have changed; cheap, and batched by WPF.</summary>
+    public void ItemsChanged() => UIElementAutomationPeer.FromElement(this)?.InvalidatePeer();
 
     /// <summary>What the surface is cleared to before <see cref="Draw"/>.</summary>
     public Color4 Background { get; set; } = new(0.08f, 0.08f, 0.09f, 1f);
@@ -209,7 +231,9 @@ public sealed class GpuSurface : HwndHost
         }
 
         _procKeepAlive = (hwnd, msg, wParam, lParam) =>
-            msg == WmEraseBkgnd ? 1 : DefWindowProcW(hwnd, msg, wParam, lParam);
+            msg == WmEraseBkgnd ? 1
+            : Hosts.TryGetValue(hwnd, out GpuSurface? host) && host.Input(hwnd, msg, wParam, lParam) ? 0
+            : DefWindowProcW(hwnd, msg, wParam, lParam);
         WndClassEx description = new()
         {
             Size = (uint)Marshal.SizeOf<WndClassEx>(),
@@ -223,6 +247,43 @@ public sealed class GpuSurface : HwndHost
             throw new InvalidOperationException($"RegisterClassEx failed: {Marshal.GetLastPInvokeError()}");
         }
     }
+
+    /// <summary>Turns the child window's mouse messages into the surface's events.</summary>
+    /// <returns>Whether the message was handled.</returns>
+    private bool Input(nint hwnd, uint msg, nint wParam, nint lParam)
+    {
+        const uint WmMouseWheel = 0x020A, WmMouseHWheel = 0x020E, WmLButtonDown = 0x0201;
+        const int MkShift = 0x0004, MkControl = 0x0008;
+        switch (msg)
+        {
+            case WmMouseWheel or WmMouseHWheel when Wheel is not null:
+                // Wheel messages carry screen coordinates; a click carries the window's own.
+                Point32 screen = new() { X = (short)(lParam & 0xFFFF), Y = (short)((lParam >> 16) & 0xFFFF) };
+                ScreenToClient(hwnd, ref screen);
+                int keys = (int)(wParam & 0xFFFF);
+                Wheel(this, new SurfaceWheel(screen.X, screen.Y, (short)((wParam >> 16) & 0xFFFF), msg == WmMouseHWheel, (keys & MkShift) != 0, (keys & MkControl) != 0));
+                return true;
+            case WmLButtonDown:
+                SetFocus(hwnd);
+                Click?.Invoke(this, new SurfacePoint((short)(lParam & 0xFFFF), (short)((lParam >> 16) & 0xFFFF)));
+                return Click is not null;
+            default:
+                return false;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct Point32
+    {
+        public int X;
+        public int Y;
+    }
+
+    [DllImport("user32.dll")]
+    private static extern bool ScreenToClient(nint hwnd, ref Point32 point);
+
+    [DllImport("user32.dll")]
+    private static extern nint SetFocus(nint hwnd);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct WndClassEx
@@ -273,9 +334,123 @@ public sealed class GpuSurface : HwndHost
         protected override string GetItemStatusCore()
         {
             (int w, int h) = owner.PixelSize;
-            return string.Create(CultureInfo.InvariantCulture, $"{w} × {h} px, {owner.FramesPresented} frames, {(owner.IsWarp ? "WARP" : "hardware")}");
+            string status = string.Create(CultureInfo.InvariantCulture, $"{w} × {h} px, {owner.FramesPresented} frames, {(owner.IsWarp ? "WARP" : "hardware")}");
+            return owner.Status is { } more ? $"{status}, {more}" : status;
+        }
+
+        protected override List<AutomationPeer>? GetChildrenCore()
+        {
+            IReadOnlyList<SurfaceItem>? items;
+            try
+            {
+                items = owner.Items?.Invoke();
+            }
+#pragma warning disable CA1031 // An owner's bug must cost its items, not stall every UI Automation client waiting on this thread.
+            catch (Exception ex)
+#pragma warning restore CA1031
+            {
+                Diagnostics.Log.Write(Diagnostics.LogLevel.Error, Diagnostics.LogCategory.Render, "A surface's automation items could not be listed.", null, ex);
+                return null;
+            }
+
+            return items is { Count: > 0 } ? [.. items.Select(item => (AutomationPeer)new SurfaceItemPeer(owner, item))] : null;
+        }
+    }
+
+    /// <summary>One drawn item as UI Automation sees it: named, with a status and where it is on screen.</summary>
+    private sealed class SurfaceItemPeer(GpuSurface owner, SurfaceItem item) : AutomationPeer
+    {
+        protected override string GetAcceleratorKeyCore() => string.Empty;
+
+        protected override string GetAccessKeyCore() => string.Empty;
+
+        protected override AutomationControlType GetAutomationControlTypeCore() => AutomationControlType.ListItem;
+
+        protected override string GetAutomationIdCore() => item.AutomationId;
+
+        protected override Rect GetBoundingRectangleCore()
+        {
+            if (PresentationSource.FromVisual(owner) is null)
+            {
+                return Rect.Empty;
+            }
+
+            // PointToScreen answers in device pixels, as the item's bounds already are.
+            Point origin = owner.PointToScreen(new Point(0, 0));
+            return new Rect(origin.X + item.X, origin.Y + item.Y, Math.Max(0, item.Width), Math.Max(0, item.Height));
         }
 
         protected override List<AutomationPeer>? GetChildrenCore() => null;
+
+        protected override string GetClassNameCore() => "SurfaceItem";
+
+        protected override Point GetClickablePointCore()
+        {
+            Rect bounds = GetBoundingRectangleCore();
+            return bounds.IsEmpty ? new Point(double.NaN, double.NaN) : new Point(bounds.X + (bounds.Width / 2), bounds.Y + (bounds.Height / 2));
+        }
+
+        protected override string GetHelpTextCore() => string.Empty;
+
+        protected override string GetItemStatusCore() => item.Status;
+
+        protected override string GetItemTypeCore() => item.Kind;
+
+        protected override AutomationPeer? GetLabeledByCore() => null;
+
+        protected override string GetLocalizedControlTypeCore() => "list item";
+
+        protected override string GetNameCore() => item.Name;
+
+        protected override AutomationOrientation GetOrientationCore() => AutomationOrientation.None;
+
+        public override object? GetPattern(PatternInterface patternInterface) => null;
+
+        protected override bool HasKeyboardFocusCore() => false;
+
+        protected override bool IsContentElementCore() => true;
+
+        protected override bool IsControlElementCore() => true;
+
+        protected override bool IsEnabledCore() => true;
+
+        protected override bool IsKeyboardFocusableCore() => false;
+
+        protected override bool IsOffscreenCore() => false;
+
+        protected override bool IsPasswordCore() => false;
+
+        protected override bool IsRequiredForFormCore() => false;
+
+        protected override void SetFocusCore()
+        {
+        }
+
+        protected override AutomationPeer GetPeerFromPointCore(Point point) => this;
     }
 }
+
+/// <summary>A mouse wheel turn over a surface.</summary>
+/// <param name="X">Across, in device pixels.</param>
+/// <param name="Y">Down, in device pixels.</param>
+/// <param name="Delta">The turn, 120 to a notch; positive is away from the user, or right for a tilt.</param>
+/// <param name="Horizontal">Whether it was a tilt.</param>
+/// <param name="Shift">Whether Shift was down.</param>
+/// <param name="Control">Whether Control was down.</param>
+public sealed record SurfaceWheel(int X, int Y, int Delta, bool Horizontal, bool Shift, bool Control);
+
+/// <summary>A point on a surface, in device pixels.</summary>
+/// <param name="X">Across.</param>
+/// <param name="Y">Down.</param>
+public sealed record SurfacePoint(int X, int Y);
+
+/// <summary>One thing drawn on a surface that UI Automation sees, in device pixels within the surface.</summary>
+/// <param name="Name">Its name, e.g. a clip's.</param>
+/// <param name="AutomationId">A stable identity, e.g. "Clip:V2:14".</param>
+/// <param name="Kind">What it is, e.g. "clip".</param>
+/// <param name="Status">What a case reads, e.g. where it plays.</param>
+/// <param name="X">Left.</param>
+/// <param name="Y">Top.</param>
+/// <param name="Width">Width.</param>
+/// <param name="Height">Height.</param>
+public sealed record SurfaceItem(string Name, string AutomationId, string Kind, string Status, double X, double Y, double Width, double Height);

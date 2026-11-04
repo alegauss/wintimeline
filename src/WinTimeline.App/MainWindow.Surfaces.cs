@@ -42,7 +42,14 @@ public partial class MainWindow
         DockArea.Children.Add(Viewer);
         DockArea.Children.Add(splitter);
         DockArea.Children.Add(Timeline);
+
+        // WT47: the timeline surface draws the active timeline.
+        TimelinePanel = new TimelinePanel(Timeline, Gpu);
+        Closed += (_, _) => TimelinePanel.Dispose();
     }
+
+    /// <summary>What draws the active timeline on <see cref="Timeline"/>.</summary>
+    public TimelinePanel TimelinePanel { get; private set; } = null!;
 
     private GpuSurface Surface(string id, string name, Color4 ground)
     {

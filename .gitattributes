@@ -7,3 +7,4 @@ tests/fixtures/otio/unknown-schema.otio -text
 tests/fixtures/otio/bundles/** -text
 tests/fixtures/collections/*.otio -text
 tests/fixtures/diff/*.otio -text
+tests/fixtures/timeline/*.otio -text

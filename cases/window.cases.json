@@ -103,6 +103,12 @@
       "shareable": true
     },
     {
+      // WT47: a feature-length cut, 24 tracks and 3,000 clips (tests/fixtures/timeline/make_feature.py).
+      "name": "a window on a feature-length cut",
+      "arguments": ["--open", "tests/fixtures/timeline/feature.otio", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
       // WT15: an EDL from the CMX 3600 adapter's own samples.
       "name": "a window opened on an EDL",
       "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
@@ -763,6 +769,30 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and reel3 is the tab shown"
+        }
+      ]
+    },
+
+    {
+      "name": "a feature-length cut is drawn on the timeline surface and its clips are reachable by name",
+      "catches": "a timeline panel that draws nothing, or whose clips a case or a screen reader cannot find",
+      "filed": "WT47",
+      "tags": ["timeline", "gpu", "automation"],
+      "fixture": "a window on a feature-length cut",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem[name=\"V12 shot 001\"]",
+          "act": "read",
+          "reads": "status",
+          "expect": "V12, 01:00:00:00 to 01:00:08:00",
+          "named": "the first clip of the top lane is drawn where it plays"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem[name=\"V11 shot 002\"]",
+          "act": "read",
+          "reads": "status",
+          "expect": "V11, 01:00:06:03 to 01:00:09:18",
+          "named": "and a clip on the lane below is there too, where it plays"
         }
       ]
     },
