@@ -100,27 +100,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT157 Bridging to OpenTimelineIO's Python adapters
-
-Split out of WT15. Formats with no native reader here (AAF, ALE, kdenlive, and whatever
-plugins a studio adds) are read by OpenTimelineIO itself, when a Python with
-`opentimelineio` and the adapter plugins is on the machine: the app runs `otioconvert -i
-<file> -o -` (or `python -m opentimelineio.console.otioconvert`) in a child process and
-reads the .otio it writes, through `OtioReader`. Python never runs inside the app, so
-the non-goal "Python embedded in the core application" holds.
-
-A `PythonBridgeAdapter` in `TimelineAdapters` asks the child process which adapters
-exist (`otioconvert --help` or `otio.adapters.available_adapter_names()`), registers one
-entry per suffix the native adapters do not take, and is absent when no Python is found.
-The Python used is found on PATH, in settings, or in the AI block's optional runtime
-when installed.
-
-A conversion runs with a timeout, its stderr goes to the log (WT6), and a failure names
-the adapter and the first lines Python wrote.
-
-Done when an AAF sample from otio-aaf-adapter opens through the bridge on a desk with
-the plugin installed, and the menu does not offer AAF on a desk without it.
-
 ### §WT158 Choosing an EDL's frame rate on open
 
 Found while shipping WT15: an EDL states no frame rate, and the app reads every one at

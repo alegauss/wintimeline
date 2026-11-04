@@ -42,8 +42,22 @@ public interface ITimelineAdapter
 /// <summary>The formats this build knows, and which one a path is.</summary>
 public static class TimelineAdapters
 {
-    /// <summary>Every adapter, the native .otio first.</summary>
-    public static IReadOnlyList<ITimelineAdapter> All { get; } = [new OtioJsonAdapter(), new CmxEdlAdapter(), new FcpXmlAdapter(), new FcpxXmlAdapter()];
+    private static readonly ITimelineAdapter[] Builtin = [new OtioJsonAdapter(), new CmxEdlAdapter(), new FcpXmlAdapter(), new FcpxXmlAdapter()];
+    private static volatile IReadOnlyList<ITimelineAdapter> _all = Builtin;
+
+    /// <summary>Every adapter, the native .otio first, then any a Python bridge adds (WT157).</summary>
+    public static IReadOnlyList<ITimelineAdapter> All => _all;
+
+    /// <summary>The adapters this build has itself, without a bridge.</summary>
+    public static IReadOnlyList<ITimelineAdapter> Native => Builtin;
+
+    /// <summary>
+    /// WT157: adds what a Python OpenTimelineIO reads that the native adapters do not, or, given
+    /// null, takes them away again.
+    /// </summary>
+    /// <param name="bridge">The bridge, or null for none.</param>
+    public static void UseBridge(PythonBridge? bridge) =>
+        _all = bridge is null ? Builtin : [.. Builtin, .. bridge.AdaptersBeside(Builtin)];
 
     /// <summary>The adapter for a path, by its extension, or null when no adapter takes it.</summary>
     /// <param name="path">A file path.</param>

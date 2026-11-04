@@ -6,6 +6,7 @@ using System.Windows.Shell;
 using WinTimeline.Diagnostics;
 using WinTimeline.Media;
 using WinTimeline.Model;
+using WinTimeline.Model.Adapters;
 
 namespace WinTimeline.App;
 
@@ -16,7 +17,7 @@ namespace WinTimeline.App;
 /// </summary>
 public partial class MainWindow
 {
-    private static readonly string[] DocumentExtensions = [".otio", ".otioz", ".otiod", ".edl", ".xml", ".fcpxml", ".fcpxmld"];
+    private static IEnumerable<string> DocumentExtensions => [".otioz", ".otiod", .. TimelineAdapters.All.SelectMany(a => a.Suffixes)];
 
     /// <summary>What the status bar says after media was dropped, e.g. "Created a timeline from 2 files: 2 clips on 2 tracks."</summary>
     /// <param name="files">How many files became clips.</param>

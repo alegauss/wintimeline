@@ -10,6 +10,7 @@ namespace WinTimeline.Model.Tests;
 /// adapter reads, written byte for byte as the reference writes it — or is refused where the
 /// reference refuses it (tests/fixtures/edl, made by make_expected.py).
 /// </summary>
+[Collection(AdapterRegistry.Name)]
 public sealed class EdlTests
 {
     private static readonly string Fixtures = Path.Combine(Repository.Root, "tests", "fixtures", "edl");

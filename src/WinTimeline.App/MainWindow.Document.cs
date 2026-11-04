@@ -85,6 +85,12 @@ public partial class MainWindow
             OtioBundle? bundle = OtioBundle.IsBundle(path) ? OtioBundle.Open(path, BundleCache) : null;
 
             // WT15: anything else through the adapter its extension names; .otio when none does.
+            // WT157: a format only Python reads waits for the bridge the start is still looking for.
+            if (TimelineAdapters.ForPath(path) is null && !OtioBundle.IsBundle(path))
+            {
+                AwaitBridge();
+            }
+
             ITimelineAdapter adapter = TimelineAdapters.ForPath(path) ?? TimelineAdapters.All[0];
             ModelObject document = bundle?.Content ?? adapter.Read(path, new AdapterOptions());
             _bundle = bundle;
@@ -104,7 +110,7 @@ public partial class MainWindow
             ShowWelcome();
             return true;
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException or FcpXmlException or FcpxXmlException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException or FcpXmlException or FcpxXmlException or PythonBridgeException)
         {
             string reason = ex is FileNotFoundException or DirectoryNotFoundException ? UiText.NotFound : ex.Message;
             StatusText.Text = UiText.CouldNotOpen(name, reason);
@@ -227,7 +233,7 @@ public partial class MainWindow
 
     private void AskToOpen()
     {
-        OpenFileDialog dialog = new() { Title = UiText.OpenDialogTitle, Filter = UiText.OpenFilter };
+        OpenFileDialog dialog = new() { Title = UiText.OpenDialogTitle, Filter = UiText.OpenFilter(TimelineAdapters.All.Where(a => a.CanRead).Select(a => (a.Name, a.Suffixes))) };
         if (dialog.ShowDialog(this) == true)
         {
             OpenDocument(dialog.FileName);

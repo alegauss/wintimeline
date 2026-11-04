@@ -214,7 +214,16 @@ public static class UiText
     public const string SaveDialogTitle = "Save timeline as";
 
     /// <summary>The Open dialog's file types; an .otiod is opened by picking the content.otio inside it.</summary>
-    public const string OpenFilter = "Timelines (*.otio;*.otioz;*.edl;*.xml;*.fcpxml)|*.otio;*.otioz;*.edl;*.xml;*.fcpxml|OpenTimelineIO (*.otio;*.otioz)|*.otio;*.otioz|CMX 3600 EDL (*.edl)|*.edl|Final Cut Pro 7 XML (*.xml)|*.xml|Final Cut Pro XML (*.fcpxml)|*.fcpxml|All files (*.*)|*.*";
+    /// <param name="adapters">Every reading adapter, with the extensions it takes (WT157 adds the bridged ones).</param>
+    /// <returns>The filter: every timeline first, then one entry per format, then all files.</returns>
+    public static string OpenFilter(IEnumerable<(string Name, IReadOnlyList<string> Suffixes)> adapters)
+    {
+        ArgumentNullException.ThrowIfNull(adapters);
+        (string Name, string[] Patterns)[] formats = [.. adapters.Select(a => (a.Name, a.Suffixes.Where(s => s != ".fcpxmld").Select(s => "*" + s).ToArray()))];
+        formats[0].Patterns = ["*.otio", "*.otioz"];
+        string all = string.Join(";", formats.SelectMany(f => f.Patterns).Distinct(StringComparer.OrdinalIgnoreCase));
+        return string.Join("|", [$"Timelines ({all})", all, .. formats.SelectMany(f => new[] { $"{f.Name} ({string.Join(";", f.Patterns)})", string.Join(";", f.Patterns) }), "All files (*.*)", "*.*"]);
+    }
 
     /// <summary>The Save As dialog's file types.</summary>
     public const string SaveFilter = "OpenTimelineIO (*.otio)|*.otio|OpenTimelineIO bundle with media (*.otioz)|*.otioz";

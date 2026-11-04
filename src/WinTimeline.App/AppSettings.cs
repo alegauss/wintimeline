@@ -12,13 +12,15 @@ namespace WinTimeline.App;
 /// <param name="Adapter">The GPU to run on, as <c>--adapter</c> spells it, or null for the high-performance one.</param>
 /// <param name="ModelsFolder">Where AI models live, or null for the default.</param>
 /// <param name="CacheFolder">Where proxies and render caches go, or null for the default.</param>
+/// <param name="Python">WT157: the Python whose OpenTimelineIO reads formats the app does not, or null to look on the PATH.</param>
 /// <param name="RecentFiles">The documents opened or saved last, most recent first (WT68), or null for none yet.</param>
 public sealed record AppSettings(
     int Version = AppSettings.CurrentVersion,
     string? Adapter = null,
     string? ModelsFolder = null,
     string? CacheFolder = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<string>? RecentFiles = null)
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<string>? RecentFiles = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? Python = null)
 {
     /// <summary>The schema version this build writes.</summary>
     public const int CurrentVersion = 1;

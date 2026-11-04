@@ -33,6 +33,7 @@
 - ✅ **WT21** **Two versions of a cut cannot be compared, so what changed between v1 and v2 must be found by eye** — View > Compare lists what changed from another timeline to the shown one (moved, trimmed with frame deltas, replaced, added, removed); a known v1/v2 pair yields exactly its five edits.
 - ✅ **WT22** **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — cut.otio.wtproj/ keeps bins, proxies, layout, analysis and embeddings beside the .otio, written atomically on save and restored on open; the .otio stays byte-identical.
 - ✅ **WT156** **FCP 7 XML and FCPXML timelines from Premiere and Resolve cannot be opened** — FCP 7 XML and FCPXML open through ports of the published OTIO adapters (1.0.0) that read all twelve of their samples byte for byte as the reference does, and File > Open lists both.
+- ✅ **WT157** **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — AAF and the other Python-only formats open through OpenTimelineIO in a child process wherever a Python with it exists; the menu lists them only then, and a failure names the adapter.
 
 ## Block C — Media probing and GPU decoding
 
