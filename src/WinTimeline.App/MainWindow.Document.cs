@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using WinTimeline.Diagnostics;
 using WinTimeline.Model;
+using WinTimeline.Model.Adapters;
 using WinTimeline.Model.Serialization;
 
 namespace WinTimeline.App;
@@ -15,7 +16,7 @@ namespace WinTimeline.App;
 public partial class MainWindow
 {
     // An .otiod is a folder: it is opened by picking the content.otio inside it.
-    private const string OpenFilter = "OpenTimelineIO (*.otio;*.otioz)|*.otio;*.otioz|All files (*.*)|*.*";
+    private const string OpenFilter = "Timelines (*.otio;*.otioz;*.edl)|*.otio;*.otioz;*.edl|OpenTimelineIO (*.otio;*.otioz)|*.otio;*.otioz|CMX 3600 EDL (*.edl)|*.edl|All files (*.*)|*.*";
     private const string SaveFilter = "OpenTimelineIO (*.otio)|*.otio|OpenTimelineIO bundle with media (*.otioz)|*.otioz";
 
     // WT14: the bundle the document came from, which knows where its media is.
@@ -78,16 +79,21 @@ public partial class MainWindow
         try
         {
             OtioBundle? bundle = OtioBundle.IsBundle(path) ? OtioBundle.Open(path, BundleCache) : null;
-            ModelObject document = bundle?.Content ?? OtioFile.Open(path);
+
+            // WT15: anything else through the adapter its extension names; .otio when none does.
+            ITimelineAdapter adapter = TimelineAdapters.ForPath(path) ?? TimelineAdapters.All[0];
+            ModelObject document = bundle?.Content ?? adapter.Read(path, new AdapterOptions());
             _bundle = bundle;
             Document = document;
-            DocumentPath = Path.GetFullPath(path);
+
+            // An imported file (an EDL) is not written back over: Save asks where the .otio goes.
+            DocumentPath = bundle is not null || adapter.CanWrite ? Path.GetFullPath(path) : null;
             Title = $"{name} — WinTimeline";
             StatusText.Text = OpenedText(name, document);
             Log.Write(LogLevel.Info, LogCategory.App, "Document opened.", Fields(path, document));
             return true;
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException or EdlParseException)
         {
             string reason = ex is FileNotFoundException or DirectoryNotFoundException ? "it was not found" : ex.Message;
             StatusText.Text = $"{name} could not be opened: {reason}";

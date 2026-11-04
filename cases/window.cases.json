@@ -62,6 +62,12 @@
       "shareable": false
     },
     {
+      // WT15: an EDL from the CMX 3600 adapter's own samples.
+      "name": "a window opened on an EDL",
+      "arguments": ["--open", "tests/fixtures/edl/samples/dissolve_test.edl", "--adapter", "warp"],
+      "shareable": true
+    },
+    {
       // Not lent: its case saves a copy beside the staged file.
       "name": "a window on a staged timeline, to save as",
       "files": ["tests/fixtures/otio/corpus/simple_cut.otio"],
@@ -402,6 +408,30 @@
           "reads": "name",
           "expect": "Saved copy.otioz.",
           "named": "the status bar says it saved"
+        }
+      ]
+    },
+
+    {
+      "name": "an EDL opens as a timeline of its events",
+      "catches": "an EDL the app cannot open, or one read into the wrong number of clips",
+      "filed": "WT15",
+      "tags": ["open", "edl", "import"],
+      "fixture": "a window opened on an EDL",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Opened dissolve_test.edl: 3 clips on 1 track.",
+          "named": "the EDL's three events are three clips on the V track"
+        },
+        {
+          "locator": "TitleBar",
+          "act": "read",
+          "reads": "name",
+          "matches": "^dissolve_test\\.edl — WinTimeline$",
+          "named": "and the title names it"
         }
       ]
     }

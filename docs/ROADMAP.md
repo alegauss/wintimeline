@@ -14,7 +14,6 @@
 
 ## Block B — OTIO document model and file formats
 
-- 📋 **WT15** (deps: WT13 ✅) **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — Editors move work between Premiere, Resolve, Avid and finishing tools through these formats, so a viewer that reads only .otio sees little. → §WT15
 - 📋 **WT16** (deps: WT12 ✅) **No edit can be undone, and there is no single place where a change to the document is described** — Every editing tool, the AI assistant and scripting all need one command pipeline, or undo breaks the first time two of them touch the same clip. → §WT16
 - 📋 **WT17** (deps: WT13 ✅, WT16) **A crash or power cut loses every edit since the last manual save** — Long editing sessions are exactly when a GPU driver reset happens, and losing an hour of cuts is the failure people remember. → §WT17
 - 📋 **WT18** (deps: WT13 ✅) **A timeline whose media moved shows every clip as missing, with no way to point it at the new folder** — OTIO files travel between machines and drive letters constantly, so relinking is needed on almost every file received from someone else. → §WT18
@@ -22,6 +21,9 @@
 - 📋 **WT20** (deps: WT13 ✅) **Only one timeline can be open, and a file holding a SerializableCollection of timelines shows just the first** — Editorial hand-offs often carry several reels or versions in one file, and comparing versions side by side is a core review task. → §WT20
 - 📋 **WT21** (deps: WT20) **Two versions of a cut cannot be compared, so what changed between v1 and v2 must be found by eye** — Editorial review is mostly asking what changed, and OTIO's structure makes an exact answer possible. → §WT21
 - 📋 **WT22** (deps: WT13 ✅) **Bins, proxies settings, layouts and AI analysis have nowhere to live without polluting the shared .otio** — The .otio must stay clean for interchange, while the editor needs per-project state that survives reopening. → §WT22
+- 📋 **WT156** (deps: WT15 ✅) **FCP 7 XML and FCPXML timelines from Premiere and Resolve cannot be opened** — They are the formats both editors write; split out of WT15, which shipped the adapter interface and EDL. → §WT156
+- 📋 **WT157** (deps: WT15 ✅) **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — Avid hands off AAF, and porting every adapter is not worth it when the reference can convert out of process; split out of WT15. → §WT157
+- 📋 **WT158** (deps: WT15 ✅, WT5 ✅) **Every EDL opens at 24 fps, so a 25 or 30 fps EDL is refused or read at the wrong speed** — EDLs state no rate, and only the person opening one knows it; found shipping WT15. → §WT158
 
 ## Block C — Media probing and GPU decoding
 
@@ -170,7 +172,7 @@
 - 📋 **WT135** (deps: WT134, WT40) **Several exports (versions, aspect ratios, masters) cannot be queued and left to run** — Deliveries are batches: master, web, vertical and captions, often overnight. → §WT135
 - 📋 **WT136** (deps: WT133, WT36) (requires: hdr-display) **HDR timelines cannot be exported as HDR10 or HLG with correct metadata** — Phones record HDR now, and an SDR-only export flattens footage people expect to look bright. → §WT136
 - 💭 **WT137** (deps: WT133) **Exporting an unchanged section re-encodes it, wasting time and quality** — Long-GOP sources cut without effects can be passed through, making some exports ten times faster. → §WT137
-- 📋 **WT138** (deps: WT15, WT14 ✅, WT133) **The edited timeline cannot be handed back to other tools as OTIO, EDL or FCPXML with its media** — OTIO is an interchange format first, and round-tripping to Resolve, Premiere or a finishing house is the professional use. → §WT138
+- 📋 **WT138** (deps: WT15 ✅, WT14 ✅, WT133) **The edited timeline cannot be handed back to other tools as OTIO, EDL or FCPXML with its media** — OTIO is an interchange format first, and round-tripping to Resolve, Premiere or a finishing house is the professional use. → §WT138
 - 📋 **WT139** (deps: WT133) **Single frames, contact sheets and short animated previews cannot be exported** — Stills for thumbnails, review sheets and GIF/WebP previews are daily needs around an edit. → §WT139
 - 📋 **WT140** (deps: WT133, WT85) **Nobody checks an export after it is written, so a broken or out-of-spec file is delivered** — A corrupt or wrong-loudness delivery is costly, and checking it automatically costs seconds. → §WT140
 
@@ -182,7 +184,7 @@
 - 📋 **WT144** (deps: WT143) **Users are not told about new versions and cannot update from inside the app** — Media apps ship decoder and driver workarounds often, and stale versions cause support load. → §WT144
 - 📋 **WT145** (deps: WT143, visibility VS58) (requires: store-account) **Every first download meets a SmartScreen warning, and the Store, where creative apps are looked for, has no WinTimeline** — The Store signs the MSIX itself, and claude-tray tests that path first, so this follows what that test learns. → §WT145
 - 📋 **WT146** (deps: WT133) **There is no README or site saying what WinTimeline does, for whom, and with which hardware** — A visitor decides in seconds whether the app is for them, and the sibling apps show the same family promise. → §WT146
-- 📋 **WT147** (deps: WT133, WT15) **Timelines cannot be validated, converted, rendered or analysed from the command line or a script** — Pipelines (render farms, dailies, CI for editorial) drive OTIO headless, and the CLI also powers the soak and bench tests. → §WT147
+- 📋 **WT147** (deps: WT133, WT15 ✅) **Timelines cannot be validated, converted, rendered or analysed from the command line or a script** — Pipelines (render farms, dailies, CI for editorial) drive OTIO headless, and the CLI also powers the soak and bench tests. → §WT147
 - 💭 **WT148** (deps: WT147, WT114) **Repetitive pipeline tasks inside an open project cannot be automated by users** — OTIO users are often pipeline TDs who script everything, and the command pipeline makes safe scripting possible. → §WT148
 - 💭 **WT149** (deps: WT1 ✅) **UI strings are not centralised, so a later translation or terminology review would touch every view** — The siblings keep English everywhere on purpose, but centralised strings still keep terminology consistent across a large UI. → §WT149
 

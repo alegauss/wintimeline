@@ -1,0 +1,1 @@
+ValueError: Frame rate mismatch.  Timecode '01:00:01:24' has frames beyond 23

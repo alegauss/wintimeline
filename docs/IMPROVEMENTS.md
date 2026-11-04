@@ -169,21 +169,6 @@ Done when the tests workflow passes on a GitHub runner.
 
 ## Block B — OTIO document model and file formats
 
-### §WT15 Import and export adapters
-
-OTIO's own adapters (cmx_3600, fcp_xml, fcpx_xml, aaf, ale, kdenlive) live in Python
-plugins. The app does not embed Python by default; instead it ports the two formats that
-matter most and bridges the rest:
-
-1. **Native**: CMX 3600 EDL (with transitions, speed effects M2, locators and the `FROM CLIP NAME` comments) and FCP 7 XML / FCPXML 1.9-1.11, the formats Premiere and Resolve both write.
-2. **Bridge**: when a Python with `opentimelineio` and its plugins is present (or the optional embedded runtime from the AI block is installed), other adapters run as `otioconvert` in a child process, piping .otio back.
-
-Adapters are discovered through one interface (`ITimelineAdapter` with suffixes, read,
-write, capabilities), so the File > Import menu lists them without UI changes.
-
-Done when the EDL and FCPXML samples from the OTIO adapter repositories import with clip
-counts and ranges equal to the Python adapters' output.
-
 ### §WT16 Command pipeline with undo, redo and coalescing
 
 All mutations go through `IEditCommand` (Do, Undo, Description, MergeWith). Commands are
@@ -265,6 +250,66 @@ index (tens of thousands of vectors) in mind.
 
 Done when closing and reopening a project restores bins, layout and analysis without
 reprocessing.
+
+### §WT156 FCP 7 XML and FCPXML readers
+
+Split out of WT15, which shipped the adapter interface (`ITimelineAdapter`,
+`TimelineAdapters` in `WinTimeline.Model.Adapters`) and the CMX 3600 EDL reader.
+
+Two native readers remain, each a port of OpenTimelineIO's own adapter so the test can
+be the one WT15 used: for every sample in the adapter's repository, the timeline read
+here is written by `OtioWriter` byte for byte as the reference writes the one it reads,
+or refused where it refuses.
+
+- **FCP 7 XML** (`otio-fcp-adapter`, fcp_xml.py): `xmeml` sequences, tracks, clipitems,
+  transitionitems, generators, markers, and the `file` elements shared by id.
+- **FCPXML 1.9 to 1.11** (fcpx_xml.py): the resource library, spine and connected clips
+  (lanes become tracks), gaps, titles as generators, and markers.
+
+Each registers in `TimelineAdapters.All` with its suffixes (.xml, .fcpxml, .fcpxmld), so
+File > Open lists it without UI changes. An .xml that is not `xmeml` is refused by name,
+not misread.
+
+Done when both adapters' sample files read here as the reference reads them.
+
+### §WT157 Bridging to OpenTimelineIO's Python adapters
+
+Split out of WT15. Formats with no native reader here (AAF, ALE, kdenlive, and whatever
+plugins a studio adds) are read by OpenTimelineIO itself, when a Python with
+`opentimelineio` and the adapter plugins is on the machine: the app runs `otioconvert -i
+<file> -o -` (or `python -m opentimelineio.console.otioconvert`) in a child process and
+reads the .otio it writes, through `OtioReader`. Python never runs inside the app, so
+the non-goal "Python embedded in the core application" holds.
+
+A `PythonBridgeAdapter` in `TimelineAdapters` asks the child process which adapters
+exist (`otioconvert --help` or `otio.adapters.available_adapter_names()`), registers one
+entry per suffix the native adapters do not take, and is absent when no Python is found.
+The Python used is found on PATH, in settings, or in the AI block's optional runtime
+when installed.
+
+A conversion runs with a timeout, its stderr goes to the log (WT6), and a failure names
+the adapter and the first lines Python wrote.
+
+Done when an AAF sample from otio-aaf-adapter opens through the bridge on a desk with
+the plugin installed, and the menu does not offer AAF on a desk without it.
+
+### §WT158 Choosing an EDL's frame rate on open
+
+Found while shipping WT15: an EDL states no frame rate, and the app reads every one at
+24, the reference adapter's default. A 25 fps EDL with an event at frame 24 is refused
+("frames beyond 23"), and a 30 fps one that happens to fit is read at the wrong speed.
+
+Opening an .edl asks once, in a small dialog: the rate (23.976, 24, 25, 29.97, 30, 50, 59.94,
+60) and whether to ignore record timecode mismatches. The defaults come from settings (WT5)
+and the last choice is remembered. When a read at the chosen rate is refused for frames
+beyond the rate, the message names the rates the EDL's timecodes fit, so the next try is
+one click. `--edl-rate` sets it from the command line for cases and scripts.
+
+`AdapterOptions` already carries `Rate` and `IgnoreTimecodeMismatch`; this is the UI and
+the setting that fill them.
+
+Done when 25fps.edl from the CMX samples opens at 25 after choosing it, and a case
+drives the dialog.
 
 ## Block C — Media probing and GPU decoding
 

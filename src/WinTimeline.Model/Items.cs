@@ -116,6 +116,20 @@ public abstract class Item : Composable
         SourceRange = range;
         Changed("source_range");
     }
+
+    internal void AddEffect(Effect effect)
+    {
+        effect.Owner = this;
+        _effects.Add(effect);
+        Changed("effects");
+    }
+
+    internal void AddMarker(Marker marker)
+    {
+        marker.Owner = this;
+        _markers.Add(marker);
+        Changed("markers");
+    }
 }
 
 /// <summary>Composition: an item holding children, laid out in sequence (Track) or stacked (Stack).</summary>

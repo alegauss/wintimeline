@@ -20,6 +20,7 @@
 - ✅ **WT12** **No in-memory model holds a timeline: tracks, clips, gaps, transitions, markers and metadata have no types** — The OTIO model with opentime's time and timecode, computed ranges and change notifications loads the whole corpus, and every range matches the reference library's answer.
 - ✅ **WT13** **A .otio file cannot be opened or saved, and unknown schemas from newer OTIO versions would be dropped** — .otio opens and saves from the app; the writer emits the reference's bytes, keeps unknown schemas, downgrades Clip to 1, saves atomically.
 - ✅ **WT14** **An .otioz or .otiod bundle cannot be opened, so timelines shipped with their media by other tools are unusable** — .otioz and .otiod open with media extracted on demand and save in the reference's layout; the reference reads bundles written here.
+- ✅ **WT15** **EDL (CMX 3600), FCP XML and AAF timelines cannot be imported, which is where most real projects come from** — One adapter interface lists formats for Open, and CMX 3600 EDLs read exactly as the reference adapter reads its 19 samples; FCP XML and the Python bridge are WT156, WT157.
 
 ## Block C — Media probing and GPU decoding
 

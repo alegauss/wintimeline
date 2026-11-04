@@ -213,6 +213,32 @@ public sealed class ImageSequenceReference : MediaReference
     /// <summary>error, hold or black.</summary>
     public string MissingFramePolicy { get; internal set; }
 
+    /// <summary>The frame number shown at a time, as the reference computes it (truncated, not rounded).</summary>
+    /// <param name="time">A time inside the available range.</param>
+    /// <returns>The frame number.</returns>
+    /// <exception cref="TimelineRangeException">There is no available range, or the time is outside it.</exception>
+    public int FrameForTime(Time.RationalTime time)
+    {
+        if (AvailableRange is not { } available || !available.Contains(time))
+        {
+            throw new TimelineRangeException($"{time} is outside {Name}'s available range");
+        }
+
+        return StartFrame + (int)(time - available.StartTime).ValueRescaledTo(Rate);
+    }
+
+    /// <summary>The first and last frame numbers a range shows.</summary>
+    /// <param name="range">A range inside the available range.</param>
+    /// <returns>The first and last frame.</returns>
+    public (int First, int Last) FrameRangeForTimeRange(Time.TimeRange range) =>
+        (FrameForTime(range.StartTime), FrameForTime(range.EndTimeInclusive));
+
+    /// <summary>The URL with a symbol in place of the frame number, e.g. "file:///shots/sh010.[1001-1020].exr".</summary>
+    /// <param name="symbol">What stands for the number.</param>
+    /// <returns>The URL.</returns>
+    public string AbstractTargetUrl(string symbol) =>
+        (TargetUrlBase.EndsWith('/') ? TargetUrlBase : TargetUrlBase + "/") + NamePrefix + symbol + NameSuffix;
+
     /// <summary>The URL of the nth image in the sequence: start frame plus n steps, zero-padded.</summary>
     /// <param name="imageNumber">The image's position, counting from 0.</param>
     /// <returns>The URL.</returns>

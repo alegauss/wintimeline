@@ -14,7 +14,7 @@ the list is refused: WinTimeline says which one in a message box and exits with 
 
 | Flag | What it does |
 | --- | --- |
-| `--open <file>` | Opens this OpenTimelineIO file (.otio), or bundle with its media (.otioz, or an .otiod folder), at start instead of the empty window. A bundle's media is extracted only when it is needed, under `bundles` in the data folder. A file that is missing or not a timeline is named in the status bar and the window stays empty. |
+| `--open <file>` | Opens this OpenTimelineIO file (.otio), bundle with its media (.otioz, or an .otiod folder), or CMX 3600 EDL (.edl, read at 24 fps) at start instead of the empty window. An EDL is imported: Save asks where to write it as .otio. A bundle's media is extracted only when it is needed, under `bundles` in the data folder. A file that is missing or not a timeline is named in the status bar and the window stays empty. |
 | `--models <folder>` | Reads the AI models from this folder instead of the default one. |
 | `--adapter <index-or-name>\|warp` | Runs on this GPU instead of the one WinTimeline picks, which is the first hardware GPU in Windows' high-performance order (the discrete one on a hybrid laptop). Give its index in that order or a part of its name (`1`, `NVIDIA`); `warp` runs on the software rasteriser. A value that matches no GPU, or more than one, is refused with the list of GPUs this PC has. The status bar names the GPU in use. |
 | `--log-level trace\|debug\|info\|warning\|error` | How much the log records in `logs\wintimeline.jsonl` under the data folder; `info` unless given. |
