@@ -61,7 +61,7 @@ public sealed class TimelinePanel : IDisposable
     private double? _outPoint;
     private double _boxFrom;
     private double _boxTo;
-    private double _playhead;
+    private bool _scrubbing;
 
     /// <summary>Draws timelines on a surface.</summary>
     /// <param name="surface">The timeline surface.</param>
@@ -77,10 +77,17 @@ public sealed class TimelinePanel : IDisposable
         _surface.Pointer += OnPointer;
         _surface.Overlay += OnOverlay;
         _surface.Items = VisibleItems;
+        Position.Changed += OnPositionChanged;
     }
 
-    /// <summary>Raised when the playhead moves: a click, a seek, or a new timeline shown.</summary>
+    /// <summary>Raised when the playhead moves: a click, a seek, a step, or a new timeline shown.</summary>
     public event EventHandler? PlayheadMoved;
+
+    /// <summary>WT51: the current frame, which the viewer and the transport read and set too.</summary>
+    public PlaybackPosition Position { get; } = new();
+
+    /// <summary>WT51: how the view keeps the playhead in sight.</summary>
+    public PlayheadFollow Follow { get; set; } = PlayheadFollow.Page;
 
     /// <summary>WT50: raised when the lanes scroll or change, so the track headers follow.</summary>
     public event EventHandler? LanesMoved;
@@ -118,7 +125,7 @@ public sealed class TimelinePanel : IDisposable
     public TimelineLayout? Layout => _layout;
 
     /// <summary>Where the playhead is, in seconds from the timeline's start.</summary>
-    public double PlayheadSeconds => _playhead;
+    public double PlayheadSeconds => Position.Seconds;
 
     /// <summary>A time on the shown timeline as timecode.</summary>
     /// <param name="seconds">Seconds from its start.</param>
@@ -148,18 +155,48 @@ public sealed class TimelinePanel : IDisposable
         }
     }
 
-    /// <summary>Moves the playhead, scrolling the view so it shows.</summary>
+    /// <summary>Moves the playhead, scrolling the view so it shows whatever the follow mode.</summary>
     /// <param name="seconds">Where, in seconds from the timeline's start.</param>
     public void Seek(double seconds)
     {
-        _playhead = Math.Max(0, seconds);
-        PlayheadMoved?.Invoke(this, EventArgs.Empty);
-        if (_view is { } view && _layout is { } layout && (_playhead < view.Start || _playhead > view.End))
+        Position.GoTo(Math.Max(0, seconds));
+        if (_view is { } view && _layout is { } layout && view.Follow(Position.Seconds, PlayheadFollow.Page, layout.Duration) is var shown && shown != view)
         {
-            _view = view.ScrollBy(view.X(_playhead) - (view.Width / 3), 0, layout.Duration, layout.Lanes.Count);
+            _view = shown;
+            Changed();
+        }
+    }
+
+    /// <summary>WT51: steps the playhead by frames, back when negative.</summary>
+    /// <param name="frames">How many.</param>
+    public void Step(long frames) => Position.Step(frames);
+
+    /// <summary>WT51: jumps the playhead to the next or previous edit point.</summary>
+    /// <param name="forward">Whether to go forward.</param>
+    public void JumpToEdit(bool forward)
+    {
+        if (_layout is { } layout)
+        {
+            Position.Jump(EditPoints.Of(layout), forward);
+        }
+    }
+
+    /// <summary>WT51: puts the playhead on the programme's first frame, or its last.</summary>
+    /// <param name="end">Whether to go to the last.</param>
+    public void GoToLimit(bool end) => Position.Go(end ? Position.LastFrame : 0);
+
+    /// <summary>WT51: draws the playhead where the position is, scrolling the view as the follow mode says.</summary>
+    private void OnPositionChanged(object? sender, long frame)
+    {
+        PlayheadMoved?.Invoke(this, EventArgs.Empty);
+        if (!_scrubbing && _view is { } view && _layout is { } layout && view.Follow(Position.Seconds, Follow, layout.Duration) is var followed && followed != view)
+        {
+            _view = followed;
+            Changed();
+            return;
         }
 
-        Changed();
+        _surface.InvalidateOverlay();
     }
 
     /// <summary>Shows a timeline, or nothing.</summary>
@@ -174,8 +211,7 @@ public sealed class TimelinePanel : IDisposable
         _timeline = timeline;
         _layout = timeline is null ? null : TimelineLayout.Build(timeline);
         _view = null;
-        _playhead = 0;
-        PlayheadMoved?.Invoke(this, EventArgs.Empty);
+        Position.Reset(Rate, _layout?.Duration ?? 0);
         if (timeline is not null)
         {
             timeline.ModelChanged += OnModelChanged;
@@ -222,6 +258,7 @@ public sealed class TimelinePanel : IDisposable
         if (_timeline is not null)
         {
             _layout = TimelineLayout.Build(_timeline);
+            Position.Lengthen(_layout.Duration);
         }
 
         Changed();
@@ -283,7 +320,7 @@ public sealed class TimelinePanel : IDisposable
             return;
         }
 
-        float x = (float)(Header + view.X(_playhead));
+        float x = (float)(Header + view.X(Position.Seconds));
         if (x < Header)
         {
             return;
@@ -380,7 +417,7 @@ public sealed class TimelinePanel : IDisposable
     {
         if (_view is { } view && _layout is { } layout)
         {
-            AnimateTo((_to ?? view).ZoomAroundTime(_playhead, factor, layout.Duration));
+            AnimateTo((_to ?? view).ZoomAroundTime(Position.Seconds, factor, layout.Duration));
         }
     }
 
@@ -565,9 +602,16 @@ public sealed class TimelinePanel : IDisposable
             return;
         }
 
-        _playhead = Math.Max(0, view.Seconds(point.X - Header));
-        PlayheadMoved?.Invoke(this, EventArgs.Empty);
-        _surface.Invalidate();
+        // A click or a scrub lands where the pointer is, which is already in view: no follow.
+        _scrubbing = true;
+        try
+        {
+            Position.GoTo(Math.Max(0, view.Seconds(point.X - Header)));
+        }
+        finally
+        {
+            _scrubbing = false;
+        }
     }
 
     /// <summary>Every clip, transition and nested item in view, as UI Automation items.</summary>

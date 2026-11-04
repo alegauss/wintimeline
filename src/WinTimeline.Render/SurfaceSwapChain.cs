@@ -16,6 +16,7 @@ public sealed class SurfaceSwapChain : IDisposable
     private readonly GpuContext _gpu;
     private readonly IDXGISwapChain2 _swapChain;
     private ID3D11RenderTargetView? _target;
+    private ID3D11Texture2D? _layer;
 
     /// <summary>Creates the swap chain for a window.</summary>
     /// <param name="gpu">The shared device.</param>
@@ -84,6 +85,8 @@ public sealed class SurfaceSwapChain : IDisposable
         _gpu.ImmediateContext.ClearState();
         _target?.Dispose();
         _target = null;
+        _layer?.Dispose();
+        _layer = null;
         _swapChain.ResizeBuffers(0, (uint)width, (uint)height, Format.Unknown, Flags).CheckError();
         (Width, Height) = (width, height);
         CreateTarget();
@@ -105,9 +108,41 @@ public sealed class SurfaceSwapChain : IDisposable
         Presented++;
     }
 
+    /// <summary>WT51: keeps a copy of the back buffer as drawn so far, for <see cref="RestoreLayer"/>.</summary>
+    public void KeepLayer()
+    {
+        using ID3D11Texture2D back = _swapChain.GetBuffer<ID3D11Texture2D>(0);
+        if (_layer is null)
+        {
+            Texture2DDescription description = back.Description;
+            description.BindFlags = BindFlags.None;
+            description.Usage = ResourceUsage.Default;
+            description.CPUAccessFlags = CpuAccessFlags.None;
+            description.MiscFlags = ResourceOptionFlags.None;
+            _layer = _gpu.Device.CreateTexture2D(description);
+        }
+
+        _gpu.ImmediateContext.CopyResource(_layer, back);
+    }
+
+    /// <summary>WT51: puts the kept copy back into the back buffer; false when none is kept at this size.</summary>
+    /// <returns>Whether there was one.</returns>
+    public bool RestoreLayer()
+    {
+        if (_layer is null)
+        {
+            return false;
+        }
+
+        using ID3D11Texture2D back = _swapChain.GetBuffer<ID3D11Texture2D>(0);
+        _gpu.ImmediateContext.CopyResource(back, _layer);
+        return true;
+    }
+
     /// <inheritdoc/>
     public void Dispose()
     {
+        _layer?.Dispose();
         _target?.Dispose();
         _swapChain.Dispose();
     }

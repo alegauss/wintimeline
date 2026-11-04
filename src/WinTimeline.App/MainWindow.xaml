@@ -41,6 +41,11 @@
           <MenuItem x:Name="RulerFeet" Header="{x:Static app:UiText.RulerFeetMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="FeetFrames" AutomationProperties.AutomationId="RulerFeetMenuItem" />
           <MenuItem x:Name="RulerSeconds" Header="{x:Static app:UiText.RulerSecondsMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="Seconds" AutomationProperties.AutomationId="RulerSecondsMenuItem" />
         </MenuItem>
+        <MenuItem Header="{x:Static app:UiText.FollowMenu}" AutomationProperties.AutomationId="FollowMenu">
+          <MenuItem x:Name="FollowPage" Header="{x:Static app:UiText.FollowPageMenu}" IsCheckable="True" Click="OnFollow" Tag="Page" AutomationProperties.AutomationId="FollowPageMenuItem" />
+          <MenuItem x:Name="FollowSmooth" Header="{x:Static app:UiText.FollowSmoothMenu}" IsCheckable="True" Click="OnFollow" Tag="Smooth" AutomationProperties.AutomationId="FollowSmoothMenuItem" />
+          <MenuItem x:Name="FollowOff" Header="{x:Static app:UiText.FollowOffMenu}" IsCheckable="True" Click="OnFollow" Tag="Off" AutomationProperties.AutomationId="FollowOffMenuItem" />
+        </MenuItem>
         <MenuItem Header="{x:Static app:UiText.ZoomInMenu}" InputGestureText="{x:Static app:UiText.ZoomInGesture}" Click="OnZoomIn" AutomationProperties.AutomationId="ZoomInMenuItem" />
         <MenuItem Header="{x:Static app:UiText.ZoomOutMenu}" InputGestureText="{x:Static app:UiText.ZoomOutGesture}" Click="OnZoomOut" AutomationProperties.AutomationId="ZoomOutMenuItem" />
         <MenuItem Header="{x:Static app:UiText.ZoomFitMenu}" InputGestureText="{x:Static app:UiText.ZoomFitGesture}" Click="OnZoomFit" AutomationProperties.AutomationId="ZoomFitMenuItem" />

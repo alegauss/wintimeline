@@ -487,17 +487,6 @@ regeneration.
 
 ## Block F — Timeline view: GPU drawing and navigation
 
-### §WT51 The playhead and its follow modes
-
-The playhead is drawn on top of the GPU surface and moves with playback without
-redrawing clips (separate layer). Follow modes: page (jump when it leaves the view),
-smooth (keep centred) and off. Arrow keys step a frame, Shift+arrow ten, Up/Down jump
-between edit points on targeted tracks, Home/End to program limits. The current frame is
-shared through one `PlaybackPosition` service the viewer and transport read.
-
-Done when stepping, jumping and scrubbing update the viewer frame within one display
-refresh.
-
 ### §WT52 Selection model
 
 Selection holds items and edit points (a clip's head or tail, used by trims). Click
@@ -606,8 +595,9 @@ Alt+wheel over it), kept in the track's metadata as wintimeline:height, so
 TimelineLayout and TimelineViewport take per-lane heights in place of one LaneHeight.
 Colour: a wintimeline:color tints the lane's clips. Reordering: dragging a header moves
 the track through TrackCommands.Move. Target: an insert/overwrite target toggle that
-WT75's edits read. Done when a UI case drives each, and a resized lane keeps its clips
-aligned with its header.
+WT75's edits read, and that the playhead's Up and Down (WT51's EditPoints.Of, which
+today takes every lane) narrow to. Done when a UI case drives each, and a resized lane
+keeps its clips aligned with its header.
 
 ## Block G — Workspace, panels and viewers
 

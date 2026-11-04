@@ -140,6 +140,21 @@ public sealed record TimelineViewport(double Start, double PixelsPerSecond, doub
     public TimelineViewport ScrollBy(double dx, double dy, double duration, int lanes) =>
         (this with { Start = Start + (dx / PixelsPerSecond), Top = Top + dy }).Clamped(duration, lanes);
 
+    /// <summary>
+    /// WT51: the view that keeps a playhead in sight. Page jumps a whole view on when the
+    /// playhead leaves it, putting it at the left edge; smooth keeps it centred; off stays put.
+    /// </summary>
+    /// <param name="seconds">Where the playhead is.</param>
+    /// <param name="mode">The follow mode.</param>
+    /// <param name="duration">The timeline's length.</param>
+    /// <returns>The new viewport.</returns>
+    public TimelineViewport Follow(double seconds, PlayheadFollow mode, double duration) => mode switch
+    {
+        PlayheadFollow.Page when seconds < Start || seconds >= End => (this with { Start = seconds }).Clamped(duration, int.MaxValue),
+        PlayheadFollow.Smooth => (this with { Start = seconds - (Width / PixelsPerSecond / 2) }).Clamped(duration, int.MaxValue),
+        _ => this,
+    };
+
     /// <summary>The same view at a new size.</summary>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>

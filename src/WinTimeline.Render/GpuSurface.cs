@@ -29,6 +29,7 @@ public sealed class GpuSurface : HwndHost
     private SurfaceSwapChain? _swapChain;
     private nint _child;
     private bool _dirty = true;
+    private bool _overlayDirty;
     private bool _hooked;
 
     /// <summary>Creates a surface on the shared device.</summary>
@@ -114,6 +115,19 @@ public sealed class GpuSurface : HwndHost
         _dirty = true;
         Hook();
     }
+
+    /// <summary>
+    /// WT51: asks for one more frame in which only the <see cref="Overlay"/> changed: the picture
+    /// under it is the one last drawn, so <see cref="Draw"/> is not raised.
+    /// </summary>
+    public void InvalidateOverlay()
+    {
+        _overlayDirty = true;
+        Hook();
+    }
+
+    /// <summary>WT51: how many frames raised <see cref="Draw"/>, as against those that only redrew the overlay.</summary>
+    public long LayersDrawn { get; private set; }
 
     /// <inheritdoc/>
     protected override HandleRef BuildWindowCore(HandleRef hwndParent)
@@ -201,7 +215,7 @@ public sealed class GpuSurface : HwndHost
 
     private void Hook()
     {
-        if (!_hooked && _swapChain is not null && (Continuous || _dirty))
+        if (!_hooked && _swapChain is not null && (Continuous || _dirty || _overlayDirty))
         {
             CompositionTarget.Rendering += OnRendering;
             _hooked = true;
@@ -219,12 +233,12 @@ public sealed class GpuSurface : HwndHost
 
     private void OnRendering(object? sender, EventArgs e)
     {
-        if (Continuous || _dirty)
+        if (Continuous || _dirty || _overlayDirty)
         {
             Render();
         }
 
-        if (!Continuous && !_dirty)
+        if (!Continuous && !_dirty && !_overlayDirty)
         {
             Unhook();
         }
@@ -237,10 +251,22 @@ public sealed class GpuSurface : HwndHost
             return;
         }
 
-        _dirty = false;
+        // WT51: when only the overlay changed, the frame under it is copied back from the kept
+        // layer instead of drawn again, so a moving playhead never redraws the clips.
+        bool full = _dirty || Continuous || Overlay is null || !_swapChain.RestoreLayer();
+        _dirty = _overlayDirty = false;
         _gpu.ImmediateContext.OMSetRenderTargets(_swapChain.Target);
-        _swapChain.Clear(Background);
-        Draw?.Invoke(this, _swapChain);
+        if (full)
+        {
+            _swapChain.Clear(Background);
+            Draw?.Invoke(this, _swapChain);
+            LayersDrawn++;
+            if (Overlay is not null && !Continuous)
+            {
+                _swapChain.KeepLayer();
+            }
+        }
+
         Overlay?.Invoke(this, _swapChain);
         _swapChain.Present();
     }

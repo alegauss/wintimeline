@@ -150,6 +150,12 @@
       "shareable": true
     },
     {
+      // WT51: the same cut, its cuts at 0, 2, 4, 5, 6.5, 7.5 and 8.5 seconds; not lent, since its case moves the playhead.
+      "name": "a window on a cut to step through",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT50: a cut of one video and one audio track; not lent, since its case adds, locks and deletes tracks.
       "name": "a window on a cut whose tracks are managed",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -264,7 +270,7 @@
           "locator": "Pane#ViewerSurface",
           "act": "read",
           "reads": "status",
-          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, hardware$",
+          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, hardware, frame 0 at ",
           "named": "the viewer has a real size and has presented on the hardware GPU"
         },
         {
@@ -288,7 +294,7 @@
           "locator": "Pane#ViewerSurface",
           "act": "read",
           "reads": "status",
-          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, WARP$",
+          "matches": "^[1-9]\\d+ × [1-9]\\d+ px, [1-9]\\d* frames, WARP, frame 0 at ",
           "named": "the viewer presents on WARP"
         }
       ]
@@ -1005,6 +1011,100 @@
           "reads": "name",
           "expect": "01:00:00:00",
           "named": "the playhead starts at the timeline's first frame"
+        }
+      ]
+    },
+
+    {
+      "name": "the arrows step the playhead, Up and Down jump between cuts, Home and End reach the ends, and the viewer follows",
+      "catches": "a playhead the keyboard cannot move, or a viewer left on another frame than the timeline's",
+      "filed": "WT51",
+      "tags": ["playhead", "keyboard", "viewer"],
+      "fixture": "a window on a cut to step through",
+      "steps": [
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the viewer is clicked, which focuses it"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Right",
+          "named": "Right is pressed"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", frame 1 at 01:00:00:01$",
+          "named": "the viewer is one frame on"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Right",
+          "named": "Shift+Right is pressed"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "01:00:00:11",
+          "named": "the timeline's playhead is ten frames further, as the viewer is"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Down",
+          "named": "Down is pressed"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", frame 48 at 01:00:02:00$",
+          "named": "the playhead is on the next cut, two seconds in"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "End",
+          "named": "End is pressed"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", frame 203 at 01:00:08:11$",
+          "named": "the playhead is on the programme's last frame"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Up",
+          "named": "Up is pressed"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", frame 180 at 01:00:07:12$",
+          "named": "the playhead is back on the last cut before it"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Home",
+          "named": "Home is pressed"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "01:00:00:00",
+          "named": "the playhead is on the first frame"
         }
       ]
     },

@@ -349,6 +349,24 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT51: the View menu's playhead follow submenu.</summary>
+    public const string FollowMenu = "_Follow playhead";
+
+    /// <summary>WT51: follow by jumping a page when the playhead leaves the view.</summary>
+    public const string FollowPageMenu = "_Page";
+
+    /// <summary>WT51: follow keeping the playhead centred.</summary>
+    public const string FollowSmoothMenu = "_Smooth";
+
+    /// <summary>WT51: never follow.</summary>
+    public const string FollowOffMenu = "_Off";
+
+    /// <summary>WT51: what the viewer's status says of the frame it is on.</summary>
+    /// <param name="timecode">The frame's timecode.</param>
+    /// <param name="frame">The frame, from the timeline's start.</param>
+    /// <returns>The status.</returns>
+    public static string ViewerFrame(string timecode, long frame) => string.Create(CultureInfo.InvariantCulture, $"frame {frame} at {timecode}");
+
     /// <summary>The timeline surface's automation name.</summary>
     public const string TimelineName = "Timeline";
 
