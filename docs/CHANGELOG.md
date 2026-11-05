@@ -87,6 +87,7 @@
 ## Block L — AI-assisted editing
 
 - ✅ **WT114 (contract)** **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — The assistant's contract: a timeline digest, a reply schema of pipeline commands, and a check on a copy that refuses any bad batch whole; a valid one applies as one AI-tagged undo step.
+- ✅ **WT121** **Cuts cannot be placed on the beats of a music track** — Detect beats decodes a music clip and marks its beats, the click track's within 10 ms at 120 BPM, and Cut to beats lays clips beat to beat, with the neural tracker left to WT176.
 
 ## Block M — Video export and interchange
 

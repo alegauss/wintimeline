@@ -162,6 +162,14 @@
       "shareable": false
     },
     {
+      // WT121: an empty window and the click track beside it (3 ms clicks at 120 BPM from 0.25 s) to drop on its welcome page; not lent, since the drop makes its document.
+      "name": "a window with a click track to drop on it",
+      "files": ["tests/fixtures/media/clicks-120bpm.wav"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT81: the cut once more, c1 and c2 two seconds each, to be the angles of a multicam; not lent, since its case makes one.
       "name": "a window on a cut to make a multicam of",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1334,6 +1342,52 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "the beats of a click track are marked on its clip where the clicks are, at its tempo",
+      "catches": "music whose beats the timeline cannot show, so cuts to it land off the beat",
+      "filed": "WT121",
+      "tags": ["beats", "markers", "analysis"],
+      "fixture": "a window with a click track to drop on it",
+      "steps": [
+        {
+          "locator": "Pane#WelcomePanel",
+          "act": "drop file",
+          "with": "{files}/clicks-120bpm.wav",
+          "named": "the click track is dropped on the welcome page, which makes a timeline of it"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#A1-0",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "its clip on A1 is clicked"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#DetectBeatsMenuItem",
+          "act": "invoke",
+          "named": "Detect beats is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Marked 8 beats on clicks-120bpm at 120 BPM.",
+          "named": "the eight clicks are marked at 120 BPM"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#M-A1-0-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "YELLOW marker on A1 at 00:00:00:06",
+          "named": "and the first beat marker is on the first click, a quarter second in"
         }
       ]
     },

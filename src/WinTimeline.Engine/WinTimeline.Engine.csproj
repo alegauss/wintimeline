@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WinTimeline.Model\WinTimeline.Model.csproj" />
+    <!-- WT121: decoded sound for the analysis that reads waveforms (beats). -->
+    <ProjectReference Include="..\WinTimeline.Media\WinTimeline.Media.csproj" />
   </ItemGroup>
 
 </Project>

@@ -41,6 +41,12 @@
         <MenuItem Header="{x:Static app:UiText.UngroupMenu}" InputGestureText="{x:Static app:UiText.UngroupGesture}" Click="OnUngroup" AutomationProperties.AutomationId="UngroupMenuItem" />
         <MenuItem x:Name="LinkedSelectionMenuItem" Header="{x:Static app:UiText.LinkedSelectionMenu}" InputGestureText="{x:Static app:UiText.LinkedSelectionGesture}" IsCheckable="True" IsChecked="True" Click="OnLinkedSelection" AutomationProperties.AutomationId="LinkedSelectionMenuItem" />
         <MenuItem Header="{x:Static app:UiText.MoveIntoSyncMenu}" Click="OnMoveIntoSync" AutomationProperties.AutomationId="MoveIntoSyncMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.DetectBeatsMenu}" Click="OnDetectBeats" AutomationProperties.AutomationId="DetectBeatsMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.CutToBeatsMenu}" AutomationProperties.AutomationId="CutToBeatsMenu">
+          <MenuItem Header="{x:Static app:UiText.EveryBeatMenu}" Click="OnCutToBeats" Tag="1" AutomationProperties.AutomationId="EveryBeatMenuItem" />
+          <MenuItem Header="{x:Static app:UiText.EverySecondBeatMenu}" Click="OnCutToBeats" Tag="2" AutomationProperties.AutomationId="EverySecondBeatMenuItem" />
+          <MenuItem Header="{x:Static app:UiText.EveryFourthBeatMenu}" Click="OnCutToBeats" Tag="4" AutomationProperties.AutomationId="EveryFourthBeatMenuItem" />
+        </MenuItem>
         <MenuItem Header="{x:Static app:UiText.MulticamMenu}" AutomationProperties.AutomationId="MulticamMenu">
           <MenuItem Header="{x:Static app:UiText.MulticamTimecodeMenu}" Click="OnMulticamTimecode" AutomationProperties.AutomationId="MulticamTimecodeMenuItem" />
           <MenuItem Header="{x:Static app:UiText.MulticamInPointsMenu}" Click="OnMulticamInPoints" AutomationProperties.AutomationId="MulticamInPointsMenuItem" />

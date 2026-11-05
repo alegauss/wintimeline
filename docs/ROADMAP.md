@@ -133,7 +133,6 @@
 - 📋 **WT118** (deps: WT112, WT91) **A 16:9 edit cannot be reframed to 9:16 or 1:1 with the subject kept in frame** — Every cut now ships vertical versions for social platforms, and reframing by hand is keyframe drudgery. → §WT118
 - 📋 **WT119** (deps: WT84, WT99 ✅) **Noisy dialogue, hum and reverb cannot be cleaned inside the app** — Most location audio needs cleanup, and modern denoisers run in real time on a laptop. → §WT119
 - 📋 **WT120** (deps: WT119, WT106) **Music cannot be separated from dialogue, and background music is not ducked under speech automatically** — Ducking music under voice is a step in nearly every video, and stem separation rescues mixed recordings. → §WT120
-- 📋 **WT121** (deps: WT104 ✅, WT54 ✅) **Cuts cannot be placed on the beats of a music track** — Montages cut to music are common, and beat markers make them fast and precise. → §WT121
 - 📋 **WT122** (deps: WT77, WT99 ✅) **Slow motion from normal-rate footage stutters, because frames are only repeated or blended** — Smooth slow motion is a common request and optical-flow models make it possible from ordinary footage. → §WT122
 - 📋 **WT123** (deps: WT99 ✅, WT40 ⏳) **Low-resolution archive or phone clips look soft in a 4K timeline** — Mixed-resolution timelines are common, and Revelei already proves Real-ESRGAN runs well on this hardware. → §WT123
 - 💭 **WT124** (deps: WT92, WT99 ✅) **A person cannot be separated from the background without a green screen** — Background replacement and text-behind-subject effects are popular and now feasible locally. → §WT124
@@ -144,6 +143,7 @@
 - 💭 **WT129** (deps: WT81 ✅, WT107) **Multicam podcasts must be cut angle by angle even though the speaker is known at every moment** — Speaker diarisation can produce a watchable first cut of a multicam conversation automatically. → §WT129
 - 💭 **WT130** (deps: WT99 ✅, WT84) **A scratch narration cannot be produced from text while the real voice-over is not recorded yet** — Editors time a cut against a narration long before the final recording exists. → §WT130
 - 📋 **WT131** (deps: WT27, WT79 ✅) **Separately recorded audio cannot be synced to camera audio automatically** — Double-system sound is standard on productions, and clapping by hand is slow. → §WT131
+- 📋 **WT176** (deps: WT121 ✅) **Beats in music whose pulse is not struck, and the bars of any music, are not found** — Onset detection marks hits rather than the beat a listener feels, and a montage cut on bars needs to know where each bar starts. → §WT176
 
 ## Block M — Video export and interchange
 

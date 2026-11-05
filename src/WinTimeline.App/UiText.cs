@@ -458,6 +458,43 @@ public static class UiText
     /// <summary>WT81: the Edit menu's multicam submenu.</summary>
     public const string MulticamMenu = "Create _multicam";
 
+    /// <summary>WT121: marks the beats of the selected music clips.</summary>
+    public const string DetectBeatsMenu = "_Detect beats";
+
+    /// <summary>WT121: the Edit menu's cut to beats submenu.</summary>
+    public const string CutToBeatsMenu = "Cut to _beats";
+
+    /// <summary>WT121: lays clips on every beat.</summary>
+    public const string EveryBeatMenu = "_Every beat";
+
+    /// <summary>WT121: on every second beat.</summary>
+    public const string EverySecondBeatMenu = "Every _second beat";
+
+    /// <summary>WT121: on every fourth beat.</summary>
+    public const string EveryFourthBeatMenu = "Every _fourth beat";
+
+    /// <summary>WT121: Detect beats with no clip of media selected.</summary>
+    public const string BeatsNeedMusic = "Select a music clip whose media is on this machine to detect its beats.";
+
+    /// <summary>WT121: what Detect beats says while it listens.</summary>
+    public const string DetectingBeats = "Detecting beats...";
+
+    /// <summary>WT121: Cut to beats without clips on one track selected.</summary>
+    public const string CutToBeatsNeedsClips = "Select the clips to lay on the beats, all on one track.";
+
+    /// <summary>WT121: what Detect beats did.</summary>
+    /// <param name="count">How many beats it marked.</param>
+    /// <param name="clip">The first clip's name.</param>
+    /// <param name="bpm">Its tempo.</param>
+    /// <returns>The status.</returns>
+    public static string BeatsMarked(int count, string clip, double bpm) =>
+        string.Create(CultureInfo.InvariantCulture, $"Marked {count} beats on {clip} at {bpm:0} BPM.");
+
+    /// <summary>WT121: what Cut to beats did.</summary>
+    /// <param name="count">How many clips it laid.</param>
+    /// <returns>The status.</returns>
+    public static string LaidOnBeats(int count) => string.Create(CultureInfo.InvariantCulture, $"Laid {count} {(count == 1 ? "clip" : "clips")} on the beats.");
+
     /// <summary>WT81: the Edit menu's cut to angle submenu.</summary>
     public const string CutToAngleMenu = "Cut to _angle";
 

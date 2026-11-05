@@ -1263,14 +1263,6 @@ attack, release), editable afterwards.
 Done when auto-ducking a fixture lowers music by the chosen depth during every speech
 region.
 
-### §WT121 Beat detection and cut to music
-
-A beat and downbeat tracker (madmom-style RNN or BeatNet, ONNX) marks beats on music
-clips as markers (beats, bars). Snapping uses them. 'Cut to beats' distributes selected
-clips onto every Nth beat, trimming each to fit.
-
-Done when a click-track fixture's beats are detected within 10 ms.
-
 ### §WT122 Frame interpolation for speed changes
 
 RIFE (ONNX, DirectML) generates intermediate frames for clips with time_scalar below 1
@@ -1367,6 +1359,21 @@ and report confidence per pair.
 
 Done when fixture pairs sync within one audio sample at 48 kHz, and a low-confidence
 pair is flagged.
+
+### §WT176 Neural beat and downbeat tracking
+
+WT121 finds beats by onset detection (Engine/Analysis/Beats.cs): the decoded sound's
+energy in one-millisecond frames, an onset where it climbs past a threshold, each
+refined to the first sample past a fifth of its peak. That is exact on struck material:
+the click-track fixture's beats land within 10 ms and its tempo reads 120 BPM. It marks
+onsets, not beats, on music whose pulse is not struck (pads, strings, swung rhythms),
+and it knows nothing of bars. The design's neural tracker closes that gap: a beat and
+downbeat model (madmom-style RNN or BeatNet) in ONNX, listed in the model catalog
+(Inference/Catalog/models.json) and fetched through GuardedHttp like the others, run on
+the same decoded sound. Its downbeats become markers named "bar", and Cut to beats'
+"every fourth beat" becomes "every bar". The onset detector stays as the fallback where
+no model is installed. Done when a fixture of real music with known beat and bar times
+scores an F-measure of 0.9 or better at 70 ms tolerance.
 
 ## Block M — Video export and interchange
 
