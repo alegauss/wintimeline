@@ -67,6 +67,15 @@ public partial class MainWindow
         SnappingMenuItem.IsChecked = on;
     }
 
+    // WT57: a heat lane's checkable item, named by its tag; the click has already flipped it.
+    private void OnHeatLane(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem { Tag: string name } item && Enum.TryParse(name, out HeatKind kind))
+        {
+            TimelinePanel.ShowHeat(kind, item.IsChecked);
+        }
+    }
+
     // The item is checkable, so a click has already flipped IsChecked: that is the new state.
     private void OnSnapping(object sender, RoutedEventArgs e) => SetSnapping(SnappingMenuItem.IsChecked);
 

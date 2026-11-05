@@ -53,6 +53,11 @@
           <MenuItem x:Name="RulerFeet" Header="{x:Static app:UiText.RulerFeetMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="FeetFrames" AutomationProperties.AutomationId="RulerFeetMenuItem" />
           <MenuItem x:Name="RulerSeconds" Header="{x:Static app:UiText.RulerSecondsMenu}" IsCheckable="True" Click="OnRulerUnit" Tag="Seconds" AutomationProperties.AutomationId="RulerSecondsMenuItem" />
         </MenuItem>
+        <MenuItem Header="{x:Static app:UiText.HeatMenu}" AutomationProperties.AutomationId="HeatMenu">
+          <MenuItem Header="{x:Static app:UiText.HeatCutsMenu}" IsCheckable="True" Click="OnHeatLane" Tag="Cuts" AutomationProperties.AutomationId="HeatCutsMenuItem" />
+          <MenuItem Header="{x:Static app:UiText.HeatProblemsMenu}" IsCheckable="True" Click="OnHeatLane" Tag="Problems" AutomationProperties.AutomationId="HeatProblemsMenuItem" />
+          <MenuItem Header="{x:Static app:UiText.HeatMarkersMenu}" IsCheckable="True" Click="OnHeatLane" Tag="Markers" AutomationProperties.AutomationId="HeatMarkersMenuItem" />
+        </MenuItem>
         <MenuItem x:Name="SnappingMenuItem" Header="{x:Static app:UiText.SnappingMenu}" InputGestureText="{x:Static app:UiText.SnappingGesture}" IsCheckable="True" IsChecked="True" Click="OnSnapping" AutomationProperties.AutomationId="SnappingMenuItem" />
         <MenuItem Header="{x:Static app:UiText.FollowMenu}" AutomationProperties.AutomationId="FollowMenu">
           <MenuItem x:Name="FollowPage" Header="{x:Static app:UiText.FollowPageMenu}" IsCheckable="True" Click="OnFollow" Tag="Page" AutomationProperties.AutomationId="FollowPageMenuItem" />

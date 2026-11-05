@@ -56,6 +56,7 @@
 - ✅ **WT53** **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Ruler scrubs and in/out drags snap within 8 px to cuts, markers, the playhead and in/out, with a guide and frame delta; S or View > Snapping toggles it, Alt inverts one drag.
 - ✅ **WT54** **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — Timeline, track and clip markers show in their colours, ranged ones as bands, M adds or edits one and Shift+Up/Down jumps between them, with dragging left to WT171 and the Resolve check to WT172.
 - ✅ **WT56** **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — A compound clip opens on double-click or Enter into an editable sub-view named by a breadcrumb, and Esc goes back up with what was edited inside kept.
+- ✅ **WT57** **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — View > Heat lanes maps cuts, validation problems and markers as stripes over the overview strip, and a press on a hot spot takes the playhead there, with silence and AI lanes left to WT173.
 
 ## Block G — Workspace, panels and viewers
 

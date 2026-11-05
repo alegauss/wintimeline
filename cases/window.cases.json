@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT57: Premiere's export again, 1271 frames at 30 fps, its first marker at frame 113; not lent, since its case turns a heat lane on and moves the playhead.
+      "name": "a window on a timeline with markers to map",
+      "arguments": ["--open", "tests/fixtures/otio/corpus/premiere_example.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT56: the cut once more, to nest c2 and c3 and break them apart; not lent, since its case edits it.
       "name": "a window on a cut to nest",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1292,6 +1298,54 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "the markers heat lane maps where the markers are over the overview strip, and a press on a hot spot takes the playhead there",
+      "catches": "a long programme with no map of where its notes are, or a map that cannot be used to get there",
+      "filed": "WT57",
+      "tags": ["heat", "overview", "markers"],
+      "fixture": "a window on a timeline with markers to map",
+      "steps": [
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#HeatMenu",
+          "act": "expand",
+          "named": "and its Heat lanes submenu"
+        },
+        {
+          "locator": "MenuItem#HeatMarkersMenuItem",
+          "act": "invoke",
+          "named": "the markers lane is turned on"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", heat markers 4$",
+          "named": "the strip maps all four markers, three on the timeline and one on a clip"
+        },
+        {
+          // A drag for a click: a case cannot click a point of an element yet (WW603), and the
+          // strip acts on the press. The first marker is at 113 / 1271 of the programme, 8.9% across.
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "8.9%,6",
+          "to": "12%,6",
+          "named": "the strip is pressed on the first marker's hot spot"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "00:00:03:23",
+          "named": "and the playhead is on that marker's frame"
         }
       ]
     },

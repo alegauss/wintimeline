@@ -63,6 +63,8 @@ public sealed class TimelinePanel : IDisposable
     private Snapped? _guide;
     private IReadOnlyList<PlacedMarker>? _markers;
     private readonly List<Stack> _scopes = [];
+    private readonly HashSet<HeatKind> _heatShown = [];
+    private Dictionary<HeatKind, HeatLane>? _heat;
     private (LaneItem Item, long Ticks)? _lastPress;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
@@ -270,6 +272,61 @@ public sealed class TimelinePanel : IDisposable
         }
     }
 
+    /// <summary>WT57: the heat lanes shown over the overview strip.</summary>
+    public IReadOnlySet<HeatKind> HeatShown => _heatShown;
+
+    /// <summary>WT57: shows or hides a heat lane.</summary>
+    /// <param name="kind">Which.</param>
+    /// <param name="on">Whether it shows.</param>
+    public void ShowHeat(HeatKind kind, bool on)
+    {
+        if (on ? _heatShown.Add(kind) : _heatShown.Remove(kind))
+        {
+            _surface.Invalidate();
+        }
+    }
+
+    /// <summary>WT57: the lanes shown, counted for the strip's width; recounted after an edit.</summary>
+    private Dictionary<HeatKind, HeatLane> Heat(TimelineLayout layout, int bins)
+    {
+        if (_heat is { } kept && kept.Values.All(l => l.Bins.Count == bins) && _heatShown.All(kept.ContainsKey))
+        {
+            return kept;
+        }
+
+        _heat = [];
+        foreach (HeatKind kind in _heatShown)
+        {
+            _heat[kind] = HeatLane.Of(kind, HeatTimes(kind, layout), layout.Duration, bins);
+        }
+
+        return _heat;
+    }
+
+    private IEnumerable<double> HeatTimes(HeatKind kind, TimelineLayout layout) => kind switch
+    {
+        HeatKind.Cuts => EditPoints.Of(layout),
+        HeatKind.Markers => Markers.Select(m => m.Start),
+        _ => ProblemTimes(layout),
+    };
+
+    /// <summary>Where the validator's problems are: the start of the item each is on, where the layout shows it.</summary>
+    private IEnumerable<double> ProblemTimes(TimelineLayout layout)
+    {
+        if (_timeline is null)
+        {
+            return [];
+        }
+
+        Dictionary<Composable, double> starts = new(ReferenceEqualityComparer.Instance);
+        foreach (LaneItem item in layout.Lanes.SelectMany(l => l.Items))
+        {
+            starts.TryAdd(item.Item, item.Start);
+        }
+
+        return Model.Validation.Validator.Check(_timeline).Select(p => starts.TryGetValue(p.Target, out double at) ? at : -1).Where(at => at >= 0);
+    }
+
     /// <summary>WT54: the frame rate the shown timeline counts in.</summary>
     public double FrameRate => Rate;
 
@@ -365,6 +422,7 @@ public sealed class TimelinePanel : IDisposable
         Selection.Clear();
         _targets = null;
         _markers = null;
+        _heat = null;
         Position.Reset(Rate, _layout?.Duration ?? 0);
         ScopeChanged?.Invoke(this, EventArgs.Empty);
         Changed();
@@ -440,6 +498,7 @@ public sealed class TimelinePanel : IDisposable
             Selection.Keep(_layout);
             _targets = null;
             _markers = null;
+            _heat = null;
         }
 
         Changed();
@@ -564,6 +623,12 @@ public sealed class TimelinePanel : IDisposable
 
         if (pointer.Phase == PointerPhase.Down)
         {
+            if (pointer.Y < Overview && JumpToHotSpot(view, layout, pointer.X))
+            {
+                _dragging = Drag.None;
+                return;
+            }
+
             _dragging = Pressed(view, layout, pointer);
             if (_dragging == Drag.InOut)
             {
@@ -767,8 +832,63 @@ public sealed class TimelinePanel : IDisposable
             }
         }
 
+        // WT57: each heat lane shown is a stripe along the strip's foot, its bins as hot as they are busy.
+        if (_heatShown.Count > 0)
+        {
+            int bins = Math.Max(1, (int)(across / (4 * Scale)));
+            float stripe = height / (_heatShown.Count + 1), at = top + height;
+            float binWidth = across / bins;
+            foreach (HeatLane lane in Heat(layout, bins).Values.OrderBy(l => l.Kind))
+            {
+                at -= stripe;
+                Color4 hot = HeatColour(lane.Kind);
+                for (int i = 0; i < lane.Bins.Count; i++)
+                {
+                    if (lane.Bins[i] > 0)
+                    {
+                        _canvas.Fill((float)Header + (i * binWidth), at, Math.Max(1, binWidth), stripe, new Color4(hot.R, hot.G, hot.B, 0.35f + (0.65f * lane.Bins[i])));
+                    }
+                }
+            }
+        }
+
         float left = (float)(Header + (view.Start * scale)), right = (float)(Header + (view.End * scale));
         _canvas.Outline(left, top + 0.5f, Math.Max(2, right - left), height - 1, Label, 1);
+    }
+
+    private static Color4 HeatColour(HeatKind kind) => kind switch
+    {
+        HeatKind.Cuts => new Color4(0.95f, 0.95f, 0.95f, 1f),
+        HeatKind.Problems => new Color4(1f, 0.3f, 0.25f, 1f),
+        _ => new Color4(1f, 0.85f, 0.2f, 1f),
+    };
+
+    /// <summary>WT57: a press on the overview strip within six pixels of something a heat lane counts jumps the playhead to it.</summary>
+    private bool JumpToHotSpot(TimelineViewport view, TimelineLayout layout, double x)
+    {
+        if (_heat is not { Count: > 0 } heat)
+        {
+            return false;
+        }
+
+        double perPixel = layout.Duration / Math.Max(1, view.Width);
+        double clicked = Math.Max(0, x - Header) * perPixel;
+        double? best = null;
+        foreach (HeatLane lane in heat.Values)
+        {
+            if (lane.Nearest(clicked, 6 * Scale * perPixel) is { } at && (best is null || Math.Abs(at - clicked) < Math.Abs(best.Value - clicked)))
+            {
+                best = at;
+            }
+        }
+
+        if (best is not { } spot)
+        {
+            return false;
+        }
+
+        Seek(spot + (0.5 / Rate));
+        return true;
     }
 
     private enum Drag
@@ -928,6 +1048,12 @@ public sealed class TimelinePanel : IDisposable
 
         double[] sorted = [.. _frameTimes.Order()];
         string span = (_view is { } view ? ", " + UiText.ViewSpan(Timecode(view.Start), Timecode(view.End)) : string.Empty) + ", " + UiText.RulerStatus(UiText.RulerUnitName(Unit));
+
+        // WT57: the heat lanes shown and how much each counts, said only while there are some.
+        if (_heat is { Count: > 0 } heat)
+        {
+            span += ", " + UiText.HeatStatus(heat.Values.OrderBy(l => l.Kind).Select(l => (UiText.HeatName(l.Kind), l.Count)));
+        }
         _surface.Status = UiText.DrawTimes(sorted[sorted.Length / 2], sorted[(int)(sorted.Length * 0.95)], sorted.Length) + span;
     }
 

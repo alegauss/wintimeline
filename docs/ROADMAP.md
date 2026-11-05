@@ -53,12 +53,12 @@
 ## Block F — Timeline view: GPU drawing and navigation
 
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
-- 💭 **WT57** (deps: WT48 ✅) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
 - 📋 **WT58** (deps: WT52 ✅, WT51 ✅) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 - 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
 - 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
 - 📋 **WT171** (deps: WT54 ✅) **Markers cannot be dragged to a new time on the ruler or their lane** — A note placed a few frames off has to be deleted and added again, and AI findings land where their analysis put them. → §WT171
+- 💭 **WT173** (deps: WT57 ✅) **The overview strip cannot show where silence or unaccepted AI suggestions are** — Dead air and pending suggestions are the next things an editor hunts for in a long programme, once something finds them. → §WT173
 
 ## Block G — Workspace, panels and viewers
 

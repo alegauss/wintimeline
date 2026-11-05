@@ -409,6 +409,29 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT57: the View menu's heat lanes submenu.</summary>
+    public const string HeatMenu = "_Heat lanes";
+
+    /// <summary>WT57: the cut density lane.</summary>
+    public const string HeatCutsMenu = "_Cuts";
+
+    /// <summary>WT57: the problems lane.</summary>
+    public const string HeatProblemsMenu = "_Problems";
+
+    /// <summary>WT57: the markers lane.</summary>
+    public const string HeatMarkersMenu = "_Markers";
+
+    /// <summary>WT57: a heat lane's name as the surface's status says it.</summary>
+    /// <param name="kind">The lane.</param>
+    /// <returns>e.g. "markers".</returns>
+    public static string HeatName(Engine.Timeline.HeatKind kind) => kind.ToString().ToLowerInvariant();
+
+    /// <summary>WT57: the heat lanes shown, e.g. "heat cuts 7, markers 3".</summary>
+    /// <param name="lanes">Each lane's name and how many things it counts.</param>
+    /// <returns>The status.</returns>
+    public static string HeatStatus(IEnumerable<(string Name, int Count)> lanes) =>
+        "heat " + string.Join(", ", lanes.Select(l => string.Create(CultureInfo.InvariantCulture, $"{l.Name} {l.Count}")));
+
     /// <summary>WT56: the breadcrumb's button back up to what holds the compound shown.</summary>
     public const string BreadcrumbUp = "Back up (Esc)";
 

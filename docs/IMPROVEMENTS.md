@@ -488,15 +488,6 @@ items. Clip colour follows OTIO `metadata` colour labels when present.
 Done when every badge appears in a screenshot case against a fixture timeline that
 exercises it.
 
-### §WT57 Heat lanes on the overview strip
-
-The overview strip can show optional lanes: cut density, validation problems, unreviewed
-markers, silence regions and AI suggestions not yet accepted. Each lane is a 1-D texture
-recomputed in the background. This is an idea until the AI block produces enough signals
-to justify it.
-
-Done when each lane can be toggled and clicking a hot spot jumps there.
-
 ### §WT58 Keyboard-only editing and UI Automation
 
 Every timeline action has a keyboard path: focus moves between tracks (Ctrl+Up/Down) and
@@ -587,6 +578,19 @@ That file goes under tests/fixtures/resolve/ with an engine test asserting
 TimelineMarkers.Of against the note. Resolve writes its own colour names in the marker's
 metadata (Resolve_OTIO), which may differ from the reference's enum. Where they disagree
 the metadata colour should win, and that is the one code change this may bring.
+
+### §WT173 Heat lanes for silence and AI suggestions
+
+WT57 put heat lanes on the overview strip for cuts, validation problems and markers.
+They are the engine's HeatLane, binned per four pixels of the strip, toggled from View >
+Heat lanes, with a press within six pixels of a hot spot moving the playhead there. Two
+of the lanes its design named have nothing to count yet. One is silence regions, which
+needs the audio analysis that finds them. The other is AI suggestions not yet accepted,
+which needs the assistant's proposals to be kept on the timeline rather than shown once.
+Each joins as a HeatKind, with its times from where those blocks keep their results, a
+View > Heat lanes item and a palette command. This is an idea until those blocks store
+something a lane can count. Done when each new lane has a case that turns it on and
+reads its count in the surface's status.
 
 ## Block G — Workspace, panels and viewers
 
