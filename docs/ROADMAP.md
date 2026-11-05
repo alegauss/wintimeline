@@ -50,7 +50,6 @@
 
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - ⏳ **WT58** (deps: WT52 ✅, WT51 ✅, WT70 ✅, WT72) **The timeline cannot be used without a mouse or read by a screen reader** — Trimming and moving the focused clip by keys waits on WT70 and WT72, and an Accessibility Insights pass over the panel is still to run. → §WT58
-- 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 - 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
 - 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
 - 📋 **WT171** (deps: WT54 ✅) **Markers cannot be dragged to a new time on the ruler or their lane** — A note placed a few frames off has to be deleted and added again, and AI findings land where their analysis put them. → §WT171

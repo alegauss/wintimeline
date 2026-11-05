@@ -13,8 +13,10 @@ rem Usage:  run-tests.cmd [Configuration]        default Debug
 set "CONFIG=%~1"
 if "%CONFIG%"=="" set "CONFIG=Debug"
 
-rem How long one test may run before it is taken as hung, ended and named.
-if "%WINTIMELINE_HANG%"=="" set "WINTIMELINE_HANG=10m"
+rem How long one test may run before it is taken as hung, ended and named. Every UI case runs
+rem inside one test (CasesRun), which took 9m38s in the guest by WT164, so ten minutes left a
+rem healthy run almost no room, and a slow guest desk took 19m42s (WT168); thirty leaves room.
+if "%WINTIMELINE_HANG%"=="" set "WINTIMELINE_HANG=30m"
 
 pushd "%~dp0"
 

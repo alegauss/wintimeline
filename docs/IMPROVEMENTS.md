@@ -473,14 +473,27 @@ headers are WT50's, so they are not part of this measurement.
 
 ### §WT168 Keeping the timeline's automation items cheap
 
-WT47 made every clip in view a UI Automation item of the timeline surface, built afresh
-on each query. At fit-all a feature-length cut shows about 500 clips, and WT48's case
-measured one query of the surface's children taking 8 seconds in the guest, so a locator
-for one clip times out and a screen reader stalls on the panel. The items should be kept
-between queries and rebuilt only when the viewport or the layout changes, cheap to name
-(bounds computed when asked, not upfront), and clips too narrow to point at (under 2 px)
-grouped per lane into one item that names its range and count. Done when the 500-clip
-fit-all view answers a ListItem query by name in under 200 ms on WARP.
+WT47 made every clip in view a UI Automation item of the timeline surface, one WPF
+AutomationPeer each. At fit-all a feature-length cut shows about 1,100 clips in the
+guest (9 video lanes of 125). A case's one name query there took 64 s on 2026-11-05,
+about 58 ms per element. That is far more than plain UI Automation overhead, and it
+timed out the case.
+
+Tried and taken back, so the next attempt starts from evidence:
+- Skipping the reset when the listing reads the same, and merging runs of clips under 2 px
+  into one item per lane. At the guest's window width no clip was under 2 px, so the merge
+  never engaged, and the query stayed at 64 s.
+- Keeping SurfaceItemPeer and SurfaceGroupPeer objects between listings, by id. This hung
+  the app's UI thread twice, with a client blocked in RawUiaGetPropertyValue. WPF does not
+  take a peer re-parented under a reused group, so do not reuse peers.
+
+The approach left to decide: the surface's child HWND answers WM_GETOBJECT with its own
+IRawElementProviderFragmentRoot (UiaReturnRawElementProvider). Items then become
+lightweight providers answered on UIA's thread from a snapshot of the listing, outside
+WPF's ElementProxy and dispatcher. The selection, value, focus and track groups (WT52,
+WT58) move across with them, and every timeline case reads that tree. Done when the
+fit-all view of the feature cut answers a ListItem query by name in under 200 ms on
+WARP, in a case using a declared winwright timeout.
 
 ### §WT169 Track heights, colours, drag order and targets
 

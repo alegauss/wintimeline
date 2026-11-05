@@ -18,6 +18,7 @@
 
 - ⏸ **WT167** (deps: WT47 ✅) **Nobody has measured the 3,000-clip timeline scrolling at refresh rate on the reference laptop** — set aside (Needs a person on the reference laptop.): The draw-time budget only counts on the hardware it is promised for, and neither WARP nor this desk's GPU is that machine. → §WT167
 - ⏸ **WT172** (deps: WT54 ✅) **Markers from a DaVinci Resolve export have never been checked against the frames and colours Resolve shows** — set aside (It needs a person with Resolve.): Resolve is the editor most likely to hand this app an OTIO file, and its marker colours live in its own metadata. → §WT172
+- ⏸ **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — set aside (Waits on choosing a native UIA provider.): Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 
 ## Block G — Workspace, panels and viewers
 
