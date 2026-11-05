@@ -148,6 +148,12 @@
       "shareable": false
     },
     {
+      // WT163: the two versions again; not lent, since its case keeps the comparison open over cut v2.
+      "name": "a window on two versions of a cut to band",
+      "arguments": ["--open", "tests/fixtures/diff/cuts.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT162: the two versions again, staged so a change list can be written beside them; not lent, since its case marks cut v2.
       "name": "a window on two versions of a cut to hand the changes on from",
       "files": ["tests/fixtures/diff/cuts.otio"],
@@ -2638,6 +2644,59 @@
           "reads": "value",
           "expect": "V2",
           "named": "and V2 is back"
+        }
+      ]
+    },
+
+    {
+      "name": "a comparison bands the changed clips on the later version, and selecting a banded clip picks its row",
+      "catches": "changes that can only be read as a list, with nothing on the timeline showing where they fall",
+      "filed": "WT163",
+      "tags": ["compare", "surface", "dialog"],
+      "fixture": "a window on two versions of a cut to band",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^Opened cuts\\.otio",
+          "named": "the two versions have opened"
+        },
+        {
+          "locator": "TabItem#TimelineTab1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the cut v2 tab is clicked"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#CompareMenuItem",
+          "act": "invoke",
+          "named": "Compare is chosen, and stays open beside the timeline"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem[name=\"c2\"]",
+          "act": "read",
+          "reads": "status",
+          "matches": ", trimmed$",
+          "named": "c2 carries the trimmed band"
+        },
+        {
+          // Through its selection pattern, since the comparison may cover the clip on a small desk.
+          "locator": "Pane#TimelineSurface > ListItem[name=\"c2\"]",
+          "act": "select",
+          "named": "c2 is selected on the timeline"
+        },
+        {
+          "locator": "List#ChangeList > ListItem[name=\"Trimmed c2 on V1 at 01:00:03:00: head +5, tail -3 frames.\"]",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "and the comparison picks its Trimmed row"
         }
       ]
     },

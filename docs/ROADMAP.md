@@ -12,7 +12,6 @@
 ## Block B — OTIO document model and file formats
 
 - 📋 **WT159** (deps: WT18 ✅, WT24, WT22 ✅) **Media that was renamed as well as moved is not found, and a relink rule is forgotten on the next open** — Renames happen in every conform, and repeating the same relink each time a project opens is friction; split out of WT18. → §WT159
-- 📋 **WT163** (deps: WT21 ✅) **The changes between two versions show only as a list, not as colour bands on the timeline** — A reviewer reads a cut by its shape; bands on the clips that moved, trimmed or were replaced show where the edits fall. → §WT163
 - 📋 **WT164** (deps: WT22 ✅) **A layout change or tab choice made without saving the document is lost on close** — The sidecar is written only with a save, so a reviewer who only looked around reopens to the default layout. → §WT164
 
 ## Block C — Media probing and GPU decoding

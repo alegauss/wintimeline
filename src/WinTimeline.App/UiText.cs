@@ -458,6 +458,17 @@ public static class UiText
     /// <summary>WT81: the Edit menu's multicam submenu.</summary>
     public const string MulticamMenu = "Create _multicam";
 
+    /// <summary>WT163: the suffix a changed clip's status carries while a comparison is shown.</summary>
+    /// <param name="kind">The change's kind, e.g. Trimmed.</param>
+    /// <returns>e.g. ", trimmed".</returns>
+    public static string ChangeShown(string kind) => ", " + kind.ToLowerInvariant();
+
+    /// <summary>WT163: a removed clip's ghost as UI Automation reads it.</summary>
+    /// <param name="track">Its track, e.g. V1.</param>
+    /// <param name="timecode">Where it was.</param>
+    /// <returns>e.g. "removed from V1 at 01:00:04:00".</returns>
+    public static string GhostStatus(string track, string timecode) => $"removed from {track} at {timecode}";
+
     /// <summary>WT162: writes the comparison as a CMX 3600 change list.</summary>
     public const string ExportChangeList = "Export change list...";
 

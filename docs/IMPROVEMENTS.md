@@ -120,15 +120,6 @@ The substitution rules a person confirms are kept per project (WT22) and tried o
 Done when a clip whose file was renamed and moved relinks by signature, and a project
 reopened on the same machine relinks itself from its saved rule.
 
-### §WT163 Comparison bands on the timeline
-
-WT21's TimelineDiff gives each change the clips it concerns in both versions. Once the
-timeline panel draws clips, it should tint each one by its change kind (moved, trimmed,
-replaced, added), mark removed clips as thin ghosts where they were, and select the
-matching list row when a band is clicked. The colours come from the Fluent theme's
-semantic brushes, so they read in light and dark. Done when the cuts.otio pair shows
-five bands on cut v2 and clicking the c2 band selects its Trimmed row.
-
 ### §WT164 Keeping the layout without a save
 
 WT22 writes the sidecar on every save, so its layout and shown tab survive only when the

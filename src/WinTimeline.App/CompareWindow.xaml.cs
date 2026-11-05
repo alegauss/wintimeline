@@ -15,18 +15,30 @@ public partial class CompareWindow : Window
 {
     private readonly Timeline _shown;
     private readonly History _history;
+    private readonly TimelinePanel? _panel;
     private TimelineDiff? _diff;
 
     /// <summary>Opens the comparison.</summary>
     /// <param name="timelines">The document's timelines.</param>
     /// <param name="shown">The one shown, compared as the later version.</param>
     /// <param name="history">WT162: the shown timeline's history, which marking the changes runs through.</param>
-    public CompareWindow(IReadOnlyList<Timeline> timelines, Timeline shown, History history)
+    /// <param name="panel">WT163: the timeline the comparison is shown on as bands, and whose selection picks a row; null for none.</param>
+    public CompareWindow(IReadOnlyList<Timeline> timelines, Timeline shown, History history, TimelinePanel? panel = null)
     {
         ArgumentNullException.ThrowIfNull(timelines);
         ArgumentNullException.ThrowIfNull(history);
         _shown = shown;
         _history = history;
+        _panel = panel;
+        if (panel is not null)
+        {
+            panel.Selection.Changed += OnTimelineSelection;
+            Closed += (_, _) =>
+            {
+                panel.Selection.Changed -= OnTimelineSelection;
+                panel.ShowComparison(null);
+            };
+        }
         InitializeComponent();
         ToName.Text = UiText.CompareTo(shown.Name);
         List<Timeline> others = [.. timelines.Where(t => !ReferenceEquals(t, shown))];
@@ -65,6 +77,41 @@ public partial class CompareWindow : Window
         }
 
         CompareSummary.Text = diff.Summary;
+        _panel?.ShowComparison(diff, Colour);
+    }
+
+    // WT163: a clip selected on the timeline picks its change's row.
+    private void OnTimelineSelection(object? sender, EventArgs e)
+    {
+        if (_diff is not { } diff || _panel?.Layout is not { } layout)
+        {
+            return;
+        }
+
+        foreach (string id in _panel.Selection.Ids)
+        {
+            if (layout.Find(id) is { } item && _panel.ChangeOf(item) is { } change)
+            {
+                ChangeList.SelectedIndex = diff.Changes.ToList().IndexOf(change);
+                ChangeList.ScrollIntoView(ChangeList.SelectedItem);
+                return;
+            }
+        }
+    }
+
+    /// <summary>WT163: a change kind's colour, from the Fluent theme's semantic brushes so it reads in light and dark.</summary>
+    private Vortice.Mathematics.Color4 Colour(ChangeKind kind)
+    {
+        (string key, System.Windows.Media.Color fallback) = kind switch
+        {
+            ChangeKind.Removed => ("SystemFillColorCriticalBrush", System.Windows.Media.Color.FromRgb(0xC4, 0x2B, 0x1C)),
+            ChangeKind.Added => ("SystemFillColorSuccessBrush", System.Windows.Media.Color.FromRgb(0x0F, 0x7B, 0x0F)),
+            ChangeKind.Replaced => ("AccentFillColorDefaultBrush", System.Windows.Media.Color.FromRgb(0x00, 0x5F, 0xB8)),
+            ChangeKind.Moved => ("SystemFillColorAttentionBrush", System.Windows.Media.Color.FromRgb(0x00, 0x5F, 0xB7)),
+            _ => ("SystemFillColorCautionBrush", System.Windows.Media.Color.FromRgb(0x9D, 0x5D, 0x00)),
+        };
+        System.Windows.Media.Color c = TryFindResource(key) is System.Windows.Media.SolidColorBrush brush ? brush.Color : fallback;
+        return new Vortice.Mathematics.Color4(c.R / 255f, c.G / 255f, c.B / 255f, 1f);
     }
 
     // WT162: the changes as a CMX 3600 change list, for an online or sound editor.

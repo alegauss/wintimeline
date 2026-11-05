@@ -88,6 +88,9 @@ public sealed class TimelinePanel : IDisposable
     private IReadOnlyList<PlacedMarker>? _markers;
     private readonly List<Stack> _scopes = [];
     private readonly HashSet<HeatKind> _heatShown = [];
+    private Dictionary<Composable, Model.Compare.ClipChange>? _changes;
+    private List<Model.Compare.ClipChange> _removed = [];
+    private Func<Model.Compare.ChangeKind, Color4>? _changeColour;
     private Dictionary<HeatKind, HeatLane>? _heat;
     private (LaneItem Item, long Ticks)? _lastPress;
     private List<LaneItem> _moving = [];
@@ -303,6 +306,39 @@ public sealed class TimelinePanel : IDisposable
         }
     }
 
+    /// <summary>
+    /// WT163: shows a comparison on the timeline: each clip the later version changed is tinted by
+    /// its kind, with a band across its top, and each removed clip is a ghost where it was. Null
+    /// takes it off.
+    /// </summary>
+    /// <param name="diff">The comparison whose later version is the timeline shown, or null.</param>
+    /// <param name="colour">The colour each kind is shown in.</param>
+    public void ShowComparison(Model.Compare.TimelineDiff? diff, Func<Model.Compare.ChangeKind, Color4>? colour = null)
+    {
+        _changes = null;
+        if (diff is not null)
+        {
+            _changes = new Dictionary<Composable, Model.Compare.ClipChange>(ReferenceEqualityComparer.Instance);
+            foreach (Model.Compare.ClipChange change in diff.Changes)
+            {
+                if (change.After is { } after)
+                {
+                    _changes[after] = change;
+                }
+            }
+        }
+
+        _removed = diff is null ? [] : [.. diff.Changes.Where(c => c.Kind == Model.Compare.ChangeKind.Removed)];
+        _changeColour = colour;
+        Changed();
+    }
+
+    /// <summary>WT163: the change a clip was part of, in the comparison shown, or null.</summary>
+    /// <param name="item">The clip.</param>
+    /// <returns>The change.</returns>
+    public Model.Compare.ClipChange? ChangeOf(LaneItem item) =>
+        item is not null && _changes is { } changes && changes.TryGetValue(item.Item, out Model.Compare.ClipChange? change) ? change : null;
+
     /// <summary>WT58: the id of the item the keyboard's focus is on, or null.</summary>
     public string? FocusedId { get; private set; }
 
@@ -481,6 +517,8 @@ public sealed class TimelinePanel : IDisposable
 
         _timeline = timeline;
         _scopes.Clear();
+        _changes = null;
+        _removed = [];
         if (timeline is not null)
         {
             timeline.ModelChanged += OnModelChanged;
@@ -680,6 +718,7 @@ public sealed class TimelinePanel : IDisposable
             DrawOverview(view, layout, target.Width);
             DrawLanes(view, layout, target.Width);
             DrawItems(view, layout);
+            DrawGhosts(view, layout);
             DrawRuler(view, target.Width);
             DrawMarkers(view);
             _canvas.End();
@@ -1169,6 +1208,14 @@ public sealed class TimelinePanel : IDisposable
                 _canvas.Outline(x + 0.5f, y + 0.5f, w - 1, h - 1, ClipEdge);
             }
 
+            // WT163: a clip the compared version changed is tinted by its kind, banded across its top.
+            if (ChangeOf(item) is { } change && _changeColour is { } colourOf)
+            {
+                Color4 kind = colourOf(change.Kind);
+                _canvas.Fill(x, y, w, h, new Color4(kind.R, kind.G, kind.B, 0.3f));
+                _canvas.Fill(x, y, w, (float)Math.Max(3, 4 * Scale), kind);
+            }
+
             // WT79: a linked clip slid out of sync carries its offset in frames at its right end.
             if (Sync.Offset(layout, item, Rate) is { } drift && w > 40 * Scale)
             {
@@ -1219,6 +1266,45 @@ public sealed class TimelinePanel : IDisposable
             if (tick.Major)
             {
                 _canvas.Text(tick.Label, x + 3, (float)(Overview + (band * 0.05)), (float)labelWidth - 6, textSize, Tick);
+            }
+        }
+    }
+
+    /// <summary>WT163: where a removed clip of the compared version was, as a ghost on its lane, or null when that lane is not shown.</summary>
+    private (float X, float Y, float Width, float Height)? Ghost(TimelineViewport view, TimelineLayout layout, Model.Compare.ClipChange removed)
+    {
+        int lane = layout.Lanes.ToList().FindIndex(l => l.Label == removed.Track);
+        if (lane < view.FirstLane || lane > view.LastLane || lane < 0 || removed.Before is not { } clip)
+        {
+            return null;
+        }
+
+        double end = removed.Seconds + clip.Duration.Seconds;
+        if (end < view.Start || removed.Seconds > view.End)
+        {
+            return null;
+        }
+
+        float x = (float)(Header + view.X(removed.Seconds)), w = (float)(clip.Duration.Seconds * view.PixelsPerSecond);
+        float h = (float)Math.Max(3, view.LaneHeight * 0.25);
+        return (x, (float)(Ruler + view.Y(lane) + view.LaneHeight - h - 1), Math.Max(1, w), h);
+    }
+
+    /// <summary>WT163: the removed clips of the comparison shown, thin and outlined, where they were.</summary>
+    private void DrawGhosts(TimelineViewport view, TimelineLayout layout)
+    {
+        if (_changeColour is not { } colourOf)
+        {
+            return;
+        }
+
+        Color4 kind = colourOf(Model.Compare.ChangeKind.Removed);
+        foreach (Model.Compare.ClipChange removed in _removed)
+        {
+            if (Ghost(view, layout, removed) is { } at)
+            {
+                _canvas.Fill(at.X, at.Y, at.Width, at.Height, new Color4(kind.R, kind.G, kind.B, 0.35f));
+                _canvas.Outline(at.X, at.Y, at.Width, at.Height, kind, 1);
             }
         }
     }
@@ -1362,10 +1448,26 @@ public sealed class TimelinePanel : IDisposable
                 kind,
                 UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End))
                     + (Sync.Offset(layout, item, Rate) is { } drift ? UiText.OutOfSync(drift) : string.Empty)
-                    + (Model.Commands.Multicam.AngleOf(item.Item) is { } angle ? UiText.AngleShown(angle + 1) : string.Empty),
+                    + (Model.Commands.Multicam.AngleOf(item.Item) is { } angle ? UiText.AngleShown(angle + 1) : string.Empty)
+                    + (ChangeOf(item) is { } change ? UiText.ChangeShown(change.Kind.ToString()) : string.Empty),
                 x, y, w, h,
                 lane.Label,
                 UiText.ItemReading(kind, Timecode(item.Start), Timecode(item.End), lane.IsAudio, lane.Label[1..])));
+        }
+
+        // WT163: the removed clips of a comparison, where they were.
+        for (int i = 0; i < _removed.Count; i++)
+        {
+            if (Ghost(view, layout, _removed[i]) is { } ghost)
+            {
+                items.Add(new SurfaceItem(
+                    _removed[i].Before!.Name,
+                    string.Create(CultureInfo.InvariantCulture, $"Removed-{i}"),
+                    "removed",
+                    UiText.GhostStatus(_removed[i].Track, _removed[i].At),
+                    ghost.X, ghost.Y, ghost.Width, ghost.Height,
+                    _removed[i].Track));
+            }
         }
 
         // WT54: the markers in view, read by name and by colour, lane and time.

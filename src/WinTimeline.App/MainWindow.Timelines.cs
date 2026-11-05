@@ -128,8 +128,19 @@ public partial class MainWindow
             return;
         }
 
-        new CompareWindow(Timelines, shown, History) { Owner = this }.ShowDialog();
+        // WT163: modeless, so the timeline behind it can be clicked to find a change's row.
+        if (_compare is { IsLoaded: true })
+        {
+            _compare.Activate();
+            return;
+        }
+
+        _compare = new CompareWindow(Timelines, shown, History, TimelinePanel) { Owner = this };
+        _compare.Closed += (_, _) => _compare = null;
+        _compare.Show();
     }
+
+    private CompareWindow? _compare;
 
     private void OnDuplicateTimeline(object sender, RoutedEventArgs e)
     {
