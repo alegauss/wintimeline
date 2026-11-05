@@ -35,6 +35,12 @@
         <MenuItem Header="{x:Static app:UiText.SplitMenu}" InputGestureText="{x:Static app:UiText.SplitGesture}" Click="OnSplitAtPlayhead" AutomationProperties.AutomationId="SplitMenuItem" />
         <MenuItem Header="{x:Static app:UiText.SplitAllMenu}" InputGestureText="{x:Static app:UiText.SplitAllGesture}" Click="OnSplitAllTracks" AutomationProperties.AutomationId="SplitAllMenuItem" />
         <MenuItem x:Name="RazorMenuItem" Header="{x:Static app:UiText.RazorMenu}" InputGestureText="{x:Static app:UiText.RazorGesture}" IsCheckable="True" Click="OnRazor" AutomationProperties.AutomationId="RazorMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.LinkMenu}" InputGestureText="{x:Static app:UiText.LinkGesture}" Click="OnLink" AutomationProperties.AutomationId="LinkMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.UnlinkMenu}" InputGestureText="{x:Static app:UiText.UnlinkGesture}" Click="OnUnlink" AutomationProperties.AutomationId="UnlinkMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.GroupMenu}" InputGestureText="{x:Static app:UiText.GroupGesture}" Click="OnGroup" AutomationProperties.AutomationId="GroupMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.UngroupMenu}" InputGestureText="{x:Static app:UiText.UngroupGesture}" Click="OnUngroup" AutomationProperties.AutomationId="UngroupMenuItem" />
+        <MenuItem x:Name="LinkedSelectionMenuItem" Header="{x:Static app:UiText.LinkedSelectionMenu}" InputGestureText="{x:Static app:UiText.LinkedSelectionGesture}" IsCheckable="True" IsChecked="True" Click="OnLinkedSelection" AutomationProperties.AutomationId="LinkedSelectionMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.MoveIntoSyncMenu}" Click="OnMoveIntoSync" AutomationProperties.AutomationId="MoveIntoSyncMenuItem" />
         <MenuItem Header="{x:Static app:UiText.MakeCompoundMenu}" Click="OnMakeCompound" AutomationProperties.AutomationId="MakeCompoundMenuItem" />
         <MenuItem Header="{x:Static app:UiText.BreakApartMenu}" Click="OnBreakApart" AutomationProperties.AutomationId="BreakApartMenuItem" />
         <MenuItem Header="{x:Static app:UiText.AddMarkerMenu}" InputGestureText="{x:Static app:UiText.AddMarkerGesture}" Click="OnAddMarker" AutomationProperties.AutomationId="AddMarkerMenuItem" />

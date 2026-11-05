@@ -545,8 +545,8 @@ touches. A and Shift+A take every item from the playhead on, or up to it. Ctrl+A
 everything and Ctrl+Shift+A clears it. Each is outlined on the surface and read through
 the surface items' selection pattern. Four things remain. Edit points: a press near a
 clip's head or tail selects that edit point rather than the clip, which the trims of
-WT72 act on. Linking: a clip's linked audio or video selects with it unless linking is
-toggled off with L. Edit > Select by: clips found by name, colour, media, effect or AI
+WT72 act on. Linking shipped with WT79: a clip's link selects with it unless L turns
+linked selection off. Edit > Select by: clips found by name, colour, media, effect or AI
 tag. The inspector mirrors the selection once there is one. Done when each has a case
 asserting the selected ids.
 
@@ -783,16 +783,6 @@ frame blending: nearest, blend, optical flow from the AI block). Speed is writte
 unknown effects are kept and shown as an fx badge.
 
 Done when 50%, 200% and -100% clips render the expected source frames per output frame.
-
-### §WT79 Linking, grouping and sync indicators
-
-Links (A/V from the same source) and groups (any items) are stored in
-`metadata["wintimeline"]` so they survive in OTIO. Linked items move, trim and delete
-together. When linked items drift, each shows an out-of-sync badge with the offset in
-frames; clicking it offers slip-into-sync or move-into-sync.
-
-Done when moving one half of an unlinked pair shows the exact offset badge and fixing it
-restores sync.
 
 ### §WT80 Keymap presets and the shortcut editor
 

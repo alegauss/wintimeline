@@ -455,6 +455,78 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT79: links the selected clips.</summary>
+    public const string LinkMenu = "Lin_k clips";
+
+    /// <summary>WT79: the gesture shown beside Link clips.</summary>
+    public const string LinkGesture = "Ctrl+L";
+
+    /// <summary>WT79: breaks the selected clips' link.</summary>
+    public const string UnlinkMenu = "Brea_k link";
+
+    /// <summary>WT79: the gesture shown beside Break link.</summary>
+    public const string UnlinkGesture = "Ctrl+Shift+L";
+
+    /// <summary>WT79: groups the selected clips.</summary>
+    public const string GroupMenu = "_Group clips";
+
+    /// <summary>WT79: the gesture shown beside Group clips.</summary>
+    public const string GroupGesture = "Ctrl+G";
+
+    /// <summary>WT79: takes the selected clips out of their group.</summary>
+    public const string UngroupMenu = "Ungro_up";
+
+    /// <summary>WT79: the gesture shown beside Ungroup.</summary>
+    public const string UngroupGesture = "Ctrl+Shift+G";
+
+    /// <summary>WT79: whether a clip's link comes with it when clicked.</summary>
+    public const string LinkedSelectionMenu = "Linked selectio_n";
+
+    /// <summary>WT79: the gesture shown beside Linked selection.</summary>
+    public const string LinkedSelectionGesture = "L";
+
+    /// <summary>WT79: moves the selected clips that slid back into sync with their link.</summary>
+    public const string MoveIntoSyncMenu = "Move into s_ync";
+
+    /// <summary>WT79: what linked selection on says.</summary>
+    public const string LinkedSelectionOn = "Linked selection is on: a clip brings its link.";
+
+    /// <summary>WT79: what linked selection off says.</summary>
+    public const string LinkedSelectionOff = "Linked selection is off: a clip moves alone.";
+
+    /// <summary>WT79: Move into sync with nothing slid selected.</summary>
+    public const string NothingOutOfSync = "None of the selected clips is out of sync.";
+
+    /// <summary>WT79: the suffix a slid clip's status carries.</summary>
+    /// <param name="frames">How far, in frames.</param>
+    /// <returns>e.g. ", out of sync +12f".</returns>
+    public static string OutOfSync(long frames) => ", out of sync " + SnapDelta(frames);
+
+    /// <summary>WT79: what linking did.</summary>
+    /// <param name="count">How many clips.</param>
+    /// <returns>The status.</returns>
+    public static string Linked(int count) => string.Create(CultureInfo.InvariantCulture, $"Linked {count} clips.");
+
+    /// <summary>WT79: what breaking a link did.</summary>
+    /// <param name="count">How many clips.</param>
+    /// <returns>The status.</returns>
+    public static string Unlinked(int count) => string.Create(CultureInfo.InvariantCulture, $"Broke the link of {count} {(count == 1 ? "clip" : "clips")}.");
+
+    /// <summary>WT79: what grouping did.</summary>
+    /// <param name="count">How many clips.</param>
+    /// <returns>The status.</returns>
+    public static string Grouped(int count) => string.Create(CultureInfo.InvariantCulture, $"Grouped {count} clips.");
+
+    /// <summary>WT79: what ungrouping did.</summary>
+    /// <param name="count">How many clips.</param>
+    /// <returns>The status.</returns>
+    public static string Ungrouped(int count) => string.Create(CultureInfo.InvariantCulture, $"Ungrouped {count} {(count == 1 ? "clip" : "clips")}.");
+
+    /// <summary>WT79: what Move into sync did.</summary>
+    /// <param name="count">How many clips.</param>
+    /// <returns>The status.</returns>
+    public static string MovedIntoSync(int count) => string.Create(CultureInfo.InvariantCulture, $"Moved {count} {(count == 1 ? "clip" : "clips")} into sync.");
+
     /// <summary>WT71: splits at the playhead.</summary>
     public const string SplitMenu = "_Split at playhead";
 

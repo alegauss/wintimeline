@@ -72,6 +72,7 @@ public sealed class TimelinePanel : IDisposable
     private static readonly Color4 SelectedEdge = new(1f, 0.82f, 0.25f, 1f);
     private static readonly Color4 SnapGuide = new(0.35f, 0.9f, 1f, 1f);
     private static readonly Color4 FocusRing = new(1f, 1f, 1f, 1f);
+    private static readonly Color4 OutOfSync = new(0.85f, 0.15f, 0.15f, 1f);
 
     private readonly GpuSurface _surface;
     private readonly Canvas2D _canvas;
@@ -491,6 +492,14 @@ public sealed class TimelinePanel : IDisposable
     /// <summary>WT71: raised when the razor is pressed on a lane, with the lane and the snapped time to cut it at.</summary>
     public event EventHandler<(int Lane, double Seconds)>? SplitRequested;
 
+    /// <summary>WT79: whether a clip's link comes with it when it is clicked (L toggles it); its group always does.</summary>
+    public bool LinkedSelection { get; set; } = true;
+
+    /// <summary>WT79: how far a linked item has slid against its link, in frames, or null in sync.</summary>
+    /// <param name="item">The item.</param>
+    /// <returns>The offset.</returns>
+    public long? SyncOffset(LaneItem item) => _layout is { } layout ? Sync.Offset(layout, item, Rate) : null;
+
     /// <summary>WT71: whether the razor tool is chosen (B), so a press on a lane splits it rather than selecting.</summary>
     public bool Razor { get; set; }
 
@@ -901,9 +910,11 @@ public sealed class TimelinePanel : IDisposable
             }
 
             // WT70: a press on a clip already selected keeps the selection, so all of it can be dragged.
+            // WT79: a clip comes with its group, and with its link while linked selection is on.
             if (!Selection.Contains(layout.IdOf(item)))
             {
                 Selection.Click(layout, item, SelectGesture.Replace);
+                Selection.Include(layout, Sync.Partners(layout, item, LinkedSelection));
             }
 
             _moving = [.. Selection.Ids.Select(layout.Find).OfType<LaneItem>().Where(i => i.Kind is LaneItemKind.Clip or LaneItemKind.Nested)];
@@ -1158,6 +1169,14 @@ public sealed class TimelinePanel : IDisposable
                 _canvas.Outline(x + 0.5f, y + 0.5f, w - 1, h - 1, ClipEdge);
             }
 
+            // WT79: a linked clip slid out of sync carries its offset in frames at its right end.
+            if (Sync.Offset(layout, item, Rate) is { } drift && w > 40 * Scale)
+            {
+                float badge = (float)(34 * Scale);
+                _canvas.Fill(x + w - badge - 2, y + 2, badge, (float)(14 * Scale), OutOfSync);
+                _canvas.Text(UiText.SnapDelta(drift), x + w - badge + 1, y + 2, badge, textSize, Label);
+            }
+
             // The name stays at the left of the view while the clip runs off it.
             float left = Math.Max(x, (float)Header) + 4;
 
@@ -1341,7 +1360,8 @@ public sealed class TimelinePanel : IDisposable
                 item.Name,
                 id,
                 kind,
-                UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End)),
+                UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End))
+                    + (Sync.Offset(layout, item, Rate) is { } drift ? UiText.OutOfSync(drift) : string.Empty),
                 x, y, w, h,
                 lane.Label,
                 UiText.ItemReading(kind, Timecode(item.Start), Timecode(item.End), lane.IsAudio, lane.Label[1..])));

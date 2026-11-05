@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT79: the cut once more, c1 on V1 and a1 on A1 both from 0, from their media's first frame; not lent, since its case links and moves them.
+      "name": "a window on a cut to link",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT78: the cut once more, c1 from 0 to 2 and c2 from 2 to 4; not lent, since its case pastes over c2.
       "name": "a window on a cut to paste over",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1322,6 +1328,92 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "a linked clip moved alone shows how many frames it slid, and Move into sync puts it back",
+      "catches": "picture and sound that drift apart with nothing on the timeline saying so",
+      "filed": "WT79",
+      "tags": ["link", "sync", "edit"],
+      "fixture": "a window on a cut to link",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c1 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#A1-0",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "holding": "ctrl",
+          "named": "and a1 is Ctrl-clicked beside it"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+L",
+          "named": "Ctrl+L links them"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Linked 2 clips.",
+          "named": "they are linked"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "L",
+          "named": "L turns linked selection off"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+Shift+A",
+          "named": "nothing is selected"
+        },
+        {
+          // c1's middle (1 s) is 11.76% across the 8.5 s; half a second later is 17.65%. V1 is 34 to 62 pixels down.
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "11.76%,48",
+          "to": "17.65%,48",
+          "named": "c1 alone is dragged half a second later"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:00:12 to 01:00:02:12, out of sync +12f",
+          "named": "c1 says it is twelve frames late against a1"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c1 is clicked"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#MoveIntoSyncMenuItem",
+          "act": "invoke",
+          "named": "Move into sync is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:00:00 to 01:00:02:00",
+          "named": "c1 is back with a1, and says nothing of sync"
         }
       ]
     },

@@ -81,10 +81,9 @@
 - 📋 **WT75** (deps: WT72) **A marked range cannot be lifted or extracted, and selected clips cannot be ripple deleted** — Removing material cleanly, with or without closing the gap, is half of editing. → §WT75
 - 📋 **WT76** (deps: WT72, WT33) **Transitions cannot be added, resized or changed between two clips** — Dissolves and wipes are part of almost every delivered cut, and OTIO stores them explicitly. → §WT76
 - 📋 **WT77** (deps: WT72) **Clip speed cannot be changed, reversed or frozen, and time remapping from other tools is ignored** — Speed changes are routine in every genre, and OTIO represents them with LinearTimeWarp and FreezeFrame effects. → §WT77
-- 📋 **WT79** (deps: WT70 ✅) **Video and its audio cannot be linked or unlinked, and clips cannot be grouped** — Keeping sync between picture and sound is the editor's constant worry, and groups protect it. → §WT79
 - 📋 **WT80** (deps: WT72) **Shortcuts cannot be customised, and editors coming from Premiere, Resolve or Avid must relearn everything** — Muscle memory is the biggest switching cost, and presets for the main editors remove it. → §WT80
 - 💭 **WT81** (deps: WT56 ✅) **Several angles of the same event cannot be synced and cut live as a multicam clip** — Interviews, events and podcasts are multicam, and cutting them clip by clip is slow. → §WT81
-- 📋 **WT82** (deps: WT72, WT79) **Insert and ripple edits on one track push other tracks out of sync with no way to protect them** — Sync locks are what keep music, dialogue and picture together during ripple edits. → §WT82
+- 📋 **WT82** (deps: WT72, WT79 ✅) **Insert and ripple edits on one track push other tracks out of sync with no way to protect them** — Sync locks are what keep music, dialogue and picture together during ripple edits. → §WT82
 - 📋 **WT174** (deps: WT70 ✅, winwright WW604) **Insert, swap and duplicate drags of clips have no UI case, only model tests of their edits** — The gesture that picks the edit from the key held is what an editor uses, and nothing yet proves it end to end. → §WT174
 
 ## Block I — Audio: playback, mixing and meters
@@ -144,7 +143,7 @@
 - 💭 **WT128** (deps: WT93, WT112) **Shots from different cameras cannot be matched in colour automatically** — Multicam and mixed-camera edits need consistent colour, and a first automatic match saves most of the work. → §WT128
 - 💭 **WT129** (deps: WT81, WT107) **Multicam podcasts must be cut angle by angle even though the speaker is known at every moment** — Speaker diarisation can produce a watchable first cut of a multicam conversation automatically. → §WT129
 - 💭 **WT130** (deps: WT99 ✅, WT84) **A scratch narration cannot be produced from text while the real voice-over is not recorded yet** — Editors time a cut against a narration long before the final recording exists. → §WT130
-- 📋 **WT131** (deps: WT27, WT79) **Separately recorded audio cannot be synced to camera audio automatically** — Double-system sound is standard on productions, and clapping by hand is slow. → §WT131
+- 📋 **WT131** (deps: WT27, WT79 ✅) **Separately recorded audio cannot be synced to camera audio automatically** — Double-system sound is standard on productions, and clapping by hand is slow. → §WT131
 
 ## Block M — Video export and interchange
 

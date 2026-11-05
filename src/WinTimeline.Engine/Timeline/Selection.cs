@@ -104,6 +104,21 @@ public sealed class Selection
         Set(Selectable(layout), layout, add: false);
     }
 
+    /// <summary>WT79: adds items to the selection, as a click does with a clip's link and group.</summary>
+    /// <param name="layout">The layout.</param>
+    /// <param name="items">The items.</param>
+    public void Include(TimelineLayout layout, IEnumerable<LaneItem> items)
+    {
+        ArgumentNullException.ThrowIfNull(layout);
+        ArgumentNullException.ThrowIfNull(items);
+        int before = _ids.Count;
+        _ids.UnionWith(items.Where(i => i.Kind != LaneItemKind.Gap).Select(layout.IdOf));
+        if (_ids.Count != before)
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     /// <summary>Nothing selected.</summary>
     public void Clear()
     {
