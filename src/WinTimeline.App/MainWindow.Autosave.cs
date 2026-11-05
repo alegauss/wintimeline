@@ -48,14 +48,20 @@ public partial class MainWindow
     {
         _journal?.Discard();
         _journal = null;
-        if (Document is not Timeline timeline)
+        if (Document is null)
         {
             return;
         }
 
         try
         {
-            _journal = RecoveryJournal.Start(RecoveryFolder, timeline, History, name, DocumentPath);
+            // WT161: a file of several timelines too, each reel's history joining as it is first shown (Activate).
+            _journal = RecoveryJournal.Start(RecoveryFolder, Document, name, DocumentPath);
+            foreach ((Timeline timeline, History history) in _histories)
+            {
+                _journal.Watch(timeline, history);
+            }
+
             WatchForAutosave();
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -125,10 +131,17 @@ public partial class MainWindow
             _journal?.Discard();
             _journal = journal;
             _bundle = null;
-            Document = recovered.Timeline;
-            LoadTimelines(recovered.Timeline);
-            _histories[recovered.Timeline] = History = recovered.History;
-            History.Guard = TrackCommands.LockGuard(recovered.Timeline);
+            Document = recovered.Document;
+            LoadTimelines(recovered.Document);
+
+            // WT161: every reel's replayed history, so each keeps its own undo steps.
+            foreach ((Timeline timeline, History history) in recovered.Histories)
+            {
+                history.Guard = TrackCommands.LockGuard(timeline);
+                _histories[timeline] = history;
+            }
+
+            History = ActiveTimeline is { } shown && _histories.TryGetValue(shown, out History? kept) ? kept : recovered.History;
             ShowWelcome();
             DocumentPath = candidate.SourcePath;
             WatchForAutosave();
@@ -160,7 +173,8 @@ public partial class MainWindow
     /// </summary>
     private void RunCommands(string path)
     {
-        if (Document is not Timeline timeline)
+        // WT161: the timeline shown, which for a file of several is its first reel at start.
+        if (ActiveTimeline is not { } timeline)
         {
             StatusText.Text = UiText.RunCommandsNeedsTimeline;
             return;

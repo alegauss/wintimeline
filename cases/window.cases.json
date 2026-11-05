@@ -92,6 +92,21 @@
       "shareable": false
     },
     {
+      // WT161: a run that renamed reel1's first clip in the file of three reels and then crashed, before any save.
+      "name": "a window started after a crash with an unsaved edit to a file of reels",
+      "files": ["tests/fixtures/collections/reels.otio", "cases/fixtures/edits/rename-first.jsonl"],
+      "variables": { "WINTIMELINE_DATA": "{files}" },
+      "before": [
+        {
+          "run": "src/WinTimeline.App/bin/{configuration}/net10.0-windows10.0.19041.0/win-x64/WinTimeline.exe",
+          "arguments": ["--open", "{files}/reels.otio", "--run-commands", "{files}/rename-first.jsonl", "--adapter", "warp", "--crash-test", "native"],
+          "expectExit": -1073741819
+        }
+      ],
+      "arguments": ["--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT17: a run that removed a clip and then crashed in native code, before any save.
       "name": "a window started after a crash with an unsaved edit",
       "files": ["tests/fixtures/otio/corpus/simple_cut.otio", "cases/fixtures/edits/remove-first.jsonl"],
@@ -676,6 +691,54 @@
           "reads": "name",
           "expect": "Recovered simple_cut.otio: 3 clips on 1 track. Save to keep the edits.",
           "named": "the timeline comes back with the clip removed"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "enabled",
+          "named": "and the recovered edit can be undone"
+        }
+      ]
+    },
+
+    {
+      "name": "an edit to a file of reels made before a crash is offered back and recovered, with every reel",
+      "catches": "a multi-reel file whose edits were never journaled, so a crash loses all of them",
+      "filed": "WT161",
+      "tags": ["crash", "recovery", "collection"],
+      "fixture": "a window started after a crash with an unsaved edit to a file of reels",
+      "steps": [
+        {
+          "locator": "Text#EditsRecoveryText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Edits to reels.otio were not saved when WinTimeline last closed: 1 edit.",
+          "named": "the start offers the unsaved edit to the file of reels"
+        },
+        {
+          "locator": "Button#RecoverEdits",
+          "act": "invoke",
+          "named": "Recover edits is pressed"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "name",
+          "expect": "renamed before the crash",
+          "named": "reel1's first clip comes back renamed"
+        },
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "read",
+          "reads": "name",
+          "expect": "reel3",
+          "named": "and the file comes back with all three reels"
         },
         {
           "locator": "MenuItem#EditMenu",

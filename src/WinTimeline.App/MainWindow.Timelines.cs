@@ -52,6 +52,9 @@ public partial class MainWindow
         if (!_histories.TryGetValue(timeline, out History? history))
         {
             _histories[timeline] = history = new History { Guard = TrackCommands.LockGuard(timeline) };
+
+            // WT161: a reel shown for the first time is journaled from now on.
+            _journal?.Watch(timeline, history);
         }
 
         History = history;

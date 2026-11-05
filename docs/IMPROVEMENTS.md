@@ -120,16 +120,6 @@ The substitution rules a person confirms are kept per project (WT22) and tried o
 Done when a clip whose file was renamed and moved relinks by signature, and a project
 reopened on the same machine relinks itself from its saved rule.
 
-### §WT161 Journal edits to collections
-
-The WT17 recovery journal writes each command's JSON form, and that form addresses items
-by path from a single timeline. A collection's timelines each keep their own history
-(WT20), and collection edits such as AddToCollection have no JSON form. So StartJournal
-skips any document that is not one Timeline, and a crash loses every edit to a
-multi-reel file. The fix: prefix every journaled path with the timeline's index in the
-collection, give AddToCollection and RemoveFromCollection a JSON form carrying the
-copied timeline, and replay the commands per timeline in the order they were recorded.
-
 ### §WT162 Exporting a comparison as a change list or markers
 
 The Compare window lists WT21's changes as sentences. There should also be two exports.

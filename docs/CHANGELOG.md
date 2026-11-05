@@ -36,6 +36,7 @@
 - ✅ **WT157** **AAF, ALE and other formats OpenTimelineIO's Python plugins read cannot be opened here** — AAF and the other Python-only formats open through OpenTimelineIO in a child process wherever a Python with it exists; the menu lists them only then, and a failure names the adapter.
 - ✅ **WT158** **Every EDL opens at 24 fps, so a 25 or 30 fps EDL is refused or read at the wrong speed** — Opening an EDL asks its frame rate and timecode handling, remembering the last choice; --edl-rate skips it, and a refusal names the rates the EDL fits, so 25fps.edl opens at 25.
 - ✅ **WT160** **Clips cannot be copied and pasted within a timeline or between the tabs of a collection** — Ctrl+C and Ctrl+V copy selected clips as an OTIO fragment and paste them at the playhead in any tab, in one undo; edits inside a collection's reels now announce themselves.
+- ✅ **WT161** **Edits to a file of several timelines are not journaled, so a crash loses them** — A file of several timelines is journaled reel by reel, versions included, and a crash recovers the whole document with each reel's own undo steps.
 
 ## Block C — Media probing and GPU decoding
 

@@ -14,11 +14,55 @@ namespace WinTimeline.Model.Commands;
 /// <param name="LastWrite">When the journal was last written.</param>
 public sealed record RecoveryCandidate(string Id, string Name, string? SourcePath, int Edits, DateTimeOffset LastWrite);
 
-/// <summary>A recovered document: the timeline and the history that rebuilt it.</summary>
-/// <param name="Timeline">The timeline as it was when the session ended.</param>
-/// <param name="History">Its undo history, replayed.</param>
-/// <param name="FromAutosave">Whether the journal could not be replayed and the last autosave was used instead.</param>
-public sealed record RecoveredDocument(Timeline Timeline, History History, bool FromAutosave);
+/// <summary>
+/// A recovered document: as it was when the session ended, with each of its timelines' undo
+/// histories replayed (WT161: a collection's every reel, not only one timeline).
+/// </summary>
+public sealed class RecoveredDocument
+{
+    /// <summary>A recovered document of several timelines.</summary>
+    /// <param name="document">The document: a timeline, or a collection of them.</param>
+    /// <param name="histories">Each timeline's history, replayed.</param>
+    /// <param name="fromAutosave">Whether the journal could not be replayed and the last autosave was used instead.</param>
+    public RecoveredDocument(ModelObject document, IReadOnlyDictionary<Timeline, History> histories, bool fromAutosave)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        ArgumentNullException.ThrowIfNull(histories);
+        Document = document;
+        FromAutosave = fromAutosave;
+        Dictionary<Timeline, History> all = new(histories, ReferenceEqualityComparer.Instance);
+        foreach (Timeline timeline in DocumentTimelines.Of(document))
+        {
+            all.TryAdd(timeline, new History());
+        }
+
+        Histories = all;
+    }
+
+    /// <summary>A recovered document of one timeline.</summary>
+    /// <param name="timeline">The timeline.</param>
+    /// <param name="history">Its history.</param>
+    /// <param name="fromAutosave">Whether the last autosave was used.</param>
+    public RecoveredDocument(Timeline timeline, History history, bool fromAutosave)
+        : this(timeline, new Dictionary<Timeline, History>(ReferenceEqualityComparer.Instance) { [timeline] = history }, fromAutosave)
+    {
+    }
+
+    /// <summary>The document.</summary>
+    public ModelObject Document { get; }
+
+    /// <summary>Each timeline's history, every timeline of the document having one.</summary>
+    public IReadOnlyDictionary<Timeline, History> Histories { get; }
+
+    /// <summary>Whether the journal could not be replayed and the last autosave was used instead.</summary>
+    public bool FromAutosave { get; }
+
+    /// <summary>The document's first timeline.</summary>
+    public Timeline Timeline => DocumentTimelines.Of(Document)[0];
+
+    /// <summary>The first timeline's history.</summary>
+    public History History => Histories[Timeline];
+}
 
 /// <summary>
 /// Autosave and recovery (WT17). A session writes, beside each other in the recovery folder:
@@ -33,23 +77,21 @@ public sealed record RecoveredDocument(Timeline Timeline, History History, bool 
 /// </summary>
 public sealed class RecoveryJournal : IDisposable
 {
-    private readonly Timeline _timeline;
-    private readonly History _history;
+    private readonly ModelObject _document;
+    private readonly Dictionary<History, EventHandler<HistoryEvent>> _watched = [];
     private readonly FileStream _journal;
     private long _sequence;
     private bool _disposed;
 
-    private RecoveryJournal(string folder, string id, Timeline timeline, History history, string name, string? sourcePath)
+    private RecoveryJournal(string folder, string id, ModelObject document, string name, string? sourcePath)
     {
         Folder = folder;
         Id = id;
-        _timeline = timeline;
-        _history = history;
+        _document = document;
         Directory.CreateDirectory(folder);
-        File.WriteAllText(Path.Combine(folder, id + ".base.otio"), OtioWriter.Write(timeline));
+        File.WriteAllText(Path.Combine(folder, id + ".base.otio"), OtioWriter.Write(document));
         File.WriteAllText(Path.Combine(folder, id + ".json"), new JsonObject { ["name"] = name, ["source_path"] = sourcePath }.ToJsonString());
         _journal = new FileStream(Path.Combine(folder, id + ".journal.jsonl"), FileMode.Create, FileAccess.Write, FileShare.Read);
-        history.Recording += OnRecording;
     }
 
     // A recovered session, carrying on: the same base, and the journal appended to.
@@ -57,12 +99,34 @@ public sealed class RecoveryJournal : IDisposable
     {
         Folder = folder;
         Id = id;
-        _timeline = recovered.Timeline;
-        _history = recovered.History;
+        _document = recovered.Document;
         string journal = Path.Combine(folder, id + ".journal.jsonl");
         _sequence = ReadLines(journal).Select(TryParse).TakeWhile(n => n is JsonObject).Count();
         _journal = new FileStream(journal, FileMode.Append, FileAccess.Write, FileShare.Read);
-        _history.Recording += OnRecording;
+        foreach ((Timeline timeline, History history) in recovered.Histories)
+        {
+            Watch(timeline, history);
+        }
+    }
+
+    /// <summary>
+    /// WT161: journals one timeline's history, as the app makes it: a collection's reels each have
+    /// their own, made when the reel is first shown.
+    /// </summary>
+    /// <param name="timeline">The timeline.</param>
+    /// <param name="history">Its history.</param>
+    public void Watch(Timeline timeline, History history)
+    {
+        ArgumentNullException.ThrowIfNull(timeline);
+        ArgumentNullException.ThrowIfNull(history);
+        if (_disposed || _watched.ContainsKey(history))
+        {
+            return;
+        }
+
+        EventHandler<HistoryEvent> record = (_, e) => OnRecording(timeline, e);
+        _watched[history] = record;
+        history.Recording += record;
     }
 
     /// <summary>
@@ -105,10 +169,23 @@ public sealed class RecoveryJournal : IDisposable
     /// <returns>The journal.</returns>
     public static RecoveryJournal Start(string folder, Timeline timeline, History history, string name, string? sourcePath)
     {
-        ArgumentNullException.ThrowIfNull(folder);
-        ArgumentNullException.ThrowIfNull(timeline);
         ArgumentNullException.ThrowIfNull(history);
-        return new RecoveryJournal(folder, Guid.NewGuid().ToString("N"), timeline, history, name, sourcePath);
+        RecoveryJournal journal = Start(folder, (ModelObject)timeline, name, sourcePath);
+        journal.Watch(timeline, history);
+        return journal;
+    }
+
+    /// <summary>WT161: starts journaling a document of any number of timelines; each one's history is added with <see cref="Watch"/>.</summary>
+    /// <param name="folder">The recovery folder.</param>
+    /// <param name="document">The document, as opened: a timeline or a collection.</param>
+    /// <param name="name">The file name, for a later offer.</param>
+    /// <param name="sourcePath">Where it was opened from, or null.</param>
+    /// <returns>The journal.</returns>
+    public static RecoveryJournal Start(string folder, ModelObject document, string name, string? sourcePath)
+    {
+        ArgumentNullException.ThrowIfNull(folder);
+        ArgumentNullException.ThrowIfNull(document);
+        return new RecoveryJournal(folder, Guid.NewGuid().ToString("N"), document, name, sourcePath);
     }
 
     /// <summary>Records that the document was saved: a session that ends here has nothing to recover.</summary>
@@ -118,7 +195,7 @@ public sealed class RecoveryJournal : IDisposable
     public void Autosave()
     {
         string path = Path.Combine(Folder, Id + ".autosave.otio");
-        File.WriteAllText(path + ".tmp", OtioWriter.Write(_timeline));
+        File.WriteAllText(path + ".tmp", OtioWriter.Write(_document));
         File.Move(path + ".tmp", path, overwrite: true);
     }
 
@@ -138,7 +215,12 @@ public sealed class RecoveryJournal : IDisposable
         }
 
         _disposed = true;
-        _history.Recording -= OnRecording;
+        foreach ((History history, EventHandler<HistoryEvent> record) in _watched)
+        {
+            history.Recording -= record;
+        }
+
+        _watched.Clear();
         _journal.Dispose();
     }
 
@@ -193,17 +275,18 @@ public sealed class RecoveryJournal : IDisposable
         ArgumentNullException.ThrowIfNull(id);
         try
         {
-            Timeline timeline = (Timeline)OtioReader.ReadFile(Path.Combine(folder, id + ".base.otio"));
-            History history = new();
-            Replay(timeline, history, Path.Combine(folder, id + ".journal.jsonl"));
-            return new RecoveredDocument(timeline, history, FromAutosave: false);
+            ModelObject document = OtioReader.ReadFile(Path.Combine(folder, id + ".base.otio"));
+            Dictionary<Timeline, History> histories = new(ReferenceEqualityComparer.Instance);
+            Replay(document, histories, Path.Combine(folder, id + ".journal.jsonl"));
+            return new RecoveredDocument(document, histories, fromAutosave: false);
         }
-        catch (Exception ex) when (ex is IOException or InvalidDataException or ArgumentException or InvalidOperationException or InvalidCastException or JsonException)
+        catch (Exception ex) when (ex is IOException or InvalidDataException or ArgumentException or InvalidOperationException or InvalidCastException or JsonException or ArgumentOutOfRangeException)
         {
             string autosave = Path.Combine(folder, id + ".autosave.otio");
             if (File.Exists(autosave))
             {
-                return new RecoveredDocument((Timeline)OtioReader.ReadFile(autosave), new History(), FromAutosave: true);
+                ModelObject saved = OtioReader.ReadFile(autosave);
+                return new RecoveredDocument(saved, new Dictionary<Timeline, History>(ReferenceEqualityComparer.Instance), fromAutosave: true);
             }
 
             throw new InvalidDataException($"session {id} could not be recovered: {ex.Message}", ex);
@@ -228,7 +311,12 @@ public sealed class RecoveryJournal : IDisposable
         }
     }
 
-    private static void Replay(Timeline timeline, History history, string journal)
+    /// <summary>
+    /// Replays a journal on its base. Each line is played on the history of the timeline it names
+    /// (WT161: by its index in the document as the line was written, which the replay reproduces
+    /// line by line, versions added and taken away included); a line naming none is the first's.
+    /// </summary>
+    private static void Replay(ModelObject document, Dictionary<Timeline, History> histories, string journal)
     {
         Stack<History.TransactionScope> transactions = new();
         Stack<IDisposable> gestures = new();
@@ -239,10 +327,16 @@ public sealed class RecoveryJournal : IDisposable
                 break; // torn by the crash: everything before it is what was written
             }
 
+            Timeline timeline = DocumentTimelines.Of(document)[(int?)entry["timeline"] ?? 0];
+            if (!histories.TryGetValue(timeline, out History? history))
+            {
+                histories[timeline] = history = new History();
+            }
+
             switch ((string?)entry["kind"])
             {
                 case "execute":
-                    history.Execute(CommandJson.Parse(timeline, entry["command"]!.AsObject()));
+                    history.Execute(Command(document, timeline, entry["command"]!.AsObject()));
                     break;
                 case "undo":
                     history.Undo();
@@ -336,16 +430,44 @@ public sealed class RecoveryJournal : IDisposable
         }
     }
 
-    private void OnRecording(object? sender, HistoryEvent e)
+    private void OnRecording(Timeline timeline, HistoryEvent e)
     {
         JsonObject entry = e.Kind switch
         {
-            HistoryEventKind.Execute => new JsonObject { ["kind"] = "execute", ["command"] = e.Command!.ToJson(_timeline) },
+            HistoryEventKind.Execute => new JsonObject { ["kind"] = "execute", ["command"] = Json(timeline, e.Command!) },
             HistoryEventKind.BeginTransaction => new JsonObject { ["kind"] = "begin_transaction", ["description"] = e.Description },
             _ => new JsonObject { ["kind"] = Snake(e.Kind) },
         };
+
+        // WT161: which of a collection's timelines the line belongs to; a document of one needs none.
+        if (_document is not Timeline)
+        {
+            entry["timeline"] = DocumentTimelines.Of(_document).ToList().IndexOf(timeline);
+        }
+
         Append(entry);
     }
+
+    /// <summary>A command's journal form: a collection edit carries the timeline it adds, every other is addressed from its timeline.</summary>
+    private static JsonObject Json(Timeline timeline, IEditCommand command) => command switch
+    {
+        AddToCollection add => new JsonObject { ["op"] = "add_to_collection", ["index"] = add.Index, ["child"] = JsonNode.Parse(OtioWriter.Write(add.Child)) },
+        RemoveFromCollection remove => new JsonObject { ["op"] = "remove_from_collection", ["index"] = remove.Index },
+        _ => command.ToJson(timeline),
+    };
+
+    /// <summary>A journal line's command, a collection edit against the document's collection.</summary>
+    private static IEditCommand Command(ModelObject document, Timeline timeline, JsonObject json) => (string?)json["op"] switch
+    {
+        "add_to_collection" => new AddToCollection(
+            document as SerializableCollection ?? throw new InvalidDataException("a collection edit in the journal of a document that is no collection"),
+            (int?)json["index"] ?? throw new InvalidDataException("add_to_collection needs an index"),
+            OtioReader.ReadString(json["child"]?.ToJsonString() ?? throw new InvalidDataException("add_to_collection needs a child"))),
+        "remove_from_collection" => new RemoveFromCollection(
+            document as SerializableCollection ?? throw new InvalidDataException("a collection edit in the journal of a document that is no collection"),
+            (int?)json["index"] ?? throw new InvalidDataException("remove_from_collection needs an index")),
+        _ => CommandJson.Parse(timeline, json),
+    };
 
     private void Append(JsonObject entry)
     {
