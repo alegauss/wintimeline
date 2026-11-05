@@ -39,6 +39,7 @@
 - ✅ **WT161** **Edits to a file of several timelines are not journaled, so a crash loses them** — A file of several timelines is journaled reel by reel, versions included, and a crash recovers the whole document with each reel's own undo steps.
 - ✅ **WT162** **A comparison cannot be exported as a change-list EDL or as markers for another tool** — Compare exports a CMX 3600 change list both readers take back as its five events, and Mark changes puts a coloured marker with its sentence on the later version per change.
 - ✅ **WT163** **The changes between two versions show only as a list, not as colour bands on the timeline** — An open comparison tints and bands each changed clip of the later version in its kind's theme colour, ghosts the removed ones, and selecting a banded clip picks its row.
+- ✅ **WT164** **A layout change or tab choice made without saving the document is lost on close** — Closing the window or opening another file now writes the layout alone into the sidecar, so a tab chosen without saving comes back.
 
 ## Block C — Media probing and GPU decoding
 

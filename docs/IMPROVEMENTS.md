@@ -120,15 +120,6 @@ The substitution rules a person confirms are kept per project (WT22) and tried o
 Done when a clip whose file was renamed and moved relinks by signature, and a project
 reopened on the same machine relinks itself from its saved rule.
 
-### §WT164 Keeping the layout without a save
-
-WT22 writes the sidecar on every save, so its layout and shown tab survive only when the
-document was saved. Closing the window, or opening another file, should write the
-sidecar's layout alone when the document has a path. This must not count as an edit, so
-it neither dirties the document nor touches the journal. A read-only location should be
-skipped silently, with a log line. Done when a file opened, switched to its third tab
-and closed without saving reopens on that tab.
-
 ## Block C — Media probing and GPU decoding
 
 ### §WT23 Choosing the decode stack

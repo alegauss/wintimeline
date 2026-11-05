@@ -989,6 +989,92 @@
     },
 
     {
+      "name": "the tab chosen in a file opened again without saving is shown when it reopens",
+      "catches": "a layout kept only by a save, so a reviewer who only looked around reopens to the first tab",
+      "filed": "WT164",
+      "tags": ["open", "project"],
+      "fixture": "a window on a file of three reels",
+      "steps": [
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "select",
+          "named": "the reel3 tab is chosen"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#OpenMenuItem",
+          "act": "invoke",
+          "named": "Open is chosen, with nothing saved"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/reels.otio",
+          "named": "the same file is opened again"
+        },
+        {
+          "file": "{files}/reels.otio",
+          "act": "read",
+          "sameBytesAs": "tests/fixtures/collections/reels.otio",
+          "named": "the .otio is untouched"
+        },
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "and reel3 is the tab shown"
+        }
+      ]
+    },
+
+    {
+      "name": "closing a file without saving keeps the tab chosen beside it, and nothing else",
+      "catches": "a layout lost on close because only a save writes the sidecar, or a close that writes the document",
+      "filed": "WT164",
+      "tags": ["project", "close"],
+      "fixture": "a window on a file of three reels",
+      "steps": [
+        {
+          "locator": "TabItem#TimelineTab2",
+          "act": "select",
+          "named": "the reel3 tab is chosen"
+        },
+        {
+          "locator": "MenuItem#FileMenu",
+          "act": "expand",
+          "named": "the File menu is opened"
+        },
+        {
+          "locator": "MenuItem#ExitMenuItem",
+          "act": "invoke",
+          "named": "Exit is chosen, with nothing saved"
+        },
+        {
+          "process": "exits",
+          "act": "read",
+          "named": "the window closes"
+        },
+        {
+          "file": "{files}/reels.otio.wtproj/project.json",
+          "act": "read",
+          "sameBytesAs": "cases/fixtures/project/reel3-layout.json",
+          "named": "the sidecar beside it names reel3 as the tab shown"
+        },
+        {
+          "file": "{files}/reels.otio",
+          "act": "read",
+          "sameBytesAs": "tests/fixtures/collections/reels.otio",
+          "named": "and the .otio is untouched"
+        }
+      ]
+    },
+
+    {
       "name": "a feature-length cut is drawn on the timeline surface and its clips are reachable by name",
       "catches": "a timeline panel that draws nothing, or whose clips a case or a screen reader cannot find",
       "filed": "WT47",

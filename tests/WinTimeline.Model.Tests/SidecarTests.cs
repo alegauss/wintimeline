@@ -85,4 +85,46 @@ public sealed class SidecarTests : IDisposable
         InvalidDataException refused = Assert.Throws<InvalidDataException>(() => ProjectSidecar.Load(Document));
         Assert.Contains("format 99", refused.Message, StringComparison.Ordinal);
     }
+
+    [Fact]
+    public void ALayoutKeptAloneLeavesTheRestOfTheSidecarAsItWas()
+    {
+        ProjectSidecar.Save(Document, new ProjectState
+        {
+            Bins = [new Bin("Selects", ["0/1"])],
+            Analysis = new Dictionary<string, JsonNode>(StringComparer.Ordinal) { ["shots"] = new JsonArray(0, 24) },
+        });
+
+        Assert.True(ProjectSidecar.SaveLayout(Document, new WorkspaceLayout(0.5, "reel3")));
+        ProjectState back = ProjectSidecar.Load(Document);
+
+        Assert.Equal(new WorkspaceLayout(0.5, "reel3"), back.Layout);
+        Assert.Equal("Selects", Assert.Single(back.Bins).Name);
+        Assert.Equal("[0,24]", back.Analysis["shots"].ToJsonString());
+    }
+
+    [Fact]
+    public void ALayoutKeptAloneMakesASidecarOnlyWhenItIsNotTheDefault()
+    {
+        Assert.False(ProjectSidecar.SaveLayout(Document, WorkspaceLayout.Default));
+        Assert.False(Directory.Exists(ProjectSidecar.FolderFor(Document)));
+
+        Assert.True(ProjectSidecar.SaveLayout(Document, new WorkspaceLayout(0.6, "reel2")));
+        Assert.Equal("reel2", ProjectSidecar.Load(Document).Layout?.ActiveTimeline);
+
+        Assert.False(ProjectSidecar.SaveLayout(Document, new WorkspaceLayout(0.6, "reel2")));
+        Assert.True(ProjectSidecar.SaveLayout(Document, WorkspaceLayout.Default));
+        Assert.Null(ProjectSidecar.Load(Document).Layout);
+    }
+
+    [Fact]
+    public void ALayoutIsNotWrittenOverASidecarFromANewerWinTimeline()
+    {
+        Directory.CreateDirectory(ProjectSidecar.FolderFor(Document));
+        string project = Path.Combine(ProjectSidecar.FolderFor(Document), "project.json");
+        File.WriteAllText(project, """{ "format": 99 }""");
+
+        Assert.Throws<InvalidDataException>(() => ProjectSidecar.SaveLayout(Document, new WorkspaceLayout(0.5, null)));
+        Assert.Equal("""{ "format": 99 }""", File.ReadAllText(project));
+    }
 }

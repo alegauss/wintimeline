@@ -80,6 +80,9 @@ public partial class MainWindow
         ArgumentNullException.ThrowIfNull(path);
         path = BundlePath(path) ?? path;
         string name = Path.GetFileName(path);
+
+        // WT164: the layout of the file being left is kept before it goes.
+        KeepLayout();
         try
         {
             OtioBundle? bundle = OtioBundle.IsBundle(path) ? OtioBundle.Open(path, BundleCache) : null;
@@ -258,6 +261,7 @@ public partial class MainWindow
     private void BindDocumentCommands()
     {
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, (_, _) => AskToOpen()));
+        Closing += (_, _) => KeepLayout();
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Undo, (_, _) => { History.Undo(); SyncTimelines(); }, (_, e) => e.CanExecute = History.CanUndo));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Redo, (_, _) => { History.Redo(); SyncTimelines(); },(_, e) => e.CanExecute = History.CanRedo));
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, (_, _) => Save(), (_, e) => e.CanExecute = Document is not null));

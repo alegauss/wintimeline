@@ -83,6 +83,7 @@ public static class ProjectSidecar
     public const int Format = 1;
 
     private const string ProjectFile = "project.json";
+    private const string FormatKey = "format";
     private const string JobsFile = "jobs.json";
     private const string AnalysisFolder = "analysis";
     private const string Embeddings = "embeddings";
@@ -114,7 +115,7 @@ public static class ProjectSidecar
         try
         {
             JsonObject root = JsonNode.Parse(File.ReadAllBytes(project)) as JsonObject ?? throw new InvalidDataException($"{project} is not a JSON object");
-            int format = root["format"]?.GetValue<int>() ?? 0;
+            int format = root[FormatKey]?.GetValue<int>() ?? 0;
             if (format > Format)
             {
                 throw new InvalidDataException($"{project} is format {format}; this WinTimeline reads up to {Format}");
@@ -160,7 +161,7 @@ public static class ProjectSidecar
         Directory.CreateDirectory(analysis);
         JsonObject root = new()
         {
-            ["format"] = Format,
+            [FormatKey] = Format,
             ["bins"] = new JsonArray([.. state.Bins.Select(b => new JsonObject
             {
                 ["name"] = b.Name,
@@ -168,14 +169,9 @@ public static class ProjectSidecar
             })]),
             ["proxies"] = new JsonObject(state.Proxies.OrderBy(p => p.Key, StringComparer.Ordinal).Select(p => KeyValuePair.Create(p.Key, (JsonNode?)JsonValue.Create(p.Value)))),
         };
-        if (state.Layout is { } layout && layout != WorkspaceLayout.Default)
+        if (LayoutJson(state.Layout) is { } layout)
         {
-            root["layout"] = new JsonObject
-            {
-                ["viewer_share"] = Math.Round(layout.ViewerShare, 4),
-                ["active_timeline"] = layout.ActiveTimeline,
-                ["ruler_unit"] = layout.RulerUnit,
-            };
+            root["layout"] = layout;
         }
 
         Replace(Path.Combine(folder, ProjectFile), Encoding.UTF8.GetBytes(root.ToJsonString(Indented)));
@@ -215,6 +211,71 @@ public static class ProjectSidecar
 
         return true;
     }
+
+    /// <summary>
+    /// WT164: writes the layout alone beside a document, leaving everything else the sidecar
+    /// holds as it is on disk, so a document closed without saving still reopens as it was laid
+    /// out. Nothing is written for the default layout where no sidecar exists yet.
+    /// </summary>
+    /// <param name="documentPath">The document's path.</param>
+    /// <param name="layout">The layout, or null for the default.</param>
+    /// <returns>Whether the sidecar was written.</returns>
+    /// <exception cref="InvalidDataException">The sidecar is damaged or from a newer WinTimeline, so it is left alone.</exception>
+    public static bool SaveLayout(string documentPath, WorkspaceLayout? layout)
+    {
+        string folder = FolderFor(documentPath);
+        string project = Path.Combine(folder, ProjectFile);
+        JsonNode? written = LayoutJson(layout);
+        JsonObject root;
+        if (File.Exists(project))
+        {
+            try
+            {
+                root = JsonNode.Parse(File.ReadAllBytes(project)) as JsonObject ?? throw new InvalidDataException($"{project} is not a JSON object");
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidDataException($"{project} could not be read: {ex.Message}", ex);
+            }
+
+            if ((root[FormatKey]?.GetValue<int>() ?? 0) > Format)
+            {
+                throw new InvalidDataException($"{project} is from a newer WinTimeline; its layout is left alone");
+            }
+        }
+        else if (written is null)
+        {
+            return false;
+        }
+        else
+        {
+            Directory.CreateDirectory(folder);
+            root = new JsonObject { [FormatKey] = Format, ["bins"] = new JsonArray(), ["proxies"] = new JsonObject() };
+        }
+
+        if (JsonNode.DeepEquals(root["layout"], written))
+        {
+            return false;
+        }
+
+        root.Remove("layout");
+        if (written is not null)
+        {
+            root["layout"] = written;
+        }
+
+        Replace(project, Encoding.UTF8.GetBytes(root.ToJsonString(Indented)));
+        return true;
+    }
+
+    private static JsonObject? LayoutJson(WorkspaceLayout? layout) => layout is null || layout == WorkspaceLayout.Default
+        ? null
+        : new JsonObject
+        {
+            ["viewer_share"] = Math.Round(layout.ViewerShare, 4),
+            ["active_timeline"] = layout.ActiveTimeline,
+            ["ruler_unit"] = layout.RulerUnit,
+        };
 
     private static Dictionary<string, JsonNode> LoadAnalysis(string folder)
     {

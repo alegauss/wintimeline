@@ -77,6 +77,35 @@ public partial class MainWindow
         }
     }
 
+    /// <summary>
+    /// WT164: on close, or before another file opens, the layout alone goes into the sidecar of
+    /// a document that has a path, so looking around without saving is not lost. It is not an
+    /// edit: the document stays as it was, and the journal never hears of it.
+    /// </summary>
+    private void KeepLayout()
+    {
+        if (Document is null || DocumentPath is not { } path)
+        {
+            return;
+        }
+
+        WorkspaceLayout layout = CurrentLayout();
+        if (layout == (_project.Layout ?? WorkspaceLayout.Default))
+        {
+            return;
+        }
+
+        try
+        {
+            ProjectSidecar.SaveLayout(path, layout);
+            _project = _project with { Layout = layout };
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
+        {
+            Log.Write(LogLevel.Warning, LogCategory.App, "Project layout could not be kept.", new Dictionary<string, string>(StringComparer.Ordinal) { ["file"] = path }, ex);
+        }
+    }
+
     private WorkspaceLayout CurrentLayout()
     {
         double share = WorkspaceLayout.Default.ViewerShare;
