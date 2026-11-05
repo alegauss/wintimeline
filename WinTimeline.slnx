@@ -8,6 +8,7 @@
     <Project Path="src/WinTimeline.Engine/WinTimeline.Engine.csproj" />
     <Project Path="src/WinTimeline.Export/WinTimeline.Export.csproj" />
     <Project Path="src/WinTimeline.Inference/WinTimeline.Inference.csproj" />
+    <Project Path="src/WinTimeline.Inference.Host/WinTimeline.Inference.Host.csproj" />
     <Project Path="src/WinTimeline.Media/WinTimeline.Media.csproj" />
     <Project Path="src/WinTimeline.Model/WinTimeline.Model.csproj" />
     <Project Path="src/WinTimeline.Render/WinTimeline.Render.csproj" />

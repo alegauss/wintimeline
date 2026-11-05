@@ -1035,15 +1035,22 @@ frames on the reference machine.
 WT99 wired Windows ML's ONNX Runtime in and put every session under one SessionCache
 with an LRU VRAM budget (WinTimeline.Inference). The language model and, where it
 measures faster than an ONNX Whisper, transcription run on native engines instead:
-llama.cpp and whisper.cpp, each in a host exe that speaks a line protocol on stdin and
-stdout, as Revelei.Generation.Host does for stable-diffusion.cpp. A native crash or a
-cancel (killing the process tree) then never takes the editor down. The host session
-implements IDisposable, so the same SessionCache loads, counts and unloads it beside the
-ONNX sessions, and the engines follow the app's adapter. This waits on WT100's catalog
-to download the engines and a small GGUF, since models are never committed. Done when a
-test runs a small GGUF in its host beside an ONNX vision model through one cache,
-unloads both, and GpuContext.VideoMemory shows the VRAM freed; the ship records with
---decides why llama.cpp was chosen over an ONNX language model, with the measurement.
+llama.cpp and whisper.cpp.
+
+Landed: src/WinTimeline.Inference.Host is the process that owns an engine. It speaks
+HostMessage lines (load, run, cancel / loaded, token, done, failed) on stdin and stdout.
+NativeHostSession is the IDisposable session the SessionCache holds beside the ONNX
+ones: unloading ends the process, a crash surfaces as NativeEngineException and the next
+run starts the host again, and a cancel the engine ignores ends the process tree after
+CancelGrace. Engines.Create has only the fake engine the tests drive (NativeHostTests).
+
+Left: an IEngine per native library, P/Invoke against its C API pinned to one release,
+as Revelei.Generation.Host pins stable-diffusion.cpp's. The engines and a small GGUF
+come through WT101's downloader, since neither is committed. The app has to ship the
+host beside its exe, and the engines must follow the app's adapter. Done when a test
+runs a small GGUF in its host beside an ONNX vision model through one cache, unloads
+both, and GpuContext.VideoMemory shows the VRAM freed; the ship records with --decides
+why llama.cpp was chosen over an ONNX language model, with the measurement.
 
 ## Block L — AI-assisted editing
 

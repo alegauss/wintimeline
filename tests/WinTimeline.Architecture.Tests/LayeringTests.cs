@@ -29,6 +29,9 @@ public sealed class LayeringTests
         [Render] = [Diagnostics, "WinTimeline.ShaderCompiler"],
         [Media] = [Model, Render, Diagnostics],
         [Inference] = [Render, Diagnostics],
+
+        // WT166: the process a native engine runs in speaks the inference layer's protocol.
+        ["WinTimeline.Inference.Host"] = [Inference],
         [Engine] = [Model, Media, Render, Inference, Diagnostics],
         [Export] = [Model, Media, Render, Engine, Diagnostics],
         ["WinTimeline.App"] = [Model, Media, Render, Inference, Engine, Export, Diagnostics],

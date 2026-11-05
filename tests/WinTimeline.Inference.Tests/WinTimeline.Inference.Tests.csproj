@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\WinTimeline.Inference\WinTimeline.Inference.csproj" />
+    <!-- WT166: the host executable lands beside the tests, which start it with its fake engine. -->
+    <ProjectReference Include="..\..\src\WinTimeline.Inference.Host\WinTimeline.Inference.Host.csproj" />
   </ItemGroup>
 
 </Project>

@@ -110,7 +110,7 @@
 - 📋 **WT102** (deps: WT101, WT67) **Nothing in the UI shows which AI features are available, which models they need and whether this PC can run them** — AI features must explain themselves before a 4 GB download, or people will not trust them. → §WT102
 - ⏳ **WT103** (deps: WT99 ✅, WT106) **Nothing guarantees that media, transcripts or prompts never leave the PC** — Still needed: the AI activity view and air-gapped switch in the app, and UI cases showing each feature run (from WT106 on) recorded in the activity log. → §WT103
 - 📋 **WT105** (deps: WT99 ✅, WT34) **AI inference running during playback fights the decoder and compositor for the GPU and causes dropped frames** — AI analysis is meant to run in the background while the user edits, not instead of editing. → §WT105
-- 📋 **WT166** (deps: WT100 ✅) **The language model and fast transcription have no native engine, so GGUF models cannot run** — llama.cpp and whisper.cpp out of process are the fastest local engines for them, and a native crash there must never take the editor down. → §WT166
+- ⏳ **WT166** (deps: WT100 ✅, WT101) **The language model and fast transcription have no native engine, so GGUF models cannot run** — Still needed: llama.cpp and whisper.cpp bindings pinned to a release, run on a downloaded GGUF with VRAM freed on unload, and the engine choice decided by measurement. → §WT166
 
 ## Block L — AI-assisted editing
 
@@ -122,7 +122,7 @@
 - 📋 **WT111** (deps: WT104 ✅, WT25) **Long recordings and delivered masters are not split into shots, so finding a cut point means scrubbing** — Shot boundaries let an editor re-cut a master and let the other AI tools reason about shots instead of frames. → §WT111
 - 📋 **WT112** (deps: WT111) **Footage has no descriptive tags (shot size, subjects, location, motion), so bins cannot be filtered by content** — Logging footage by hand is a full-time assistant job that vision models now do well enough to help. → §WT112
 - 📋 **WT113** (deps: WT112, WT106, WT62) **Footage cannot be searched by describing what is in it, like 'a woman laughing near a window'** — Natural-language search across hours of footage is the AI feature editors say saves the most time. → §WT113
-- ⏳ **WT114** (deps: WT99 ✅, WT16 ✅, WT66 ✅, WT166) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — Still needed: replies from the LLM (WT166) under the schema, a preview with Apply, and 25 of 30 scripted requests valid. → §WT114
+- ⏳ **WT114** (deps: WT99 ✅, WT16 ✅, WT66 ✅, WT166 ⏳) **Editing intentions cannot be expressed in plain language and turned into reviewed timeline changes** — Still needed: replies from the LLM (WT166) under the schema, a preview with Apply, and 25 of 30 scripted requests valid. → §WT114
 - 💭 **WT115** (deps: WT110, WT114 ⏳) **Captions and transcripts cannot be translated into other languages** — Reaching other audiences needs subtitles in their language, and translation can run locally. → §WT115
 - 📋 **WT116** (deps: WT114 ⏳, WT113) **A first assembly from a script or a list of selects must be built clip by clip** — Assembling a rough cut from transcripts is mechanical work the assistant and search can do in minutes. → §WT116
 - 💭 **WT117** (deps: WT113, WT108) **Finding B-roll that matches what is being said requires browsing the whole library** — Covering interviews with relevant visuals is a constant need, and transcript plus image search can suggest it. → §WT117
@@ -350,6 +350,16 @@
 - **A clip is trimmed and moved with keys only** A UI case focuses a clip with Tab,
   trims its tail and moves it a few frames using keys alone, then reads its new range,
   and an Accessibility Insights (AxeWindows) run over the panel reports no errors.
+
+## Done when — WT166
+
+- **A small GGUF runs in the host beside an ONNX model through one cache** A test loads
+  a downloaded GGUF on the llama.cpp binding and the probe ONNX model in one
+  SessionCache, unloads both, and GpuContext.VideoMemory reads the VRAM back to where it
+  was.
+- **The engine choice is recorded with its measurement** The ship carries a decision
+  saying why llama.cpp was chosen over an ONNX language model, and whisper.cpp over ONNX
+  Whisper where it was, with tokens or seconds measured on this machine.
 
 ## Non-goals
 
