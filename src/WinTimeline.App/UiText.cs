@@ -409,6 +409,35 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT56: nests the selected clips into a compound clip.</summary>
+    public const string MakeCompoundMenu = "Make c_ompound clip";
+
+    /// <summary>WT56: flattens the selected compound clip.</summary>
+    public const string BreakApartMenu = "_Break apart compound clip";
+
+    /// <summary>WT56: Make compound without a run of clips on one track selected.</summary>
+    public const string CompoundNeedsRun = "Select clips on one track to make a compound clip of them.";
+
+    /// <summary>WT56: Break apart without one compound selected.</summary>
+    public const string BreakApartNeedsCompound = "Select one compound clip to break it apart.";
+
+    /// <summary>WT56: the name a new compound gets.</summary>
+    /// <param name="number">How many compounds the timeline will hold with it.</param>
+    /// <returns>e.g. "Compound 1".</returns>
+    public static string NewCompoundName(int number) => string.Create(CultureInfo.InvariantCulture, $"Compound {number}");
+
+    /// <summary>WT56: what making a compound did.</summary>
+    /// <param name="name">Its name.</param>
+    /// <param name="items">How many items went in.</param>
+    /// <returns>The status.</returns>
+    public static string CompoundMade(string name, int items) =>
+        string.Create(CultureInfo.InvariantCulture, $"Nested {items} {(items == 1 ? "item" : "items")} into {name}.");
+
+    /// <summary>WT56: what breaking a compound apart did.</summary>
+    /// <param name="name">Its name.</param>
+    /// <returns>The status.</returns>
+    public static string CompoundBroken(string name) => $"Broke {name} apart onto its track.";
+
     /// <summary>WT54: adds a marker at the playhead, or edits the one there.</summary>
     public const string AddMarkerMenu = "Add _marker";
 

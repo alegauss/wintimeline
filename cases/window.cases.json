@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT56: the cut once more, to nest c2 and c3 and break them apart; not lent, since its case edits it.
+      "name": "a window on a cut to nest",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT54: Premiere's export, three markers on the timeline (at frames 113, 298 and 492 of 30 fps from 0) and one on a clip; not lent, since its case edits and adds markers.
       "name": "a window on a timeline with markers",
       "arguments": ["--open", "tests/fixtures/otio/corpus/premiere_example.otio", "--adapter", "warp"],
@@ -1286,6 +1292,90 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "two clips are nested into a compound that plays where they did, and the compound breaks apart into them again",
+      "catches": "a compound clip that moves its clips in time, or one that cannot be undone into its parts",
+      "filed": "WT56",
+      "tags": ["compound", "nested", "edit"],
+      "fixture": "a window on a cut to nest",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c2 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "holding": "shift",
+          "named": "and c3 is Shift-clicked, which takes both"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#MakeCompoundMenuItem",
+          "act": "invoke",
+          "named": "Make compound clip is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Nested 2 items into Compound 1.",
+          "named": "the two clips are nested"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:02:00 to 01:00:05:00",
+          "named": "the compound plays where c2 and c3 did, from two seconds to five"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "read",
+          "reads": "name",
+          "expect": "c4",
+          "named": "and c4 still follows at once"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the compound is clicked"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened again"
+        },
+        {
+          "locator": "MenuItem#BreakApartMenuItem",
+          "act": "invoke",
+          "named": "Break apart compound clip is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Broke Compound 1 apart onto its track.",
+          "named": "the compound is flattened"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "read",
+          "reads": "name",
+          "expect": "c3",
+          "named": "and c3 is back on V1 after c2"
         }
       ]
     },

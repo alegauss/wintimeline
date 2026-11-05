@@ -53,7 +53,7 @@
 ## Block F — Timeline view: GPU drawing and navigation
 
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
-- 📋 **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — OTIO uses nested stacks for compound clips and multicam sequences, which are common in delivered timelines. → §WT56
+- ⏳ **WT56** (deps: WT47 ✅) **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — A compound cannot be opened yet: double-click should show it in a breadcrumb sub-view of the panel, editable, with Esc going back up. → §WT56
 - 💭 **WT57** (deps: WT48 ✅) **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — A long program needs an at-a-glance map before anyone can decide where to spend attention. → §WT57
 - 📋 **WT58** (deps: WT52 ✅, WT51 ✅) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
@@ -87,7 +87,7 @@
 - 📋 **WT78** (deps: WT70) **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — Reusing material and effect settings across a cut is constant work. → §WT78
 - 📋 **WT79** (deps: WT70) **Video and its audio cannot be linked or unlinked, and clips cannot be grouped** — Keeping sync between picture and sound is the editor's constant worry, and groups protect it. → §WT79
 - 📋 **WT80** (deps: WT72) **Shortcuts cannot be customised, and editors coming from Premiere, Resolve or Avid must relearn everything** — Muscle memory is the biggest switching cost, and presets for the main editors remove it. → §WT80
-- 💭 **WT81** (deps: WT56) **Several angles of the same event cannot be synced and cut live as a multicam clip** — Interviews, events and podcasts are multicam, and cutting them clip by clip is slow. → §WT81
+- 💭 **WT81** (deps: WT56 ⏳) **Several angles of the same event cannot be synced and cut live as a multicam clip** — Interviews, events and podcasts are multicam, and cutting them clip by clip is slow. → §WT81
 - 📋 **WT82** (deps: WT72, WT79) **Insert and ripple edits on one track push other tracks out of sync with no way to protect them** — Sync locks are what keep music, dialogue and picture together during ripple edits. → §WT82
 
 ## Block I — Audio: playback, mixing and meters

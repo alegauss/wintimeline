@@ -32,6 +32,8 @@
         <Separator />
         <MenuItem Header="{x:Static app:UiText.DuplicateTimelineMenu}" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
         <Separator />
+        <MenuItem Header="{x:Static app:UiText.MakeCompoundMenu}" Click="OnMakeCompound" AutomationProperties.AutomationId="MakeCompoundMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.BreakApartMenu}" Click="OnBreakApart" AutomationProperties.AutomationId="BreakApartMenuItem" />
         <MenuItem Header="{x:Static app:UiText.AddMarkerMenu}" InputGestureText="{x:Static app:UiText.AddMarkerGesture}" Click="OnAddMarker" AutomationProperties.AutomationId="AddMarkerMenuItem" />
         <Separator />
         <MenuItem Header="{x:Static app:UiText.CopyClipsMenu}" InputGestureText="{x:Static app:UiText.CopyClipsGesture}" Click="OnCopyClips" AutomationProperties.AutomationId="CopyClipsMenuItem" />

@@ -742,6 +742,15 @@ public sealed class TimelinePanel : IDisposable
 
             // The name stays at the left of the view while the clip runs off it.
             float left = Math.Max(x, (float)Header) + 4;
+
+            // WT56: a compound clip carries two stacked layers before its name.
+            if (item.Kind == LaneItemKind.Nested && w > 24 * Scale)
+            {
+                float s = (float)(6 * Scale), top = y + ((h - (s * 1.6f)) / 2);
+                _canvas.Outline(left + (s * 0.5f), top, s, s, Label, 1);
+                _canvas.Outline(left, top + (s * 0.6f), s, s, Label, 1);
+                left += s * 2;
+            }
             _canvas.Text(item.Name, left, y + ((h - (textSize * 1.4f)) / 2), x + w - left - 4, textSize, Label);
         }
     }

@@ -55,6 +55,7 @@
 - ✅ **WT52** **Clips cannot be selected singly, by range, by marquee, by track forward or by type** — Click, Ctrl and Shift clicks, the marquee, A, Shift+A, Ctrl+A and Ctrl+Shift+A select clips, read through UI Automation; edit points, linking and Select by went to WT170.
 - ✅ **WT53** **Dragged clips and the playhead do not snap to edit points, markers or the playhead** — Ruler scrubs and in/out drags snap within 8 px to cuts, markers, the playhead and in/out, with a guide and frame delta; S or View > Snapping toggles it, Alt inverts one drag.
 - ✅ **WT54** **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — Timeline, track and clip markers show in their colours, ranged ones as bands, M adds or edits one and Shift+Up/Down jumps between them, with dragging left to WT171 and the Resolve check to WT172.
+- ✅ **WT56 (make and break apart)** **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — Edit menu Make compound clip nests a run of one track's clips and Break apart flattens it, moving the clips themselves so the program and the file come back exact.
 
 ## Block G — Workspace, panels and viewers
 
