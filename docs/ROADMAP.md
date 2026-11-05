@@ -50,7 +50,7 @@
 
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
 - ⏳ **WT58** (deps: WT52 ✅, WT51 ✅, WT70 ✅, WT72) **The timeline cannot be used without a mouse or read by a screen reader** — Trimming and moving the focused clip by keys waits on WT70 and WT72, and an Accessibility Insights pass over the panel is still to run. → §WT58
-- 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
+- ⏳ **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — Still needed: per-lane heights from the header, reordering by dragging a header, and an insert target that WT75's edits and the playhead's Up and Down read. → §WT169
 - 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
 - 📋 **WT171** (deps: WT54 ✅) **Markers cannot be dragged to a new time on the ruler or their lane** — A note placed a few frames off has to be deleted and added again, and AI findings land where their analysis put them. → §WT171
 - 💭 **WT173** (deps: WT57 ✅) **The overview strip cannot show where silence or unaccepted AI suggestions are** — Dead air and pending suggestions are the next things an editor hunts for in a long programme, once something finds them. → §WT173
@@ -359,6 +359,18 @@
 - **The engine choice is recorded with its measurement** The ship carries a decision
   saying why llama.cpp was chosen over an ONNX language model, and whisper.cpp over ONNX
   Whisper where it was, with tokens or seconds measured on this machine.
+
+## Done when — WT169
+
+- **Each lane's height follows its header and keeps its clips aligned** A UI case sets a
+  lane tall from its header and reads a clip on it and the header below at the matching
+  heights; the height survives a save as wintimeline:height.
+- **A header dragged over another moves its track, and the move undoes** A UI case drags
+  V1's header above V2's and reads the order of the headers, then undoes and reads it
+  back.
+- **Insert and overwrite go to the targeted track** A UI case targets V2, pastes with
+  insert, and reads the clip on V2; the playhead's Up and Down stop only at the targeted
+  lanes' edit points.
 
 ## Non-goals
 

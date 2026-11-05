@@ -322,6 +322,25 @@ public static class UiText
     /// <summary>Delete's name.</summary>
     public const string TrackDelete = "Delete track";
 
+    /// <summary>WT169: the colour strip's name, e.g. "Colour of V1".</summary>
+    /// <param name="track">The track's label.</param>
+    /// <returns>The name.</returns>
+    public static string TrackColour(string track) => $"Colour of {track}";
+
+    /// <summary>WT169: the colour menu's entry that takes a track's colour away.</summary>
+    public const string TrackColourNone = "None";
+
+    /// <summary>WT169: a colour name as a menu shows it, e.g. "BLUE" as "Blue".</summary>
+    /// <param name="name">An OTIO colour name.</param>
+    /// <returns>The label.</returns>
+    public static string ColourName(string name) =>
+        string.IsNullOrEmpty(name) ? name : name[..1].ToUpperInvariant() + name[1..].ToLowerInvariant();
+
+    /// <summary>WT169: what a track header publishes about its colour, e.g. "colour Blue" or "no colour".</summary>
+    /// <param name="name">The colour's name, or null.</param>
+    /// <returns>The status.</returns>
+    public static string TrackColourStatus(string? name) => name is null ? "no colour" : $"colour {ColourName(name)}";
+
     /// <summary>Delete's glyph.</summary>
     public const string TrackDeleteGlyph = "\uE74D";
 

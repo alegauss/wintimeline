@@ -104,10 +104,13 @@ public sealed class TrackHeaders : Border
         string id = lane.Label;
         Grid header = new() { Tag = index, Width = Width0, Height = TimelinePanel.LaneHeightDip, Margin = new Thickness(0) };
         AutomationProperties.SetAutomationId(header, $"TrackHeader-{id}");
+        header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        header.Children.Add(ColourStripe(track, id));
 
-        TextBox name = new() { Text = track.Name, Margin = new Thickness(4, 2, 2, 2), Padding = new Thickness(2, 0, 2, 0), VerticalContentAlignment = VerticalAlignment.Center, FontSize = 11, MinHeight = 0 };
+        TextBox name = new() { Text = track.Name, Margin = new Thickness(2, 2, 2, 2), Padding = new Thickness(2, 0, 2, 0), VerticalContentAlignment = VerticalAlignment.Center, FontSize = 11, MinHeight = 0 };
+        Grid.SetColumn(name, 1);
         AutomationProperties.SetAutomationId(name, $"TrackName-{id}");
         AutomationProperties.SetName(name, UiText.TrackNameName(id));
         name.KeyDown += (_, e) =>
@@ -121,7 +124,7 @@ public sealed class TrackHeaders : Border
         header.Children.Add(name);
 
         StackPanel buttons = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 2, 0) };
-        Grid.SetColumn(buttons, 1);
+        Grid.SetColumn(buttons, 2);
         buttons.Children.Add(Toggle($"TrackLock-{id}", UiText.TrackLockGlyph, UiText.TrackLock, TrackState.IsLocked(track), on => TrackState.Set(track, TrackState.LockedKey, on)));
         buttons.Children.Add(Toggle($"TrackMute-{id}", lane.IsAudio ? UiText.TrackMuteGlyph : UiText.TrackDisableGlyph, lane.IsAudio ? UiText.TrackMute : UiText.TrackDisable, !track.Enabled, on => new SetEnabled(track, !on)));
         buttons.Children.Add(Toggle($"TrackSolo-{id}", UiText.TrackSoloGlyph, UiText.TrackSolo, TrackState.IsSolo(track), on => TrackState.Set(track, TrackState.SoloKey, on)));
@@ -138,6 +141,50 @@ public sealed class TrackHeaders : Border
         }
         header.Children.Add(buttons);
         return header;
+    }
+
+    /// <summary>
+    /// WT169: a strip at the header's left edge in the track's colour; clicking it offers the
+    /// colours, and None, each one undoable step.
+    /// </summary>
+    private Button ColourStripe(Track track, string id)
+    {
+        string? current = TrackState.ColorOf(track);
+        Button stripe = new() { Width = 8, Margin = new Thickness(0), Padding = new Thickness(0), BorderThickness = new Thickness(0), MinWidth = 0, MinHeight = 0 };
+        if (current is not null)
+        {
+            (float r, float g, float b) = MarkerColors.Rgb(current);
+            stripe.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb((byte)(r * 255), (byte)(g * 255), (byte)(b * 255)));
+        }
+        else
+        {
+            stripe.SetResourceReference(BackgroundProperty, "ControlStrokeColorDefaultBrush");
+        }
+
+        AutomationProperties.SetAutomationId(stripe, $"TrackColour-{id}");
+        AutomationProperties.SetName(stripe, UiText.TrackColour(id));
+        AutomationProperties.SetItemStatus(stripe, UiText.TrackColourStatus(current));
+        stripe.ToolTip = UiText.TrackColour(id);
+
+        ContextMenu menu = new() { PlacementTarget = stripe };
+        foreach (string colour in MarkerColors.Names.Prepend(string.Empty))
+        {
+            string? chosen = colour.Length == 0 ? null : colour;
+            MenuItem item = new() { Header = chosen is null ? UiText.TrackColourNone : UiText.ColourName(colour), IsCheckable = true, IsChecked = chosen == current };
+            AutomationProperties.SetAutomationId(item, $"TrackColour-{id}-{(chosen ?? "None")}");
+            item.Click += (_, _) =>
+            {
+                if (chosen != current)
+                {
+                    Run(TrackState.SetColor(track, chosen));
+                }
+            };
+            menu.Items.Add(item);
+        }
+
+        stripe.ContextMenu = menu;
+        stripe.Click += (_, _) => menu.IsOpen = true;
+        return stripe;
     }
 
     private ToggleButton Toggle(string id, string glyph, string name, bool on, Func<bool, IEditCommand> command)

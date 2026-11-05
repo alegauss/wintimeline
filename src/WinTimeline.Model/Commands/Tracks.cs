@@ -58,6 +58,24 @@ public static class TrackState
     /// <returns>True when hidden.</returns>
     public static bool IsHidden(Track track) => Flag(track, HiddenKey);
 
+    /// <summary>WT169: the metadata key naming a track's colour, e.g. "BLUE", in OTIO's marker colour names.</summary>
+    public const string ColorKey = "wintimeline:color";
+
+    /// <summary>WT169: the track's colour name, or null for none.</summary>
+    /// <param name="track">The track.</param>
+    /// <returns>e.g. "BLUE".</returns>
+    public static string? ColorOf(Track track)
+    {
+        ArgumentNullException.ThrowIfNull(track);
+        return track.Metadata.TryGetValue(ColorKey, out object? value) && value is string { Length: > 0 } name ? name : null;
+    }
+
+    /// <summary>WT169: the command that colours a track; null takes its colour away.</summary>
+    /// <param name="track">The track.</param>
+    /// <param name="color">A colour name, e.g. "BLUE", or null.</param>
+    /// <returns>The command.</returns>
+    public static SetMetadata SetColor(Track track, string? color) => new(track, ColorKey, color);
+
     /// <summary>The command that sets one of the flags; false removes the key, so an unlocked track carries nothing.</summary>
     /// <param name="track">The track.</param>
     /// <param name="key">One of the keys above.</param>

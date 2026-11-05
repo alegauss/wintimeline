@@ -60,6 +60,28 @@ public sealed class TrackTests
     }
 
     [Fact]
+    public void ATrackColourIsUndoableMetadataThatTheJournalReplays()
+    {
+        Timeline cut = Cut();
+        History history = new();
+        Track v1 = (Track)cut.Tracks.Children[0];
+
+        SetMetadata colour = TrackState.SetColor(v1, "BLUE");
+        history.Execute(colour);
+        Assert.Equal("BLUE", TrackState.ColorOf(v1));
+        Assert.Contains("\"wintimeline:color\": \"BLUE\"", OtioWriter.Write(cut), StringComparison.Ordinal);
+
+        history.Undo();
+        Assert.Null(TrackState.ColorOf(v1));
+        Assert.DoesNotContain("wintimeline:", OtioWriter.Write(cut), StringComparison.Ordinal);
+
+        // The recovery journal writes the step and replays it on a fresh copy.
+        Timeline fresh = Cut();
+        CommandJson.Parse(fresh, colour.ToJson(cut)).Do();
+        Assert.Equal("BLUE", TrackState.ColorOf((Track)fresh.Tracks.Children[0]));
+    }
+
+    [Fact]
     public void ALockedTrackRefusesTrimDropAndDeleteOfItsItems()
     {
         (Timeline cut, History history) = Locked();

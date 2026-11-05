@@ -2679,6 +2679,57 @@
     },
 
     {
+      "name": "a track is coloured from its header's strip, and the colour undoes",
+      "catches": "a track colour that cannot be set or taken back, or one the header does not show",
+      "filed": "WT169",
+      "tags": ["timeline", "tracks", "edit"],
+      "fixture": "a window on a cut whose tracks are managed",
+      "steps": [
+        {
+          "locator": "Button#TrackColour-V1",
+          "act": "read",
+          "reads": "status",
+          "expect": "no colour",
+          "named": "V1 starts with no colour"
+        },
+        {
+          "locator": "Button#TrackColour-V1",
+          "act": "invoke",
+          "named": "V1's colour strip is clicked"
+        },
+        {
+          "locator": "MenuItem#TrackColour-V1-BLUE",
+          "act": "invoke",
+          "named": "Blue is chosen"
+        },
+        {
+          "locator": "Button#TrackColour-V1",
+          "act": "read",
+          "reads": "status",
+          "expect": "colour Blue",
+          "named": "V1 is blue"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "invoke",
+          "named": "Undo is chosen"
+        },
+        {
+          "locator": "Button#TrackColour-V1",
+          "act": "read",
+          "reads": "status",
+          "expect": "no colour",
+          "named": "and V1 has no colour again"
+        }
+      ]
+    },
+
+    {
       "name": "a track is added, locked and deleted from its header, and the delete undoes",
       "catches": "track headers that do nothing, or a track change that cannot be undone",
       "filed": "WT50",

@@ -1197,6 +1197,14 @@ public sealed class TimelinePanel : IDisposable
 
             bool enabled = item.Item is not Item { Enabled: false };
             Color4 fill = !enabled ? DisabledClip : item.Kind == LaneItemKind.Nested ? NestedItem : layout.Lanes[item.Lane].IsAudio ? AudioClip : VideoClip;
+
+            // WT169: a coloured track tints its clips, so a dense timeline reads by lane.
+            if (enabled && Model.Commands.TrackState.ColorOf(layout.Lanes[item.Lane].Track) is { } named)
+            {
+                (float r, float g, float b) = MarkerColors.Rgb(named);
+                fill = new Color4((fill.R * 0.6f) + (r * 0.4f), (fill.G * 0.6f) + (g * 0.4f), (fill.B * 0.6f) + (b * 0.4f), fill.A);
+            }
+
             _canvas.Fill(x, y, w, h, fill);
             if (Selection.Ids.Count > 0 && Selection.Contains(layout.IdOf(item)))
             {
