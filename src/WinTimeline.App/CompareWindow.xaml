@@ -16,6 +16,8 @@
     </DockPanel>
     <DockPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
       <Button DockPanel.Dock="Right" Content="{x:Static app:UiText.Close}" MinWidth="96" IsCancel="True" Click="OnClose" AutomationProperties.AutomationId="CompareClose" />
+      <Button x:Name="MarkChanges" DockPanel.Dock="Right" Content="{x:Static app:UiText.MarkChanges}" MinWidth="96" Margin="0,0,8,0" Click="OnMarkChanges" AutomationProperties.AutomationId="MarkChanges" />
+      <Button x:Name="ExportChangeList" DockPanel.Dock="Right" Content="{x:Static app:UiText.ExportChangeList}" MinWidth="96" Margin="0,0,8,0" Click="OnExportChangeList" AutomationProperties.AutomationId="ExportChangeList" />
       <TextBlock x:Name="CompareSummary" VerticalAlignment="Center" TextWrapping="Wrap" AutomationProperties.AutomationId="CompareSummary" />
     </DockPanel>
     <ListBox x:Name="ChangeList" AutomationProperties.AutomationId="ChangeList" />

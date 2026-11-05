@@ -148,6 +148,13 @@
       "shareable": false
     },
     {
+      // WT162: the two versions again, staged so a change list can be written beside them; not lent, since its case marks cut v2.
+      "name": "a window on two versions of a cut to hand the changes on from",
+      "files": ["tests/fixtures/diff/cuts.otio"],
+      "arguments": ["--open", "{files}/cuts.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT21: two versions of a cut with known edits between them, in one collection.
       "name": "a window on two versions of a cut",
       "arguments": ["--open", "tests/fixtures/diff/cuts.otio", "--adapter", "warp"],
@@ -2631,6 +2638,86 @@
           "reads": "value",
           "expect": "V2",
           "named": "and V2 is back"
+        }
+      ]
+    },
+
+    {
+      "name": "a comparison's changes are marked on the later version and written as a change-list EDL",
+      "catches": "a change list that has to be retyped for the online or sound editor",
+      "filed": "WT162",
+      "tags": ["compare", "edl", "markers", "dialog"],
+      "fixture": "a window on two versions of a cut to hand the changes on from",
+      "steps": [
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "matches": "^Opened cuts\\.otio",
+          "named": "the two versions have opened"
+        },
+        {
+          "locator": "TabItem#TimelineTab1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the cut v2 tab is clicked"
+        },
+        {
+          "locator": "MenuItem#ViewMenu",
+          "act": "expand",
+          "named": "the View menu is opened"
+        },
+        {
+          "locator": "MenuItem#CompareMenuItem",
+          "act": "invoke",
+          "named": "Compare is chosen"
+        },
+        {
+          "locator": "Button#MarkChanges",
+          "act": "invoke",
+          "named": "Mark changes is pressed"
+        },
+        {
+          "locator": "Text#CompareSummary",
+          "act": "read",
+          "reads": "name",
+          "expect": "Marked 5 changes on cut v2; Edit > Undo takes them off.",
+          "named": "each of the five changes is a marker on cut v2"
+        },
+        {
+          "locator": "Button#ExportChangeList",
+          "act": "invoke",
+          "named": "Export change list is pressed"
+        },
+        {
+          "locator": "Window[class=\"#32770\"]",
+          "act": "choose file",
+          "with": "{files}/cut v2 changes.edl",
+          "named": "the dialog is told to save the change list beside the cuts"
+        },
+        {
+          "locator": "Text#CompareSummary",
+          "act": "read",
+          "reads": "name",
+          "expect": "Wrote 5 events to cut v2 changes.edl.",
+          "named": "the change list holds an event per change"
+        },
+        {
+          "locator": "Button#CompareClose",
+          "act": "invoke",
+          "named": "the comparison is closed"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "read",
+          "reads": "enabled",
+          "expect": "enabled",
+          "named": "and the markers can be undone"
         }
       ]
     },

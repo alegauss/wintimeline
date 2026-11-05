@@ -128,7 +128,7 @@ public partial class MainWindow
             return;
         }
 
-        new CompareWindow(Timelines, shown) { Owner = this }.ShowDialog();
+        new CompareWindow(Timelines, shown, History) { Owner = this }.ShowDialog();
     }
 
     private void OnDuplicateTimeline(object sender, RoutedEventArgs e)

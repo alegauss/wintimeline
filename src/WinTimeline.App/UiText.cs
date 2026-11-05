@@ -458,6 +458,46 @@ public static class UiText
     /// <summary>WT81: the Edit menu's multicam submenu.</summary>
     public const string MulticamMenu = "Create _multicam";
 
+    /// <summary>WT162: writes the comparison as a CMX 3600 change list.</summary>
+    public const string ExportChangeList = "Export change list...";
+
+    /// <summary>WT162: marks each change on the shown timeline.</summary>
+    public const string MarkChanges = "Mark changes";
+
+    /// <summary>WT162: the change list's save dialog's title.</summary>
+    public const string ExportChangeListTitle = "Export change list";
+
+    /// <summary>WT162: the change list's file types.</summary>
+    public const string EdlFilter = "CMX 3600 EDL (*.edl)|*.edl";
+
+    /// <summary>WT162: exporting or marking with nothing changed.</summary>
+    public const string NoChangesToHandOn = "There are no changes to hand on.";
+
+    /// <summary>WT162: the file a change list is offered as.</summary>
+    /// <param name="timeline">The later version's name.</param>
+    /// <returns>e.g. "reel2 v002 changes.edl".</returns>
+    public static string ChangeListFileName(string timeline) => $"{timeline} changes.edl";
+
+    /// <summary>WT162: what exporting the change list did.</summary>
+    /// <param name="events">How many events.</param>
+    /// <param name="file">The file's name.</param>
+    /// <returns>The summary.</returns>
+    public static string ChangeListWritten(int events, string file) =>
+        string.Create(CultureInfo.InvariantCulture, $"Wrote {events} {(events == 1 ? "event" : "events")} to {file}.");
+
+    /// <summary>WT162: the change list could not be written.</summary>
+    /// <param name="file">The file's name.</param>
+    /// <param name="reason">Why.</param>
+    /// <returns>The summary.</returns>
+    public static string ChangeListNotWritten(string file, string reason) => $"{file} could not be written: {reason}";
+
+    /// <summary>WT162: what marking the changes did.</summary>
+    /// <param name="markers">How many markers.</param>
+    /// <param name="timeline">The timeline marked.</param>
+    /// <returns>The summary.</returns>
+    public static string ChangesMarked(int markers, string timeline) =>
+        string.Create(CultureInfo.InvariantCulture, $"Marked {markers} {(markers == 1 ? "change" : "changes")} on {timeline}; Edit > Undo takes them off.");
+
     /// <summary>WT121: marks the beats of the selected music clips.</summary>
     public const string DetectBeatsMenu = "_Detect beats";
 

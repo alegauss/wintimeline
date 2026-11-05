@@ -50,6 +50,9 @@ public sealed record ClipChange(ChangeKind Kind, string Track, Clip? Before, Cli
     /// <summary>Seconds into its track, for ordering the list.</summary>
     internal double Sort { get; init; }
 
+    /// <summary>WT162: where it is in the later version, or was in the earlier, in seconds from its track's start.</summary>
+    public double Seconds => Sort;
+
     private string Trims(string lead) =>
         HeadFrames == 0 && TailFrames == 0
             ? string.Empty

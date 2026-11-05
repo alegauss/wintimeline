@@ -120,17 +120,6 @@ The substitution rules a person confirms are kept per project (WT22) and tried o
 Done when a clip whose file was renamed and moved relinks by signature, and a project
 reopened on the same machine relinks itself from its saved rule.
 
-### §WT162 Exporting a comparison as a change list or markers
-
-The Compare window lists WT21's changes as sentences. There should also be two exports.
-One writes a CMX 3600 change list: each changed event with its record timecode, and a
-comment naming the kind and the trim deltas. The other adds a marker per change to the
-later timeline, through one transaction in its history, so markers carry the review into
-any OTIO tool. The EDL writer would be the first write path for the CMX adapter, which
-only reads today, and must round-trip through our own reader and the reference adapter.
-Done when the cuts.otio pair exports an EDL the reference reads back as five events and
-five markers.
-
 ### §WT163 Comparison bands on the timeline
 
 WT21's TimelineDiff gives each change the clips it concerns in both versions. Once the
