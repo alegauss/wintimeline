@@ -488,6 +488,12 @@ public sealed class TimelinePanel : IDisposable
         Reshow();
     }
 
+    /// <summary>WT71: raised when the razor is pressed on a lane, with the lane and the snapped time to cut it at.</summary>
+    public event EventHandler<(int Lane, double Seconds)>? SplitRequested;
+
+    /// <summary>WT71: whether the razor tool is chosen (B), so a press on a lane splits it rather than selecting.</summary>
+    public bool Razor { get; set; }
+
     /// <summary>WT70: raised when a drag of clips is released, for the window to carry out in its history.</summary>
     public event EventHandler<MoveRequest>? MoveRequested;
 
@@ -864,6 +870,15 @@ public sealed class TimelinePanel : IDisposable
         if (System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.Z))
         {
             return Drag.ZoomBox;
+        }
+
+        // WT71: with the razor, a press on a lane cuts it there, at the snapped frame.
+        if (Razor && pointer.X >= Header && view.Lane(pointer.Y - Ruler) is var lane and >= 0 && lane < layout.Lanes.Count)
+        {
+            double at = SnapAt(view, pointer.X, SnapKind.EditPoint);
+            _guide = null;
+            SplitRequested?.Invoke(this, (lane, at));
+            return Drag.None;
         }
 
         if (pointer.X >= Header && layout.At(view.Seconds(pointer.X - Header), view.Lane(pointer.Y - Ruler)) is { Kind: not LaneItemKind.Gap } item)

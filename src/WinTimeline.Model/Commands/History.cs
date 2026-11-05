@@ -311,6 +311,7 @@ public static class CommandJson
                 Paths.Resolve(timeline, Path(json["target"])) as Clip ?? throw new ArgumentException("the target is not a clip", nameof(json)),
                 (string?)json["file"] ?? throw new ArgumentException("relink needs a file", nameof(json))),
             "add_marker" => new AddMarker(Item(timeline, json["target"]), (string?)json["name"] ?? string.Empty, ParseRange(json["range"]) ?? new TimeRange(), (string?)json["color"] ?? MarkerColor.Red),
+            "remove_marker" => new RemoveMarker(Item(timeline, json["target"]), (int?)json["marker"] ?? throw new ArgumentException("remove_marker needs a marker", nameof(json))),
             "edit_marker" => new EditMarker(
                 Item(timeline, json["target"]).Markers.ElementAtOrDefault((int?)json["marker"] ?? -1) ?? throw new ArgumentException("the item has no such marker", nameof(json)),
                 (string?)json["name"] ?? string.Empty,

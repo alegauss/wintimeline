@@ -54,16 +54,20 @@ public static class TrackEdits
         ArgumentNullException.ThrowIfNull(track);
         double rate = Rate(track);
         double at = Math.Round(seconds * rate) / rate;
-        foreach ((int index, double start, double end) in Placed(track))
+        IReadOnlyList<(int Index, double Start, double End)> placed = Placed(track);
+
+        // A transition overlaps the clips either side of it, so any one covering the time refuses,
+        // whichever child the loop below would have met first.
+        if (placed.Any(p => track.Children[p.Index] is Transition && at > p.Start + Half(rate) && at < p.End - Half(rate)))
         {
-            if (at <= start + Half(rate) || at >= end - Half(rate))
+            throw new EditRefusedException($"A transition on {track.Name} covers {Clock(at)}; split outside it.");
+        }
+
+        foreach ((int index, double start, double end) in placed)
+        {
+            if (at <= start + Half(rate) || at >= end - Half(rate) || track.Children[index] is not Item item)
             {
                 continue;
-            }
-
-            if (track.Children[index] is not Item item)
-            {
-                throw new EditRefusedException($"A transition on {track.Name} covers {Clock(at)}; edit around it.");
             }
 
             TimeRange trimmed = item.TrimmedRange();
@@ -75,8 +79,46 @@ public static class TrackEdits
             history.Execute(new SetSourceRange(item, new TimeRange(start0, head)));
             history.Execute(new InsertChild(track, index + 1, tail));
             history.Execute(new SetSourceRange(tail, new TimeRange(start0 + head, whole - head)));
+
+            // WT71: each marker stays on the half it falls on; effects apply to both halves.
+            RationalTime cut = start0 + head;
+            for (int m = item.Markers.Count - 1; m >= 0; m--)
+            {
+                if (item.Markers[m].MarkedRange.StartTime.RescaledTo(itemRate) >= cut)
+                {
+                    history.Execute(new RemoveMarker(item, m));
+                }
+            }
+
+            for (int m = tail.Markers.Count - 1; m >= 0; m--)
+            {
+                if (tail.Markers[m].MarkedRange.StartTime.RescaledTo(itemRate) < cut)
+                {
+                    history.Execute(new RemoveMarker(tail, m));
+                }
+            }
+
             return;
         }
+    }
+
+    /// <summary>WT71: cuts every track of a stack at a time, as Ctrl+Shift+K does; one that refuses refuses them all.</summary>
+    /// <param name="history">Where the commands run.</param>
+    /// <param name="tracks">The tracks.</param>
+    /// <param name="seconds">Where.</param>
+    /// <returns>How many items were cut.</returns>
+    public static int SplitAll(History history, IEnumerable<Track> tracks, double seconds)
+    {
+        ArgumentNullException.ThrowIfNull(tracks);
+        int cut = 0;
+        foreach (Track track in tracks)
+        {
+            int before = track.Children.Count;
+            SplitAt(history, track, seconds);
+            cut += track.Children.Count - before;
+        }
+
+        return cut;
     }
 
     /// <summary>Takes out everything between two times, closing the hole (a ripple delete of the range).</summary>

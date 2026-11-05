@@ -705,17 +705,6 @@ Done when a failing proxy job shows an InfoBar with a Retry that works.
 
 ## Block H — Editing: tools, trims and drag and drop
 
-### §WT71 Razor and split
-
-B selects the razor tool; clicking splits the clip at the snapped frame. Ctrl+K splits
-targeted tracks at the playhead; Ctrl+Shift+K splits all tracks. A split keeps media
-references, effects and markers on the side they fall on; a LinearTimeWarp splits its
-source range proportionally so both halves play the same frames as before. Splitting
-inside a transition is refused with a message.
-
-Done when splitting any fixture clip at every tenth frame and rendering is
-frame-identical to the unsplit render.
-
 ### §WT72 The four trims and the trim mode viewer
 
 Hovering an edit point shows the trim cursor; dragging trims. Modifiers or the trim tool

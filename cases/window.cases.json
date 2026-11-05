@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT71: the cut once more, c2 from 2 to 4 and c4 from 5 to 6.5 seconds over A1's a1 from 0 to 5; not lent, since its case splits them.
+      "name": "a window on a cut to split",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT70: the cut once more, c3 from 4 to 5 seconds; not lent, since its case moves it.
       "name": "a window on a cut to move clips in",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1310,6 +1316,112 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "Ctrl+K splits every clip under the playhead, the razor splits the clip it is pressed on, and each split undoes on its own",
+      "catches": "a clip that cannot be cut, or a cut that moves a frame of what plays",
+      "filed": "WT71",
+      "tags": ["split", "razor", "edit"],
+      "fixture": "a window on a cut to split",
+      "steps": [
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the viewer is clicked, which focuses the surfaces"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Down",
+          "named": "the playhead goes to the cut at two seconds"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Right",
+          "named": "and ten frames on"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Right",
+          "named": "and ten more"
+        },
+        {
+          "locator": "Text#PlayheadStatus",
+          "act": "read",
+          "reads": "name",
+          "expect": "01:00:02:20",
+          "named": "the playhead is inside c2 and a1"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Ctrl+K",
+          "named": "Ctrl+K is pressed with nothing selected"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Split 2 clips at 01:00:02:20.",
+          "named": "both clips under the playhead are split"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:02:20 to 01:00:04:00",
+          "named": "c2's second half plays on from the cut to where c2 ended"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#A1-1",
+          "act": "read",
+          "reads": "status",
+          "expect": "A1, 01:00:02:20 to 01:00:05:00",
+          "named": "and so does a1's"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "B",
+          "named": "B chooses the razor"
+        },
+        {
+          // A drag for a click (WW603): the razor acts on the press. Six seconds of 8.5 is 70.6% across, on V1's lane.
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "70.6%,48",
+          "to": "71%,48",
+          "named": "the razor is pressed on c4 at six seconds"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-5",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:06:00 to 01:00:06:12",
+          "named": "c4 is cut there"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "invoke",
+          "named": "Undo is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-5",
+          "act": "read",
+          "reads": "name",
+          "expect": "c5",
+          "named": "the razor's cut is undone and the Ctrl+K cut stays"
         }
       ]
     },

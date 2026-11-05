@@ -32,6 +32,9 @@
         <Separator />
         <MenuItem Header="{x:Static app:UiText.DuplicateTimelineMenu}" Click="OnDuplicateTimeline" AutomationProperties.AutomationId="DuplicateTimelineMenuItem" />
         <Separator />
+        <MenuItem Header="{x:Static app:UiText.SplitMenu}" InputGestureText="{x:Static app:UiText.SplitGesture}" Click="OnSplitAtPlayhead" AutomationProperties.AutomationId="SplitMenuItem" />
+        <MenuItem Header="{x:Static app:UiText.SplitAllMenu}" InputGestureText="{x:Static app:UiText.SplitAllGesture}" Click="OnSplitAllTracks" AutomationProperties.AutomationId="SplitAllMenuItem" />
+        <MenuItem x:Name="RazorMenuItem" Header="{x:Static app:UiText.RazorMenu}" InputGestureText="{x:Static app:UiText.RazorGesture}" IsCheckable="True" Click="OnRazor" AutomationProperties.AutomationId="RazorMenuItem" />
         <MenuItem Header="{x:Static app:UiText.MakeCompoundMenu}" Click="OnMakeCompound" AutomationProperties.AutomationId="MakeCompoundMenuItem" />
         <MenuItem Header="{x:Static app:UiText.BreakApartMenu}" Click="OnBreakApart" AutomationProperties.AutomationId="BreakApartMenuItem" />
         <MenuItem Header="{x:Static app:UiText.AddMarkerMenu}" InputGestureText="{x:Static app:UiText.AddMarkerGesture}" Click="OnAddMarker" AutomationProperties.AutomationId="AddMarkerMenuItem" />

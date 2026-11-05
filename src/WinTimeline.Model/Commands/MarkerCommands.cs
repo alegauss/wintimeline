@@ -3,6 +3,43 @@ using WinTimeline.Model.Time;
 
 namespace WinTimeline.Model.Commands;
 
+/// <summary>WT71: takes a marker off an item, as a split does from the half it does not fall on.</summary>
+/// <param name="target">The item.</param>
+/// <param name="index">Which of its markers.</param>
+public sealed class RemoveMarker(Item target, int index) : IEditCommand
+{
+    private Marker? _removed;
+
+    /// <summary>The item.</summary>
+    public Item Target { get; } = target;
+
+    /// <summary>Which marker.</summary>
+    public int Index { get; } = index;
+
+    /// <inheritdoc/>
+    public string Description => $"Remove marker {(_removed ?? Target.Markers.ElementAtOrDefault(Index))?.Name}";
+
+    /// <inheritdoc/>
+    public long EstimatedBytes => 192;
+
+    /// <inheritdoc/>
+    public void Do() => _removed = Target.RemoveMarkerAt(Index);
+
+    /// <inheritdoc/>
+    public void Undo() => Target.InsertMarker(Index, _removed!);
+
+    /// <inheritdoc/>
+    public bool TryMerge(IEditCommand next) => false;
+
+    /// <inheritdoc/>
+    public JsonObject ToJson(Timeline timeline) => new()
+    {
+        ["op"] = "remove_marker",
+        ["target"] = Paths.Of(timeline, Target),
+        ["marker"] = Index,
+    };
+}
+
 /// <summary>WT54: changes a marker's name, colour, range and note, as its editor does.</summary>
 /// <param name="target">The marker.</param>
 /// <param name="name">Its new name.</param>

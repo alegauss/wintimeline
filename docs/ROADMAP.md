@@ -75,7 +75,6 @@
 
 ## Block H — Editing: tools, trims and drag and drop
 
-- 📋 **WT71** (deps: WT52 ✅, WT16 ✅) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
 - 📋 **WT72** (deps: WT70 ✅, WT170) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
 - 📋 **WT73** (deps: WT70 ✅, WT24) **Media cannot be dragged from the bin or from Windows Explorer onto the timeline or the viewer** — Drag and drop is how people expect to start an edit, and Explorer drops make the first minute of use obvious. → §WT73
 - 📋 **WT74** (deps: WT70 ✅, WT61) **A source clip's marked range cannot be edited into the timeline with insert, overwrite, replace or fit-to-fill** — Three-point editing with the keyboard is the fastest way to assemble, and professional editors expect it. → §WT74

@@ -409,6 +409,38 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT71: splits at the playhead.</summary>
+    public const string SplitMenu = "_Split at playhead";
+
+    /// <summary>WT71: the gesture shown beside Split at playhead.</summary>
+    public const string SplitGesture = "Ctrl+K";
+
+    /// <summary>WT71: splits every track at the playhead.</summary>
+    public const string SplitAllMenu = "Split _every track";
+
+    /// <summary>WT71: the gesture shown beside Split all tracks.</summary>
+    public const string SplitAllGesture = "Ctrl+Shift+K";
+
+    /// <summary>WT71: the razor tool.</summary>
+    public const string RazorMenu = "_Razor tool";
+
+    /// <summary>WT71: the gesture shown beside Razor tool.</summary>
+    public const string RazorGesture = "B";
+
+    /// <summary>WT71: what choosing the razor says.</summary>
+    public const string RazorOn = "Razor: press a clip to split it there. V goes back to selecting.";
+
+    /// <summary>WT71: what going back to selecting says.</summary>
+    public const string RazorOff = "Selecting.";
+
+    /// <summary>WT71: what a split did.</summary>
+    /// <param name="cut">How many items it cut.</param>
+    /// <param name="timecode">Where.</param>
+    /// <returns>The status.</returns>
+    public static string Split(int cut, string timecode) => cut == 0
+        ? $"Nothing to split at {timecode}."
+        : string.Create(CultureInfo.InvariantCulture, $"Split {cut} {(cut == 1 ? "clip" : "clips")} at {timecode}.");
+
     /// <summary>WT70: a swap needs one clip dropped on another.</summary>
     public const string SwapNeedsOne = "Drop one clip on another to swap them.";
 
