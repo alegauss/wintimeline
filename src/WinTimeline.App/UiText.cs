@@ -409,6 +409,22 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT58: the item the keyboard's focus is on, as the surface's status says it.</summary>
+    /// <param name="name">Its name.</param>
+    /// <param name="lane">Its lane, e.g. "V1".</param>
+    /// <returns>e.g. "focus c2 on V1".</returns>
+    public static string FocusStatus(string name, string lane) => $"focus {name} on {lane}";
+
+    /// <summary>WT58: what a screen reader reads after an item's name: what it is, where it plays and on which track.</summary>
+    /// <param name="kind">e.g. "clip".</param>
+    /// <param name="start">Where it starts, as timecode.</param>
+    /// <param name="end">Where it ends.</param>
+    /// <param name="audio">Whether its track carries sound.</param>
+    /// <param name="number">The track's number, e.g. "2".</param>
+    /// <returns>e.g. "clip, 00:01:12:04 to 00:01:20:00, video track 2".</returns>
+    public static string ItemReading(string kind, string start, string end, bool audio, string number) =>
+        $"{kind}, {start} to {end}, {(audio ? "audio" : "video")} track {number}";
+
     /// <summary>WT57: the View menu's heat lanes submenu.</summary>
     public const string HeatMenu = "_Heat lanes";
 

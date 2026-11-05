@@ -57,6 +57,7 @@
 - ✅ **WT54** **Markers from the file are not shown, and new markers with colour, duration and notes cannot be added** — Timeline, track and clip markers show in their colours, ranged ones as bands, M adds or edits one and Shift+Up/Down jumps between them, with dragging left to WT171 and the Resolve check to WT172.
 - ✅ **WT56** **A nested Stack inside a track shows as an opaque block that cannot be opened or edited** — A compound clip opens on double-click or Enter into an editable sub-view named by a breadcrumb, and Esc goes back up with what was edited inside kept.
 - ✅ **WT57** **Nothing shows where in a long timeline the edits, problems or AI findings are concentrated** — View > Heat lanes maps cuts, validation problems and markers as stripes over the overview strip, and a press on a hot spot takes the playhead there, with silence and AI lanes left to WT173.
+- ✅ **WT58 (focus and reading)** **The timeline cannot be used without a mouse or read by a screen reader** — Tab and Ctrl+Up/Down move a ringed keyboard focus over clips, Space selects it, and clips read to UI Automation as track items with their kind, range and track.
 
 ## Block G — Workspace, panels and viewers
 

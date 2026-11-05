@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT58: the cut once more, V1 cut at 0, 2, 4, 5, 6.5, 7.5 and 8.5 seconds over A1's one clip; not lent, since its case moves the focus and selects.
+      "name": "a window on a cut to drive by keys",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT57: Premiere's export again, 1271 frames at 30 fps, its first marker at frame 113; not lent, since its case turns a heat lane on and moves the playhead.
       "name": "a window on a timeline with markers to map",
       "arguments": ["--open", "tests/fixtures/otio/corpus/premiere_example.otio", "--adapter", "warp"],
@@ -1298,6 +1304,74 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "the keyboard moves a focus along a track with Tab and across tracks with Ctrl+Down, Space selects what it is on, and each clip reads as a track's item",
+      "catches": "a timeline that only a mouse can work, or one a screen reader hears as a flat list of names",
+      "filed": "WT58",
+      "tags": ["keyboard", "accessibility", "surface"],
+      "fixture": "a window on a cut to drive by keys",
+      "steps": [
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the viewer is clicked, which focuses the surfaces"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Tab",
+          "named": "Tab puts the focus on the clip under the playhead, c1"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Tab",
+          "named": "and Tab again moves it along V1"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", focus c2 on V1,",
+          "named": "the focus is on c2"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Ctrl+Down",
+          "named": "Ctrl+Down moves it down a track"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "read",
+          "reads": "status",
+          "matches": ", focus a1 on A1,",
+          "named": "onto a1, the audio clip under c2"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Space",
+          "named": "Space is pressed"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#A1-0",
+          "act": "read",
+          "reads": "selected",
+          "expect": "selected",
+          "named": "and selects the focused clip"
+        },
+        {
+          "locator": "Pane#TimelineSurface > List#Track-V1 > ListItem#V1-1",
+          "act": "read",
+          "reads": "value",
+          "expect": "clip, 01:00:02:00 to 01:00:04:00, video track 1",
+          "named": "c2 is an item of V1's track, read as what it is, where it plays and on which track"
         }
       ]
     },

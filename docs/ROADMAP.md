@@ -53,7 +53,7 @@
 ## Block F — Timeline view: GPU drawing and navigation
 
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
-- 📋 **WT58** (deps: WT52 ✅, WT51 ✅) **The timeline cannot be used without a mouse or read by a screen reader** — Power editors work keyboard-only, and winwright needs automation peers to drive the timeline in cases. → §WT58
+- ⏳ **WT58** (deps: WT52 ✅, WT51 ✅, WT70, WT72) **The timeline cannot be used without a mouse or read by a screen reader** — Trimming and moving the focused clip by keys waits on WT70 and WT72, and an Accessibility Insights pass over the panel is still to run. → §WT58
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 - 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
 - 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
@@ -351,6 +351,12 @@
   markers at mentions, a 30-second version) yields valid proposals for at least 25; the
   palette's ? opens a preview with the diff overlay and Apply, and a UI case applies one
   and undoes it.
+
+## Done when — WT58
+
+- **A clip is trimmed and moved with keys only** A UI case focuses a clip with Tab,
+  trims its tail and moves it a few frames using keys alone, then reads its new range,
+  and an Accessibility Insights (AxeWindows) run over the panel reports no errors.
 
 ## Non-goals
 

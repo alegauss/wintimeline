@@ -49,6 +49,7 @@ public sealed class TimelinePanel : IDisposable
     private static readonly Color4 InOutFill = new(0.3f, 0.55f, 0.95f, 0.45f);
     private static readonly Color4 SelectedEdge = new(1f, 0.82f, 0.25f, 1f);
     private static readonly Color4 SnapGuide = new(0.35f, 0.9f, 1f, 1f);
+    private static readonly Color4 FocusRing = new(1f, 1f, 1f, 1f);
 
     private readonly GpuSurface _surface;
     private readonly Canvas2D _canvas;
@@ -94,6 +95,7 @@ public sealed class TimelinePanel : IDisposable
         Selection.Changed += OnSelectionChanged;
         _surface.SelectRequested += OnSelectRequested;
         _surface.IsItemSelected = Selection.Contains;
+        _surface.IsItemFocused = id => id == FocusedId;
     }
 
     /// <summary>WT52: the selected items of the shown timeline.</summary>
@@ -272,6 +274,83 @@ public sealed class TimelinePanel : IDisposable
         }
     }
 
+    /// <summary>WT58: the id of the item the keyboard's focus is on, or null.</summary>
+    public string? FocusedId { get; private set; }
+
+    /// <summary>
+    /// WT58: moves the keyboard's focus: across lanes (Ctrl+Up/Down) to the item nearest the one
+    /// focused, or along its lane (Tab, Shift+Tab) to the next or previous item. With nothing
+    /// focused yet it lands on the item under the playhead on the top lane that has one. False
+    /// when there is nowhere to go, so Tab past the last item leaves the timeline as it should.
+    /// </summary>
+    /// <param name="lanes">Lanes down, up when negative.</param>
+    /// <param name="items">Items along, back when negative.</param>
+    /// <returns>Whether the focus moved.</returns>
+    public bool MoveFocus(int lanes, int items)
+    {
+        if (_layout is not { } layout || layout.Lanes.All(l => !Focusable(l).Any()))
+        {
+            return false;
+        }
+
+        LaneItem? from = FocusedId is { } id ? layout.Find(id) : null;
+        LaneItem? to;
+        if (from is null)
+        {
+            Lane first = layout.Lanes.First(l => Focusable(l).Any());
+            to = Nearest(first, Position.Seconds);
+        }
+        else if (lanes != 0)
+        {
+            int lane = from.Lane + Math.Sign(lanes);
+            while (lane >= 0 && lane < layout.Lanes.Count && !Focusable(layout.Lanes[lane]).Any())
+            {
+                lane += Math.Sign(lanes);
+            }
+
+            to = lane >= 0 && lane < layout.Lanes.Count ? Nearest(layout.Lanes[lane], from.Start) : null;
+        }
+        else
+        {
+            List<LaneItem> along = [.. Focusable(layout.Lanes[from.Lane])];
+            int at = along.IndexOf(from) + Math.Sign(items);
+            to = at >= 0 && at < along.Count ? along[at] : null;
+        }
+
+        if (to is null)
+        {
+            return false;
+        }
+
+        FocusedId = layout.IdOf(to);
+        if (_view is { } view && (to.End <= view.Start || to.Start >= view.End))
+        {
+            _view = view.Follow(to.Start, PlayheadFollow.Page, layout.Duration);
+            Changed();
+        }
+
+        _surface.Invalidate();
+        _surface.ItemsChanged();
+        return true;
+    }
+
+    /// <summary>WT58: selects the focused item, as Space does; with Ctrl, adds or takes it away.</summary>
+    /// <param name="toggle">Whether Ctrl was held.</param>
+    public void SelectFocused(bool toggle)
+    {
+        if (_layout is { } layout && FocusedId is { } id && layout.Find(id) is { } item)
+        {
+            Selection.Click(layout, item, toggle ? SelectGesture.Toggle : SelectGesture.Replace);
+        }
+    }
+
+    private static IEnumerable<LaneItem> Focusable(Lane lane) => lane.Items.Where(i => i.Kind is LaneItemKind.Clip or LaneItemKind.Nested);
+
+    /// <summary>The lane's item that plays at a time, or else the one starting nearest it.</summary>
+    private static LaneItem? Nearest(Lane lane, double seconds) =>
+        Focusable(lane).FirstOrDefault(i => i.Start <= seconds && seconds < i.End)
+        ?? Focusable(lane).OrderBy(i => Math.Abs(i.Start - seconds)).FirstOrDefault();
+
     /// <summary>WT57: the heat lanes shown over the overview strip.</summary>
     public IReadOnlySet<HeatKind> HeatShown => _heatShown;
 
@@ -419,6 +498,7 @@ public sealed class TimelinePanel : IDisposable
         _layout = Shown is { } stack ? TimelineLayout.Build(stack) : null;
         _view = null;
         _published = null;
+        FocusedId = null;
         Selection.Clear();
         _targets = null;
         _markers = null;
@@ -453,6 +533,7 @@ public sealed class TimelinePanel : IDisposable
         _surface.Overlay -= OnOverlay;
         _surface.SelectRequested -= OnSelectRequested;
         _surface.IsItemSelected = null;
+        _surface.IsItemFocused = null;
         _surface.Items = null;
         _canvas.Dispose();
     }
@@ -499,6 +580,10 @@ public sealed class TimelinePanel : IDisposable
             _targets = null;
             _markers = null;
             _heat = null;
+            if (FocusedId is { } focused && _layout.Find(focused) is null)
+            {
+                FocusedId = null;
+            }
         }
 
         Changed();
@@ -583,6 +668,15 @@ public sealed class TimelinePanel : IDisposable
         using IDXGISurface back = target.BackBuffer();
         _canvas.Begin(back);
         _canvas.Line(new Vector2(x, (float)Overview), new Vector2(x, target.Height), Playhead, (float)Math.Max(1, Scale));
+
+        // WT58: the keyboard's focus, a ring inside the focused item while the surface has the focus.
+        if (FocusedId is { } focused && _surface.IsKeyboardFocusWithin && _layout.Find(focused) is { } item
+            && item.End > view.Start && item.Start < view.End && item.Lane >= view.FirstLane && item.Lane <= view.LastLane)
+        {
+            (float fx, float fy, float fw, float fh) = Bounds(view, item);
+            float ring = (float)Math.Max(2, 2 * Scale);
+            _canvas.Outline(fx + ring, fy + ring, Math.Max(1, fw - (2 * ring)), Math.Max(1, fh - (2 * ring)), FocusRing, ring);
+        }
 
         // WT53: the target a drag snapped to, and how many frames the snap moved it.
         if (_guide is { Target: { } snapped } guide)
@@ -1047,7 +1141,9 @@ public sealed class TimelinePanel : IDisposable
         }
 
         double[] sorted = [.. _frameTimes.Order()];
-        string span = (_view is { } view ? ", " + UiText.ViewSpan(Timecode(view.Start), Timecode(view.End)) : string.Empty) + ", " + UiText.RulerStatus(UiText.RulerUnitName(Unit));
+        string span = (_view is { } view ? ", " + UiText.ViewSpan(Timecode(view.Start), Timecode(view.End)) : string.Empty)
+            + (FocusedId is { } focused && _layout?.Find(focused) is { } item ? ", " + UiText.FocusStatus(item.Name, _layout.Lanes[item.Lane].Label) : string.Empty)
+            + ", " + UiText.RulerStatus(UiText.RulerUnitName(Unit));
 
         // WT57: the heat lanes shown and how much each counts, said only while there are some.
         if (_heat is { Count: > 0 } heat)
@@ -1122,7 +1218,9 @@ public sealed class TimelinePanel : IDisposable
                 id,
                 kind,
                 UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End)),
-                x, y, w, h));
+                x, y, w, h,
+                lane.Label,
+                UiText.ItemReading(kind, Timecode(item.Start), Timecode(item.End), lane.IsAudio, lane.Label[1..])));
         }
 
         // WT54: the markers in view, read by name and by colour, lane and time.
@@ -1139,7 +1237,8 @@ public sealed class TimelinePanel : IDisposable
                 marker.Id,
                 "marker",
                 UiText.MarkerStatus(marker.Marker.Color, Timecode(marker.Start), lane, (long)Math.Round(marker.Duration * Rate)),
-                at.X - (2 * Scale), at.Y, Math.Max(4 * Scale, at.Width + (4 * Scale)), at.Height));
+                at.X - (2 * Scale), at.Y, Math.Max(4 * Scale, at.Width + (4 * Scale)), at.Height,
+                lane));
         }
 
         return items;

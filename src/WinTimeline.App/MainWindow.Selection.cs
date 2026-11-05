@@ -20,8 +20,25 @@ public partial class MainWindow
             return;
         }
 
+        // WT58: the keyboard's focus. Tab past the last item is left alone, so it leaves the timeline.
+        bool moved = (e.Key, Keyboard.Modifiers) switch
+        {
+            (Key.Tab, ModifierKeys.None) => TimelinePanel.MoveFocus(0, 1),
+            (Key.Tab, ModifierKeys.Shift) => TimelinePanel.MoveFocus(0, -1),
+            (Key.Down, ModifierKeys.Control) => TimelinePanel.MoveFocus(1, 0),
+            (Key.Up, ModifierKeys.Control) => TimelinePanel.MoveFocus(-1, 0),
+            _ => false,
+        };
+        if (moved)
+        {
+            e.Handled = true;
+            return;
+        }
+
         Action? select = (e.Key, Keyboard.Modifiers) switch
         {
+            (Key.Space, ModifierKeys.None) => () => TimelinePanel.SelectFocused(toggle: false),
+            (Key.Space, ModifierKeys.Control) => () => TimelinePanel.SelectFocused(toggle: true),
             (Key.A, ModifierKeys.Control) => TimelinePanel.SelectAll,
             (Key.A, ModifierKeys.Control | ModifierKeys.Shift) => TimelinePanel.Selection.Clear,
             (Key.A, ModifierKeys.None) => () => TimelinePanel.TrackSelect(forward: true),

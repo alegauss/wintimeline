@@ -84,6 +84,9 @@ public sealed class GpuSurface : HwndHost
     /// <summary>WT56: the system's double-click time, in milliseconds, for an owner that tells one press from two.</summary>
     public static long DoubleClickMilliseconds => GetDoubleClickTime();
 
+    /// <summary>WT58: whether the drawn item with an automation id has the keyboard's focus; null where none can.</summary>
+    public Func<string, bool>? IsItemFocused { get; set; }
+
     /// <summary>WT52: whether the drawn item with an automation id is selected; null where nothing on the surface is selectable.</summary>
     public Func<string, bool>? IsItemSelected { get; set; }
 
@@ -530,7 +533,7 @@ public sealed class GpuSurface : HwndHost
             patternInterface == PatternInterface.Selection && owner.IsItemSelected is not null ? this : base.GetPattern(patternInterface);
 
         public IRawElementProviderSimple[] GetSelection() =>
-            [.. (GetChildren() ?? []).OfType<SurfaceItemPeer>().Where(p => p.IsSelected).Select(ProviderFromPeer)];
+            [.. (GetChildren() ?? []).SelectMany(p => p is SurfaceGroupPeer g ? g.Items : p is SurfaceItemPeer i ? [i] : []).Where(p => p.IsSelected).Select(ProviderFromPeer)];
 
         internal void Ask(SurfaceSelect select) => owner.SelectRequested?.Invoke(owner, select);
 
@@ -562,13 +565,108 @@ public sealed class GpuSurface : HwndHost
                 return null;
             }
 
-            return items is { Count: > 0 } ? [.. items.Select(item => (AutomationPeer)new SurfaceItemPeer(owner, item))] : null;
+            if (items is not { Count: > 0 })
+            {
+                return null;
+            }
+
+            // WT58: items with a group (a track) sit under it, in the order the groups first appear.
+            List<AutomationPeer> children = [];
+            foreach (IGrouping<string?, SurfaceItem> group in items.GroupBy(i => i.Group))
+            {
+                if (group.Key is null)
+                {
+                    children.AddRange(group.Select(item => (AutomationPeer)new SurfaceItemPeer(owner, item)));
+                }
+                else
+                {
+                    children.Add(new SurfaceGroupPeer(group.Key, [.. group.Select(item => new SurfaceItemPeer(owner, item))]));
+                }
+            }
+
+            return children;
         }
     }
 
-    /// <summary>One drawn item as UI Automation sees it: named, with a status and where it is on screen.</summary>
-    private sealed class SurfaceItemPeer(GpuSurface owner, SurfaceItem item) : AutomationPeer, ISelectionItemProvider
+    /// <summary>WT58: a group of drawn items, a track of clips, as one list UI Automation can step into.</summary>
+    private sealed class SurfaceGroupPeer(string name, List<SurfaceItemPeer> items) : AutomationPeer
     {
+        public IEnumerable<SurfaceItemPeer> Items => items;
+
+        protected override string GetAcceleratorKeyCore() => string.Empty;
+
+        protected override string GetAccessKeyCore() => string.Empty;
+
+        protected override AutomationControlType GetAutomationControlTypeCore() => AutomationControlType.List;
+
+        protected override string GetAutomationIdCore() => "Track-" + name;
+
+        protected override Rect GetBoundingRectangleCore()
+        {
+            Rect all = Rect.Empty;
+            foreach (SurfaceItemPeer item in items)
+            {
+                all.Union(item.GetBoundingRectangle());
+            }
+
+            return all;
+        }
+
+        protected override List<AutomationPeer>? GetChildrenCore() => [.. items];
+
+        protected override string GetClassNameCore() => "SurfaceGroup";
+
+        protected override Point GetClickablePointCore() => new(double.NaN, double.NaN);
+
+        protected override string GetHelpTextCore() => string.Empty;
+
+        protected override string GetItemStatusCore() => string.Empty;
+
+        protected override string GetItemTypeCore() => "track";
+
+        protected override AutomationPeer? GetLabeledByCore() => null;
+
+        protected override string GetLocalizedControlTypeCore() => "track";
+
+        protected override string GetNameCore() => name;
+
+        protected override AutomationOrientation GetOrientationCore() => AutomationOrientation.Horizontal;
+
+        protected override bool HasKeyboardFocusCore() => false;
+
+        protected override bool IsContentElementCore() => true;
+
+        protected override bool IsControlElementCore() => true;
+
+        protected override bool IsEnabledCore() => true;
+
+        protected override bool IsKeyboardFocusableCore() => false;
+
+        protected override bool IsOffscreenCore() => false;
+
+        protected override bool IsPasswordCore() => false;
+
+        protected override bool IsRequiredForFormCore() => false;
+
+        protected override void SetFocusCore()
+        {
+        }
+
+        protected override AutomationPeer GetPeerFromPointCore(Point point) => this;
+
+        public override object? GetPattern(PatternInterface patternInterface) => null;
+    }
+
+    /// <summary>One drawn item as UI Automation sees it: named, with a status and where it is on screen.</summary>
+    private sealed class SurfaceItemPeer(GpuSurface owner, SurfaceItem item) : AutomationPeer, ISelectionItemProvider, IValueProvider
+    {
+        // WT58: what a screen reader reads after the name: where it plays, on which track.
+        public string Value => item.Value ?? item.Status;
+
+        public bool IsReadOnly => true;
+
+        public void SetValue(string value) => throw new InvalidOperationException("A drawn item's value is read, not set.");
+
         // Asked live: a client resolves an item once and polls it, so a flag copied into the
         // record would answer what was selected when the peer was made.
         public bool IsSelected => owner.IsItemSelected?.Invoke(item.AutomationId) ?? false;
@@ -634,10 +732,15 @@ public sealed class GpuSurface : HwndHost
 
         protected override AutomationOrientation GetOrientationCore() => AutomationOrientation.None;
 
-        public override object? GetPattern(PatternInterface patternInterface) =>
-            patternInterface == PatternInterface.SelectionItem && owner.IsItemSelected is not null ? this : null;
+        public override object? GetPattern(PatternInterface patternInterface) => patternInterface switch
+        {
+            PatternInterface.SelectionItem when owner.IsItemSelected is not null => this,
+            PatternInterface.Value => this,
+            _ => null,
+        };
 
-        protected override bool HasKeyboardFocusCore() => false;
+        // WT58: the item the keyboard's focus is on, asked live as the selection is.
+        protected override bool HasKeyboardFocusCore() => owner.IsKeyboardFocusWithin && (owner.IsItemFocused?.Invoke(item.AutomationId) ?? false);
 
         protected override bool IsContentElementCore() => true;
 
@@ -645,7 +748,7 @@ public sealed class GpuSurface : HwndHost
 
         protected override bool IsEnabledCore() => true;
 
-        protected override bool IsKeyboardFocusableCore() => false;
+        protected override bool IsKeyboardFocusableCore() => owner.IsItemFocused is not null;
 
         protected override bool IsOffscreenCore() => false;
 
@@ -684,7 +787,9 @@ public sealed record SurfacePoint(int X, int Y);
 /// <param name="Y">Top.</param>
 /// <param name="Width">Width.</param>
 /// <param name="Height">Height.</param>
-public sealed record SurfaceItem(string Name, string AutomationId, string Kind, string Status, double X, double Y, double Width, double Height);
+/// <param name="Group">WT58: the group it sits in for UI Automation, e.g. a track's "V1"; null sits it on the surface itself.</param>
+/// <param name="Value">WT58: what a screen reader reads after its name, e.g. where it plays; null for none.</param>
+public sealed record SurfaceItem(string Name, string AutomationId, string Kind, string Status, double X, double Y, double Width, double Height, string? Group = null, string? Value = null);
 
 /// <summary>WT52: what a UI Automation client asked of a drawn item's selection.</summary>
 public enum SurfaceSelectMode
