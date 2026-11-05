@@ -705,18 +705,6 @@ Done when a failing proxy job shows an InfoBar with a Retry that works.
 
 ## Block H — Editing: tools, trims and drag and drop
 
-### §WT70 Moving clips: overwrite, insert and swap
-
-Dragging selected items shows a ghost with the snapped target and a live preview of the
-result (neighbours shifting for insert). Default is overwrite (the dropped clip replaces
-what it covers, splitting partially covered items); Ctrl held at release makes it an
-insert (ripple everything after on all unlocked tracks); Ctrl+Alt swaps with the clip
-under the cursor. Cross-track moves keep linked audio in lock unless Alt-dragged.
-Holding Alt at drag start duplicates. All results are one undoable transaction.
-
-Done when cases cover overwrite, insert, swap and duplicate on the editing fixture and
-each undo restores the original exactly.
-
 ### §WT71 Razor and split
 
 B selects the razor tool; clicking splits the clip at the snapped frame. Ctrl+K splits
@@ -858,6 +846,20 @@ inserting gaps). This mirrors Premiere's sync lock and Avid's sync behaviour, an
 default for new tracks.
 
 Done when ripple deleting on V1 with A1-A4 sync-locked leaves every pair in sync.
+
+### §WT174 Cases for the keyed drags
+
+WT70 made clips draggable on the timeline. The panel raises a MoveRequest on release,
+picking the edit by the keys held: none overwrites, Ctrl inserts, Ctrl+Alt swaps with
+the clip dropped on, and Alt held at the press duplicates. MainWindow.Move carries it
+out through the model's TrackEdits (lift, overwrite, insert, extract) as one history
+transaction. TrackEditTests proves each edit on cut_v1, and the overwrite drag has a UI
+case ("a clip dragged along its track overwrites what it lands on"). The insert, swap
+and duplicate drags do not, because a winwright drag cannot hold a key (WW604 in
+winwright's roadmap). When it can, three cases join the move case's fixture. Each drags
+c3 from 52.9% to 88.2% across on V1's lane (y 48) with Ctrl, Ctrl+Alt (onto c5) and Alt
+held. Each reads the status line and the clips' names and spans against the shapes
+TrackEditTests asserts, then undoes. Done when the three cases pass in the guest.
 
 ## Block I — Audio: playback, mixing and meters
 

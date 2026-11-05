@@ -409,6 +409,41 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT70: a swap needs one clip dropped on another.</summary>
+    public const string SwapNeedsOne = "Drop one clip on another to swap them.";
+
+    /// <summary>WT70: a clip dropped on a track of the other kind.</summary>
+    /// <param name="name">The clip.</param>
+    /// <returns>The refusal.</returns>
+    public static string MoveWrongTrack(string name) => $"{name} can only move to a track of its own kind.";
+
+    /// <summary>WT70: what the history calls a drag of clips.</summary>
+    /// <param name="mode">Overwrite, insert or swap.</param>
+    /// <param name="duplicate">Whether it dropped copies.</param>
+    /// <returns>The step's name.</returns>
+    public static string MoveStep(MoveMode mode, bool duplicate) => duplicate ? "Duplicate clips" : mode switch
+    {
+        MoveMode.Insert => "Insert clips",
+        MoveMode.Swap => "Swap clips",
+        _ => "Move clips",
+    };
+
+    /// <summary>WT70: what a drag of clips did.</summary>
+    /// <param name="count">How many clips.</param>
+    /// <param name="mode">Overwrite, insert or swap.</param>
+    /// <param name="duplicate">Whether it dropped copies.</param>
+    /// <returns>The status.</returns>
+    public static string Moved(int count, MoveMode mode, bool duplicate)
+    {
+        string clips = count == 1 ? "1 clip" : string.Create(CultureInfo.InvariantCulture, $"{count} clips");
+        return duplicate ? $"Copied {clips} by overwrite." : mode switch
+        {
+            MoveMode.Insert => $"Moved {clips} by insert.",
+            MoveMode.Swap => $"Swapped {clips}.",
+            _ => $"Moved {clips} by overwrite.",
+        };
+    }
+
     /// <summary>WT58: the item the keyboard's focus is on, as the surface's status says it.</summary>
     /// <param name="name">Its name.</param>
     /// <param name="lane">Its lane, e.g. "V1".</param>

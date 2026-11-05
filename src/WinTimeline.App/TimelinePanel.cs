@@ -14,6 +14,28 @@ using ModelTimeline = WinTimeline.Model.Timeline;
 
 namespace WinTimeline.App;
 
+/// <summary>WT70: what a dropped drag of clips does.</summary>
+public enum MoveMode
+{
+    /// <summary>Replaces what the clips land on (no key).</summary>
+    Overwrite,
+
+    /// <summary>Pushes what follows later (Ctrl).</summary>
+    Insert,
+
+    /// <summary>Changes places with the clip landed on (Ctrl+Alt).</summary>
+    Swap,
+}
+
+/// <summary>WT70: a released drag of clips.</summary>
+/// <param name="Items">The clips dragged.</param>
+/// <param name="Delta">How far in time, in seconds, snapped and on a frame.</param>
+/// <param name="Lanes">How many lanes down, up when negative.</param>
+/// <param name="Mode">Overwrite, insert or swap.</param>
+/// <param name="Duplicate">Whether Alt held at the press asked for copies, leaving the clips where they were.</param>
+/// <param name="Onto">The clip under the release, for a swap.</param>
+public sealed record MoveRequest(IReadOnlyList<LaneItem> Items, double Delta, int Lanes, MoveMode Mode, bool Duplicate, LaneItem? Onto);
+
 /// <summary>
 /// WT47: the timeline drawn on its GPU surface with Direct2D: a ruler, one lane per track, the
 /// clips, gaps and transitions in view, their names, and the playhead. Only what the viewport
@@ -67,6 +89,12 @@ public sealed class TimelinePanel : IDisposable
     private readonly HashSet<HeatKind> _heatShown = [];
     private Dictionary<HeatKind, HeatLane>? _heat;
     private (LaneItem Item, long Ticks)? _lastPress;
+    private List<LaneItem> _moving = [];
+    private (double X, int Lane) _movePress;
+    private double _moveDelta;
+    private int _moveLanes;
+    private bool _moveStarted;
+    private bool _duplicate;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
     private double? _inPoint;
@@ -460,6 +488,9 @@ public sealed class TimelinePanel : IDisposable
         Reshow();
     }
 
+    /// <summary>WT70: raised when a drag of clips is released, for the window to carry out in its history.</summary>
+    public event EventHandler<MoveRequest>? MoveRequested;
+
     /// <summary>WT56: raised when a compound is opened or left, so the breadcrumb follows.</summary>
     public event EventHandler? ScopeChanged;
 
@@ -693,6 +724,23 @@ public sealed class TimelinePanel : IDisposable
             _canvas.Fill(from, (float)Ruler, span, target.Height - (float)Ruler, ZoomBoxFill);
             _canvas.Outline(from, (float)Ruler, span, target.Height - (float)Ruler, Label, 1);
         }
+        else if (_dragging == Drag.Move && _moveStarted)
+        {
+            // WT70: where the dragged clips would land.
+            foreach (LaneItem ghost in _moving)
+            {
+                int lane = ghost.Lane + _moveLanes;
+                if (lane < view.FirstLane || lane > view.LastLane)
+                {
+                    continue;
+                }
+
+                float gx = (float)(Header + view.X(ghost.Start + _moveDelta)), gw = (float)((ghost.End - ghost.Start) * view.PixelsPerSecond);
+                float gy = (float)(Ruler + view.Y(lane) + 1), gh = (float)(view.LaneHeight - 2);
+                _canvas.Fill(gx, gy, Math.Max(1, gw), gh, ZoomBoxFill);
+                _canvas.Outline(gx, gy, Math.Max(1, gw), gh, SelectedEdge, (float)Math.Max(1, Scale));
+            }
+        }
         else if (_dragging == Drag.Marquee)
         {
             float from = (float)(Header + Math.Min(_boxFrom, _boxTo)), top = (float)(Ruler + Math.Min(_boxTop, _boxBottom));
@@ -776,6 +824,9 @@ public sealed class TimelinePanel : IDisposable
                 _outPoint = SnapAt(view, pointer.X, SnapKind.InOut);
                 _surface.Invalidate();
                 break;
+            case Drag.Move:
+                DragMove(view, layout, pointer);
+                break;
             case Drag.Scrub when pointer.Phase == PointerPhase.Move && pointer.Pressed:
                 // A scrub started on the ruler keeps scrubbing wherever the pointer goes down the lanes.
                 OnClick(sender, new SurfacePoint(pointer.X, (int)Overview));
@@ -828,8 +879,25 @@ public sealed class TimelinePanel : IDisposable
             }
 
             _lastPress = (item, now);
-            Selection.Click(layout, item, pointer.Control ? SelectGesture.Toggle : pointer.Shift ? SelectGesture.Extend : SelectGesture.Replace);
-            return Drag.None;
+            if (pointer.Control || pointer.Shift)
+            {
+                Selection.Click(layout, item, pointer.Control ? SelectGesture.Toggle : SelectGesture.Extend);
+                return Drag.None;
+            }
+
+            // WT70: a press on a clip already selected keeps the selection, so all of it can be dragged.
+            if (!Selection.Contains(layout.IdOf(item)))
+            {
+                Selection.Click(layout, item, SelectGesture.Replace);
+            }
+
+            _moving = [.. Selection.Ids.Select(layout.Find).OfType<LaneItem>().Where(i => i.Kind is LaneItemKind.Clip or LaneItemKind.Nested)];
+            _movePress = (pointer.X, item.Lane);
+            _moveDelta = 0;
+            _moveLanes = 0;
+            _moveStarted = false;
+            _duplicate = (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Alt) != 0;
+            return _moving.Count > 0 ? Drag.Move : Drag.None;
         }
 
         return Drag.Marquee;
@@ -993,6 +1061,47 @@ public sealed class TimelinePanel : IDisposable
         ZoomBox,
         InOut,
         Marquee,
+        Move,
+    }
+
+    /// <summary>
+    /// WT70: a drag of the selected clips. Past four pixels a ghost follows the pointer, its
+    /// leading edge snapped, across lanes too; the release asks for the move with the keys held
+    /// then deciding the edit: none overwrites, Ctrl inserts, Ctrl+Alt swaps with the clip there.
+    /// </summary>
+    private void DragMove(TimelineViewport view, TimelineLayout layout, SurfacePointer pointer)
+    {
+        if (pointer.Phase == PointerPhase.Move && pointer.Pressed)
+        {
+            double dx = pointer.X - _movePress.X;
+            int lanes = view.Lane(pointer.Y - Ruler) - _movePress.Lane;
+            _moveStarted |= Math.Abs(dx) > 4 * Scale || lanes != 0;
+            if (_moveStarted)
+            {
+                double first = _moving.Min(i => i.Start);
+                double snapped = SnapAt(view, Header + view.X(first + (dx / view.PixelsPerSecond)), SnapKind.EditPoint);
+                _moveDelta = Math.Round((snapped - first) * Rate) / Rate;
+                _moveLanes = lanes;
+                _surface.InvalidateOverlay();
+            }
+
+            return;
+        }
+
+        if (pointer.Phase != PointerPhase.Up || !_moveStarted)
+        {
+            return;
+        }
+
+        System.Windows.Input.ModifierKeys keys = System.Windows.Input.Keyboard.Modifiers;
+        bool control = (keys & System.Windows.Input.ModifierKeys.Control) != 0, alt = (keys & System.Windows.Input.ModifierKeys.Alt) != 0;
+        MoveMode mode = control && alt ? MoveMode.Swap : control ? MoveMode.Insert : MoveMode.Overwrite;
+        LaneItem? onto = layout.At(view.Seconds(pointer.X - Header), view.Lane(pointer.Y - Ruler)) is { Kind: LaneItemKind.Clip or LaneItemKind.Nested } under ? under : null;
+        MoveRequest request = new(_moving, _moveDelta, _moveLanes, mode, _duplicate && mode == MoveMode.Overwrite, onto);
+        _moving = [];
+        _moveStarted = false;
+        _surface.InvalidateOverlay();
+        MoveRequested?.Invoke(this, request);
     }
 
     private void DrawLanes(TimelineViewport view, TimelineLayout layout, int width)

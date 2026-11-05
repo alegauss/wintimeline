@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT70: the cut once more, c3 from 4 to 5 seconds; not lent, since its case moves it.
+      "name": "a window on a cut to move clips in",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT58: the cut once more, V1 cut at 0, 2, 4, 5, 6.5, 7.5 and 8.5 seconds over A1's one clip; not lent, since its case moves the focus and selects.
       "name": "a window on a cut to drive by keys",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1304,6 +1310,64 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "a clip dragged along its track overwrites what it lands on, leaves a gap where it was, and the move undoes in one step",
+      "catches": "a clip that cannot be moved, or a move that shifts other clips or cannot be taken back",
+      "filed": "WT70",
+      "tags": ["move", "edit", "surface"],
+      "fixture": "a window on a cut to move clips in",
+      "steps": [
+        {
+          // The cut's 8.5 s fill the width: c3's middle (4.5 s) is 52.9% across, and three seconds
+          // later is 88.2%. V1 is the lane 34 to 62 pixels down. A drag with Ctrl, Ctrl+Alt or Alt
+          // held (insert, swap, duplicate) has no case until WW604; TrackEditTests covers those edits.
+          "locator": "Pane#TimelineSurface",
+          "act": "drag",
+          "from": "52.9%,48",
+          "to": "88.2%,48",
+          "named": "c3 is dragged three seconds later"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Moved 1 clip by overwrite.",
+          "named": "the move is an overwrite"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-5",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:07:00 to 01:00:08:00",
+          "named": "c3 plays from seven seconds now, over the end of c5 and the start of c7"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-5",
+          "act": "read",
+          "reads": "name",
+          "expect": "c3",
+          "named": "and it is c3 there"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "invoke",
+          "named": "Undo is chosen"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:04:00 to 01:00:05:00",
+          "named": "and c3 is back where it was"
         }
       ]
     },

@@ -43,6 +43,7 @@ public partial class MainWindow : Window
         BindClipboard();
         BindMarkers();
         BindCompound();
+        BindMove();
         BindDocumentCommands();
         ShowWelcome();
     }

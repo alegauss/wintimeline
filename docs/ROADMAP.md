@@ -53,7 +53,7 @@
 ## Block F — Timeline view: GPU drawing and navigation
 
 - 📋 **WT55** (deps: WT47 ✅, WT44, WT45) **Clips all look alike: no thumbnails, waveform, name, speed badge, effect badge or offline state** — Editors navigate a cut by recognising pictures and shapes, not by reading names. → §WT55
-- ⏳ **WT58** (deps: WT52 ✅, WT51 ✅, WT70, WT72) **The timeline cannot be used without a mouse or read by a screen reader** — Trimming and moving the focused clip by keys waits on WT70 and WT72, and an Accessibility Insights pass over the panel is still to run. → §WT58
+- ⏳ **WT58** (deps: WT52 ✅, WT51 ✅, WT70 ✅, WT72) **The timeline cannot be used without a mouse or read by a screen reader** — Trimming and moving the focused clip by keys waits on WT70 and WT72, and an Accessibility Insights pass over the panel is still to run. → §WT58
 - 📋 **WT168** (deps: WT48 ✅) **With hundreds of clips in view, one UI Automation query of the timeline takes seconds** — Every query rebuilds a peer per visible clip, so cases time out and a screen reader stalls exactly when the whole cut is shown. → §WT168
 - 📋 **WT169** (deps: WT50 ✅) **Tracks cannot be resized, coloured, reordered by dragging their header, or targeted for insert** — A dense timeline needs tall lanes where the work is and short ones elsewhere, and editors sort and target tracks constantly. → §WT169
 - 📋 **WT170** (deps: WT52 ✅) **The selection cannot hold edit points, keep linked audio and video together, or find clips by name, colour or tag** — Trims act on a clip's head or tail, and a selection that splits linked pairs breaks sync on every edit. → §WT170
@@ -75,19 +75,19 @@
 
 ## Block H — Editing: tools, trims and drag and drop
 
-- 📋 **WT70** (deps: WT53 ✅, WT16 ✅) **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Moving clips is the most frequent edit, and its overwrite versus insert behaviour decides whether the tool feels safe. → §WT70
 - 📋 **WT71** (deps: WT52 ✅, WT16 ✅) **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Splitting is the primitive behind most rough-cut work. → §WT71
-- 📋 **WT72** (deps: WT70, WT170) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
-- 📋 **WT73** (deps: WT70, WT24) **Media cannot be dragged from the bin or from Windows Explorer onto the timeline or the viewer** — Drag and drop is how people expect to start an edit, and Explorer drops make the first minute of use obvious. → §WT73
-- 📋 **WT74** (deps: WT70, WT61) **A source clip's marked range cannot be edited into the timeline with insert, overwrite, replace or fit-to-fill** — Three-point editing with the keyboard is the fastest way to assemble, and professional editors expect it. → §WT74
+- 📋 **WT72** (deps: WT70 ✅, WT170) **Clip heads and tails cannot be trimmed, and ripple, roll, slip and slide edits do not exist** — Trimming is where an edit is refined, and the four trim types are what separates an editor from a cutter. → §WT72
+- 📋 **WT73** (deps: WT70 ✅, WT24) **Media cannot be dragged from the bin or from Windows Explorer onto the timeline or the viewer** — Drag and drop is how people expect to start an edit, and Explorer drops make the first minute of use obvious. → §WT73
+- 📋 **WT74** (deps: WT70 ✅, WT61) **A source clip's marked range cannot be edited into the timeline with insert, overwrite, replace or fit-to-fill** — Three-point editing with the keyboard is the fastest way to assemble, and professional editors expect it. → §WT74
 - 📋 **WT75** (deps: WT72) **A marked range cannot be lifted or extracted, and selected clips cannot be ripple deleted** — Removing material cleanly, with or without closing the gap, is half of editing. → §WT75
 - 📋 **WT76** (deps: WT72, WT33) **Transitions cannot be added, resized or changed between two clips** — Dissolves and wipes are part of almost every delivered cut, and OTIO stores them explicitly. → §WT76
 - 📋 **WT77** (deps: WT72) **Clip speed cannot be changed, reversed or frozen, and time remapping from other tools is ignored** — Speed changes are routine in every genre, and OTIO represents them with LinearTimeWarp and FreezeFrame effects. → §WT77
-- 📋 **WT78** (deps: WT70) **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — Reusing material and effect settings across a cut is constant work. → §WT78
-- 📋 **WT79** (deps: WT70) **Video and its audio cannot be linked or unlinked, and clips cannot be grouped** — Keeping sync between picture and sound is the editor's constant worry, and groups protect it. → §WT79
+- 📋 **WT78** (deps: WT70 ✅) **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — Reusing material and effect settings across a cut is constant work. → §WT78
+- 📋 **WT79** (deps: WT70 ✅) **Video and its audio cannot be linked or unlinked, and clips cannot be grouped** — Keeping sync between picture and sound is the editor's constant worry, and groups protect it. → §WT79
 - 📋 **WT80** (deps: WT72) **Shortcuts cannot be customised, and editors coming from Premiere, Resolve or Avid must relearn everything** — Muscle memory is the biggest switching cost, and presets for the main editors remove it. → §WT80
 - 💭 **WT81** (deps: WT56 ✅) **Several angles of the same event cannot be synced and cut live as a multicam clip** — Interviews, events and podcasts are multicam, and cutting them clip by clip is slow. → §WT81
 - 📋 **WT82** (deps: WT72, WT79) **Insert and ripple edits on one track push other tracks out of sync with no way to protect them** — Sync locks are what keep music, dialogue and picture together during ripple edits. → §WT82
+- 📋 **WT174** (deps: WT70 ✅, winwright WW604) **Insert, swap and duplicate drags of clips have no UI case, only model tests of their edits** — The gesture that picks the edit from the key held is what an editor uses, and nothing yet proves it end to end. → §WT174
 
 ## Block I — Audio: playback, mixing and meters
 

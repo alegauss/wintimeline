@@ -67,6 +67,8 @@
 
 ## Block H — Editing: tools, trims and drag and drop
 
+- ✅ **WT70** **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Clips drag with a snapped ghost along or across tracks, dropping by overwrite, Ctrl insert, Ctrl+Alt swap or Alt duplicate in one undo step, with keyed drag cases left to WT174.
+
 ## Block I — Audio: playback, mixing and meters
 
 ## Block J — Effects, titles, keyframes and colour
