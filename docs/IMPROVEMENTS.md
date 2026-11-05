@@ -794,18 +794,6 @@ core. Keymaps export to JSON.
 
 Done when each preset's documented core shortcuts are exercised by cases.
 
-### §WT81 Multicam clips
-
-Selecting angles in the bin and choosing Create multicam syncs them by timecode, in
-points or audio waveform cross-correlation (refined later by the AI block), and builds a
-nested Stack whose tracks are angles with `metadata` marking it as multicam. The source
-viewer shows a 2x2/3x3 grid; during playback, number keys cut to an angle, writing cuts
-into the timeline. Switching an angle afterwards is a right-click choice. Saved as plain
-nested stacks so other tools still read the cut.
-
-Done when a three-angle fixture synced by audio cuts live and plays back the chosen
-angles.
-
 ### §WT82 Sync locks across tracks
 
 Each track has a sync lock toggle. A ripple on any track inserts or removes the same
@@ -828,6 +816,20 @@ winwright's roadmap). When it can, three cases join the move case's fixture. Eac
 c3 from 52.9% to 88.2% across on V1's lane (y 48) with Ctrl, Ctrl+Alt (onto c5) and Alt
 held. Each reads the status line and the clips' names and spans against the shapes
 TrackEditTests asserts, then undoes. Done when the three cases pass in the guest.
+
+### §WT175 Multicam grid, live cutting and audio sync
+
+WT81 made multicam clips: Edit > Create multicam turns the selected clips into angles,
+lined up by timecode or by in points (Multicam.Create in the model). Each is a plain
+nested stack, one track per angle, with only the shown angle enabled and its index under
+wintimeline:multicam-angle. The number keys and Edit > Cut to angle split it at the
+playhead and show another angle from there (Multicam.CutTo), each one undo step. Three
+things remain, and each waits on a block that is not built. A grid of the angles in the
+source viewer (2x2, 3x3) needs the source viewer (WT61). Cutting live during playback,
+the number keys writing cuts as the program plays, needs the program viewer and
+transport (WT60). Syncing angles by audio waveform cross-correlation needs decoded
+audio, refined later by the AI block. The design's done-when stands: a three-angle
+fixture synced by audio cuts live and plays back the chosen angles.
 
 ## Block I — Audio: playback, mixing and meters
 

@@ -46,6 +46,7 @@ public partial class MainWindow : Window
         BindMove();
         BindSplit();
         BindLinks();
+        BindMulticam();
         BindDocumentCommands();
         ShowWelcome();
     }

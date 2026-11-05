@@ -1361,7 +1361,8 @@ public sealed class TimelinePanel : IDisposable
                 id,
                 kind,
                 UiText.ItemSpan(lane.Label, Timecode(item.Start), Timecode(item.End))
-                    + (Sync.Offset(layout, item, Rate) is { } drift ? UiText.OutOfSync(drift) : string.Empty),
+                    + (Sync.Offset(layout, item, Rate) is { } drift ? UiText.OutOfSync(drift) : string.Empty)
+                    + (Model.Commands.Multicam.AngleOf(item.Item) is { } angle ? UiText.AngleShown(angle + 1) : string.Empty),
                 x, y, w, h,
                 lane.Label,
                 UiText.ItemReading(kind, Timecode(item.Start), Timecode(item.End), lane.IsAudio, lane.Label[1..])));

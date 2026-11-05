@@ -71,6 +71,7 @@
 - ✅ **WT71** **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Ctrl+K splits under the playhead, Ctrl+Shift+K every track and the B razor where pressed, playing the same frames with markers kept on their half and splits in transitions refused.
 - ✅ **WT78** **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — Ctrl+V pastes over at the playhead, Ctrl+Shift+V inserts, OTIO text from other tools pastes too, and Ctrl+Alt+V pastes a clip's chosen effects, markers, colour or metadata.
 - ✅ **WT79** **Video and its audio cannot be linked or unlinked, and clips cannot be grouped** — Ctrl+L links and Ctrl+G groups clips that then select and move together, L toggles linked selection, and a clip slid off its link shows its offset in frames until Move into sync.
+- ✅ **WT81** **Several angles of the same event cannot be synced and cut live as a multicam clip** — Edit > Create multicam lines clips up as angles by timecode or in points in a plain nested stack, and 1 to 9 or Cut to angle cuts it at the playhead, with grid, live cut and audio sync left to WT175.
 
 ## Block I — Audio: playback, mixing and meters
 

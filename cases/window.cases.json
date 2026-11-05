@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT81: the cut once more, c1 and c2 two seconds each, to be the angles of a multicam; not lent, since its case makes one.
+      "name": "a window on a cut to make a multicam of",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT79: the cut once more, c1 on V1 and a1 on A1 both from 0, from their media's first frame; not lent, since its case links and moves them.
       "name": "a window on a cut to link",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1328,6 +1334,112 @@
           "reads": "selected",
           "expect": "selected",
           "named": "and everything is selected"
+        }
+      ]
+    },
+
+    {
+      "name": "two clips become the angles of a multicam, and Cut to angle 2 cuts it to the second angle at the playhead",
+      "catches": "angles of one event that can only be cut clip by clip",
+      "filed": "WT81",
+      "tags": ["multicam", "edit", "keyboard"],
+      "fixture": "a window on a cut to make a multicam of",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c1 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "holding": "ctrl",
+          "named": "and c2 is Ctrl-clicked"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#MulticamMenu",
+          "act": "expand",
+          "named": "and its Create multicam submenu"
+        },
+        {
+          "locator": "MenuItem#MulticamInPointsMenuItem",
+          "act": "invoke",
+          "named": "Synced by in points is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Made Multicam 1 of 2 angles; 1 to 2 cut to an angle at the playhead.",
+          "named": "the multicam is made"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:00:00 to 01:00:02:00, angle 1",
+          "named": "it stands where c1 was, showing the first angle"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the viewer is clicked, which focuses the surfaces"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Right",
+          "named": "the playhead goes ten frames on"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Right",
+          "named": "and ten more"
+        },
+        {
+          "locator": "Pane#ViewerSurface",
+          "act": "press",
+          "with": "Shift+Right",
+          "named": "and ten more, to frame 30"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#CutToAngleMenu",
+          "act": "expand",
+          "named": "and its Cut to angle submenu"
+        },
+        {
+          // The menu rather than the 2 key, which a case cannot press yet (WW605); both run CutToAngle.
+          "locator": "MenuItem#Angle2MenuItem",
+          "act": "invoke",
+          "named": "Angle 2 is chosen"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Cut to angle 2 at 01:00:01:06.",
+          "named": "the multicam is cut to the second angle there"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:01:06 to 01:00:02:00, angle 2",
+          "named": "and from the cut on it shows angle 2"
         }
       ]
     },

@@ -455,6 +455,61 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT81: the Edit menu's multicam submenu.</summary>
+    public const string MulticamMenu = "Create _multicam";
+
+    /// <summary>WT81: the Edit menu's cut to angle submenu.</summary>
+    public const string CutToAngleMenu = "Cut to _angle";
+
+    /// <summary>WT81: cuts the multicam at the playhead to its first angle.</summary>
+    public const string Angle1Menu = "Angle _1";
+
+    /// <summary>WT81: to its second angle.</summary>
+    public const string Angle2Menu = "Angle _2";
+
+    /// <summary>WT81: to its third angle.</summary>
+    public const string Angle3Menu = "Angle _3";
+
+    /// <summary>WT81: to its fourth angle.</summary>
+    public const string Angle4Menu = "Angle _4";
+
+    /// <summary>WT81: a cut to an angle with no multicam at the playhead.</summary>
+    public const string NoMulticamHere = "No multicam clip plays at the playhead.";
+
+    /// <summary>WT81: a multicam lined up by timecode.</summary>
+    public const string MulticamTimecodeMenu = "Synced by _timecode";
+
+    /// <summary>WT81: a multicam lined up by in points.</summary>
+    public const string MulticamInPointsMenu = "Synced by _in points";
+
+    /// <summary>WT81: the name a new multicam clip gets.</summary>
+    /// <param name="number">How many the timeline will hold with it.</param>
+    /// <returns>e.g. "Multicam 1".</returns>
+    public static string NewMulticamName(int number) => string.Create(CultureInfo.InvariantCulture, $"Multicam {number}");
+
+    /// <summary>WT81: what making a multicam did.</summary>
+    /// <param name="name">Its name.</param>
+    /// <param name="angles">How many angles.</param>
+    /// <returns>The status.</returns>
+    public static string MulticamMade(string name, int angles) =>
+        string.Create(CultureInfo.InvariantCulture, $"Made {name} of {angles} angles; 1 to {angles} cut to an angle at the playhead.");
+
+    /// <summary>WT81: what a cut to an angle did.</summary>
+    /// <param name="angle">The angle, 1 for the first.</param>
+    /// <param name="timecode">Where.</param>
+    /// <returns>The status.</returns>
+    public static string CutToAngle(int angle, string timecode) => string.Create(CultureInfo.InvariantCulture, $"Cut to angle {angle} at {timecode}.");
+
+    /// <summary>WT81: a cut to the angle already shown.</summary>
+    /// <param name="angle">The angle.</param>
+    /// <returns>The status.</returns>
+    public static string AlreadyAngle(int angle) => string.Create(CultureInfo.InvariantCulture, $"Angle {angle} is already shown here.");
+
+    /// <summary>WT81: the suffix a multicam clip's status carries.</summary>
+    /// <param name="angle">The angle shown, 1 for the first.</param>
+    /// <returns>e.g. ", angle 2".</returns>
+    public static string AngleShown(int angle) => string.Create(CultureInfo.InvariantCulture, $", angle {angle}");
+
     /// <summary>WT79: links the selected clips.</summary>
     public const string LinkMenu = "Lin_k clips";
 
