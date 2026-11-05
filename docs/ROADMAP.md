@@ -353,6 +353,12 @@
   palette's ? opens a preview with the diff overlay and Apply, and a UI case applies one
   and undoes it.
 
+## Done when — WT56
+
+- **A double-clicked compound opens for editing and Esc goes back up** A UI case
+  double-clicks a compound clip, reads the breadcrumb naming it, renames a clip inside
+  it, presses Esc and reads the outer timeline again, with the rename kept.
+
 ## Non-goals
 
 - **Builds for macOS, Linux, web or mobile** WinTimeline is Windows-only so it can build
