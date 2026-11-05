@@ -22,6 +22,8 @@
 
 ## Block H — Editing: tools, trims and drag and drop
 
+- ✅ **WT78** **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — A paste now overwrites or inserts exactly at the playhead, splitting the clip there, replacing WT160's paste at the next cut from before splits existed.
+
 ## Block I — Audio: playback, mixing and meters
 
 ## Block J — Effects, titles, keyframes and colour

@@ -188,9 +188,55 @@ public static class UiText
     /// <param name="items">How many items.</param>
     /// <param name="lanes">The lanes, e.g. "V1, A1".</param>
     /// <param name="timecode">The playhead's timecode.</param>
+    /// <param name="insert">WT78: whether it inserted rather than overwrote.</param>
     /// <returns>The status.</returns>
-    public static string Pasted(int items, string lanes, string timecode) =>
-        string.Create(CultureInfo.InvariantCulture, $"Pasted {items} {(items == 1 ? "item" : "items")} onto {lanes} at the first cut from {timecode}.");
+    public static string Pasted(int items, string lanes, string timecode, bool insert) =>
+        string.Create(CultureInfo.InvariantCulture, $"{(insert ? "Inserted" : "Pasted")} {items} {(items == 1 ? "item" : "items")} {(insert ? "into" : "over")} {lanes} at {timecode}.");
+
+    /// <summary>WT78: pastes clips pushing what follows later.</summary>
+    public const string PasteInsertMenu = "Paste _insert";
+
+    /// <summary>WT78: the gesture shown beside Paste insert.</summary>
+    public const string PasteInsertGesture = "Ctrl+Shift+V";
+
+    /// <summary>WT78: pastes a copied clip's chosen attributes onto the selection.</summary>
+    public const string PasteAttributesMenu = "Paste a_ttributes...";
+
+    /// <summary>WT78: the gesture shown beside Paste attributes.</summary>
+    public const string PasteAttributesGesture = "Ctrl+Alt+V";
+
+    /// <summary>WT78: Paste attributes with nothing selected.</summary>
+    public const string PasteAttributesNeedsSelection = "Select the clips to paste attributes onto.";
+
+    /// <summary>WT78: the attributes dialog's title.</summary>
+    public const string PasteAttributesTitle = "Paste attributes";
+
+    /// <summary>WT78: the dialog's effects choice.</summary>
+    public const string AttributeEffects = "Effects and speed";
+
+    /// <summary>WT78: the dialog's markers choice.</summary>
+    public const string AttributeMarkers = "Markers";
+
+    /// <summary>WT78: the dialog's colour choice.</summary>
+    public const string AttributeColor = "Colour";
+
+    /// <summary>WT78: the dialog's metadata choice.</summary>
+    public const string AttributeMetadata = "Metadata (text, numbers and switches)";
+
+    /// <summary>WT78: the dialog's paste button.</summary>
+    public const string AttributePaste = "Paste";
+
+    /// <summary>WT78: what the dialog asks.</summary>
+    /// <param name="from">The clip copied.</param>
+    /// <returns>The question.</returns>
+    public static string PasteAttributesQuestion(string from) => $"Which of {from}'s attributes go onto the selected clips?";
+
+    /// <summary>WT78: what a paste of attributes did.</summary>
+    /// <param name="from">The clip copied.</param>
+    /// <param name="changed">How many clips changed.</param>
+    /// <returns>The status.</returns>
+    public static string AttributesPasted(string from, int changed) =>
+        string.Create(CultureInfo.InvariantCulture, $"Pasted {from}'s attributes onto {changed} {(changed == 1 ? "clip" : "clips")}.");
 
     /// <summary>WT52: selects every item on the timeline.</summary>
     public const string SelectAllMenu = "Select _all";

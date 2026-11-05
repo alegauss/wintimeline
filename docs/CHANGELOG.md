@@ -69,6 +69,7 @@
 
 - ✅ **WT70** **Clips cannot be dragged along or across tracks, and dropping one on another does not overwrite or insert** — Clips drag with a snapped ghost along or across tracks, dropping by overwrite, Ctrl insert, Ctrl+Alt swap or Alt duplicate in one undo step, with keyed drag cases left to WT174.
 - ✅ **WT71** **A clip cannot be split at the playhead or at a click, on one track or all tracks** — Ctrl+K splits under the playhead, Ctrl+Shift+K every track and the B razor where pressed, playing the same frames with markers kept on their half and splits in transitions refused.
+- ✅ **WT78** **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — Ctrl+V pastes over at the playhead, Ctrl+Shift+V inserts, OTIO text from other tools pastes too, and Ctrl+Alt+V pastes a clip's chosen effects, markers, colour or metadata.
 
 ## Block I — Audio: playback, mixing and meters
 

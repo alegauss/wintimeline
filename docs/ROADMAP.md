@@ -81,7 +81,6 @@
 - 📋 **WT75** (deps: WT72) **A marked range cannot be lifted or extracted, and selected clips cannot be ripple deleted** — Removing material cleanly, with or without closing the gap, is half of editing. → §WT75
 - 📋 **WT76** (deps: WT72, WT33) **Transitions cannot be added, resized or changed between two clips** — Dissolves and wipes are part of almost every delivered cut, and OTIO stores them explicitly. → §WT76
 - 📋 **WT77** (deps: WT72) **Clip speed cannot be changed, reversed or frozen, and time remapping from other tools is ignored** — Speed changes are routine in every genre, and OTIO represents them with LinearTimeWarp and FreezeFrame effects. → §WT77
-- 📋 **WT78** (deps: WT70 ✅) **Clips cannot be copied and pasted within or between timelines, or pasted as attributes** — Reusing material and effect settings across a cut is constant work. → §WT78
 - 📋 **WT79** (deps: WT70 ✅) **Video and its audio cannot be linked or unlinked, and clips cannot be grouped** — Keeping sync between picture and sound is the editor's constant worry, and groups protect it. → §WT79
 - 📋 **WT80** (deps: WT72) **Shortcuts cannot be customised, and editors coming from Premiere, Resolve or Avid must relearn everything** — Muscle memory is the biggest switching cost, and presets for the main editors remove it. → §WT80
 - 💭 **WT81** (deps: WT56 ✅) **Several angles of the same event cannot be synced and cut live as a multicam clip** — Interviews, events and podcasts are multicam, and cutting them clip by clip is slow. → §WT81

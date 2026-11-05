@@ -26,6 +26,8 @@ public static class CommandTable
         (Command("edit.add-marker", UiText.AddMarkerMenu, UiText.EditMenu, ["marker", "note", "flag", "edit marker"], UiText.AddMarkerGesture), "AddMarkerMenuItem"),
         (Command("edit.copy-clips", UiText.CopyClipsMenu, UiText.EditMenu, ["copy", "duplicate clips"], UiText.CopyClipsGesture), "CopyClipsMenuItem"),
         (Command("edit.paste-clips", UiText.PasteClipsMenu, UiText.EditMenu, ["paste", "insert clips"], UiText.PasteClipsGesture), "PasteClipsMenuItem"),
+        (Command("edit.paste-insert", UiText.PasteInsertMenu, UiText.EditMenu, ["insert paste", "ripple paste"], UiText.PasteInsertGesture), "PasteInsertMenuItem"),
+        (Command("edit.paste-attributes", UiText.PasteAttributesMenu, UiText.EditMenu, ["paste effects", "copy look", "match"], UiText.PasteAttributesGesture), "PasteAttributesMenuItem"),
         (Command("edit.select-all", UiText.SelectAllMenu, UiText.EditMenu, ["select everything", "all clips"], UiText.SelectAllGesture), "SelectAllMenuItem"),
         (Command("edit.deselect-all", UiText.DeselectAllMenu, UiText.EditMenu, ["select none", "clear selection"], UiText.DeselectAllGesture), "DeselectAllMenuItem"),
         (Command("edit.track-forward", UiText.TrackForwardMenu, UiText.EditMenu, ["select forward", "everything after"], UiText.TrackForwardGesture), "TrackForwardMenuItem"),

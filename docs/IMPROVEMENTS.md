@@ -784,17 +784,6 @@ unknown effects are kept and shown as an fx badge.
 
 Done when 50%, 200% and -100% clips render the expected source frames per output frame.
 
-### §WT78 Copy, paste and paste attributes
-
-Copy puts the selection on the clipboard as OTIO JSON (a custom format plus text, so
-pasting into a text editor yields valid OTIO). Paste overwrites at the playhead on
-targeted tracks; Ctrl+Shift+V inserts. Paste attributes copies chosen effects, speed,
-markers, colour and metadata onto the selection. Pasting OTIO text copied from another
-tool works too.
-
-Done when a round trip through the Windows clipboard to Notepad and back recreates
-identical items.
-
 ### §WT79 Linking, grouping and sync indicators
 
 Links (A/V from the same source) and groups (any items) are stored in

@@ -124,6 +124,19 @@ public abstract class Item : Composable
         Changed("effects");
     }
 
+    internal void RemoveEffectAt(int index)
+    {
+        _effects[index].Owner = null;
+        _effects.RemoveAt(index);
+        Changed("effects");
+    }
+
+    internal void SetColor(Color? color)
+    {
+        Color = color;
+        Changed("color");
+    }
+
     internal void AddMarker(Marker marker) => InsertMarker(_markers.Count, marker);
 
     internal void InsertMarker(int index, Marker marker)

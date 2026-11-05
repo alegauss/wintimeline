@@ -162,6 +162,12 @@
       "shareable": false
     },
     {
+      // WT78: the cut once more, c1 from 0 to 2 and c2 from 2 to 4; not lent, since its case pastes over c2.
+      "name": "a window on a cut to paste over",
+      "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
+      "shareable": false
+    },
+    {
       // WT71: the cut once more, c2 from 2 to 4 and c4 from 5 to 6.5 seconds over A1's a1 from 0 to 5; not lent, since its case splits them.
       "name": "a window on a cut to split",
       "arguments": ["--open", "tests/fixtures/diff/cut_v1.otio", "--adapter", "warp"],
@@ -1321,6 +1327,61 @@
     },
 
     {
+      "name": "a copied clip pasted with Ctrl+V overwrites what is at the playhead for its length",
+      "catches": "a paste that only ever inserts, so laying a shot over another means deleting it first",
+      "filed": "WT78",
+      "tags": ["clipboard", "edit", "keyboard"],
+      "fixture": "a window on a cut to paste over",
+      "steps": [
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-0",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "c1 is clicked"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+C",
+          "named": "and copied"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Down",
+          "named": "the playhead goes to the cut at two seconds"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Ctrl+V",
+          "named": "Ctrl+V is pressed"
+        },
+        {
+          "locator": "Text#StatusText",
+          "act": "read",
+          "reads": "name",
+          "expect": "Pasted 1 item over V1 at 01:00:02:00.",
+          "named": "the paste is an overwrite at the playhead"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "name",
+          "expect": "c1",
+          "named": "c1's copy is where c2 was"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-2",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:04:00 to 01:00:05:00",
+          "named": "and c3 has not moved"
+        }
+      ]
+    },
+
+    {
       "name": "Ctrl+K splits every clip under the playhead, the razor splits the clip it is pressed on, and each split undoes on its own",
       "catches": "a clip that cannot be cut, or a cut that moves a frame of what plays",
       "filed": "WT71",
@@ -1957,15 +2018,15 @@
           "named": "the Edit menu is opened"
         },
         {
-          "locator": "MenuItem#PasteClipsMenuItem",
+          "locator": "MenuItem#PasteInsertMenuItem",
           "act": "invoke",
-          "named": "Paste clips is chosen"
+          "named": "Paste insert is chosen"
         },
         {
           "locator": "Text#StatusText",
           "act": "read",
           "reads": "name",
-          "expect": "Pasted 1 item onto V1 at the first cut from 04:00:00:00.",
+          "expect": "Inserted 1 item into V1 at 04:00:00:00.",
           "named": "the paste says where it went"
         },
         {
