@@ -56,11 +56,13 @@ public partial class MainWindow
                 return;
             }
 
-            // In the stack's own time, which starts where its trimmed range does (0 for nearly every file).
-            double origin = timeline.Tracks.SourceRange?.StartTime.Seconds ?? 0;
+            // On the stack shown (WT56: a compound opened, or the timeline's own), in its own time,
+            // which starts where its trimmed range does (0 for nearly every file).
+            Stack stack = TimelinePanel.Shown ?? timeline.Tracks;
+            double origin = stack.SourceRange?.StartTime.Seconds ?? 0;
             RationalTime start = new(Math.Round((origin + TimelinePanel.PlayheadSeconds) * rate), rate);
-            string name = UiText.NewMarkerName(timeline.Tracks.Markers.Count + 1);
-            History.Execute(new AddMarker(timeline.Tracks, name, new TimeRange(start, new RationalTime(0, rate)), MarkerColor.Green));
+            string name = UiText.NewMarkerName(stack.Markers.Count + 1);
+            History.Execute(new AddMarker(stack, name, new TimeRange(start, new RationalTime(0, rate)), MarkerColor.Green));
             StatusText.Text = UiText.MarkerAdded(name, at);
         }
         catch (EditRefusedException refused)

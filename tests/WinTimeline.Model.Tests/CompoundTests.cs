@@ -90,6 +90,20 @@ public sealed class CompoundTests
     }
 
     [Fact]
+    public void ACompoundCarryingItsOwnMarkerIsNotFlattenedSoTheMarkerIsNotLost()
+    {
+        Timeline timeline = Read("diff", "cut_v1.otio");
+        Track v1 = timeline.VideoTracks.First();
+        History history = new();
+        Run(history, Compound.Make(v1, 1, 2, "Compound 1"), "Make compound");
+        history.Execute(new AddMarker((Stack)v1.Children[1], "note", new Time.TimeRange(new Time.RationalTime(0, 24), new Time.RationalTime(0, 24))));
+
+        EditRefusedException refused = Assert.Throws<EditRefusedException>(() => Compound.BreakApart(v1, 1));
+
+        Assert.Equal("Compound 1 carries markers or effects of its own, which breaking it apart would lose.", refused.Message);
+    }
+
+    [Fact]
     public void FinalCutsCompoundOfSeveralTracksIsNotFlattenedOntoOne()
     {
         Timeline timeline = Read("fcpx", "expected", "fcpx_project.otio");

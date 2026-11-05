@@ -1354,6 +1354,62 @@
           "named": "the compound is clicked"
         },
         {
+          // Enter, because a case cannot double-click yet (WW602); the double click opens it the same way.
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Enter",
+          "named": "Enter opens it"
+        },
+        {
+          "locator": "Text#Breadcrumb",
+          "act": "read",
+          "reads": "name",
+          "expect": "cut v1 > Compound 1",
+          "named": "the breadcrumb names the compound shown"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "read",
+          "reads": "status",
+          "expect": "V1, 01:00:02:00 to 01:00:03:00",
+          "named": "and inside it c3 follows c2, in the compound's own time"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "M",
+          "named": "a marker is added inside it, at its start"
+        },
+        {
+          "locator": "Pane#TimelineSurface",
+          "act": "press",
+          "with": "Escape",
+          "named": "Esc goes back up"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#M-V1-1-0",
+          "act": "read",
+          "reads": "status",
+          "expect": "GREEN marker on V1 at 01:00:02:00",
+          "named": "and the edit made inside is kept: the compound's marker is where the compound starts"
+        },
+        {
+          "locator": "MenuItem#EditMenu",
+          "act": "expand",
+          "named": "the Edit menu is opened"
+        },
+        {
+          "locator": "MenuItem#UndoMenuItem",
+          "act": "invoke",
+          "named": "the marker is undone, since breaking apart refuses a compound that carries one"
+        },
+        {
+          "locator": "Pane#TimelineSurface > ListItem#V1-1",
+          "act": "click",
+          "with": "PointerIsTheAct",
+          "named": "the compound is clicked again"
+        },
+        {
           "locator": "MenuItem#EditMenu",
           "act": "expand",
           "named": "the Edit menu is opened again"

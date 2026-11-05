@@ -41,6 +41,7 @@ public sealed class TrackHeaders : Border
         AutomationProperties.SetAutomationId(this, "TrackHeaders");
         Child = new DockPanel { LastChildFill = true, Children = { Spacer(), _lanes } };
         panel.LanesMoved += (_, _) => Dispatcher.BeginInvoke(Place);
+        panel.ScopeChanged += (_, _) => Rebuild();
     }
 
     /// <summary>Shows the headers of a timeline, or none.</summary>
@@ -78,7 +79,8 @@ public sealed class TrackHeaders : Border
             return;
         }
 
-        TimelineLayout layout = TimelineLayout.Build(_timeline);
+        // WT56: the lanes of whatever the panel shows, a compound opened in it included.
+        TimelineLayout layout = _panel.Layout ?? TimelineLayout.Build(_timeline);
         for (int i = 0; i < layout.Lanes.Count; i++)
         {
             _lanes.Children.Add(Header(layout.Lanes[i], i));
@@ -128,8 +130,12 @@ public sealed class TrackHeaders : Border
             buttons.Children.Add(Toggle($"TrackHide-{id}", UiText.TrackHideGlyph, UiText.TrackHide, TrackState.IsHidden(track), on => TrackState.Set(track, TrackState.HiddenKey, on)));
         }
 
-        buttons.Children.Add(Button($"TrackAdd-{id}", UiText.TrackAddGlyph, UiText.TrackAdd(lane.IsAudio), () => AddBeside(track)));
-        buttons.Children.Add(Button($"TrackDelete-{id}", UiText.TrackDeleteGlyph, UiText.TrackDelete, () => Delete(track)));
+        // Adding and deleting work on the timeline's own tracks, so a compound opened in the panel offers neither.
+        if (_panel.Scopes.Count == 0)
+        {
+            buttons.Children.Add(Button($"TrackAdd-{id}", UiText.TrackAddGlyph, UiText.TrackAdd(lane.IsAudio), () => AddBeside(track)));
+            buttons.Children.Add(Button($"TrackDelete-{id}", UiText.TrackDeleteGlyph, UiText.TrackDelete, () => Delete(track)));
+        }
         header.Children.Add(buttons);
         return header;
     }

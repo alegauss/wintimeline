@@ -488,17 +488,6 @@ items. Clip colour follows OTIO `metadata` colour labels when present.
 Done when every badge appears in a screenshot case against a fixture timeline that
 exercises it.
 
-### §WT56 Nested stacks and compound clips
-
-A nested `Stack` renders as a compound clip with a stacked-layers icon. Double-click
-opens it in a breadcrumb sub-view of the same panel (Timeline > Compound 3), editable
-with all tools; Esc goes back up. A selection can be nested (Make compound) or a
-compound flattened (Break apart), both as undoable commands that keep source ranges
-exact.
-
-Done when nesting and flattening a selection leaves the rendered program
-frame-identical.
-
 ### §WT57 Heat lanes on the overview strip
 
 The overview strip can show optional lanes: cut density, validation problems, unreviewed

@@ -81,6 +81,9 @@ public sealed class GpuSurface : HwndHost
     /// </summary>
     public Func<IReadOnlyList<SurfaceItem>>? Items { get; set; }
 
+    /// <summary>WT56: the system's double-click time, in milliseconds, for an owner that tells one press from two.</summary>
+    public static long DoubleClickMilliseconds => GetDoubleClickTime();
+
     /// <summary>WT52: whether the drawn item with an automation id is selected; null where nothing on the surface is selectable.</summary>
     public Func<string, bool>? IsItemSelected { get; set; }
 
@@ -438,6 +441,9 @@ public sealed class GpuSurface : HwndHost
         public int TiltX;
         public int TiltY;
     }
+
+    [DllImport("user32.dll")]
+    private static extern uint GetDoubleClickTime();
 
     [DllImport("user32.dll")]
     private static extern bool GetPointerType(uint pointerId, out int type);

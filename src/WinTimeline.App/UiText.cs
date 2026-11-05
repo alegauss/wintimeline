@@ -409,6 +409,22 @@ public static class UiText
     /// <summary>The viewer surface's automation name.</summary>
     public const string ViewerName = "Viewer";
 
+    /// <summary>WT56: the breadcrumb's button back up to what holds the compound shown.</summary>
+    public const string BreadcrumbUp = "Back up (Esc)";
+
+    /// <summary>WT56: the breadcrumb's back arrow, in Segoe Fluent Icons.</summary>
+    public const string BreadcrumbUpGlyph = "";
+
+    /// <summary>WT56: the path to the compound shown, e.g. "cut v1 > Compound 1".</summary>
+    /// <param name="names">The timeline's name, then each compound's, outermost first.</param>
+    /// <returns>The path.</returns>
+    public static string BreadcrumbPath(IEnumerable<string> names) => string.Join(" > ", names);
+
+    /// <summary>WT56: what opening a compound says.</summary>
+    /// <param name="name">Its name.</param>
+    /// <returns>The status.</returns>
+    public static string CompoundOpened(string name) => $"Showing {name}; Esc goes back up.";
+
     /// <summary>WT56: nests the selected clips into a compound clip.</summary>
     public const string MakeCompoundMenu = "Make c_ompound clip";
 

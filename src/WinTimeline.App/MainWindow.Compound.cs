@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using WinTimeline.Engine.Timeline;
 using WinTimeline.Model;
 using WinTimeline.Model.Commands;
@@ -11,6 +12,29 @@ namespace WinTimeline.App;
 /// </summary>
 public partial class MainWindow
 {
+    private void BindCompound() => PreviewKeyDown += OnCompoundKey;
+
+    // WT56: Enter opens the selected compound and Esc goes back up, while a surface has the focus.
+    private void OnCompoundKey(object sender, KeyEventArgs e)
+    {
+        if (ActiveTimeline is null || Keyboard.Modifiers != ModifierKeys.None || (Keyboard.FocusedElement != Timeline && Keyboard.FocusedElement != Viewer))
+        {
+            return;
+        }
+
+        if (e.Key == Key.Enter && TimelinePanel.Layout is { } layout
+            && TimelinePanel.Selection.Ids.Select(layout.Find).OfType<LaneItem>().ToList() is [{ Item: Stack compound }])
+        {
+            TimelinePanel.Open(compound);
+            StatusText.Text = UiText.CompoundOpened(compound.Name);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Escape && TimelinePanel.Up())
+        {
+            e.Handled = true;
+        }
+    }
+
     private void OnMakeCompound(object sender, RoutedEventArgs e) => MakeCompound();
 
     private void OnBreakApart(object sender, RoutedEventArgs e) => BreakApart();

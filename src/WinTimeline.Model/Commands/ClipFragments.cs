@@ -27,14 +27,15 @@ public static class ClipFragment
     /// <param name="timeline">The timeline.</param>
     /// <param name="items">The items, in any order; those not on a top-level track are left out.</param>
     /// <param name="documentFolder">The folder its document is in, which relative media URLs are made absolute against; null for none.</param>
+    /// <param name="within">WT56: the stack the items are on, a compound opened in the panel; null for the timeline's own.</param>
     /// <returns>The fragment's JSON, or null.</returns>
-    public static string? Copy(Timeline timeline, IEnumerable<Composable> items, string? documentFolder)
+    public static string? Copy(Timeline timeline, IEnumerable<Composable> items, string? documentFolder, Stack? within = null)
     {
         ArgumentNullException.ThrowIfNull(timeline);
         ArgumentNullException.ThrowIfNull(items);
         HashSet<Composable> chosen = new(items, ReferenceEqualityComparer.Instance);
         List<(Track Track, string Lane, List<int> Indices)> lanes = [];
-        foreach ((Track track, string lane) in Lanes(timeline))
+        foreach ((Track track, string lane) in Lanes(within ?? timeline.Tracks))
         {
             List<int> indices = [.. track.Children.Select((c, i) => (c, i)).Where(p => chosen.Contains(p.c) && Copyable(track, p.i, chosen)).Select(p => p.i)];
             if (indices.Count > 0)
@@ -99,9 +100,10 @@ public static class ClipFragment
     /// <param name="timeline">The timeline pasted into.</param>
     /// <param name="fragment">A fragment <see cref="Copy"/> made.</param>
     /// <param name="seconds">Where, in seconds from the timeline's start: usually the playhead.</param>
+    /// <param name="within">WT56: the stack pasted into, a compound opened in the panel; null for the timeline's own.</param>
     /// <returns>The plan.</returns>
     /// <exception cref="EditRefusedException">The text is no fragment, or the timeline lacks a lane it names.</exception>
-    public static PastePlan Plan(Timeline timeline, string fragment, double seconds)
+    public static PastePlan Plan(Timeline timeline, string fragment, double seconds, Stack? within = null)
     {
         ArgumentNullException.ThrowIfNull(timeline);
         ArgumentNullException.ThrowIfNull(fragment);
@@ -110,7 +112,7 @@ public static class ClipFragment
             throw new EditRefusedException("The clipboard holds no clips copied from a timeline.");
         }
 
-        Dictionary<string, Track> targets = Lanes(timeline).ToDictionary(l => l.Lane, l => l.Track, StringComparer.Ordinal);
+        Dictionary<string, Track> targets = Lanes(within ?? timeline.Tracks).ToDictionary(l => l.Lane, l => l.Track, StringComparer.Ordinal);
         List<IEditCommand> commands = [];
         List<string> lanes = [];
         int items = 0;
@@ -153,8 +155,11 @@ public static class ClipFragment
     }
 
     /// <summary>The timeline's top-level tracks with their lanes' names: V1 is the lowest video track, A1 the first audio.</summary>
-    private static IEnumerable<(Track Track, string Lane)> Lanes(Timeline timeline) =>
-        [.. timeline.VideoTracks.Select((t, i) => (t, $"V{i + 1}")), .. timeline.AudioTracks.Select((t, i) => (t, $"A{i + 1}"))];
+    private static IEnumerable<(Track Track, string Lane)> Lanes(Stack stack) =>
+    [
+        .. stack.Children.OfType<Track>().Where(t => t.Kind == TrackKind.Video).Select((t, i) => (t, $"V{i + 1}")),
+        .. stack.Children.OfType<Track>().Where(t => t.Kind == TrackKind.Audio).Select((t, i) => (t, $"A{i + 1}")),
+    ];
 
     /// <summary>A transition is copied only with both its neighbours, which it overlaps.</summary>
     private static bool Copyable(Track track, int index, HashSet<Composable> chosen) =>

@@ -128,8 +128,20 @@ public sealed class TimelineLayout
     public static TimelineLayout Build(ModelTimeline timeline)
     {
         ArgumentNullException.ThrowIfNull(timeline);
-        List<Track> video = [.. timeline.VideoTracks];
-        List<Track> audio = [.. timeline.AudioTracks];
+        return Build(timeline.Tracks);
+    }
+
+    /// <summary>
+    /// WT56: lays out a stack's tracks, the timeline's own or a compound clip's opened in the
+    /// panel, in the stack's own time. A track the stack plays only part of is laid out whole.
+    /// </summary>
+    /// <param name="stack">The stack.</param>
+    /// <returns>The layout.</returns>
+    public static TimelineLayout Build(Stack stack)
+    {
+        ArgumentNullException.ThrowIfNull(stack);
+        List<Track> video = [.. stack.Children.OfType<Track>().Where(t => t.Kind == TrackKind.Video)];
+        List<Track> audio = [.. stack.Children.OfType<Track>().Where(t => t.Kind == TrackKind.Audio)];
         List<(Track Track, string Label)> order =
         [
             .. video.Select((t, i) => (t, $"V{i + 1}")).Reverse(),
@@ -145,7 +157,7 @@ public sealed class TimelineLayout
             lanes.Add(new Lane(label, track, items));
         }
 
-        return new TimelineLayout(lanes, duration) { Tracks = timeline.Tracks };
+        return new TimelineLayout(lanes, duration) { Tracks = stack };
     }
 
     /// <summary>What a viewport shows: every item on the lanes in range that overlaps the time range.</summary>

@@ -53,7 +53,7 @@ public partial class MainWindow
         }
 
         List<Composable> items = [.. TimelinePanel.Selection.Ids.Select(layout.Find).OfType<LaneItem>().Select(i => i.Item)];
-        if (ClipFragment.Copy(timeline, items, DocumentPath is { } path ? Path.GetDirectoryName(path) : null) is not { } fragment)
+        if (ClipFragment.Copy(timeline, items, DocumentPath is { } path ? Path.GetDirectoryName(path) : null, TimelinePanel.Shown) is not { } fragment)
         {
             StatusText.Text = UiText.NothingToCopy;
             return;
@@ -87,7 +87,7 @@ public partial class MainWindow
 
         try
         {
-            PastePlan plan = ClipFragment.Plan(timeline, fragment, TimelinePanel.PlayheadSeconds);
+            PastePlan plan = ClipFragment.Plan(timeline, fragment, TimelinePanel.PlayheadSeconds, TimelinePanel.Shown);
             using History.TransactionScope paste = History.BeginTransaction(UiText.PasteStep);
             try
             {

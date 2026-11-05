@@ -62,6 +62,8 @@ public sealed class TimelinePanel : IDisposable
     private SnapTargets? _targets;
     private Snapped? _guide;
     private IReadOnlyList<PlacedMarker>? _markers;
+    private readonly List<Stack> _scopes = [];
+    private (LaneItem Item, long Ticks)? _lastPress;
     private readonly Stopwatch _animation = new();
     private Drag _dragging;
     private double? _inPoint;
@@ -313,18 +315,73 @@ public sealed class TimelinePanel : IDisposable
         }
 
         _timeline = timeline;
-        _layout = timeline is null ? null : TimelineLayout.Build(timeline);
-        _view = null;
-        Selection.Clear();
-        _targets = null;
-        _markers = null;
-        Position.Reset(Rate, _layout?.Duration ?? 0);
+        _scopes.Clear();
         if (timeline is not null)
         {
             timeline.ModelChanged += OnModelChanged;
         }
 
+        Reshow();
+    }
+
+    /// <summary>WT56: raised when a compound is opened or left, so the breadcrumb follows.</summary>
+    public event EventHandler? ScopeChanged;
+
+    /// <summary>WT56: the compound clips opened, outermost first; empty at the timeline itself.</summary>
+    public IReadOnlyList<Stack> Scopes => _scopes;
+
+    /// <summary>WT56: the stack shown: the innermost compound opened, or the timeline's own.</summary>
+    public Stack? Shown => _scopes.Count > 0 ? _scopes[^1] : _timeline?.Tracks;
+
+    /// <summary>WT56: shows a compound clip of the shown stack in its place, editable; <see cref="Up"/> comes back.</summary>
+    /// <param name="compound">The compound.</param>
+    public void Open(Stack compound)
+    {
+        ArgumentNullException.ThrowIfNull(compound);
+        _scopes.Add(compound);
+        Reshow();
+    }
+
+    /// <summary>WT56: leaves the compound shown for the one around it, as Esc does.</summary>
+    /// <returns>Whether there was one to leave.</returns>
+    public bool Up()
+    {
+        if (_scopes.Count == 0)
+        {
+            return false;
+        }
+
+        _scopes.RemoveAt(_scopes.Count - 1);
+        Reshow();
+        return true;
+    }
+
+    /// <summary>Lays out the stack shown afresh, at its start, with nothing selected.</summary>
+    private void Reshow()
+    {
+        _layout = Shown is { } stack ? TimelineLayout.Build(stack) : null;
+        _view = null;
+        _published = null;
+        Selection.Clear();
+        _targets = null;
+        _markers = null;
+        Position.Reset(Rate, _layout?.Duration ?? 0);
+        ScopeChanged?.Invoke(this, EventArgs.Empty);
         Changed();
+    }
+
+    /// <summary>Whether a compound opened is still inside the timeline: an undo can take it out.</summary>
+    private bool Within(Stack stack)
+    {
+        for (Composable? at = stack; at is not null; at = at.Parent)
+        {
+            if (ReferenceEquals(at, _timeline?.Tracks))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <inheritdoc/>
@@ -366,7 +423,19 @@ public sealed class TimelinePanel : IDisposable
     {
         if (_timeline is not null)
         {
-            _layout = TimelineLayout.Build(_timeline);
+            if (_scopes.Count > 0 && !Within(_scopes[^1]))
+            {
+                // The compound shown is gone (undone, broken apart): back out to what still holds it.
+                while (_scopes.Count > 0 && !Within(_scopes[^1]))
+                {
+                    _scopes.RemoveAt(_scopes.Count - 1);
+                }
+
+                Reshow();
+                return;
+            }
+
+            _layout = TimelineLayout.Build(Shown!);
             Position.Lengthen(_layout.Duration);
             Selection.Keep(_layout);
             _targets = null;
@@ -589,6 +658,17 @@ public sealed class TimelinePanel : IDisposable
 
         if (pointer.X >= Header && layout.At(view.Seconds(pointer.X - Header), view.Lane(pointer.Y - Ruler)) is { Kind: not LaneItemKind.Gap } item)
         {
+            // WT56: a second press on the same compound within the system's double-click time opens it.
+            long now = Environment.TickCount64;
+            if (item.Item is Stack compound && _lastPress is { } last && ReferenceEquals(last.Item.Item, item.Item)
+                && now - last.Ticks <= GpuSurface.DoubleClickMilliseconds)
+            {
+                _lastPress = null;
+                _surface.Dispatcher.BeginInvoke(() => Open(compound));
+                return Drag.None;
+            }
+
+            _lastPress = (item, now);
             Selection.Click(layout, item, pointer.Control ? SelectGesture.Toggle : pointer.Shift ? SelectGesture.Extend : SelectGesture.Replace);
             return Drag.None;
         }

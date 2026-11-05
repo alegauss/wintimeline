@@ -78,6 +78,12 @@ public static class Compound
             throw new EditRefusedException($"{stack.Name} holds {stack.Children.Count} tracks; only a compound of one track flattens onto a track.");
         }
 
+        // Its own markers and effects belong to the compound and would go with it.
+        if (stack.Markers.Count > 0 || stack.Effects.Count > 0)
+        {
+            throw new EditRefusedException($"{stack.Name} carries markers or effects of its own, which breaking it apart would lose.");
+        }
+
         // A compound that plays less than it holds would need its outer items trimmed (WT72).
         if (stack.SourceRange is { } shown && !shown.Equals(stack.AvailableRange()))
         {

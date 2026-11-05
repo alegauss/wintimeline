@@ -42,7 +42,15 @@ public partial class MainWindow
         Grid timelineRow = new();
         timelineRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         timelineRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+        // WT56: the path to a compound opened in the timeline, over the headers and the surface; hidden at the top.
+        timelineRow.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        timelineRow.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        Breadcrumb = BuildBreadcrumb();
+        Grid.SetColumnSpan(Breadcrumb, 2);
+        timelineRow.Children.Add(Breadcrumb);
         Grid.SetColumn(Timeline, 1);
+        Grid.SetRow(Timeline, 1);
         timelineRow.Children.Add(Timeline);
         Grid.SetRow(timelineRow, 2);
         DockArea.Children.Add(Viewer);
@@ -57,7 +65,47 @@ public partial class MainWindow
         TimelinePanel = new TimelinePanel(Timeline, Gpu);
         Closed += (_, _) => TimelinePanel.Dispose();
         TrackHeaders = new TrackHeaders(TimelinePanel, () => History, said => StatusText.Text = said);
+        Grid.SetRow(TrackHeaders, 1);
         timelineRow.Children.Add(TrackHeaders);
+        TimelinePanel.ScopeChanged += (_, _) => ShowBreadcrumb();
+    }
+
+    /// <summary>WT56: the bar naming the compound opened in the timeline, with a button back up.</summary>
+    private Border Breadcrumb { get; set; } = null!;
+
+    private TextBlock _breadcrumbText = null!;
+
+    private Border BuildBreadcrumb()
+    {
+        Button up = new()
+        {
+            Content = UiText.BreadcrumbUpGlyph,
+            FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+            Padding = new Thickness(6, 2, 6, 2),
+            Margin = new Thickness(0, 0, 8, 0),
+            ToolTip = UiText.BreadcrumbUp,
+        };
+        AutomationProperties.SetAutomationId(up, "BreadcrumbUp");
+        AutomationProperties.SetName(up, UiText.BreadcrumbUp);
+        up.Click += (_, _) => TimelinePanel.Up();
+
+        _breadcrumbText = new TextBlock { VerticalAlignment = VerticalAlignment.Center };
+        AutomationProperties.SetAutomationId(_breadcrumbText, "Breadcrumb");
+
+        Border bar = new()
+        {
+            Padding = new Thickness(6, 3, 6, 3),
+            Visibility = Visibility.Collapsed,
+            Child = new StackPanel { Orientation = Orientation.Horizontal, Children = { up, _breadcrumbText } },
+        };
+        bar.SetResourceReference(Border.BackgroundProperty, "LayerFillColorDefaultBrush");
+        return bar;
+    }
+
+    private void ShowBreadcrumb()
+    {
+        Breadcrumb.Visibility = TimelinePanel.Scopes.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        _breadcrumbText.Text = ActiveTimeline is { } timeline ? UiText.BreadcrumbPath([timeline.Name, .. TimelinePanel.Scopes.Select(s => s.Name)]) : string.Empty;
     }
 
     /// <summary>WT50: the WPF headers of the shown timeline's tracks.</summary>
